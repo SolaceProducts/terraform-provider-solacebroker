@@ -1,0 +1,130 @@
+// terraform-provider-solacebroker
+//
+// Copyright 2023 Solace Corporation. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package generated
+
+import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"regexp"
+	"terraform-provider-solacebroker/internal/broker"
+)
+
+func init() {
+	info := broker.EntityInputs{
+		TerraformName:       "msg_vpn_distributed_cache_cluster_instance",
+		MarkdownDescription: "A Cache Instance is a single Cache process that belongs to a single Cache Cluster. A Cache Instance object provisioned on the broker is used to disseminate configuration information to the Cache process. Cache Instances listen for and cache live data messages that match the topic subscriptions configured for their parent Cache Cluster.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncacheName|x|||\nclusterName|x|||\ninstanceName|x|||\nmsgVpnName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
+		ObjectType:          broker.StandardObject,
+		PathTemplate:        "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}/clusters/{clusterName}/instances/{instanceName}",
+		Version:             0,
+		Attributes: []*broker.AttributeInfo{
+			{
+				SempName:            "autoStartEnabled",
+				TerraformName:       "auto_start_enabled",
+				MarkdownDescription: "Enable or disable auto-start for the Cache Instance. When enabled, the Cache Instance will automatically attempt to transition from the Stopped operational state to Up whenever it restarts or reconnects to the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
+				Type:                types.BoolType,
+				TerraformType:       tftypes.Bool,
+				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
+				Default:             false,
+			},
+			{
+				SempName:            "cacheName",
+				TerraformName:       "cache_name",
+				MarkdownDescription: "The name of the Distributed Cache.",
+				Identifying:         true,
+				Required:            true,
+				ReadOnly:            true,
+				RequiresReplace:     true,
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Validators: []tfsdk.AttributeValidator{
+					stringvalidator.LengthBetween(1, 200),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
+				},
+			},
+			{
+				SempName:            "clusterName",
+				TerraformName:       "cluster_name",
+				MarkdownDescription: "The name of the Cache Cluster.",
+				Identifying:         true,
+				Required:            true,
+				ReadOnly:            true,
+				RequiresReplace:     true,
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Validators: []tfsdk.AttributeValidator{
+					stringvalidator.LengthBetween(1, 200),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
+				},
+			},
+			{
+				SempName:            "enabled",
+				TerraformName:       "enabled",
+				MarkdownDescription: "Enable or disable the Cache Instance. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
+				Type:                types.BoolType,
+				TerraformType:       tftypes.Bool,
+				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
+				Default:             false,
+			},
+			{
+				SempName:            "instanceName",
+				TerraformName:       "instance_name",
+				MarkdownDescription: "The name of the Cache Instance.",
+				Identifying:         true,
+				Required:            true,
+				RequiresReplace:     true,
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Validators: []tfsdk.AttributeValidator{
+					stringvalidator.LengthBetween(1, 200),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
+				},
+			},
+			{
+				SempName:            "msgVpnName",
+				TerraformName:       "msg_vpn_name",
+				MarkdownDescription: "The name of the Message VPN.",
+				Identifying:         true,
+				Required:            true,
+				ReadOnly:            true,
+				RequiresReplace:     true,
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Validators: []tfsdk.AttributeValidator{
+					stringvalidator.LengthBetween(1, 32),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
+				},
+			},
+			{
+				SempName:            "stopOnLostMsgEnabled",
+				TerraformName:       "stop_on_lost_msg_enabled",
+				MarkdownDescription: "Enable or disable stop-on-lost-message for the Cache Instance. When enabled, the Cache Instance will transition to the stopped operational state upon losing a message. When stopped, it cannot accept or respond to cache requests, but continues to cache messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
+				Type:                types.BoolType,
+				TerraformType:       tftypes.Bool,
+				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
+				Default:             true,
+			},
+		},
+	}
+	broker.RegisterResource(info)
+	broker.RegisterDataSource(info)
+}
