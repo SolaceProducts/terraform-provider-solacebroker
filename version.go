@@ -16,4 +16,4 @@
 
 package main
 
-const version = "2.33.0-prototype"
+const version = "0.2.33"
