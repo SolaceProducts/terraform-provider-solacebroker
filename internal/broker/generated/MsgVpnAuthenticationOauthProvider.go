@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authentication_oauth_provider",
-		MarkdownDescription: "OAuth Providers contain information about the issuer of an OAuth token that is needed to validate the token and derive a client username from it.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\naudienceClaimName|||x|\naudienceClaimSource|||x|\naudienceClaimValue|||x|\naudienceValidationEnabled|||x|\nauthorizationGroupClaimName|||x|\nauthorizationGroupClaimSource|||x|\nauthorizationGroupEnabled|||x|\ndisconnectOnTokenExpirationEnabled|||x|\nenabled|||x|\njwksRefreshInterval|||x|\njwksUri|||x|\nmsgVpnName|x||x|\noauthProviderName|x||x|\ntokenIgnoreTimeLimitsEnabled|||x|\ntokenIntrospectionParameterName|||x|\ntokenIntrospectionPassword||x|x|x\ntokenIntrospectionTimeout|||x|\ntokenIntrospectionUri|||x|\ntokenIntrospectionUsername|||x|\nusernameClaimName|||x|\nusernameClaimSource|||x|\nusernameValidateEnabled|||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been deprecated since 2.25. Replaced by authenticationOauthProfiles.",
+		MarkdownDescription: "OAuth Providers contain information about the issuer of an OAuth token that is needed to validate the token and derive a client username from it.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\naudience_claim_name|||x|\naudience_claim_source|||x|\naudience_claim_value|||x|\naudience_validation_enabled|||x|\nauthorization_group_claim_name|||x|\nauthorization_group_claim_source|||x|\nauthorization_group_enabled|||x|\ndisconnect_on_token_expiration_enabled|||x|\nenabled|||x|\njwks_refresh_interval|||x|\njwks_uri|||x|\nmsg_vpn_name|x||x|\noauth_provider_name|x||x|\ntoken_ignore_time_limits_enabled|||x|\ntoken_introspection_parameter_name|||x|\ntoken_introspection_password||x|x|x\ntoken_introspection_timeout|||x|\ntoken_introspection_uri|||x|\ntoken_introspection_username|||x|\nusername_claim_name|||x|\nusername_claim_source|||x|\nusername_validate_enabled|||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been deprecated since 2.25. Replaced by authenticationoauth_profiles.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authenticationOauthProviders/{oauthProviderName}",
 		Version:             0,
@@ -37,7 +37,7 @@ func init() {
 			{
 				SempName:            "audienceClaimName",
 				TerraformName:       "audience_claim_name",
-				MarkdownDescription: "The audience claim name, indicating which part of the object to use for determining the audience. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"aud\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The audience claim name, indicating which part of the object to use for determining the audience. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"aud\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -50,7 +50,7 @@ func init() {
 			{
 				SempName:            "audienceClaimSource",
 				TerraformName:       "audience_claim_source",
-				MarkdownDescription: "The audience claim source, indicating where to search for the audience value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The audience claim source, indicating where to search for the audience value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -63,7 +63,7 @@ func init() {
 			{
 				SempName:            "audienceClaimValue",
 				TerraformName:       "audience_claim_value",
-				MarkdownDescription: "The required audience value for a token to be considered valid. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The required audience value for a token to be considered valid. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -76,7 +76,7 @@ func init() {
 			{
 				SempName:            "audienceValidationEnabled",
 				TerraformName:       "audience_validation_enabled",
-				MarkdownDescription: "Enable or disable audience validation. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable audience validation. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
@@ -86,7 +86,7 @@ func init() {
 			{
 				SempName:            "authorizationGroupClaimName",
 				TerraformName:       "authorization_group_claim_name",
-				MarkdownDescription: "The authorization group claim name, indicating which part of the object to use for determining the authorization group. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"scope\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The authorization group claim name, indicating which part of the object to use for determining the authorization group. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"scope\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -99,7 +99,7 @@ func init() {
 			{
 				SempName:            "authorizationGroupClaimSource",
 				TerraformName:       "authorization_group_claim_source",
-				MarkdownDescription: "The authorization group claim source, indicating where to search for the authorization group name. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The authorization group claim source, indicating where to search for the authorization group name. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -112,7 +112,7 @@ func init() {
 			{
 				SempName:            "authorizationGroupEnabled",
 				TerraformName:       "authorization_group_enabled",
-				MarkdownDescription: "Enable or disable OAuth based authorization. When enabled, the configured authorization type for OAuth clients is overridden. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable OAuth based authorization. When enabled, the configured authorization type for OAuth clients is overridden. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
@@ -122,7 +122,7 @@ func init() {
 			{
 				SempName:            "disconnectOnTokenExpirationEnabled",
 				TerraformName:       "disconnect_on_token_expiration_enabled",
-				MarkdownDescription: "Enable or disable the disconnection of clients when their tokens expire. Changing this value does not affect existing clients, only new client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable the disconnection of clients when their tokens expire. Changing this value does not affect existing clients, only new client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
@@ -132,7 +132,7 @@ func init() {
 			{
 				SempName:            "enabled",
 				TerraformName:       "enabled",
-				MarkdownDescription: "Enable or disable OAuth Provider client authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable OAuth Provider client authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
@@ -142,7 +142,7 @@ func init() {
 			{
 				SempName:            "jwksRefreshInterval",
 				TerraformName:       "jwks_refresh_interval",
-				MarkdownDescription: "The number of seconds between forced JWKS public key refreshing. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The number of seconds between forced JWKS public key refreshing. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
@@ -155,7 +155,7 @@ func init() {
 			{
 				SempName:            "jwksUri",
 				TerraformName:       "jwks_uri",
-				MarkdownDescription: "The URI where the OAuth provider publishes its JWKS public keys. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The URI where the OAuth provider publishes its JWKS public keys. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -168,7 +168,7 @@ func init() {
 			{
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN. Deprecated since 2.25. Replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The name of the Message VPN. Deprecated since 2.25. Replaced by authenticationoauth_profiles.",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -185,7 +185,7 @@ func init() {
 			{
 				SempName:            "oauthProviderName",
 				TerraformName:       "oauth_provider_name",
-				MarkdownDescription: "The name of the OAuth Provider. Deprecated since 2.25. Replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The name of the OAuth Provider. Deprecated since 2.25. Replaced by authenticationoauth_profiles.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -201,7 +201,7 @@ func init() {
 			{
 				SempName:            "tokenIgnoreTimeLimitsEnabled",
 				TerraformName:       "token_ignore_time_limits_enabled",
-				MarkdownDescription: "Enable or disable whether to ignore time limits and accept tokens that are not yet valid or are no longer valid. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable whether to ignore time limits and accept tokens that are not yet valid or are no longer valid. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
@@ -211,7 +211,7 @@ func init() {
 			{
 				SempName:            "tokenIntrospectionParameterName",
 				TerraformName:       "token_introspection_parameter_name",
-				MarkdownDescription: "The parameter name used to identify the token during access token introspection. A standards compliant OAuth introspection server expects \"token\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"token\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The parameter name used to identify the token during access token introspection. A standards compliant OAuth introspection server expects \"token\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"token\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -224,7 +224,7 @@ func init() {
 			{
 				SempName:            "tokenIntrospectionPassword",
 				TerraformName:       "token_introspection_password",
-				MarkdownDescription: "The password to use when logging into the token introspection URI. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The password to use when logging into the token introspection URI. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Sensitive:           true,
 				Deprecated:          true,
 				Type:                types.StringType,
@@ -238,7 +238,7 @@ func init() {
 			{
 				SempName:            "tokenIntrospectionTimeout",
 				TerraformName:       "token_introspection_timeout",
-				MarkdownDescription: "The maximum time in seconds a token introspection is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The maximum time in seconds a token introspection is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
@@ -251,7 +251,7 @@ func init() {
 			{
 				SempName:            "tokenIntrospectionUri",
 				TerraformName:       "token_introspection_uri",
-				MarkdownDescription: "The token introspection URI of the OAuth authentication server. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The token introspection URI of the OAuth authentication server. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -264,7 +264,7 @@ func init() {
 			{
 				SempName:            "tokenIntrospectionUsername",
 				TerraformName:       "token_introspection_username",
-				MarkdownDescription: "The username to use when logging into the token introspection URI. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The username to use when logging into the token introspection URI. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -277,7 +277,7 @@ func init() {
 			{
 				SempName:            "usernameClaimName",
 				TerraformName:       "username_claim_name",
-				MarkdownDescription: "The username claim name, indicating which part of the object to use for determining the username. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"sub\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The username claim name, indicating which part of the object to use for determining the username. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"sub\"`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -290,7 +290,7 @@ func init() {
 			{
 				SempName:            "usernameClaimSource",
 				TerraformName:       "username_claim_source",
-				MarkdownDescription: "The username claim source, indicating where to search for the username value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "The username claim source, indicating where to search for the username value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"id-token\"`. The allowed values and their meaning are:\n\n<pre>\n\"access-token\" - The OAuth v2 access_token.\n\"id-token\" - The OpenID Connect id_token.\n\"introspection\" - The result of introspecting the OAuth v2 access_token.\n</pre>\n Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -303,7 +303,7 @@ func init() {
 			{
 				SempName:            "usernameValidateEnabled",
 				TerraformName:       "username_validate_enabled",
-				MarkdownDescription: "Enable or disable whether the API provided username will be validated against the username calculated from the token(s); the connection attempt is rejected if they differ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationOauthProfiles.",
+				MarkdownDescription: "Enable or disable whether the API provided username will be validated against the username calculated from the token(s); the connection attempt is rejected if they differ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.",
 				Deprecated:          true,
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,

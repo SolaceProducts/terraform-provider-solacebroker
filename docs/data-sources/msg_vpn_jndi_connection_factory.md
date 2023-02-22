@@ -6,8 +6,8 @@ description: |-
   The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  connectionFactoryName|x|||
-  msgVpnName|x|||
+  connectionfactoryname|x|||
+  msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.2.
 ---
@@ -19,8 +19,8 @@ The message broker provides an internal JNDI store for provisioned Connection Fa
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-connectionFactoryName|x|||
-msgVpnName|x|||
+connection_factory_name|x|||
+msg_vpn_name|x|||
 
 
 
@@ -47,13 +47,13 @@ This has been available since 2.2.
 - `dto_receive_subscriber_local_priority` (Number) The priority for receiving deliver-to-one (DTO) messages by the Subscriber (Consumer) if the messages are published on the local broker that the Subscriber is directly connected to. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
 - `dto_receive_subscriber_network_priority` (Number) The priority for receiving deliver-to-one (DTO) messages by the Subscriber (Consumer) if the messages are published on a remote broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
 - `dto_send_enabled` (Boolean) Enable or disable the deliver-to-one (DTO) property on messages sent by the Publisher (Producer). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `dynamic_endpoint_create_durable_enabled` (Boolean) Enable or disable whether a durable endpoint will be dynamically created on the broker when the client calls "Session.createDurableSubscriber()" or "Session.createQueue()". The created endpoint respects the message time-to-live (TTL) according to the "dynamicEndpointRespectTtlEnabled" property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `dynamic_endpoint_create_durable_enabled` (Boolean) Enable or disable whether a durable endpoint will be dynamically created on the broker when the client calls "Session.createDurableSubscriber()" or "Session.createQueue()". The created endpoint respects the message time-to-live (TTL) according to the "dynamic_endpoint_respect_ttl_enabled" property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `dynamic_endpoint_respect_ttl_enabled` (Boolean) Enable or disable whether dynamically created durable and non-durable endpoints respect the message time-to-live (TTL) property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `guaranteed_receive_ack_timeout` (Number) The timeout for sending the acknowledgement (ACK) for guaranteed messages received by the Subscriber (Consumer), in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `guaranteed_receive_reconnect_retry_count` (Number) The maximum number of attempts to reconnect to the host or list of hosts after the guaranteed  messaging connection has been lost. The value "-1" means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`. Available since 2.14.
 - `guaranteed_receive_reconnect_retry_wait` (Number) The amount of time to wait before making another attempt to connect or reconnect to the host after the guaranteed messaging connection has been lost, in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3000`. Available since 2.14.
 - `guaranteed_receive_window_size` (Number) The size of the window for guaranteed messages received by the Subscriber (Consumer), in messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `18`.
-- `guaranteed_receive_window_size_ack_threshold` (Number) The threshold for sending the acknowledgement (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteedReceiveWindowSize`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
+- `guaranteed_receive_window_size_ack_threshold` (Number) The threshold for sending the acknowledgement (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteed_receive_window_size`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
 - `guaranteed_send_ack_timeout` (Number) The timeout for receiving the acknowledgement (ACK) for guaranteed messages sent by the Publisher (Producer), in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000`.
 - `guaranteed_send_window_size` (Number) The size of the window for non-persistent guaranteed messages sent by the Publisher (Producer), in messages. For persistent messages the window size is fixed at 1. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
 - `messaging_default_delivery_mode` (String) The default delivery mode for messages sent by the Publisher (Producer). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"persistent"`. The allowed values and their meaning are:

@@ -6,12 +6,12 @@ description: |-
   Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  bridgeName|x|||
-  bridgeVirtualRouter|x|||
-  msgVpnName|x|||
-  remoteAuthenticationBasicPassword||x||x
-  remoteAuthenticationClientCertContent||x||x
-  remoteAuthenticationClientCertPassword||x||
+  bridgename|x|||
+  bridgevirtualrouter|x|||
+  msgvpnname|x|||
+  remoteauthenticationbasicpassword||x||x
+  remoteauthenticationclientcertcontent||x||x
+  remoteauthenticationclientcertpassword||x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -23,12 +23,12 @@ Bridges can be used to link two Message VPNs so that messages published to one M
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-bridgeName|x|||
-bridgeVirtualRouter|x|||
-msgVpnName|x|||
-remoteAuthenticationBasicPassword||x||x
-remoteAuthenticationClientCertContent||x||x
-remoteAuthenticationClientCertPassword||x||
+bridge_name|x|||
+bridge_virtual_router|x|||
+msg_vpn_name|x|||
+remote_authentication_basic_password||x||x
+remote_authentication_client_cert_content||x||x
+remote_authentication_client_cert_password||x||
 
 
 

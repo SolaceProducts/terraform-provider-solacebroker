@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_jndi_connection_factory",
-		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nconnectionFactoryName|x|||\nmsgVpnName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.2.",
+		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nconnection_factory_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.2.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/jndiConnectionFactories/{connectionFactoryName}",
 		Version:             0,
@@ -127,7 +127,7 @@ func init() {
 			{
 				SempName:            "dynamicEndpointCreateDurableEnabled",
 				TerraformName:       "dynamic_endpoint_create_durable_enabled",
-				MarkdownDescription: "Enable or disable whether a durable endpoint will be dynamically created on the broker when the client calls \"Session.createDurableSubscriber()\" or \"Session.createQueue()\". The created endpoint respects the message time-to-live (TTL) according to the \"dynamicEndpointRespectTtlEnabled\" property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
+				MarkdownDescription: "Enable or disable whether a durable endpoint will be dynamically created on the broker when the client calls \"Session.createDurableSubscriber()\" or \"Session.createQueue()\". The created endpoint respects the message time-to-live (TTL) according to the \"dynamic_endpoint_respect_ttl_enabled\" property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
@@ -193,7 +193,7 @@ func init() {
 			{
 				SempName:            "guaranteedReceiveWindowSizeAckThreshold",
 				TerraformName:       "guaranteed_receive_window_size_ack_threshold",
-				MarkdownDescription: "The threshold for sending the acknowledgement (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteedReceiveWindowSize`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.",
+				MarkdownDescription: "The threshold for sending the acknowledgement (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteed_receive_window_size`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},

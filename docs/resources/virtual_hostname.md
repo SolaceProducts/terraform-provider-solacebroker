@@ -8,7 +8,7 @@ description: |-
   This mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  virtualHostname|x|||
+  virtual_hostname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.17.
 ---
@@ -24,7 +24,7 @@ This mechanism is only supported for hostnames provided through the Server Name 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-virtualHostname|x|||
+virtual_hostname|x|||
 
 
 

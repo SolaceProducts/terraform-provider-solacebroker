@@ -6,10 +6,10 @@ description: |-
   A Subscribe Topic Exception is an exception to the default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Exceptions must be expressed as a topic.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  aclProfileName|x|||
-  msgVpnName|x|||
-  subscribeTopicException|x|||
-  subscribeTopicExceptionSyntax|x|||
+  aclprofilename|x|||
+  msgvpnname|x|||
+  subscribetopicexception|x|||
+  subscribetopicexception_syntax|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.14.
 ---
@@ -21,10 +21,10 @@ A Subscribe Topic Exception is an exception to the default action to take when a
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-aclProfileName|x|||
-msgVpnName|x|||
-subscribeTopicException|x|||
-subscribeTopicExceptionSyntax|x|||
+acl_profile_name|x|||
+msg_vpn_name|x|||
+subscribe_topic_exception|x|||
+subscribe_topic_exception_syntax|x|||
 
 
 

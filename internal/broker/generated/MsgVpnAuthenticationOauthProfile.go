@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authentication_oauth_profile",
-		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nclientSecret||x||x\nmsgVpnName|x|||\noauthProfileName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.25.",
+		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nclient_secret||x||x\nmsg_vpn_name|x|||\noauth_profile_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.25.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authenticationOauthProfiles/{oauthProfileName}",
 		Version:             0,
@@ -37,7 +37,7 @@ func init() {
 			{
 				SempName:            "authorizationGroupsClaimName",
 				TerraformName:       "authorization_groups_claim_name",
-				MarkdownDescription: "The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorizationType attribute of the Message VPN will be used to determine authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"groups\"`.",
+				MarkdownDescription: "The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorization_type attribute of the Message VPN will be used to determine authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"groups\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

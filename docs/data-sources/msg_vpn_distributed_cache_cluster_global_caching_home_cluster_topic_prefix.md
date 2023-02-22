@@ -6,11 +6,11 @@ description: |-
   A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  cacheName|x|||
-  clusterName|x|||
-  homeClusterName|x|||
-  msgVpnName|x|||
-  topicPrefix|x|||
+  cachename|x|||
+  clustername|x|||
+  homeclustername|x|||
+  msgvpnname|x|||
+  topic_prefix|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.11.
 ---
@@ -22,11 +22,11 @@ A Topic Prefix is a prefix for a global topic that is available from the contain
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-cacheName|x|||
-clusterName|x|||
-homeClusterName|x|||
-msgVpnName|x|||
-topicPrefix|x|||
+cache_name|x|||
+cluster_name|x|||
+home_cluster_name|x|||
+msg_vpn_name|x|||
+topic_prefix|x|||
 
 
 

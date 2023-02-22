@@ -6,9 +6,9 @@ description: |-
   Additional claims to be verified in the ID token.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  clientRequiredClaimName|x|||
-  msgVpnName|x|||
-  oauthProfileName|x|||
+  clientrequiredclaimname|x|||
+  msgvpnname|x|||
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.25.
 ---
@@ -20,9 +20,9 @@ Additional claims to be verified in the ID token.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-clientRequiredClaimName|x|||
-msgVpnName|x|||
-oauthProfileName|x|||
+client_required_claim_name|x|||
+msg_vpn_name|x|||
+oauth_profile_name|x|||
 
 
 

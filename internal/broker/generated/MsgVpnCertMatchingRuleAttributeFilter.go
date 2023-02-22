@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_cert_matching_rule_attribute_filter",
-		MarkdownDescription: "A Cert Matching Rule Attribute Filter compares a username attribute to a string.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nfilterName|x|||\nmsgVpnName|x|||\nruleName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.28.",
+		MarkdownDescription: "A Cert Matching Rule Attribute Filter compares a username attribute to a string.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nfilter_name|x|||\nmsg_vpn_name|x|||\nrule_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.28.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/certMatchingRules/{ruleName}/attributeFilters/{filterName}",
 		Version:             0,

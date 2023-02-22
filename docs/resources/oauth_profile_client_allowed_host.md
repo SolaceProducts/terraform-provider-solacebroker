@@ -6,8 +6,8 @@ description: |-
   A valid hostname for this broker in OAuth redirects.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  allowedHost|x|||
-  oauthProfileName|x|||
+  allowedhost|x|||
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.24.
 ---
@@ -19,8 +19,8 @@ A valid hostname for this broker in OAuth redirects.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-allowedHost|x|||
-oauthProfileName|x|||
+allowed_host|x|||
+oauth_profile_name|x|||
 
 
 

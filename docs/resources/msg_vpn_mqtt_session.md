@@ -6,9 +6,9 @@ description: |-
   An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  mqttSessionClientId|x|||
-  mqttSessionVirtualRouter|x|||
-  msgVpnName|x|||
+  mqttsessionclientid|x|||
+  mqttsessionvirtualrouter|x|||
+  msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.1.
 ---
@@ -20,9 +20,9 @@ An MQTT Session object is a virtual representation of an MQTT client connection.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-mqttSessionClientId|x|||
-mqttSessionVirtualRouter|x|||
-msgVpnName|x|||
+mqtt_session_client_id|x|||
+mqtt_session_virtual_router|x|||
+msg_vpn_name|x|||
 
 
 
@@ -61,10 +61,10 @@ This has been available since 2.1.
 - `queue_max_msg_size` (Number) The maximum message size allowed in the MQTT Session Queue, in bytes (B). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000000`. Available since 2.14.
 - `queue_max_msg_spool_usage` (Number) The maximum message spool usage allowed by the MQTT Session Queue, in megabytes (MB). A value of 0 only allows spooling of the last message received and disables quota checking. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5000`. Available since 2.14.
 - `queue_max_redelivery_count` (Number) The maximum number of times the MQTT Session Queue will attempt redelivery of a message prior to it being discarded or moved to the DMQ. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.14.
-- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the MQTT Session Queue when `queueRespectTtlEnabled` is `"true"`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queueMaxTtl` configured for the MQTT Session Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.14.
-- `queue_reject_low_priority_msg_enabled` (Boolean) Enable or disable the checking of low priority messages against the `queueRejectLowPriorityMsgLimit`. This may only be enabled if `queueRejectMsgToSenderOnDiscardBehavior` does not have a value of `"never"`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.14.
+- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the MQTT Session Queue when `queue_respect_ttl_enabled` is `"true"`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queue_max_ttl` configured for the MQTT Session Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.14.
+- `queue_reject_low_priority_msg_enabled` (Boolean) Enable or disable the checking of low priority messages against the `queue_reject_low_priority_msg_limit`. This may only be enabled if `queue_reject_msg_to_sender_on_discard_behavior` does not have a value of `"never"`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.14.
 - `queue_reject_low_priority_msg_limit` (Number) The number of messages of any priority in the MQTT Session Queue above which low priority messages are not admitted but higher priority messages are allowed. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.14.
-- `queue_reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgements (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as queueRejectLowPriorityMsgEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"when-queue-enabled"`. The allowed values and their meaning are:
+- `queue_reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgements (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as queue_reject_low_priority_msg_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"when-queue-enabled"`. The allowed values and their meaning are:
 
 <pre>
 "always" - Always return a negative acknowledgment (NACK) to the sending client on message discard.

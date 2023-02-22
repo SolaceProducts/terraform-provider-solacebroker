@@ -6,131 +6,131 @@ description: |-
   This object contains global configuration for the message broker.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  tlsServerCertContent||x||x
-  tlsServerCertPassword||x||
+  tlsservercertcontent||x||x
+  tlsservercertpassword||x||
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation. Requests which include the following attributes require greater access scope/level:
   Attribute|Access Scope/Level
   :---|:---:
-  configSyncAuthenticationClientCertMaxChainDepth|global/read-only
-  configSyncAuthenticationClientCertValidateDateEnabled|global/read-only
-  configSyncClientProfileTcpInitialCongestionWindow|global/read-only
-  configSyncClientProfileTcpKeepaliveCount|global/read-only
-  configSyncClientProfileTcpKeepaliveIdle|global/read-only
-  configSyncClientProfileTcpKeepaliveInterval|global/read-only
-  configSyncClientProfileTcpMaxWindow|global/read-only
-  configSyncClientProfileTcpMss|global/read-only
-  configSyncEnabled|global/read-only
-  configSyncSynchronizeUsernameEnabled|global/read-only
-  configSyncTlsEnabled|global/read-only
-  guaranteedMsgingDefragmentationScheduleDayList|global/read-only
-  guaranteedMsgingDefragmentationScheduleEnabled|global/read-only
-  guaranteedMsgingDefragmentationScheduleTimeList|global/read-only
-  guaranteedMsgingDefragmentationThresholdEnabled|global/read-only
-  guaranteedMsgingDefragmentationThresholdFragmentationPercentage|global/read-only
-  guaranteedMsgingDefragmentationThresholdMinInterval|global/read-only
-  guaranteedMsgingDefragmentationThresholdUsagePercentage|global/read-only
-  guaranteedMsgingEnabled|global/read-only
-  guaranteedMsgingEventCacheUsageThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventCacheUsageThreshold.clearValue|global/read-only
-  guaranteedMsgingEventCacheUsageThreshold.setPercent|global/read-only
-  guaranteedMsgingEventCacheUsageThreshold.setValue|global/read-only
-  guaranteedMsgingEventDeliveredUnackedThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventDeliveredUnackedThreshold.setPercent|global/read-only
-  guaranteedMsgingEventDiskUsageThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventDiskUsageThreshold.setPercent|global/read-only
-  guaranteedMsgingEventEgressFlowCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventEgressFlowCountThreshold.clearValue|global/read-only
-  guaranteedMsgingEventEgressFlowCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventEgressFlowCountThreshold.setValue|global/read-only
-  guaranteedMsgingEventEndpointCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventEndpointCountThreshold.clearValue|global/read-only
-  guaranteedMsgingEventEndpointCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventEndpointCountThreshold.setValue|global/read-only
-  guaranteedMsgingEventIngressFlowCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventIngressFlowCountThreshold.clearValue|global/read-only
-  guaranteedMsgingEventIngressFlowCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventIngressFlowCountThreshold.setValue|global/read-only
-  guaranteedMsgingEventMsgCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventMsgCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventMsgSpoolFileCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventMsgSpoolFileCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventMsgSpoolUsageThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventMsgSpoolUsageThreshold.clearValue|global/read-only
-  guaranteedMsgingEventMsgSpoolUsageThreshold.setPercent|global/read-only
-  guaranteedMsgingEventMsgSpoolUsageThreshold.setValue|global/read-only
-  guaranteedMsgingEventTransactedSessionCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventTransactedSessionCountThreshold.clearValue|global/read-only
-  guaranteedMsgingEventTransactedSessionCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventTransactedSessionCountThreshold.setValue|global/read-only
-  guaranteedMsgingEventTransactedSessionResourceCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventTransactedSessionResourceCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventTransactionCountThreshold.clearPercent|global/read-only
-  guaranteedMsgingEventTransactionCountThreshold.clearValue|global/read-only
-  guaranteedMsgingEventTransactionCountThreshold.setPercent|global/read-only
-  guaranteedMsgingEventTransactionCountThreshold.setValue|global/read-only
-  guaranteedMsgingMaxCacheUsage|global/read-only
-  guaranteedMsgingMaxMsgSpoolUsage|global/read-only
-  guaranteedMsgingMsgSpoolSyncMirroredMsgAckTimeout|global/read-only
-  guaranteedMsgingMsgSpoolSyncMirroredSpoolFileAckTimeout|global/read-only
-  guaranteedMsgingTransactionReplicationCompatibilityMode|global/read-only
-  oauthProfileDefault|global/read-only
-  serviceAmqpEnabled|global/read-only
-  serviceAmqpTlsListenPort|global/read-only
-  serviceEventConnectionCountThreshold.clearPercent|global/read-only
-  serviceEventConnectionCountThreshold.clearValue|global/read-only
-  serviceEventConnectionCountThreshold.setPercent|global/read-only
-  serviceEventConnectionCountThreshold.setValue|global/read-only
-  serviceHealthCheckEnabled|global/read-only
-  serviceHealthCheckListenPort|global/read-only
-  serviceMateLinkEnabled|global/read-only
-  serviceMateLinkListenPort|global/read-only
-  serviceMqttEnabled|global/read-only
-  serviceMsgBackboneEnabled|global/read-only
-  serviceRedundancyEnabled|global/read-only
-  serviceRedundancyFirstListenPort|global/read-only
-  serviceRestEventOutgoingConnectionCountThreshold.clearPercent|global/read-only
-  serviceRestEventOutgoingConnectionCountThreshold.clearValue|global/read-only
-  serviceRestEventOutgoingConnectionCountThreshold.setPercent|global/read-only
-  serviceRestEventOutgoingConnectionCountThreshold.setValue|global/read-only
-  serviceRestIncomingEnabled|global/read-only
-  serviceRestOutgoingEnabled|global/read-only
-  serviceSempCorsAllowAnyHostEnabled|global/read-only
-  serviceSempLegacyTimeoutEnabled|global/read-only
-  serviceSempPlainTextEnabled|global/read-only
-  serviceSempPlainTextListenPort|global/read-only
-  serviceSempSessionIdleTimeout|global/read-only
-  serviceSempSessionMaxLifetime|global/read-only
-  serviceSempTlsEnabled|global/read-only
-  serviceSempTlsListenPort|global/read-only
-  serviceSmfCompressionListenPort|global/read-only
-  serviceSmfEnabled|global/read-only
-  serviceSmfEventConnectionCountThreshold.clearPercent|global/read-only
-  serviceSmfEventConnectionCountThreshold.clearValue|global/read-only
-  serviceSmfEventConnectionCountThreshold.setPercent|global/read-only
-  serviceSmfEventConnectionCountThreshold.setValue|global/read-only
-  serviceSmfPlainTextListenPort|global/read-only
-  serviceSmfRoutingControlListenPort|global/read-only
-  serviceSmfTlsListenPort|global/read-only
-  serviceTlsEventConnectionCountThreshold.clearPercent|global/read-only
-  serviceTlsEventConnectionCountThreshold.clearValue|global/read-only
-  serviceTlsEventConnectionCountThreshold.setPercent|global/read-only
-  serviceTlsEventConnectionCountThreshold.setValue|global/read-only
-  serviceWebTransportEnabled|global/read-only
-  serviceWebTransportPlainTextListenPort|global/read-only
-  serviceWebTransportTlsListenPort|global/read-only
-  serviceWebTransportWebUrlSuffix|global/read-only
-  tlsBlockVersion11Enabled|global/read-only
-  tlsCipherSuiteManagementList|global/read-only
-  tlsCipherSuiteMsgBackboneList|global/read-only
-  tlsCipherSuiteSecureShellList|global/read-only
-  tlsCrimeExploitProtectionEnabled|global/read-only
-  tlsServerCertContent|global/read-only
-  tlsStandardDomainCertificateAuthoritiesEnabled|vpn/read-only
-  tlsTicketLifetime|global/read-only
-  webManagerAllowUnencryptedWizardsEnabled|vpn/read-only
-  webManagerCustomization|vpn/read-only
-  webManagerRedirectHttpEnabled|vpn/read-only
-  webManagerRedirectHttpOverrideTlsPort|vpn/read-only
+  configsyncauthenticationclientcertmaxchaindepth|global/read-only
+  configsyncauthenticationclientcertvalidatedateenabled|global/read-only
+  configsyncclientprofiletcpinitialcongestionwindow|global/read-only
+  configsyncclientprofiletcpkeepalivecount|global/read-only
+  configsyncclientprofiletcpkeepaliveidle|global/read-only
+  configsyncclientprofiletcpkeepaliveinterval|global/read-only
+  configsyncclientprofiletcpmaxwindow|global/read-only
+  configsyncclientprofiletcpmss|global/read-only
+  configsyncenabled|global/read-only
+  configsyncsynchronizeusernameenabled|global/read-only
+  configsynctlsenabled|global/read-only
+  guaranteedmsgingdefragmentationscheduledaylist|global/read-only
+  guaranteedmsgingdefragmentationscheduleenabled|global/read-only
+  guaranteedmsgingdefragmentationscheduletimelist|global/read-only
+  guaranteedmsgingdefragmentationthresholdenabled|global/read-only
+  guaranteedmsgingdefragmentationthresholdfragmentationpercentage|global/read-only
+  guaranteedmsgingdefragmentationthresholdmininterval|global/read-only
+  guaranteedmsgingdefragmentationthresholdusagepercentage|global/read-only
+  guaranteedmsgingenabled|global/read-only
+  guaranteedmsgingeventcacheusagethreshold.clearpercent|global/read-only
+  guaranteedmsgingeventcacheusagethreshold.clearvalue|global/read-only
+  guaranteedmsgingeventcacheusagethreshold.setpercent|global/read-only
+  guaranteedmsgingeventcacheusagethreshold.setvalue|global/read-only
+  guaranteedmsgingeventdeliveredunackedthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventdeliveredunackedthreshold.setpercent|global/read-only
+  guaranteedmsgingeventdiskusagethreshold.clearpercent|global/read-only
+  guaranteedmsgingeventdiskusagethreshold.setpercent|global/read-only
+  guaranteedmsgingeventegressflowcountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventegressflowcountthreshold.clearvalue|global/read-only
+  guaranteedmsgingeventegressflowcountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventegressflowcountthreshold.setvalue|global/read-only
+  guaranteedmsgingeventendpointcountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventendpointcountthreshold.clearvalue|global/read-only
+  guaranteedmsgingeventendpointcountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventendpointcountthreshold.setvalue|global/read-only
+  guaranteedmsgingeventingressflowcountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventingressflowcountthreshold.clearvalue|global/read-only
+  guaranteedmsgingeventingressflowcountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventingressflowcountthreshold.setvalue|global/read-only
+  guaranteedmsgingeventmsgcountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventmsgcountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventmsgspoolfilecountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventmsgspoolfilecountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventmsgspoolusagethreshold.clearpercent|global/read-only
+  guaranteedmsgingeventmsgspoolusagethreshold.clearvalue|global/read-only
+  guaranteedmsgingeventmsgspoolusagethreshold.setpercent|global/read-only
+  guaranteedmsgingeventmsgspoolusagethreshold.setvalue|global/read-only
+  guaranteedmsgingeventtransactedsessioncountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventtransactedsessioncountthreshold.clearvalue|global/read-only
+  guaranteedmsgingeventtransactedsessioncountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventtransactedsessioncountthreshold.setvalue|global/read-only
+  guaranteedmsgingeventtransactedsessionresourcecountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventtransactedsessionresourcecountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventtransactioncountthreshold.clearpercent|global/read-only
+  guaranteedmsgingeventtransactioncountthreshold.clearvalue|global/read-only
+  guaranteedmsgingeventtransactioncountthreshold.setpercent|global/read-only
+  guaranteedmsgingeventtransactioncountthreshold.setvalue|global/read-only
+  guaranteedmsgingmaxcacheusage|global/read-only
+  guaranteedmsgingmaxmsgspoolusage|global/read-only
+  guaranteedmsgingmsgspoolsyncmirroredmsgacktimeout|global/read-only
+  guaranteedmsgingmsgspoolsyncmirroredspoolfileacktimeout|global/read-only
+  guaranteedmsgingtransactionreplicationcompatibilitymode|global/read-only
+  oauthprofiledefault|global/read-only
+  serviceamqpenabled|global/read-only
+  serviceamqptlslistenport|global/read-only
+  serviceeventconnectioncountthreshold.clearpercent|global/read-only
+  serviceeventconnectioncountthreshold.clearvalue|global/read-only
+  serviceeventconnectioncountthreshold.setpercent|global/read-only
+  serviceeventconnectioncountthreshold.setvalue|global/read-only
+  servicehealthcheckenabled|global/read-only
+  servicehealthchecklistenport|global/read-only
+  servicematelinkenabled|global/read-only
+  servicematelinklistenport|global/read-only
+  servicemqttenabled|global/read-only
+  servicemsgbackboneenabled|global/read-only
+  serviceredundancyenabled|global/read-only
+  serviceredundancyfirstlistenport|global/read-only
+  serviceresteventoutgoingconnectioncountthreshold.clearpercent|global/read-only
+  serviceresteventoutgoingconnectioncountthreshold.clearvalue|global/read-only
+  serviceresteventoutgoingconnectioncountthreshold.setpercent|global/read-only
+  serviceresteventoutgoingconnectioncountthreshold.setvalue|global/read-only
+  servicerestincomingenabled|global/read-only
+  servicerestoutgoingenabled|global/read-only
+  servicesempcorsallowanyhostenabled|global/read-only
+  servicesemplegacytimeoutenabled|global/read-only
+  servicesempplaintextenabled|global/read-only
+  servicesempplaintextlistenport|global/read-only
+  servicesempsessionidletimeout|global/read-only
+  servicesempsessionmaxlifetime|global/read-only
+  servicesemptlsenabled|global/read-only
+  servicesemptlslistenport|global/read-only
+  servicesmfcompressionlistenport|global/read-only
+  servicesmfenabled|global/read-only
+  servicesmfeventconnectioncountthreshold.clearpercent|global/read-only
+  servicesmfeventconnectioncountthreshold.clearvalue|global/read-only
+  servicesmfeventconnectioncountthreshold.setpercent|global/read-only
+  servicesmfeventconnectioncountthreshold.setvalue|global/read-only
+  servicesmfplaintextlistenport|global/read-only
+  servicesmfroutingcontrollistenport|global/read-only
+  servicesmftlslistenport|global/read-only
+  servicetlseventconnectioncountthreshold.clearpercent|global/read-only
+  servicetlseventconnectioncountthreshold.clearvalue|global/read-only
+  servicetlseventconnectioncountthreshold.setpercent|global/read-only
+  servicetlseventconnectioncountthreshold.setvalue|global/read-only
+  servicewebtransportenabled|global/read-only
+  servicewebtransportplaintextlistenport|global/read-only
+  servicewebtransporttlslistenport|global/read-only
+  servicewebtransportweburlsuffix|global/read-only
+  tlsblockversion11enabled|global/read-only
+  tlsciphersuitemanagementlist|global/read-only
+  tlsciphersuitemsgbackbonelist|global/read-only
+  tlsciphersuitesecureshelllist|global/read-only
+  tlscrimeexploitprotectionenabled|global/read-only
+  tlsservercertcontent|global/read-only
+  tlsstandarddomaincertificateauthoritiesenabled|vpn/read-only
+  tlsticketlifetime|global/read-only
+  webmanagerallowunencryptedwizardsenabled|vpn/read-only
+  webmanagercustomization|vpn/read-only
+  webmanagerredirecthttpenabled|vpn/read-only
+  webmanagerredirecthttpoverridetls_port|vpn/read-only
   This has been available since 2.13.
 ---
 
@@ -141,8 +141,8 @@ This object contains global configuration for the message broker.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-tlsServerCertContent||x||x
-tlsServerCertPassword||x||
+tls_server_cert_content||x||x
+tls_server_cert_password||x||
 
 
 
@@ -151,126 +151,126 @@ A SEMP client authorized with a minimum access scope/level of "global/none" is r
 
 Attribute|Access Scope/Level
 :---|:---:
-configSyncAuthenticationClientCertMaxChainDepth|global/read-only
-configSyncAuthenticationClientCertValidateDateEnabled|global/read-only
-configSyncClientProfileTcpInitialCongestionWindow|global/read-only
-configSyncClientProfileTcpKeepaliveCount|global/read-only
-configSyncClientProfileTcpKeepaliveIdle|global/read-only
-configSyncClientProfileTcpKeepaliveInterval|global/read-only
-configSyncClientProfileTcpMaxWindow|global/read-only
-configSyncClientProfileTcpMss|global/read-only
-configSyncEnabled|global/read-only
-configSyncSynchronizeUsernameEnabled|global/read-only
-configSyncTlsEnabled|global/read-only
-guaranteedMsgingDefragmentationScheduleDayList|global/read-only
-guaranteedMsgingDefragmentationScheduleEnabled|global/read-only
-guaranteedMsgingDefragmentationScheduleTimeList|global/read-only
-guaranteedMsgingDefragmentationThresholdEnabled|global/read-only
-guaranteedMsgingDefragmentationThresholdFragmentationPercentage|global/read-only
-guaranteedMsgingDefragmentationThresholdMinInterval|global/read-only
-guaranteedMsgingDefragmentationThresholdUsagePercentage|global/read-only
-guaranteedMsgingEnabled|global/read-only
-guaranteedMsgingEventCacheUsageThreshold.clearPercent|global/read-only
-guaranteedMsgingEventCacheUsageThreshold.clearValue|global/read-only
-guaranteedMsgingEventCacheUsageThreshold.setPercent|global/read-only
-guaranteedMsgingEventCacheUsageThreshold.setValue|global/read-only
-guaranteedMsgingEventDeliveredUnackedThreshold.clearPercent|global/read-only
-guaranteedMsgingEventDeliveredUnackedThreshold.setPercent|global/read-only
-guaranteedMsgingEventDiskUsageThreshold.clearPercent|global/read-only
-guaranteedMsgingEventDiskUsageThreshold.setPercent|global/read-only
-guaranteedMsgingEventEgressFlowCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventEgressFlowCountThreshold.clearValue|global/read-only
-guaranteedMsgingEventEgressFlowCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventEgressFlowCountThreshold.setValue|global/read-only
-guaranteedMsgingEventEndpointCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventEndpointCountThreshold.clearValue|global/read-only
-guaranteedMsgingEventEndpointCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventEndpointCountThreshold.setValue|global/read-only
-guaranteedMsgingEventIngressFlowCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventIngressFlowCountThreshold.clearValue|global/read-only
-guaranteedMsgingEventIngressFlowCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventIngressFlowCountThreshold.setValue|global/read-only
-guaranteedMsgingEventMsgCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventMsgCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventMsgSpoolFileCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventMsgSpoolFileCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventMsgSpoolUsageThreshold.clearPercent|global/read-only
-guaranteedMsgingEventMsgSpoolUsageThreshold.clearValue|global/read-only
-guaranteedMsgingEventMsgSpoolUsageThreshold.setPercent|global/read-only
-guaranteedMsgingEventMsgSpoolUsageThreshold.setValue|global/read-only
-guaranteedMsgingEventTransactedSessionCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventTransactedSessionCountThreshold.clearValue|global/read-only
-guaranteedMsgingEventTransactedSessionCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventTransactedSessionCountThreshold.setValue|global/read-only
-guaranteedMsgingEventTransactedSessionResourceCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventTransactedSessionResourceCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventTransactionCountThreshold.clearPercent|global/read-only
-guaranteedMsgingEventTransactionCountThreshold.clearValue|global/read-only
-guaranteedMsgingEventTransactionCountThreshold.setPercent|global/read-only
-guaranteedMsgingEventTransactionCountThreshold.setValue|global/read-only
-guaranteedMsgingMaxCacheUsage|global/read-only
-guaranteedMsgingMaxMsgSpoolUsage|global/read-only
-guaranteedMsgingMsgSpoolSyncMirroredMsgAckTimeout|global/read-only
-guaranteedMsgingMsgSpoolSyncMirroredSpoolFileAckTimeout|global/read-only
-guaranteedMsgingTransactionReplicationCompatibilityMode|global/read-only
-oauthProfileDefault|global/read-only
-serviceAmqpEnabled|global/read-only
-serviceAmqpTlsListenPort|global/read-only
-serviceEventConnectionCountThreshold.clearPercent|global/read-only
-serviceEventConnectionCountThreshold.clearValue|global/read-only
-serviceEventConnectionCountThreshold.setPercent|global/read-only
-serviceEventConnectionCountThreshold.setValue|global/read-only
-serviceHealthCheckEnabled|global/read-only
-serviceHealthCheckListenPort|global/read-only
-serviceMateLinkEnabled|global/read-only
-serviceMateLinkListenPort|global/read-only
-serviceMqttEnabled|global/read-only
-serviceMsgBackboneEnabled|global/read-only
-serviceRedundancyEnabled|global/read-only
-serviceRedundancyFirstListenPort|global/read-only
-serviceRestEventOutgoingConnectionCountThreshold.clearPercent|global/read-only
-serviceRestEventOutgoingConnectionCountThreshold.clearValue|global/read-only
-serviceRestEventOutgoingConnectionCountThreshold.setPercent|global/read-only
-serviceRestEventOutgoingConnectionCountThreshold.setValue|global/read-only
-serviceRestIncomingEnabled|global/read-only
-serviceRestOutgoingEnabled|global/read-only
-serviceSempCorsAllowAnyHostEnabled|global/read-only
-serviceSempLegacyTimeoutEnabled|global/read-only
-serviceSempPlainTextEnabled|global/read-only
-serviceSempPlainTextListenPort|global/read-only
-serviceSempSessionIdleTimeout|global/read-only
-serviceSempSessionMaxLifetime|global/read-only
-serviceSempTlsEnabled|global/read-only
-serviceSempTlsListenPort|global/read-only
-serviceSmfCompressionListenPort|global/read-only
-serviceSmfEnabled|global/read-only
-serviceSmfEventConnectionCountThreshold.clearPercent|global/read-only
-serviceSmfEventConnectionCountThreshold.clearValue|global/read-only
-serviceSmfEventConnectionCountThreshold.setPercent|global/read-only
-serviceSmfEventConnectionCountThreshold.setValue|global/read-only
-serviceSmfPlainTextListenPort|global/read-only
-serviceSmfRoutingControlListenPort|global/read-only
-serviceSmfTlsListenPort|global/read-only
-serviceTlsEventConnectionCountThreshold.clearPercent|global/read-only
-serviceTlsEventConnectionCountThreshold.clearValue|global/read-only
-serviceTlsEventConnectionCountThreshold.setPercent|global/read-only
-serviceTlsEventConnectionCountThreshold.setValue|global/read-only
-serviceWebTransportEnabled|global/read-only
-serviceWebTransportPlainTextListenPort|global/read-only
-serviceWebTransportTlsListenPort|global/read-only
-serviceWebTransportWebUrlSuffix|global/read-only
-tlsBlockVersion11Enabled|global/read-only
-tlsCipherSuiteManagementList|global/read-only
-tlsCipherSuiteMsgBackboneList|global/read-only
-tlsCipherSuiteSecureShellList|global/read-only
-tlsCrimeExploitProtectionEnabled|global/read-only
-tlsServerCertContent|global/read-only
-tlsStandardDomainCertificateAuthoritiesEnabled|vpn/read-only
-tlsTicketLifetime|global/read-only
-webManagerAllowUnencryptedWizardsEnabled|vpn/read-only
-webManagerCustomization|vpn/read-only
-webManagerRedirectHttpEnabled|vpn/read-only
-webManagerRedirectHttpOverrideTlsPort|vpn/read-only
+config_sync_authentication_client_cert_max_chain_depth|global/read-only
+config_sync_authentication_client_cert_validate_date_enabled|global/read-only
+config_sync_client_profile_tcp_initial_congestion_window|global/read-only
+config_sync_client_profile_tcp_keepalive_count|global/read-only
+config_sync_client_profile_tcp_keepalive_idle|global/read-only
+config_sync_client_profile_tcp_keepalive_interval|global/read-only
+config_sync_client_profile_tcp_max_window|global/read-only
+config_sync_client_profile_tcp_mss|global/read-only
+config_sync_enabled|global/read-only
+config_sync_synchronize_username_enabled|global/read-only
+config_sync_tls_enabled|global/read-only
+guaranteed_msging_defragmentation_schedule_day_list|global/read-only
+guaranteed_msging_defragmentation_schedule_enabled|global/read-only
+guaranteed_msging_defragmentation_schedule_time_list|global/read-only
+guaranteed_msging_defragmentation_threshold_enabled|global/read-only
+guaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only
+guaranteed_msging_defragmentation_threshold_min_interval|global/read-only
+guaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only
+guaranteed_msging_enabled|global/read-only
+guaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only
+guaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only
+guaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only
+guaranteed_msging_event_cache_usage_threshold.set_value|global/read-only
+guaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only
+guaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only
+guaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only
+guaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only
+guaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only
+guaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only
+guaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only
+guaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only
+guaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only
+guaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only
+guaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_msg_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only
+guaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only
+guaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only
+guaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only
+guaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only
+guaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only
+guaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only
+guaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only
+guaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only
+guaranteed_msging_event_transaction_count_threshold.set_value|global/read-only
+guaranteed_msging_max_cache_usage|global/read-only
+guaranteed_msging_max_msg_spool_usage|global/read-only
+guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only
+guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only
+guaranteed_msging_transaction_replication_compatibility_mode|global/read-only
+oauth_profile_default|global/read-only
+service_amqp_enabled|global/read-only
+service_amqp_tls_listen_port|global/read-only
+service_event_connection_count_threshold.clear_percent|global/read-only
+service_event_connection_count_threshold.clear_value|global/read-only
+service_event_connection_count_threshold.set_percent|global/read-only
+service_event_connection_count_threshold.set_value|global/read-only
+service_health_check_enabled|global/read-only
+service_health_check_listen_port|global/read-only
+service_mate_link_enabled|global/read-only
+service_mate_link_listen_port|global/read-only
+service_mqtt_enabled|global/read-only
+service_msg_backbone_enabled|global/read-only
+service_redundancy_enabled|global/read-only
+service_redundancy_first_listen_port|global/read-only
+service_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only
+service_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only
+service_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only
+service_rest_event_outgoing_connection_count_threshold.set_value|global/read-only
+service_rest_incoming_enabled|global/read-only
+service_rest_outgoing_enabled|global/read-only
+service_semp_cors_allow_any_host_enabled|global/read-only
+service_semp_legacy_timeout_enabled|global/read-only
+service_semp_plain_text_enabled|global/read-only
+service_semp_plain_text_listen_port|global/read-only
+service_semp_session_idle_timeout|global/read-only
+service_semp_session_max_lifetime|global/read-only
+service_semp_tls_enabled|global/read-only
+service_semp_tls_listen_port|global/read-only
+service_smf_compression_listen_port|global/read-only
+service_smf_enabled|global/read-only
+service_smf_event_connection_count_threshold.clear_percent|global/read-only
+service_smf_event_connection_count_threshold.clear_value|global/read-only
+service_smf_event_connection_count_threshold.set_percent|global/read-only
+service_smf_event_connection_count_threshold.set_value|global/read-only
+service_smf_plain_text_listen_port|global/read-only
+service_smf_routing_control_listen_port|global/read-only
+service_smf_tls_listen_port|global/read-only
+service_tls_event_connection_count_threshold.clear_percent|global/read-only
+service_tls_event_connection_count_threshold.clear_value|global/read-only
+service_tls_event_connection_count_threshold.set_percent|global/read-only
+service_tls_event_connection_count_threshold.set_value|global/read-only
+service_web_transport_enabled|global/read-only
+service_web_transport_plain_text_listen_port|global/read-only
+service_web_transport_tls_listen_port|global/read-only
+service_web_transport_web_url_suffix|global/read-only
+tls_block_version11_enabled|global/read-only
+tls_cipher_suite_management_list|global/read-only
+tls_cipher_suite_msg_backbone_list|global/read-only
+tls_cipher_suite_secure_shell_list|global/read-only
+tls_crime_exploit_protection_enabled|global/read-only
+tls_server_cert_content|global/read-only
+tls_standard_domain_certificate_authorities_enabled|vpn/read-only
+tls_ticket_lifetime|global/read-only
+web_manager_allow_unencrypted_wizards_enabled|vpn/read-only
+web_manager_customization|vpn/read-only
+web_manager_redirect_http_enabled|vpn/read-only
+web_manager_redirect_http_override_tls_port|vpn/read-only
 
 
 
@@ -335,38 +335,38 @@ This has been available since 2.13.
  Available since 2.18.
 - `oauth_profile_default` (String) The default OAuth profile for OAuth authenticated SEMP requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since 2.24.
 - `service_amqp_enabled` (Boolean) Enable or disable the AMQP service. When disabled new AMQP Clients may not connect through the global or per-VPN AMQP listen-ports, and all currently connected AMQP Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
-- `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceAmqpEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since 2.17.
+- `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since 2.17.
 - `service_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_event_connection_count_threshold))
 - `service_health_check_enabled` (Boolean) Enable or disable the health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
-- `service_health_check_listen_port` (Number) The port number for the health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceHealthCheckEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since 2.17.
+- `service_health_check_listen_port` (Number) The port number for the health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since 2.17.
 - `service_mate_link_enabled` (Boolean) Enable or disable the mate-link service. The default value is `true`. Available since 2.17.
-- `service_mate_link_listen_port` (Number) The port number for the mate-link service. The port must be unique across the message backbone. The mate-link service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceMateLinkEnabled will be temporarily set to false to apply the change. The default value is `8741`. Available since 2.17.
+- `service_mate_link_listen_port` (Number) The port number for the mate-link service. The port must be unique across the message backbone. The mate-link service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mate_link_enabled will be temporarily set to false to apply the change. The default value is `8741`. Available since 2.17.
 - `service_mqtt_enabled` (Boolean) Enable or disable the MQTT service. When disabled new MQTT Clients may not connect through the per-VPN MQTT listen-ports, and all currently connected MQTT Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
 - `service_msg_backbone_enabled` (Boolean) Enable or disable the msg-backbone service. When disabled new Clients may not connect through global or per-VPN listen-ports, and all currently connected Clients are immediately disconnected. The default value is `true`. Available since 2.17.
 - `service_redundancy_enabled` (Boolean) Enable or disable the redundancy service. The default value is `true`. Available since 2.17.
-- `service_redundancy_first_listen_port` (Number) The first listen-port used for the redundancy service. Redundancy uses this port and the subsequent 2 ports. These port must be unique across the message backbone. The redundancy service must be disabled to change this port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceRedundancyEnabled will be temporarily set to false to apply the change. The default value is `8300`. Available since 2.17.
+- `service_redundancy_first_listen_port` (Number) The first listen-port used for the redundancy service. Redundancy uses this port and the subsequent 2 ports. These port must be unique across the message backbone. The redundancy service must be disabled to change this port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_redundancy_enabled will be temporarily set to false to apply the change. The default value is `8300`. Available since 2.17.
 - `service_rest_event_outgoing_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_rest_event_outgoing_connection_count_threshold))
 - `service_rest_incoming_enabled` (Boolean) Enable or disable the REST service incoming connections on the router. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
 - `service_rest_outgoing_enabled` (Boolean) Enable or disable the REST service outgoing connections on the router. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
 - `service_semp_cors_allow_any_host_enabled` (Boolean) Enable or disable cross origin resource requests for the SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since 2.24.
 - `service_semp_legacy_timeout_enabled` (Boolean) Enable or disable extended SEMP timeouts for paged GETs. When a request times out, it returns the current page of content, even if the page is not full.  When enabled, the timeout is 60 seconds. When disabled, the timeout is 5 seconds.  The recommended setting is disabled (no legacy-timeout).  This parameter is intended as a temporary workaround to be used until SEMP clients can handle short pages.  This setting will be removed in a future release. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.18.
 - `service_semp_plain_text_enabled` (Boolean) Enable or disable plain-text SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since 2.17.
-- `service_semp_plain_text_listen_port` (Number) The TCP port for plain-text SEMP client connections. This attribute cannot be cannot be changed while serviceSempPlainTextEnabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`. Available since 2.17.
+- `service_semp_plain_text_listen_port` (Number) The TCP port for plain-text SEMP client connections. This attribute cannot be cannot be changed while service_semp_plain_text_enabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`. Available since 2.17.
 - `service_semp_session_idle_timeout` (Number) The session idle timeout, in minutes. Sessions will be invalidated if there is no activity in this period of time. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since 2.21.
 - `service_semp_session_max_lifetime` (Number) The maximum lifetime of a session, in minutes. Sessions will be invalidated after this period of time, regardless of activity. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `43200`. Available since 2.21.
 - `service_semp_tls_enabled` (Boolean) Enable or disable TLS SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since 2.17.
-- `service_semp_tls_listen_port` (Number) The TCP port for TLS SEMP client connections. This attribute cannot be cannot be changed while serviceSempTlsEnabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1943`. Available since 2.17.
-- `service_smf_compression_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw compression TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceSmfEnabled will be temporarily set to false to apply the change. The default value is `55003`. Available since 2.17.
+- `service_semp_tls_listen_port` (Number) The TCP port for TLS SEMP client connections. This attribute cannot be cannot be changed while service_semp_tls_enabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1943`. Available since 2.17.
+- `service_smf_compression_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw compression TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55003`. Available since 2.17.
 - `service_smf_enabled` (Boolean) Enable or disable the SMF service. When disabled new SMF Clients may not connect through the global listen-ports, and all currently connected SMF Clients are immediately disconnected. The default value is `true`. Available since 2.17.
 - `service_smf_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_smf_event_connection_count_threshold))
-- `service_smf_plain_text_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceSmfEnabled will be temporarily set to false to apply the change. The default value is `55555`. Available since 2.17.
-- `service_smf_routing_control_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw routing control TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceSmfEnabled will be temporarily set to false to apply the change. The default value is `55556`. Available since 2.17.
-- `service_smf_tls_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceSmfEnabled will be temporarily set to false to apply the change. The default value is `55443`. Available since 2.17.
+- `service_smf_plain_text_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55555`. Available since 2.17.
+- `service_smf_routing_control_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw routing control TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55556`. Available since 2.17.
+- `service_smf_tls_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55443`. Available since 2.17.
 - `service_tls_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_tls_event_connection_count_threshold))
 - `service_web_transport_enabled` (Boolean) Enable or disable the web-transport service. When disabled new web-transport Clients may not connect through the global listen-ports, and all currently connected web-transport Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.
-- `service_web_transport_plain_text_listen_port` (Number) The TCP port for plain-text WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceWebTransportEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `8008`. Available since 2.17.
-- `service_web_transport_tls_listen_port` (Number) The TCP port for TLS WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceWebTransportEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1443`. Available since 2.17.
-- `service_web_transport_web_url_suffix` (String) Used to specify the Web URL suffix that will be used by Web clients when communicating with the broker. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as serviceWebTransportEnabled will be temporarily set to false to apply the change. The default value is `""`. Available since 2.17.
+- `service_web_transport_plain_text_listen_port` (Number) The TCP port for plain-text WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `8008`. Available since 2.17.
+- `service_web_transport_tls_listen_port` (Number) The TCP port for TLS WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1443`. Available since 2.17.
+- `service_web_transport_web_url_suffix` (String) Used to specify the Web URL suffix that will be used by Web clients when communicating with the broker. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. The default value is `""`. Available since 2.17.
 - `tls_block_version11_enabled` (Boolean) Enable or disable the blocking of TLS version 1.1 connections. When blocked, all existing incoming and outgoing TLS 1.1 connections with Clients, SEMP users, and LDAP servers remain connected while new connections are blocked. Note that support for TLS 1.1 will eventually be discontinued, at which time TLS 1.1 connections will be blocked regardless of this setting. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `tls_cipher_suite_management_list` (String) The colon-separated list of cipher suites used for TLS management connections (e.g. SEMP, LDAP). The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
 - `tls_cipher_suite_msg_backbone_list` (String) The colon-separated list of cipher suites used for TLS data connections (e.g. client pub/sub). The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.

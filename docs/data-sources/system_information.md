@@ -7,7 +7,7 @@ description: |-
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
   platform|||x|
-  sempVersion|||x|
+  semp_version|||x|
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
   This has been deprecated since 2.2. /systemInformation was replaced by /about/api.
 ---
@@ -20,7 +20,7 @@ The System Information object provides metadata about the SEMP API.
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
 platform|||x|
-sempVersion|||x|
+semp_version|||x|
 
 
 

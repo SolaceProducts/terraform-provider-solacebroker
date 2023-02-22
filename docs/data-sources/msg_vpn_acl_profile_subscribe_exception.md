@@ -6,12 +6,12 @@ description: |-
   A Subscribe Topic Exception is an exception to the default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Exceptions must be expressed as a topic.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  aclProfileName|x||x|
-  msgVpnName|x||x|
-  subscribeExceptionTopic|x||x|
-  topicSyntax|x||x|
+  aclprofilename|x||x|
+  msgvpnname|x||x|
+  subscribeexceptiontopic|x||x|
+  topic_syntax|x||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been deprecated since 2.14. Replaced by subscribeTopicExceptions.
+  This has been deprecated since 2.14. Replaced by subscribetopicexceptions.
 ---
 
 # solacebroker_msg_vpn_acl_profile_subscribe_exception (Data Source)
@@ -21,16 +21,16 @@ A Subscribe Topic Exception is an exception to the default action to take when a
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-aclProfileName|x||x|
-msgVpnName|x||x|
-subscribeExceptionTopic|x||x|
-topicSyntax|x||x|
+acl_profile_name|x||x|
+msg_vpn_name|x||x|
+subscribe_exception_topic|x||x|
+topic_syntax|x||x|
 
 
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been deprecated since 2.14. Replaced by subscribeTopicExceptions.
+This has been deprecated since 2.14. Replaced by subscribe_topic_exceptions.
 
 
 
@@ -39,15 +39,15 @@ This has been deprecated since 2.14. Replaced by subscribeTopicExceptions.
 
 ### Required
 
-- `acl_profile_name` (String, Deprecated) The name of the ACL Profile. Deprecated since 2.14. Replaced by subscribeTopicExceptions.
-- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since 2.14. Replaced by subscribeTopicExceptions.
-- `subscribe_exception_topic` (String, Deprecated) The topic for the exception to the default action taken. May include wildcard characters. Deprecated since 2.14. Replaced by subscribeTopicExceptions.
+- `acl_profile_name` (String, Deprecated) The name of the ACL Profile. Deprecated since 2.14. Replaced by subscribe_topic_exceptions.
+- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since 2.14. Replaced by subscribe_topic_exceptions.
+- `subscribe_exception_topic` (String, Deprecated) The topic for the exception to the default action taken. May include wildcard characters. Deprecated since 2.14. Replaced by subscribe_topic_exceptions.
 - `topic_syntax` (String, Deprecated) The syntax of the topic for the exception to the default action taken. The allowed values and their meaning are:
 
 <pre>
 "smf" - Topic uses SMF syntax.
 "mqtt" - Topic uses MQTT syntax.
 </pre>
- Deprecated since 2.14. Replaced by subscribeTopicExceptions.
+ Deprecated since 2.14. Replaced by subscribe_topic_exceptions.
 
 

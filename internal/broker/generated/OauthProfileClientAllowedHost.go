@@ -27,7 +27,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_client_allowed_host",
-		MarkdownDescription: "A valid hostname for this broker in OAuth redirects.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nallowedHost|x|||\noauthProfileName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.24.",
+		MarkdownDescription: "A valid hostname for this broker in OAuth redirects.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nallowed_host|x|||\noauth_profile_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.24.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/clientAllowedHosts/{allowedHost}",
 		PostPathTemplate:    "/oauthProfiles/{oauthProfileName}/clientAllowedHosts",

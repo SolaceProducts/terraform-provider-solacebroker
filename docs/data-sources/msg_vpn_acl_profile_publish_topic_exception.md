@@ -6,10 +6,10 @@ description: |-
   A Publish Topic Exception is an exception to the default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Exceptions must be expressed as a topic.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  aclProfileName|x|||
-  msgVpnName|x|||
-  publishTopicException|x|||
-  publishTopicExceptionSyntax|x|||
+  aclprofilename|x|||
+  msgvpnname|x|||
+  publishtopicexception|x|||
+  publishtopicexception_syntax|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.14.
 ---
@@ -21,10 +21,10 @@ A Publish Topic Exception is an exception to the default action to take when a c
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-aclProfileName|x|||
-msgVpnName|x|||
-publishTopicException|x|||
-publishTopicExceptionSyntax|x|||
+acl_profile_name|x|||
+msg_vpn_name|x|||
+publish_topic_exception|x|||
+publish_topic_exception_syntax|x|||
 
 
 

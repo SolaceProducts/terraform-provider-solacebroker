@@ -6,8 +6,8 @@ description: |-
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  groupName|x|||
-  oauthProfileName|x|||
+  groupname|x|||
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.24.
 ---
@@ -19,8 +19,8 @@ The name of a group as it exists on the OAuth server being used to authenticate 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-groupName|x|||
-oauthProfileName|x|||
+group_name|x|||
+oauth_profile_name|x|||
 
 
 

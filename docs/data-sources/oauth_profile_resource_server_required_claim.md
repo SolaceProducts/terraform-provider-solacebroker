@@ -6,8 +6,8 @@ description: |-
   Additional claims to be verified in the access token.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  oauthProfileName|x|||
-  resourceServerRequiredClaimName|x|||
+  oauthprofilename|x|||
+  resourceserverrequiredclaimname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.24.
 ---
@@ -19,8 +19,8 @@ Additional claims to be verified in the access token.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-oauthProfileName|x|||
-resourceServerRequiredClaimName|x|||
+oauth_profile_name|x|||
+resource_server_required_claim_name|x|||
 
 
 

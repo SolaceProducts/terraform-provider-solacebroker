@@ -6,9 +6,9 @@ description: |-
   The Trusted Common Names for the Link are used by encrypted transports to verify the name in the certificate presented by the remote node. They must include the common name of the remote node's server certificate or client certificate, depending upon the initiator of the connection.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  dmrClusterName|x||x|
-  remoteNodeName|x||x|
-  tlsTrustedCommonName|x||x|
+  dmrclustername|x||x|
+  remotenodename|x||x|
+  tlstrustedcommon_name|x||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 ---
@@ -20,9 +20,9 @@ The Trusted Common Names for the Link are used by encrypted transports to verify
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-dmrClusterName|x||x|
-remoteNodeName|x||x|
-tlsTrustedCommonName|x||x|
+dmr_cluster_name|x||x|
+remote_node_name|x||x|
+tls_trusted_common_name|x||x|
 
 
 

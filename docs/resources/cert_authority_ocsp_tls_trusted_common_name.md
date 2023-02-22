@@ -6,8 +6,8 @@ description: |-
   When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  certAuthorityName|x||x|
-  ocspTlsTrustedCommonName|x||x|
+  certauthorityname|x||x|
+  ocsptlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been deprecated since 2.19. Replaced by clientCertAuthorities.
 ---
@@ -19,8 +19,8 @@ When an OCSP override URL is configured, the OCSP responder will be required to 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-certAuthorityName|x||x|
-ocspTlsTrustedCommonName|x||x|
+cert_authority_name|x||x|
+ocsp_tls_trusted_common_name|x||x|
 
 
 

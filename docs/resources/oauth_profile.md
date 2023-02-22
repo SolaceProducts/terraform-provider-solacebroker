@@ -6,8 +6,8 @@ description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  clientSecret||x||x
-  oauthProfileName|x|||
+  clientsecret||x||x
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.24.
 ---
@@ -19,8 +19,8 @@ OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-clientSecret||x||x
-oauthProfileName|x|||
+client_secret||x||x
+oauth_profile_name|x|||
 
 
 

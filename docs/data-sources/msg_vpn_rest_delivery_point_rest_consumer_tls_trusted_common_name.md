@@ -6,10 +6,10 @@ description: |-
   The Trusted Common Names for the REST Consumer are used by encrypted transports to verify the name in the certificate presented by the remote REST consumer. They must include the common name of the remote REST consumer's server certificate.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x||x|
-  restConsumerName|x||x|
-  restDeliveryPointName|x||x|
-  tlsTrustedCommonName|x||x|
+  msgvpnname|x||x|
+  restconsumername|x||x|
+  restdeliverypointname|x||x|
+  tlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
 ---
@@ -21,10 +21,10 @@ The Trusted Common Names for the REST Consumer are used by encrypted transports 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x||x|
-restConsumerName|x||x|
-restDeliveryPointName|x||x|
-tlsTrustedCommonName|x||x|
+msg_vpn_name|x||x|
+rest_consumer_name|x||x|
+rest_delivery_point_name|x||x|
+tls_trusted_common_name|x||x|
 
 
 

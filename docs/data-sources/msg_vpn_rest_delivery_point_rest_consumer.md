@@ -6,16 +6,16 @@ description: |-
   REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  authenticationAwsSecretAccessKey||x||x
-  authenticationClientCertContent||x||x
-  authenticationClientCertPassword||x||
-  authenticationHttpBasicPassword||x||x
-  authenticationHttpHeaderValue||x||x
-  authenticationOauthClientSecret||x||x
-  authenticationOauthJwtSecretKey||x||x
-  msgVpnName|x|||
-  restConsumerName|x|||
-  restDeliveryPointName|x|||
+  authenticationawssecretaccesskey||x||x
+  authenticationclientcertcontent||x||x
+  authenticationclientcertpassword||x||
+  authenticationhttpbasicpassword||x||x
+  authenticationhttpheadervalue||x||x
+  authenticationoauthclientsecret||x||x
+  authenticationoauthjwtsecretkey||x||x
+  msgvpnname|x|||
+  restconsumername|x|||
+  restdeliverypointname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -27,16 +27,16 @@ REST Consumer objects establish HTTP connectivity to REST consumer applications 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-authenticationAwsSecretAccessKey||x||x
-authenticationClientCertContent||x||x
-authenticationClientCertPassword||x||
-authenticationHttpBasicPassword||x||x
-authenticationHttpHeaderValue||x||x
-authenticationOauthClientSecret||x||x
-authenticationOauthJwtSecretKey||x||x
-msgVpnName|x|||
-restConsumerName|x|||
-restDeliveryPointName|x|||
+authentication_aws_secret_access_key||x||x
+authentication_client_cert_content||x||x
+authentication_client_cert_password||x||
+authentication_http_basic_password||x||x
+authentication_http_header_value||x||x
+authentication_oauth_client_secret||x||x
+authentication_oauth_jwt_secret_key||x||x
+msg_vpn_name|x|||
+rest_consumer_name|x|||
+rest_delivery_point_name|x|||
 
 
 
@@ -94,7 +94,7 @@ This has been available since 2.0.
 - `remote_host` (String) The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `remote_port` (Number) The port associated with the host of the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `8080`.
 - `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
-- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the Broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
+- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 
 

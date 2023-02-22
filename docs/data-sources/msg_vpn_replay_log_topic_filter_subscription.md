@@ -6,9 +6,9 @@ description: |-
   One or more Subscriptions can be added to a replay-log so that only guaranteed messages published to matching topics are stored in the Replay Log.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
-  replayLogName|x|||
-  topicFilterSubscription|x|||
+  msgvpnname|x|||
+  replaylogname|x|||
+  topicfiltersubscription|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.27.
 ---
@@ -20,9 +20,9 @@ One or more Subscriptions can be added to a replay-log so that only guaranteed m
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
-replayLogName|x|||
-topicFilterSubscription|x|||
+msg_vpn_name|x|||
+replay_log_name|x|||
+topic_filter_subscription|x|||
 
 
 

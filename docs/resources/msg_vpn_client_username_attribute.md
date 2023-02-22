@@ -6,10 +6,10 @@ description: |-
   A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  attributeName|x|||
-  attributeValue|x|||
-  clientUsername|x|||
-  msgVpnName|x|||
+  attributename|x|||
+  attributevalue|x|||
+  clientusername|x|||
+  msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.27.
 ---
@@ -21,10 +21,10 @@ A ClientUsername Attribute is a key+value pair that can be used to locate a clie
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-attributeName|x|||
-attributeValue|x|||
-clientUsername|x|||
-msgVpnName|x|||
+attribute_name|x|||
+attribute_value|x|||
+client_username|x|||
+msg_vpn_name|x|||
 
 
 

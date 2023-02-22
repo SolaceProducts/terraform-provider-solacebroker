@@ -6,9 +6,9 @@ description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  clientSecret||x||x
-  msgVpnName|x|||
-  oauthProfileName|x|||
+  clientsecret||x||x
+  msgvpnname|x|||
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.25.
 ---
@@ -20,9 +20,9 @@ OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-clientSecret||x||x
-msgVpnName|x|||
-oauthProfileName|x|||
+client_secret||x||x
+msg_vpn_name|x|||
+oauth_profile_name|x|||
 
 
 
@@ -42,7 +42,7 @@ This has been available since 2.25.
 
 ### Optional
 
-- `authorization_groups_claim_name` (String) The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorizationType attribute of the Message VPN will be used to determine authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"groups"`.
+- `authorization_groups_claim_name` (String) The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorization_type attribute of the Message VPN will be used to determine authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"groups"`.
 - `authorization_groups_claim_string_format` (String) The format of the authorization groups claim value when it is a string. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"single"`. The allowed values and their meaning are:
 
 <pre>

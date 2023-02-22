@@ -6,11 +6,11 @@ description: |-
   Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  allowCutThroughForwardingEnabled|||x|
-  apiQueueManagementCopyFromOnCreateName|||x|
-  apiTopicEndpointManagementCopyFromOnCreateName|||x|
-  clientProfileName|x|||
-  msgVpnName|x|||
+  allowcutthroughforwardingenabled|||x|
+  apiqueuemanagementcopyfromoncreatename|||x|
+  apitopicendpointmanagementcopyfromoncreatename|||x|
+  clientprofilename|x|||
+  msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -22,11 +22,11 @@ Client Profiles are used to assign common configuration properties to clients th
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-allowCutThroughForwardingEnabled|||x|
-apiQueueManagementCopyFromOnCreateName|||x|
-apiTopicEndpointManagementCopyFromOnCreateName|||x|
-clientProfileName|x|||
-msgVpnName|x|||
+allow_cut_through_forwarding_enabled|||x|
+api_queue_management_copy_from_on_create_name|||x|
+api_topic_endpoint_management_copy_from_on_create_name|||x|
+client_profile_name|x|||
+msg_vpn_name|x|||
 
 
 
@@ -61,9 +61,9 @@ This has been available since 2.0.
 - `allow_guaranteed_msg_send_enabled` (Boolean) Enable or disable allowing clients using the Client Profile to send guaranteed messages. Changing this setting does not affect existing client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `allow_shared_subscriptions_enabled` (Boolean) Enable or disable allowing shared subscriptions. Changing this setting does not affect existing subscriptions. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.11.
 - `allow_transacted_sessions_enabled` (Boolean) Enable or disable allowing clients using the Client Profile to establish transacted sessions. Changing this setting does not affect existing client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `api_queue_management_copy_from_on_create_name` (String, Deprecated) The name of a queue to copy settings from when a new queue is created by a client using the Client Profile. The referenced queue must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Deprecated since 2.14. This attribute has been replaced with `apiQueueManagementCopyFromOnCreateTemplateName`.
+- `api_queue_management_copy_from_on_create_name` (String, Deprecated) The name of a queue to copy settings from when a new queue is created by a client using the Client Profile. The referenced queue must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Deprecated since 2.14. This attribute has been replaced with `api_queue_management_copy_from_on_create_template_name`.
 - `api_queue_management_copy_from_on_create_template_name` (String) The name of a queue template to copy settings from when a new queue is created by a client using the Client Profile. If the referenced queue template does not exist, queue creation will fail when it tries to resolve this template. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since 2.14.
-- `api_topic_endpoint_management_copy_from_on_create_name` (String, Deprecated) The name of a topic endpoint to copy settings from when a new topic endpoint is created by a client using the Client Profile. The referenced topic endpoint must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Deprecated since 2.14. This attribute has been replaced with `apiTopicEndpointManagementCopyFromOnCreateTemplateName`.
+- `api_topic_endpoint_management_copy_from_on_create_name` (String, Deprecated) The name of a topic endpoint to copy settings from when a new topic endpoint is created by a client using the Client Profile. The referenced topic endpoint must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Deprecated since 2.14. This attribute has been replaced with `api_topic_endpoint_management_copy_from_on_create_template_name`.
 - `api_topic_endpoint_management_copy_from_on_create_template_name` (String) The name of a topic endpoint template to copy settings from when a new topic endpoint is created by a client using the Client Profile. If the referenced topic endpoint template does not exist, topic endpoint creation will fail when it tries to resolve this template. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since 2.14.
 - `compression_enabled` (Boolean) Enable or disable allowing clients using the Client Profile to use compression. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since 2.10.
 - `eliding_delay` (Number) The amount of time to delay the delivery of messages to clients using the Client Profile after the initial message has been delivered (the eliding delay interval), in milliseconds. A value of 0 means there is no delay in delivering messages to clients. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
@@ -88,15 +88,15 @@ This has been available since 2.0.
 - `max_transacted_session_count` (Number) The maximum number of transacted sessions that can be created by one client using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10`.
 - `max_transaction_count` (Number) The maximum number of transactions that can be created by one client using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.
 - `queue_control1_max_depth` (Number) The maximum depth of the "Control 1" (C-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `queueControl1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
+- `queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `queue_control1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
 - `queue_direct1_max_depth` (Number) The maximum depth of the "Direct 1" (D-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `queueDirect1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
+- `queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `queue_direct1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
 - `queue_direct2_max_depth` (Number) The maximum depth of the "Direct 2" (D-2) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `queueDirect2MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
+- `queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `queue_direct2_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
 - `queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `queueDirect3MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
+- `queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
 - `queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `queueGuaranteed1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
+- `queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
 - `reject_msg_to_sender_on_no_subscription_match_enabled` (Boolean) Enable or disable the sending of a negative acknowledgement (NACK) to a client using the Client Profile when discarding a guaranteed message due to no matching subscription found. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.2.
 - `replication_allow_client_connect_when_standby_enabled` (Boolean) Enable or disable allowing clients using the Client Profile to connect to the Message VPN when its replication state is standby. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_min_keepalive_timeout` (Number) The minimum client keepalive timeout which will be enforced for client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`. Available since 2.19.

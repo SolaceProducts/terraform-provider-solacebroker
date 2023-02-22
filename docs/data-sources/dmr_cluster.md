@@ -6,11 +6,11 @@ description: |-
   A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  authenticationBasicPassword||x||x
-  authenticationClientCertContent||x||x
-  authenticationClientCertPassword||x||
-  dmrClusterName|x|||
-  tlsServerCertEnforceTrustedCommonNameEnabled|||x|
+  authenticationbasicpassword||x||x
+  authenticationclientcertcontent||x||x
+  authenticationclientcertpassword||x||
+  dmrclustername|x|||
+  tlsservercertenforcetrustedcommonname_enabled|||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.11.
 ---
@@ -22,11 +22,11 @@ A Cluster is a provisioned object on a message broker that contains global DMR c
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-authenticationBasicPassword||x||x
-authenticationClientCertContent||x||x
-authenticationClientCertPassword||x||
-dmrClusterName|x|||
-tlsServerCertEnforceTrustedCommonNameEnabled|||x|
+authentication_basic_password||x||x
+authentication_client_cert_content||x||x
+authentication_client_cert_password||x||
+dmr_cluster_name|x|||
+tls_server_cert_enforce_trusted_common_name_enabled|||x|
 
 
 

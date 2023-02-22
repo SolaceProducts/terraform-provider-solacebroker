@@ -6,9 +6,9 @@ description: |-
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  authenticationBasicPassword||x||x
-  dmrClusterName|x|||
-  remoteNodeName|x|||
+  authenticationbasicpassword||x||x
+  dmrclustername|x|||
+  remotenodename|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.11.
 ---
@@ -20,9 +20,9 @@ A Link connects nodes (either within a Cluster or between two different Clusters
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-authenticationBasicPassword||x||x
-dmrClusterName|x|||
-remoteNodeName|x|||
+authentication_basic_password||x||x
+dmr_cluster_name|x|||
+remote_node_name|x|||
 
 
 
@@ -49,15 +49,15 @@ This has been available since 2.11.
 "client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
 </pre>
 - `client_profile_queue_control1_max_depth` (Number) The maximum depth of the "Control 1" (C-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `clientProfileQueueControl1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `client_profile_queue_control1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
 - `client_profile_queue_direct1_max_depth` (Number) The maximum depth of the "Direct 1" (D-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `clientProfileQueueDirect1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `client_profile_queue_direct1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
 - `client_profile_queue_direct2_max_depth` (Number) The maximum depth of the "Direct 2" (D-2) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `clientProfileQueueDirect2MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `client_profile_queue_direct2_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
 - `client_profile_queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `clientProfileQueueDirect3MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `client_profile_queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
 - `client_profile_queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `clientProfileQueueGuaranteed1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
+- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
 - `client_profile_tcp_congestion_window_size` (Number) The TCP initial congestion window size, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.
 - `client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to be carried out before declaring that the remote end is not available. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
 - `client_profile_tcp_keepalive_idle_time` (Number) The amount of time a connection must remain idle before TCP begins sending keepalive probes, in seconds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
@@ -78,7 +78,7 @@ This has been available since 2.11.
 - `queue_max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Queue. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1000000`.
 - `queue_max_msg_spool_usage` (Number) The maximum message spool usage by the Queue (quota), in megabytes (MB). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `800000`.
 - `queue_max_redelivery_count` (Number) The maximum number of times the Queue will attempt redelivery of a message prior to it being discarded or moved to the DMQ. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
-- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the Queue when `queueRespectTtlEnabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queueMaxTtl` configured for the Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
+- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the Queue when `queue_respect_ttl_enabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queue_max_ttl` configured for the Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
 - `queue_reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgements (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"always"`. The allowed values and their meaning are:
 
 <pre>

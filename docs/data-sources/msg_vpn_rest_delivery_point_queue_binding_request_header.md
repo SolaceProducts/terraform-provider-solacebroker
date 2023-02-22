@@ -6,10 +6,10 @@ description: |-
   A request header to be added to the HTTP request.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  headerName|x|||
-  msgVpnName|x|||
-  queueBindingName|x|||
-  restDeliveryPointName|x|||
+  headername|x|||
+  msgvpnname|x|||
+  queuebindingname|x|||
+  restdeliverypointname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.23.
 ---
@@ -21,10 +21,10 @@ A request header to be added to the HTTP request.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-headerName|x|||
-msgVpnName|x|||
-queueBindingName|x|||
-restDeliveryPointName|x|||
+header_name|x|||
+msg_vpn_name|x|||
+queue_binding_name|x|||
+rest_delivery_point_name|x|||
 
 
 

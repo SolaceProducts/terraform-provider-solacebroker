@@ -6,8 +6,8 @@ description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
-  ruleName|x|||
+  msgvpnname|x|||
+  rule_name|x|||
   source|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.27.
@@ -20,8 +20,8 @@ A Cert Matching Rule Condition compares data extracted from a certificate to a u
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
-ruleName|x|||
+msg_vpn_name|x|||
+rule_name|x|||
 source|x|||
 
 

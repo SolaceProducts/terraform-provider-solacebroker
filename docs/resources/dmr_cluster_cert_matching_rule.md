@@ -6,8 +6,8 @@ description: |-
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given link.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  dmrClusterName|x|||
-  ruleName|x|||
+  dmrclustername|x|||
+  rule_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.28.
 ---
@@ -19,8 +19,8 @@ A Cert Matching Rule is a collection of conditions and attribute filters that al
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-dmrClusterName|x|||
-ruleName|x|||
+dmr_cluster_name|x|||
+rule_name|x|||
 
 
 

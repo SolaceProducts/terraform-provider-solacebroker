@@ -6,10 +6,10 @@ description: |-
   The Trusted Common Names for the Bridge are used by encrypted transports to verify the name in the certificate presented by the remote node. They must include the common name of the remote node's server certificate or client certificate, depending upon the initiator of the connection.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  bridgeName|x||x|
-  bridgeVirtualRouter|x||x|
-  msgVpnName|x||x|
-  tlsTrustedCommonName|x||x|
+  bridgename|x||x|
+  bridgevirtualrouter|x||x|
+  msgvpnname|x||x|
+  tlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 ---
@@ -21,10 +21,10 @@ The Trusted Common Names for the Bridge are used by encrypted transports to veri
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-bridgeName|x||x|
-bridgeVirtualRouter|x||x|
-msgVpnName|x||x|
-tlsTrustedCommonName|x||x|
+bridge_name|x||x|
+bridge_virtual_router|x||x|
+msg_vpn_name|x||x|
+tls_trusted_common_name|x||x|
 
 
 

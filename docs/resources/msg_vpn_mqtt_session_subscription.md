@@ -6,10 +6,10 @@ description: |-
   An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  mqttSessionClientId|x|||
-  mqttSessionVirtualRouter|x|||
-  msgVpnName|x|||
-  subscriptionTopic|x|||
+  mqttsessionclientid|x|||
+  mqttsessionvirtualrouter|x|||
+  msgvpnname|x|||
+  subscription_topic|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.1.
 ---
@@ -21,10 +21,10 @@ An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creati
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-mqttSessionClientId|x|||
-mqttSessionVirtualRouter|x|||
-msgVpnName|x|||
-subscriptionTopic|x|||
+mqtt_session_client_id|x|||
+mqtt_session_virtual_router|x|||
+msg_vpn_name|x|||
+subscription_topic|x|||
 
 
 

@@ -6,8 +6,8 @@ description: |-
   An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  aclProfileName|x|||
-  msgVpnName|x|||
+  aclprofilename|x|||
+  msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -19,8 +19,8 @@ An ACL Profile controls whether an authenticated client is permitted to establis
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-aclProfileName|x|||
-msgVpnName|x|||
+acl_profile_name|x|||
+msg_vpn_name|x|||
 
 
 

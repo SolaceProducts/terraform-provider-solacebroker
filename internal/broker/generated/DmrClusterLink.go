@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "dmr_cluster_link",
-		MarkdownDescription: "A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||x||x\ndmrClusterName|x|||\nremoteNodeName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
+		MarkdownDescription: "A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthentication_basic_password||x||x\ndmr_cluster_name|x|||\nremote_node_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/dmrClusters/{dmrClusterName}/links/{remoteNodeName}",
 		Version:             0,
@@ -76,7 +76,7 @@ func init() {
 			{
 				SempName:            "clientProfileQueueControl1MinMsgBurst",
 				TerraformName:       "client_profile_queue_control1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Control 1\" (C-1) priority queue, regardless of the `clientProfileQueueControl1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Control 1\" (C-1) priority queue, regardless of the `client_profile_queue_control1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -100,7 +100,7 @@ func init() {
 			{
 				SempName:            "clientProfileQueueDirect1MinMsgBurst",
 				TerraformName:       "client_profile_queue_direct1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 1\" (D-1) priority queue, regardless of the `clientProfileQueueDirect1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 1\" (D-1) priority queue, regardless of the `client_profile_queue_direct1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -124,7 +124,7 @@ func init() {
 			{
 				SempName:            "clientProfileQueueDirect2MinMsgBurst",
 				TerraformName:       "client_profile_queue_direct2_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 2\" (D-2) priority queue, regardless of the `clientProfileQueueDirect2MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 2\" (D-2) priority queue, regardless of the `client_profile_queue_direct2_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -148,7 +148,7 @@ func init() {
 			{
 				SempName:            "clientProfileQueueDirect3MinMsgBurst",
 				TerraformName:       "client_profile_queue_direct3_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 3\" (D-3) priority queue, regardless of the `clientProfileQueueDirect3MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 3\" (D-3) priority queue, regardless of the `client_profile_queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -172,7 +172,7 @@ func init() {
 			{
 				SempName:            "clientProfileQueueGuaranteed1MinMsgBurst",
 				TerraformName:       "client_profile_queue_guaranteed1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-3) priority queue, regardless of the `clientProfileQueueGuaranteed1MaxDepth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-3) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -440,7 +440,7 @@ func init() {
 			{
 				SempName:            "queueMaxTtl",
 				TerraformName:       "queue_max_ttl",
-				MarkdownDescription: "The maximum time in seconds a message can stay in the Queue when `queueRespectTtlEnabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queueMaxTtl` configured for the Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.",
+				MarkdownDescription: "The maximum time in seconds a message can stay in the Queue when `queue_respect_ttl_enabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queue_max_ttl` configured for the Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},

@@ -27,7 +27,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "cert_authority_ocsp_tls_trusted_common_name",
-		MarkdownDescription: "When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncertAuthorityName|x||x|\nocspTlsTrustedCommonName|x||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been deprecated since 2.19. Replaced by clientCertAuthorities.",
+		MarkdownDescription: "When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncert_authority_name|x||x|\nocsp_tls_trusted_common_name|x||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been deprecated since 2.19. Replaced by clientCertAuthorities.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/certAuthorities/{certAuthorityName}/ocspTlsTrustedCommonNames/{ocspTlsTrustedCommonName}",
 		PostPathTemplate:    "/certAuthorities/{certAuthorityName}/ocspTlsTrustedCommonNames",

@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_distributed_cache",
-		MarkdownDescription: "A Distributed Cache is a collection of one or more Cache Clusters that belong to the same Message VPN. Each Cache Cluster in a Distributed Cache is configured to subscribe to a different set of topics. This effectively divides up the configured topic space, to provide scaling to very large topic spaces or very high cached message throughput.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncacheName|x|||\nmsgVpnName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
+		MarkdownDescription: "A Distributed Cache is a collection of one or more Cache Clusters that belong to the same Message VPN. Each Cache Cluster in a Distributed Cache is configured to subscribe to a different set of topics. This effectively divides up the configured topic space, to provide scaling to very large topic spaces or very high cached message throughput.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncache_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}",
 		Version:             0,
@@ -104,7 +104,7 @@ func init() {
 			{
 				SempName:            "scheduledDeleteMsgDayList",
 				TerraformName:       "scheduled_delete_msg_day_list",
-				MarkdownDescription: "The scheduled delete message day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduledDeleteMsgTimeList\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The scheduled delete message day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduled_delete_msg_time_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Requires:            []string{"scheduled_delete_msg_time_list"},
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -120,7 +120,7 @@ func init() {
 			{
 				SempName:            "scheduledDeleteMsgTimeList",
 				TerraformName:       "scheduled_delete_msg_time_list",
-				MarkdownDescription: "The scheduled delete message time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduledDeleteMsgDayList\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The scheduled delete message time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduled_delete_msg_day_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Requires:            []string{"scheduled_delete_msg_day_list"},
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,

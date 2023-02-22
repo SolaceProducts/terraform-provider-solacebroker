@@ -6,7 +6,7 @@ description: |-
   This provides information about the Message VPN access level for the username used to access the SEMP API.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
+  msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
   This has been available since 2.2.
 ---
@@ -18,7 +18,7 @@ This provides information about the Message VPN access level for the username us
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
+msg_vpn_name|x|||
 
 
 

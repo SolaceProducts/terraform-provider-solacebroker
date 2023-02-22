@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_client_profile",
-		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled|||x|\napiQueueManagementCopyFromOnCreateName|||x|\napiTopicEndpointManagementCopyFromOnCreateName|||x|\nclientProfileName|x|||\nmsgVpnName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nallow_cut_through_forwarding_enabled|||x|\napi_queue_management_copy_from_on_create_name|||x|\napi_topic_endpoint_management_copy_from_on_create_name|||x|\nclient_profile_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/clientProfiles/{clientProfileName}",
 		Version:             0,
@@ -115,7 +115,7 @@ func init() {
 			{
 				SempName:            "apiQueueManagementCopyFromOnCreateName",
 				TerraformName:       "api_queue_management_copy_from_on_create_name",
-				MarkdownDescription: "The name of a queue to copy settings from when a new queue is created by a client using the Client Profile. The referenced queue must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.14. This attribute has been replaced with `apiQueueManagementCopyFromOnCreateTemplateName`.",
+				MarkdownDescription: "The name of a queue to copy settings from when a new queue is created by a client using the Client Profile. The referenced queue must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.14. This attribute has been replaced with `api_queue_management_copy_from_on_create_template_name`.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -142,7 +142,7 @@ func init() {
 			{
 				SempName:            "apiTopicEndpointManagementCopyFromOnCreateName",
 				TerraformName:       "api_topic_endpoint_management_copy_from_on_create_name",
-				MarkdownDescription: "The name of a topic endpoint to copy settings from when a new topic endpoint is created by a client using the Client Profile. The referenced topic endpoint must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.14. This attribute has been replaced with `apiTopicEndpointManagementCopyFromOnCreateTemplateName`.",
+				MarkdownDescription: "The name of a topic endpoint to copy settings from when a new topic endpoint is created by a client using the Client Profile. The referenced topic endpoint must exist in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.14. This attribute has been replaced with `api_topic_endpoint_management_copy_from_on_create_template_name`.",
 				Deprecated:          true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -1168,7 +1168,7 @@ func init() {
 			{
 				SempName:            "queueControl1MinMsgBurst",
 				TerraformName:       "queue_control1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Control 1\" (C-1) priority queue, regardless of the `queueControl1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Control 1\" (C-1) priority queue, regardless of the `queue_control1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -1192,7 +1192,7 @@ func init() {
 			{
 				SempName:            "queueDirect1MinMsgBurst",
 				TerraformName:       "queue_direct1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 1\" (D-1) priority queue, regardless of the `queueDirect1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 1\" (D-1) priority queue, regardless of the `queue_direct1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -1216,7 +1216,7 @@ func init() {
 			{
 				SempName:            "queueDirect2MinMsgBurst",
 				TerraformName:       "queue_direct2_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 2\" (D-2) priority queue, regardless of the `queueDirect2MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 2\" (D-2) priority queue, regardless of the `queue_direct2_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -1240,7 +1240,7 @@ func init() {
 			{
 				SempName:            "queueDirect3MinMsgBurst",
 				TerraformName:       "queue_direct3_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 3\" (D-3) priority queue, regardless of the `queueDirect3MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Direct 3\" (D-3) priority queue, regardless of the `queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -1264,7 +1264,7 @@ func init() {
 			{
 				SempName:            "queueGuaranteed1MinMsgBurst",
 				TerraformName:       "queue_guaranteed1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-3) priority queue, regardless of the `queueGuaranteed1MaxDepth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-3) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},

@@ -6,9 +6,9 @@ description: |-
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  dmrClusterName|x|||
-  filterName|x|||
-  ruleName|x|||
+  dmrclustername|x|||
+  filtername|x|||
+  rulename|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.28.
 ---
@@ -20,9 +20,9 @@ A Cert Matching Rule Attribute Filter compares a link attribute to a string.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-dmrClusterName|x|||
-filterName|x|||
-ruleName|x|||
+dmr_cluster_name|x|||
+filter_name|x|||
+rule_name|x|||
 
 
 

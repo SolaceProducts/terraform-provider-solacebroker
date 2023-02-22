@@ -6,8 +6,8 @@ description: |-
   Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
-  telemetryProfileName|x|||
+  msgvpnname|x|||
+  telemetryprofilename|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.31.
 ---
@@ -19,8 +19,8 @@ Using the Telemetry Profile allows trace spans to be generated as messages are p
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
-telemetryProfileName|x|||
+msg_vpn_name|x|||
+telemetry_profile_name|x|||
 
 
 

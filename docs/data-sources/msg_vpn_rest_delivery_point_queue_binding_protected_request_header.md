@@ -6,11 +6,11 @@ description: |-
   A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  headerName|x|||
-  headerValue||x||x
-  msgVpnName|x|||
-  queueBindingName|x|||
-  restDeliveryPointName|x|||
+  headername|x|||
+  headervalue||x||x
+  msgvpnname|x|||
+  queuebindingname|x|||
+  restdeliverypoint_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.30.
 ---
@@ -22,11 +22,11 @@ A protected request header to be added to the HTTP request. Unlike a non-protect
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-headerName|x|||
-headerValue||x||x
-msgVpnName|x|||
-queueBindingName|x|||
-restDeliveryPointName|x|||
+header_name|x|||
+header_value||x||x
+msg_vpn_name|x|||
+queue_binding_name|x|||
+rest_delivery_point_name|x|||
 
 
 

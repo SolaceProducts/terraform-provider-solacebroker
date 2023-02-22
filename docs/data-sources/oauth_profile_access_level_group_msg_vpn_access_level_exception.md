@@ -6,9 +6,9 @@ description: |-
   Message VPN access-level exceptions for members of this group.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  groupName|x|||
-  msgVpnName|x|||
-  oauthProfileName|x|||
+  groupname|x|||
+  msgvpnname|x|||
+  oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since 2.24.
 ---
@@ -20,9 +20,9 @@ Message VPN access-level exceptions for members of this group.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-groupName|x|||
-msgVpnName|x|||
-oauthProfileName|x|||
+group_name|x|||
+msg_vpn_name|x|||
+oauth_profile_name|x|||
 
 
 

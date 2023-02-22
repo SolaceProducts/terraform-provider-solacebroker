@@ -6,8 +6,8 @@ description: |-
   A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
-  restDeliveryPointName|x|||
+  msgvpnname|x|||
+  restdeliverypoint_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -19,8 +19,8 @@ A REST Delivery Point manages delivery of messages from queues to a named list o
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
-restDeliveryPointName|x|||
+msg_vpn_name|x|||
+rest_delivery_point_name|x|||
 
 
 

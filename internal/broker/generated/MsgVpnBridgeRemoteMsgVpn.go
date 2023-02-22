@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_bridge_remote_msg_vpn",
-		MarkdownDescription: "The Remote Message VPN is the Message VPN that the Bridge connects to.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nbridgeName|x|||\nbridgeVirtualRouter|x|||\nmsgVpnName|x|||\npassword||x||x\nremoteMsgVpnInterface|x|||\nremoteMsgVpnLocation|x|||\nremoteMsgVpnName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "The Remote Message VPN is the Message VPN that the Bridge connects to.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nbridge_name|x|||\nbridge_virtual_router|x|||\nmsg_vpn_name|x|||\npassword||x||x\nremote_msg_vpn_interface|x|||\nremote_msg_vpn_location|x|||\nremote_msg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}/remoteMsgVpns/{remoteMsgVpnName},{remoteMsgVpnLocation},{remoteMsgVpnInterface}",
 		Version:             0,
@@ -175,7 +175,7 @@ func init() {
 			{
 				SempName:            "remoteMsgVpnInterface",
 				TerraformName:       "remote_msg_vpn_interface",
-				MarkdownDescription: "The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remoteMsgVpnLocation` must not be a virtual router name.",
+				MarkdownDescription: "The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remote_msg_vpn_location` must not be a virtual router name.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

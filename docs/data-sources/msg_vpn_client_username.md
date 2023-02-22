@@ -6,8 +6,8 @@ description: |-
   A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  clientUsername|x|||
-  msgVpnName|x|||
+  clientusername|x|||
+  msgvpn_name|x|||
   password||x||x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
@@ -20,8 +20,8 @@ A client is only authorized to connect to a Message VPN that is associated with 
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-clientUsername|x|||
-msgVpnName|x|||
+client_username|x|||
+msg_vpn_name|x|||
 password||x||x
 
 

@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "client_cert_authority",
-		MarkdownDescription: "Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncertAuthorityName|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.19.",
+		MarkdownDescription: "Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncert_authority_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.19.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/clientCertAuthorities/{certAuthorityName}",
 		Version:             0,
@@ -65,7 +65,7 @@ func init() {
 			{
 				SempName:            "crlDayList",
 				TerraformName:       "crl_day_list",
-				MarkdownDescription: "The scheduled CRL refresh day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crlTimeList\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"daily\"`.",
+				MarkdownDescription: "The scheduled CRL refresh day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crl_time_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"daily\"`.",
 				Requires:            []string{"crl_time_list"},
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -81,7 +81,7 @@ func init() {
 			{
 				SempName:            "crlTimeList",
 				TerraformName:       "crl_time_list",
-				MarkdownDescription: "The scheduled CRL refresh time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crlDayList\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"3:00\"`.",
+				MarkdownDescription: "The scheduled CRL refresh time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crl_day_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"3:00\"`.",
 				Requires:            []string{"crl_day_list"},
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
@@ -97,7 +97,7 @@ func init() {
 			{
 				SempName:            "crlUrl",
 				TerraformName:       "crl_url",
-				MarkdownDescription: "The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocationCheckEnabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

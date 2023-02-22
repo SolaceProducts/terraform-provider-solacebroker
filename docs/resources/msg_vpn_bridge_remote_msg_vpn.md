@@ -6,13 +6,13 @@ description: |-
   The Remote Message VPN is the Message VPN that the Bridge connects to.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  bridgeName|x|||
-  bridgeVirtualRouter|x|||
-  msgVpnName|x|||
+  bridgename|x|||
+  bridgevirtualrouter|x|||
+  msgvpnname|x|||
   password||x||x
-  remoteMsgVpnInterface|x|||
-  remoteMsgVpnLocation|x|||
-  remoteMsgVpnName|x|||
+  remotemsgvpninterface|x|||
+  remotemsgvpnlocation|x|||
+  remotemsgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.0.
 ---
@@ -24,13 +24,13 @@ The Remote Message VPN is the Message VPN that the Bridge connects to.
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-bridgeName|x|||
-bridgeVirtualRouter|x|||
-msgVpnName|x|||
+bridge_name|x|||
+bridge_virtual_router|x|||
+msg_vpn_name|x|||
 password||x||x
-remoteMsgVpnInterface|x|||
-remoteMsgVpnLocation|x|||
-remoteMsgVpnName|x|||
+remote_msg_vpn_interface|x|||
+remote_msg_vpn_location|x|||
+remote_msg_vpn_name|x|||
 
 
 
@@ -54,7 +54,7 @@ This has been available since 2.0.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
 - `msg_vpn_name` (String) The name of the Message VPN.
-- `remote_msg_vpn_interface` (String) The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remoteMsgVpnLocation` must not be a virtual router name.
+- `remote_msg_vpn_interface` (String) The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remote_msg_vpn_location` must not be a virtual router name.
 - `remote_msg_vpn_location` (String) The location of the remote Message VPN as either an FQDN with port, IP address with port, or virtual router name (starting with "v:").
 - `remote_msg_vpn_name` (String) The name of the remote Message VPN.
 

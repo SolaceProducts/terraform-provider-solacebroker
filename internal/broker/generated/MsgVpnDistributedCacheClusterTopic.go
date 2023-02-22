@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_distributed_cache_cluster_topic",
-		MarkdownDescription: "The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncacheName|x|||\nclusterName|x|||\nmsgVpnName|x|||\ntopic|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
+		MarkdownDescription: "The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncache_name|x|||\ncluster_name|x|||\nmsg_vpn_name|x|||\ntopic|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.11.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}/clusters/{clusterName}/topics/{topic}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}/clusters/{clusterName}/topics",

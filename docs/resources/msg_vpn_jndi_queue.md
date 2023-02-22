@@ -6,8 +6,8 @@ description: |-
   The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.
   Attribute|Identifying|Write-Only|Deprecated|Opaque
   :---|:---:|:---:|:---:|:---:
-  msgVpnName|x|||
-  queueName|x|||
+  msgvpnname|x|||
+  queue_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since 2.2.
 ---
@@ -19,8 +19,8 @@ The message broker provides an internal JNDI store for provisioned Queue objects
 
 Attribute|Identifying|Write-Only|Deprecated|Opaque
 :---|:---:|:---:|:---:|:---:
-msgVpnName|x|||
-queueName|x|||
+msg_vpn_name|x|||
+queue_name|x|||
 
 
 
