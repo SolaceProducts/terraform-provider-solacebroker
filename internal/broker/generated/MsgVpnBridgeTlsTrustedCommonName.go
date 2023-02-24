@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -35,6 +35,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "bridgeName",
 				TerraformName:       "bridge_name",
 				MarkdownDescription: "The name of the Bridge. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -46,12 +47,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 150),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[A-Za-z0-9\"~`!\\\\@$%|\\^()_+={}:,.#\\-;\\[\\]]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "bridgeVirtualRouter",
 				TerraformName:       "bridge_virtual_router",
 				MarkdownDescription: "The virtual router of the Bridge. The allowed values and their meaning are:\n\n<pre>\n\"primary\" - The Bridge is used for the primary virtual router.\n\"backup\" - The Bridge is used for the backup virtual router.\n\"auto\" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.\n</pre>\n Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -63,11 +65,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("primary", "backup", "auto"),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -79,12 +82,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "tlsTrustedCommonName",
 				TerraformName:       "tls_trusted_common_name",
 				MarkdownDescription: "The expected trusted common name of the remote certificate. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -95,7 +99,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 64),
 				},
 			},

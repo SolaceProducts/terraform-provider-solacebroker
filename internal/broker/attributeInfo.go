@@ -18,7 +18,7 @@ package broker
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
@@ -31,7 +31,17 @@ const (
 	StandardObject
 )
 
+type attributeType int8
+
+const (
+	String attributeType = iota
+	Int64
+	Bool
+	Struct
+)
+
 type AttributeInfo struct {
+	BaseType            attributeType
 	SempName            string
 	TerraformName       string
 	Description         string
@@ -48,6 +58,8 @@ type AttributeInfo struct {
 	TerraformType       tftypes.Type
 	Attributes          []*AttributeInfo
 	Converter           Converter
-	Validators          []tfsdk.AttributeValidator
+	StringValidators    []validator.String
+	Int64Validators     []validator.Int64
+	BoolValidators      []validator.Bool
 	Default             any
 }

@@ -18,10 +18,9 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/schemavalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -37,6 +36,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "certAuthorityName",
 				TerraformName:       "cert_authority_name",
 				MarkdownDescription: "The name of the Certificate Authority.",
@@ -46,23 +46,25 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 64),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "certContent",
 				TerraformName:       "cert_content",
 				MarkdownDescription: "The PEM formatted content for the trusted root certificate of a client Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32768),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "crlDayList",
 				TerraformName:       "crl_day_list",
 				MarkdownDescription: "The scheduled CRL refresh day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crl_time_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"daily\"`.",
@@ -70,8 +72,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("crl_time_list"),
 					),
 					stringvalidator.LengthBetween(0, 100),
@@ -79,6 +81,7 @@ func init() {
 				Default: "daily",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "crlTimeList",
 				TerraformName:       "crl_time_list",
 				MarkdownDescription: "The scheduled CRL refresh time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"crl_day_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"3:00\"`.",
@@ -86,8 +89,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("crl_day_list"),
 					),
 					stringvalidator.LengthBetween(0, 100),
@@ -95,19 +98,21 @@ func init() {
 				Default: "3:00",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "crlUrl",
 				TerraformName:       "crl_url",
 				MarkdownDescription: "The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 2048),
 					stringvalidator.RegexMatches(regexp.MustCompile("^(.+://.+)?$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "ocspNonResponderCertEnabled",
 				TerraformName:       "ocsp_non_responder_cert_enabled",
 				MarkdownDescription: "Enable or disable allowing a non-responder certificate to sign an OCSP response. Typically used with an OCSP override URL in cases where a single certificate is used to sign client certificates and OCSP responses. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",
@@ -117,31 +122,34 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "ocspOverrideUrl",
 				TerraformName:       "ocsp_override_url",
 				MarkdownDescription: "The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 2048),
 					stringvalidator.RegexMatches(regexp.MustCompile("^((.|..|...|....|[^h]....|.[^t]...|..[^t]..|...[^p].|....[^s]|.......*)://.+)?$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "ocspTimeout",
 				TerraformName:       "ocsp_timeout",
 				MarkdownDescription: "The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(1, 86400),
 				},
 				Default: 5,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "revocationCheckEnabled",
 				TerraformName:       "revocation_check_enabled",
 				MarkdownDescription: "Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",

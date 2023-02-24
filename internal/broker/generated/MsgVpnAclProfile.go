@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -34,6 +34,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "aclProfileName",
 				TerraformName:       "acl_profile_name",
 				MarkdownDescription: "The name of the ACL Profile.",
@@ -43,23 +44,25 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "clientConnectDefaultAction",
 				TerraformName:       "client_connect_default_action",
 				MarkdownDescription: "The default action to take when a client using the ACL Profile connects to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"disallow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow client connection unless an exception is found for it.\n\"disallow\" - Disallow client connection unless an exception is found for it.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("allow", "disallow"),
 				},
 				Default: "disallow",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -70,43 +73,46 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "publishTopicDefaultAction",
 				TerraformName:       "publish_topic_default_action",
 				MarkdownDescription: "The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"disallow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow topic unless an exception is found for it.\n\"disallow\" - Disallow topic unless an exception is found for it.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("allow", "disallow"),
 				},
 				Default: "disallow",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "subscribeShareNameDefaultAction",
 				TerraformName:       "subscribe_share_name_default_action",
 				MarkdownDescription: "The default action to take when a client using the ACL Profile subscribes to a share-name subscription in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"allow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow topic unless an exception is found for it.\n\"disallow\" - Disallow topic unless an exception is found for it.\n</pre>\n Available since 2.14.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("allow", "disallow"),
 				},
 				Default: "allow",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "subscribeTopicDefaultAction",
 				TerraformName:       "subscribe_topic_default_action",
 				MarkdownDescription: "The default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"disallow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow topic unless an exception is found for it.\n\"disallow\" - Disallow topic unless an exception is found for it.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("allow", "disallow"),
 				},
 				Default: "disallow",

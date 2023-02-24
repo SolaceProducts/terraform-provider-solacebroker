@@ -20,18 +20,20 @@ import (
 	"context"
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
+	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"net/http"
-	"os"
-	"terraform-provider-solacebroker/internal/semp"
 )
 
-func newBrokerDataSourceGenerator(inputs EntityInputs) func() datasource.DataSource {
-	return newBrokerDataSourceClosure(newBrokerEntity(inputs, false))
+func newBrokerDataSource(inputs EntityInputs) brokerEntity[schema.Schema] {
+	return resourceEntityToDataSourceEntity(newBrokerEntity(inputs, false))
 }
 
-func newBrokerDataSourceClosure(templateEntity brokerEntity) func() datasource.DataSource {
+func newBrokerDataSourceGenerator(inputs EntityInputs) func() datasource.DataSource {
+	return newBrokerDataSourceClosure(newBrokerDataSource(inputs))
+}
+
+func newBrokerDataSourceClosure(templateEntity brokerEntity[schema.Schema]) func() datasource.DataSource {
 	return func() datasource.DataSource {
 		var ds = brokerDataSource(templateEntity)
 		return &ds
@@ -43,17 +45,17 @@ var (
 	_ datasource.DataSourceWithConfigValidators = &brokerDataSource{}
 )
 
-type brokerDataSource brokerEntity
+type brokerDataSource brokerEntity[schema.Schema]
 
-func (ds *brokerDataSource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return ds.schema, nil
+func (ds *brokerDataSource) Schema(_ context.Context, _ datasource.SchemaRequest, response *datasource.SchemaResponse) {
+	response.Schema = ds.schema
 }
 
-func (ds *brokerDataSource) Metadata(ctx context.Context, request datasource.MetadataRequest, response *datasource.MetadataResponse) {
+func (ds *brokerDataSource) Metadata(_ context.Context, request datasource.MetadataRequest, response *datasource.MetadataResponse) {
 	response.TypeName = request.ProviderTypeName + "_" + ds.terraformName
 }
 
-func (ds *brokerDataSource) Configure(ctx context.Context, request datasource.ConfigureRequest, response *datasource.ConfigureResponse) {
+func (ds *brokerDataSource) Configure(_ context.Context, request datasource.ConfigureRequest, response *datasource.ConfigureResponse) {
 	if request.ProviderData == nil {
 		return
 	}
@@ -65,80 +67,8 @@ func (ds *brokerDataSource) Configure(ctx context.Context, request datasource.Co
 	ds.providerData = config
 }
 
-func (ds *brokerDataSource) client() (*semp.Client, diag.Diagnostic) {
-
-	// User must provide a user to the provider
-	var username string
-	if ds.providerData.Username.Unknown {
-		// Cannot connect to client with an unknown value
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to create client",
-			"Cannot use unknown value as username",
-		)
-	}
-
-	if ds.providerData.Username.Null {
-		username = os.Getenv("SOLACE_BROKER_USERNAME")
-	} else {
-		username = ds.providerData.Username.Value
-	}
-
-	if username == "" {
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to find username",
-			"Username cannot be an empty string",
-		)
-	}
-
-	// User must provide a password to the provider
-	var password string
-	if ds.providerData.Password.Unknown {
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to create client",
-			"Cannot use unknown value as password",
-		)
-	}
-
-	if ds.providerData.Password.Null {
-		password = os.Getenv("SOLACE_BROKER_PASSWORD")
-	} else {
-		password = ds.providerData.Password.Value
-	}
-
-	if password == "" {
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to find password",
-			"password cannot be an empty string",
-		)
-	}
-
-	// User must specify an url
-	var url string
-	if ds.providerData.Url.Unknown {
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to create client",
-			"Cannot use unknown value as url",
-		)
-	}
-
-	if ds.providerData.Url.Null {
-		url = os.Getenv("SOLACE_BROKER_URL")
-	} else {
-		url = ds.providerData.Url.Value
-	}
-
-	if url == "" {
-		return nil, diag.NewErrorDiagnostic(
-			"Unable to find url",
-			"Url cannot be an empty string",
-		)
-	}
-
-	return semp.NewClient(url, semp.BasicAuth(username, password)), nil
-}
-
-func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadRequest, response *datasource.ReadResponse) {
-	client, d := ds.client()
+func (ds *brokerDataSource) Read(_ context.Context, request datasource.ReadRequest, response *datasource.ReadResponse) {
+	client, d := client(ds.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
 		if response.Diagnostics.HasError() {
@@ -166,6 +96,6 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 	response.State.Raw = responseData
 }
 
-func (ds *brokerDataSource) ConfigValidators(ctx context.Context) []datasource.ConfigValidator {
+func (ds *brokerDataSource) ConfigValidators(_ context.Context) []datasource.ConfigValidator {
 	return nil
 }

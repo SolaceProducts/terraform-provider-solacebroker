@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -34,6 +34,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
 				MarkdownDescription: "Enable or disable Virtual Hostname to Message VPN mapping. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",
@@ -43,19 +44,21 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The message VPN to which this virtual hostname is mapped. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]*$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "virtualHostname",
 				TerraformName:       "virtual_hostname",
 				MarkdownDescription: "The virtual hostname.",
@@ -65,7 +68,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 253),
 				},
 			},

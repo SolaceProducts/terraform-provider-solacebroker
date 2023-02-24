@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -34,6 +34,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.Bool,
 				SempName:            "autoStartEnabled",
 				TerraformName:       "auto_start_enabled",
 				MarkdownDescription: "Enable or disable auto-start for the Cache Instance. When enabled, the Cache Instance will automatically attempt to transition from the Stopped operational state to Up whenever it restarts or reconnects to the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -43,6 +44,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "cacheName",
 				TerraformName:       "cache_name",
 				MarkdownDescription: "The name of the Distributed Cache.",
@@ -53,12 +55,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 200),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "clusterName",
 				TerraformName:       "cluster_name",
 				MarkdownDescription: "The name of the Cache Cluster.",
@@ -69,12 +72,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 200),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
 				MarkdownDescription: "Enable or disable the Cache Instance. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -84,6 +88,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "instanceName",
 				TerraformName:       "instance_name",
 				MarkdownDescription: "The name of the Cache Instance.",
@@ -93,12 +98,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 200),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -109,12 +115,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "stopOnLostMsgEnabled",
 				TerraformName:       "stop_on_lost_msg_enabled",
 				MarkdownDescription: "Enable or disable stop-on-lost-message for the Cache Instance. When enabled, the Cache Instance will transition to the stopped operational state upon losing a message. When stopped, it cannot accept or respond to cache requests, but continues to cache messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",

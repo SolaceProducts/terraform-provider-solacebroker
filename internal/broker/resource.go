@@ -22,24 +22,26 @@ import (
 	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"net/http"
 	"net/url"
 	"strings"
-	"terraform-provider-solacebroker/internal/semp"
-	"time"
 )
 
 const (
 	applied = "applied"
 )
 
-func newBrokerResourceGenerator(inputs EntityInputs) func() resource.Resource {
-	return newBrokerResourceClosure(newBrokerEntity(inputs, true))
+func newBrokerResource(inputs EntityInputs) brokerEntity[schema.Schema] {
+	return newBrokerEntity(inputs, true)
 }
 
-func newBrokerResourceClosure(templateEntity brokerEntity) func() resource.Resource {
+func newBrokerResourceGenerator(inputs EntityInputs) func() resource.Resource {
+	return newBrokerResourceClosure(newBrokerResource(inputs))
+}
+
+func newBrokerResourceClosure(templateEntity brokerEntity[schema.Schema]) func() resource.Resource {
 	return func() resource.Resource {
 		var r = brokerResource(templateEntity)
 		return &r
@@ -52,7 +54,7 @@ var (
 	_ resource.ResourceWithImportState      = &brokerResource{}
 )
 
-type brokerResource brokerEntity
+type brokerResource brokerEntity[schema.Schema]
 
 func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
 	responseValues := map[string]tftypes.Value{}
@@ -90,8 +92,8 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 	return tftypes.NewValue(response.Type(), responseValues), nil
 }
 
-func (r *brokerResource) GetSchema(ctx context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return r.schema, nil
+func (r *brokerResource) Schema(ctx context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
+	response.Schema = r.schema
 }
 
 func (r *brokerResource) Metadata(ctx context.Context, request resource.MetadataRequest, response *resource.MetadataResponse) {
@@ -110,39 +112,6 @@ func (r *brokerResource) Configure(ctx context.Context, request resource.Configu
 	r.providerData = config
 }
 
-func (r *brokerResource) client() (*semp.Client, diag.Diagnostic) {
-	username, err := stringWithDefaultFromEnv(r.providerData.Username, "username")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-	password, err := stringWithDefaultFromEnv(r.providerData.Password, "password")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-	url, err := stringWithDefaultFromEnv(r.providerData.Url, "url")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-	retries, err := int64WithDefaultFromEnv(r.providerData.Retries, "retries", 10)
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-	retryWait, err := int64WithDefaultFromEnv(r.providerData.RetryWait, "retry_wait", 3)
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-	retryWaitMax, err := int64WithDefaultFromEnv(r.providerData.RetryWaitMax, "retry_wait_max", 30)
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to create client", err.Error())
-	}
-
-	return semp.NewClient(
-			url,
-			semp.BasicAuth(username, password),
-			semp.Retries(uint(retries), time.Duration(retryWait)*time.Second, time.Duration(retryWaitMax)*time.Second)),
-		nil
-}
-
 func generateDiagnostics(summary string, err error) diag.Diagnostics {
 	diags := &diag.Diagnostics{}
 	for err != nil {
@@ -153,7 +122,7 @@ func generateDiagnostics(summary string, err error) diag.Diagnostics {
 }
 
 func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequest, response *resource.CreateResponse) {
-	client, d := r.client()
+	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
 		if response.Diagnostics.HasError() {
@@ -194,7 +163,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 }
 
 func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
-	client, d := r.client()
+	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
 		if response.Diagnostics.HasError() {
@@ -236,7 +205,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 }
 
 func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequest, response *resource.UpdateResponse) {
-	client, d := r.client()
+	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
 		if response.Diagnostics.HasError() {
@@ -275,7 +244,7 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 		return
 	}
 
-	client, d := r.client()
+	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
 		if response.Diagnostics.HasError() {

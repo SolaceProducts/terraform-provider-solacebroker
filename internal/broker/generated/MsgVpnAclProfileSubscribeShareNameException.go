@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -35,6 +35,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "aclProfileName",
 				TerraformName:       "acl_profile_name",
 				MarkdownDescription: "The name of the ACL Profile.",
@@ -45,11 +46,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -60,12 +62,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "subscribeShareNameException",
 				TerraformName:       "subscribe_share_name_exception",
 				MarkdownDescription: "The subscribe share name exception to the default action taken. May include wildcard characters.",
@@ -75,11 +78,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 250),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "subscribeShareNameExceptionSyntax",
 				TerraformName:       "subscribe_share_name_exception_syntax",
 				MarkdownDescription: "The syntax of the subscribe share name for the exception to the default action taken. The allowed values and their meaning are:\n\n<pre>\n\"smf\" - Topic uses SMF syntax.\n\"mqtt\" - Topic uses MQTT syntax.\n</pre>\n",
@@ -89,7 +93,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("smf", "mqtt"),
 				},
 			},

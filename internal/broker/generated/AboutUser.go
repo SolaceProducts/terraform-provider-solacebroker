@@ -19,7 +19,7 @@ package generated
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"terraform-provider-solacebroker/internal/broker"
@@ -34,6 +34,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "globalAccessLevel",
 				TerraformName:       "global_access_level",
 				MarkdownDescription: "The global access level of the User. The allowed values and their meaning are:\n\n<pre>\n\"admin\" - Full administrative access.\n\"none\" - No access.\n\"read-only\" - Read only access.\n\"read-write\" - Read and write access.\n</pre>\n",
@@ -42,11 +43,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("admin", "none", "read-only", "read-write"),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "globalDmrBridgeAccessEnabled",
 				TerraformName:       "global_dmr_bridge_access_enabled",
 				MarkdownDescription: "Indicates whether global DMR Bridge access is enabled for the User. This is only for Solace internal use. This attribute may not be returned in a GET. Available since (hidden in public API).",
@@ -57,6 +59,7 @@ func init() {
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sessionActive",
 				TerraformName:       "session_active",
 				MarkdownDescription: "Indicates whether a session is active for this request. Available since 2.24.",
@@ -67,6 +70,7 @@ func init() {
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "sessionCreateTime",
 				TerraformName:       "session_create_time",
 				MarkdownDescription: "The timestamp of when the session was created. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.",
@@ -75,11 +79,12 @@ func init() {
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(-2147483648, 2147483647),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "sessionCurrentTime",
 				TerraformName:       "session_current_time",
 				MarkdownDescription: "The current server timestamp. This is provided as a reference point for the other timestamps provided. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.",
@@ -88,11 +93,12 @@ func init() {
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(-2147483648, 2147483647),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "sessionHardExpiryTime",
 				TerraformName:       "session_hard_expiry_time",
 				MarkdownDescription: "The hard expiry time for the session. After this time the session will be invalid, regardless of activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.",
@@ -101,11 +107,12 @@ func init() {
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(-2147483648, 2147483647),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "sessionId",
 				TerraformName:       "session_id",
 				MarkdownDescription: "An identifier for the session to differentiate this session from other sessions for the same user. This value is not guaranteed to be unique between active sessions for different users. This attribute may not be returned in a GET. Available since 2.21.",
@@ -114,11 +121,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 56),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "sessionIdleExpiryTime",
 				TerraformName:       "session_idle_expiry_time",
 				MarkdownDescription: "The session idle expiry time. After this time the session will be invalid if there has been no activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.",
@@ -127,11 +135,12 @@ func init() {
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(-2147483648, 2147483647),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "username",
 				TerraformName:       "username",
 				MarkdownDescription: "The username of the User. Available since 2.21.",
@@ -140,7 +149,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},

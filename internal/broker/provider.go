@@ -19,14 +19,13 @@ package broker
 import (
 	"context"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
-	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
+	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
-var _ provider.ProviderWithMetadata = &BrokerProvider{}
+var _ provider.Provider = &BrokerProvider{}
 
 type BrokerProvider struct {
 	Version string
@@ -37,41 +36,43 @@ func (p *BrokerProvider) Metadata(_ context.Context, _ provider.MetadataRequest,
 	response.TypeName = "solacebroker"
 }
 
-func (p *BrokerProvider) GetSchema(context.Context) (tfsdk.Schema, diag.Diagnostics) {
-	return tfsdk.Schema{
-		Attributes: map[string]tfsdk.Attribute{
-			"url": {
-				Type:     types.StringType,
-				Optional: true,
+func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, response *provider.SchemaResponse) {
+	response.Schema = schema.Schema{
+		Attributes: map[string]schema.Attribute{
+			"url": schema.StringAttribute{
+				MarkdownDescription: "The base URL of the broker, for example `https://mybroker.example.org:1943/`.",
+				Optional:            true,
 			},
-			"username": {
-				Type:     types.StringType,
-				Optional: true,
+			"username": schema.StringAttribute{
+				MarkdownDescription: "The username for the broker request.",
+				Optional:            true,
 			},
-			"password": {
-				Type:      types.StringType,
+			"password": schema.StringAttribute{
 				Optional:  true,
 				Sensitive: true,
 			},
-			"bearer_token": {
-				Type:      types.StringType,
+			"bearer_token": schema.StringAttribute{
 				Optional:  true,
 				Sensitive: true,
 			},
-			"retries": {
-				Type:     types.Int64Type,
+			"retries": schema.Int64Attribute{
 				Optional: true,
 			},
-			"retry_wait": {
-				Type:     types.Int64Type,
+			"retry_min_interval": schema.StringAttribute{
 				Optional: true,
 			},
-			"retry_wait_max": {
-				Type:     types.Int64Type,
+			"retry_max_interval": schema.StringAttribute{
+				Optional: true,
+			},
+			"request_timeout_duration": schema.StringAttribute{
+				Optional: true,
+			},
+			"request_min_interval": schema.StringAttribute{
 				Optional: true,
 			},
 		},
-	}, nil
+		MarkdownDescription: "",
+	}
 }
 
 func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
@@ -91,18 +92,20 @@ func (p *BrokerProvider) Resources(context.Context) []func() resource.Resource {
 	return Resources
 }
 
-func (p *BrokerProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
+func (p *BrokerProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return DataSources
 }
 
 type providerData struct {
-	Url          types.String `tfsdk:"url"`
-	Username     types.String `tfsdk:"username"`
-	Password     types.String `tfsdk:"password"`
-	BearerToken  types.String `tfsdk:"bearer_token"`
-	Retries      types.Int64  `tfsdk:"retries"`
-	RetryWait    types.Int64  `tfsdk:"retry_wait"`
-	RetryWaitMax types.Int64  `tfsdk:"retry_wait_max"`
+	Url                    types.String `tfsdk:"url"`
+	Username               types.String `tfsdk:"username"`
+	Password               types.String `tfsdk:"password"`
+	BearerToken            types.String `tfsdk:"bearer_token"`
+	Retries                types.Int64  `tfsdk:"retries"`
+	RetryMinInterval       types.String `tfsdk:"retry_min_interval"`
+	RetryMaxInterval       types.String `tfsdk:"retry_max_interval"`
+	RequestTimeoutDuration types.String `tfsdk:"request_timeout_duration"`
+	RequestMinInterval     types.String `tfsdk:"request_min_interval"`
 }
 
 func New(version string) func() provider.Provider {

@@ -18,10 +18,9 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/schemavalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -37,6 +36,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "bridgeName",
 				TerraformName:       "bridge_name",
 				MarkdownDescription: "The name of the Bridge.",
@@ -47,12 +47,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 150),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[A-Za-z0-9\"~`!\\\\@$%|\\^()_+={}:,.#\\-;\\[\\]]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "bridgeVirtualRouter",
 				TerraformName:       "bridge_virtual_router",
 				MarkdownDescription: "The virtual router of the Bridge. The allowed values and their meaning are:\n\n<pre>\n\"primary\" - The Bridge is used for the primary virtual router.\n\"backup\" - The Bridge is used for the backup virtual router.\n\"auto\" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.\n</pre>\n",
@@ -63,11 +64,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("primary", "backup", "auto"),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "clientUsername",
 				TerraformName:       "client_username",
 				MarkdownDescription: "The Client Username the Bridge uses to login to the remote Message VPN. This per remote Message VPN value overrides the value provided for the Bridge overall. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -75,8 +77,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("password"),
 					),
 					stringvalidator.LengthBetween(0, 189),
@@ -85,6 +87,7 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "compressedDataEnabled",
 				TerraformName:       "compressed_data_enabled",
 				MarkdownDescription: "Enable or disable data compression for the remote Message VPN connection. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -94,30 +97,33 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "connectOrder",
 				TerraformName:       "connect_order",
 				MarkdownDescription: "The preference given to incoming connections from remote Message VPN hosts, from 1 (highest priority) to 4 (lowest priority). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(1, 4),
 				},
 				Default: 4,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "egressFlowWindowSize",
 				TerraformName:       "egress_flow_window_size",
 				MarkdownDescription: "The number of outstanding guaranteed messages that can be transmitted over the remote Message VPN connection before an acknowledgement is received. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 255,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
 				MarkdownDescription: "Enable or disable the remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -127,6 +133,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -137,12 +144,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "password",
 				TerraformName:       "password",
 				MarkdownDescription: "The password for the Client Username. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -151,8 +159,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("client_username"),
 					),
 					stringvalidator.LengthBetween(0, 128),
@@ -160,19 +168,21 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "queueBinding",
 				TerraformName:       "queue_binding",
 				MarkdownDescription: "The queue binding of the Bridge in the remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 200),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?'<>&;]*$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "remoteMsgVpnInterface",
 				TerraformName:       "remote_msg_vpn_interface",
 				MarkdownDescription: "The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remote_msg_vpn_location` must not be a virtual router name.",
@@ -182,11 +192,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 15),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "remoteMsgVpnLocation",
 				TerraformName:       "remote_msg_vpn_location",
 				MarkdownDescription: "The location of the remote Message VPN as either an FQDN with port, IP address with port, or virtual router name (starting with \"v:\").",
@@ -196,12 +207,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 259),
 					stringvalidator.RegexMatches(regexp.MustCompile("^((((([0-9a-zA-Z_\\-\\.])+)|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])((:[0-9]{1,5}){0,1}))|(v:.+))$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "remoteMsgVpnName",
 				TerraformName:       "remote_msg_vpn_name",
 				MarkdownDescription: "The name of the remote Message VPN.",
@@ -211,12 +223,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "tlsEnabled",
 				TerraformName:       "tls_enabled",
 				MarkdownDescription: "Enable or disable encryption (TLS) for the remote Message VPN connection. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -226,13 +239,14 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "unidirectionalClientProfile",
 				TerraformName:       "unidirectional_client_profile",
 				MarkdownDescription: "The Client Profile for the unidirectional Bridge of the remote Message VPN. The Client Profile must exist in the local Message VPN, and it is used only for the TCP parameters. Note that the default client profile has a TCP maximum window size of 2MB. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#client-profile\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^#?[A-Za-z0-9\\-_]+$"), ""),
 				},

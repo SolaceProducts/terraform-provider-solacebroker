@@ -18,10 +18,9 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/schemavalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -37,6 +36,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "cacheName",
 				TerraformName:       "cache_name",
 				MarkdownDescription: "The name of the Distributed Cache.",
@@ -46,12 +46,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 200),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^?* /]*$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "cacheVirtualRouter",
 				TerraformName:       "cache_virtual_router",
 				MarkdownDescription: "The virtual router of the Distributed Cache. The default value is `\"auto\"`. The allowed values and their meaning are:\n\n<pre>\n\"auto\" - The Distributed Cache is automatically assigned a virtual router at creation, depending on the broker's active-standby role.\n</pre>\n Available since 2.28.",
@@ -59,12 +60,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("auto"),
 				},
 				Default: "auto",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
 				MarkdownDescription: "Enable or disable the Distributed Cache. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -74,18 +76,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "heartbeat",
 				TerraformName:       "heartbeat",
 				MarkdownDescription: "The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(3, 60),
 				},
 				Default: 10,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -96,12 +100,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "scheduledDeleteMsgDayList",
 				TerraformName:       "scheduled_delete_msg_day_list",
 				MarkdownDescription: "The scheduled delete message day(s), specified as \"daily\" or a comma-separated list of days. Days must be specified as \"Sun\", \"Mon\", \"Tue\", \"Wed\", \"Thu\", \"Fri\", or \"Sat\", with no spaces, and in sorted order from Sunday to Saturday. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduled_delete_msg_time_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -109,8 +114,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("scheduled_delete_msg_time_list"),
 					),
 					stringvalidator.LengthBetween(0, 100),
@@ -118,6 +123,7 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "scheduledDeleteMsgTimeList",
 				TerraformName:       "scheduled_delete_msg_time_list",
 				MarkdownDescription: "The scheduled delete message time(s), specified as \"hourly\" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string (\"\") can also be specified, indicating no schedule is configured (\"scheduled_delete_msg_day_list\" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -125,8 +131,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("scheduled_delete_msg_day_list"),
 					),
 					stringvalidator.LengthBetween(0, 100),

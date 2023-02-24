@@ -17,11 +17,11 @@
 package generated
 
 import (
+	"github.com/hashicorp/terraform-plugin-framework-validators/boolvalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
-	"github.com/hashicorp/terraform-plugin-framework-validators/schemavalidator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"regexp"
@@ -37,19 +37,21 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "alias",
 				TerraformName:       "alias",
 				MarkdownDescription: "The name of another Message VPN which this Message VPN is an alias for. When this Message VPN is enabled, the alias has no effect. When this Message VPN is disabled, Clients (but not Bridges and routing Links) logging into this Message VPN are automatically logged in to the other Message VPN, and authentication and authorization take place in the context of the other Message VPN.\n\nAliases may form a non-circular chain, cascading one to the next. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since 2.14.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]*$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationBasicEnabled",
 				TerraformName:       "authentication_basic_enabled",
 				MarkdownDescription: "Enable or disable basic authentication for clients connecting to the Message VPN. Basic authentication is authentication that involves the use of a username and password to prove identity. If a user provides credentials for a different authentication scheme, this setting is not applicable. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -59,6 +61,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationBasicProfileName",
 				TerraformName:       "authentication_basic_profile_name",
 				MarkdownDescription: "The name of the RADIUS or LDAP Profile to use for basic authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
@@ -66,8 +69,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("authentication_basic_type"),
 					),
 					stringvalidator.LengthBetween(0, 32),
@@ -76,30 +79,33 @@ func init() {
 				Default: "default",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationBasicRadiusDomain",
 				TerraformName:       "authentication_basic_radius_domain",
 				MarkdownDescription: "The RADIUS domain to use for basic authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 64),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationBasicType",
 				TerraformName:       "authentication_basic_type",
 				MarkdownDescription: "The type of basic authentication to use for clients connecting to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"radius\"`. The allowed values and their meaning are:\n\n<pre>\n\"internal\" - Internal database. Authentication is against Client Usernames.\n\"ldap\" - LDAP authentication. An LDAP profile name must be provided.\n\"radius\" - RADIUS authentication. A RADIUS profile name must be provided.\n\"none\" - No authentication. Anonymous login allowed.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("internal", "ldap", "radius", "none"),
 				},
 				Default: "radius",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationClientCertAllowApiProvidedUsernameEnabled",
 				TerraformName:       "authentication_client_cert_allow_api_provided_username_enabled",
 				MarkdownDescription: "Enable or disable allowing a client to specify a Client Username via the API connect method. When disabled, the certificate CN (Common Name) is always used. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -109,6 +115,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationClientCertCertificateMatchingRulesEnabled",
 				TerraformName:       "authentication_client_cert_certificate_matching_rules_enabled",
 				MarkdownDescription: "Enable or disable certificate matching rules. When disabled, any valid certificate is accepted. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.27.",
@@ -118,6 +125,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationClientCertEnabled",
 				TerraformName:       "authentication_client_cert_enabled",
 				MarkdownDescription: "Enable or disable client certificate authentication in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -127,42 +135,46 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "authenticationClientCertMaxChainDepth",
 				TerraformName:       "authentication_client_cert_max_chain_depth",
 				MarkdownDescription: "The maximum depth for a client certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 8),
 				},
 				Default: 3,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationClientCertRevocationCheckMode",
 				TerraformName:       "authentication_client_cert_revocation_check_mode",
 				MarkdownDescription: "The desired behavior for client certificate revocation checking. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"allow-valid\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow-all\" - Allow the client to authenticate, the result of client certificate revocation check is ignored.\n\"allow-unknown\" - Allow the client to authenticate even if the revocation status of his certificate cannot be determined.\n\"allow-valid\" - Allow the client to authenticate only when the revocation check returned an explicit positive response.\n</pre>\n Available since 2.6.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("allow-all", "allow-unknown", "allow-valid"),
 				},
 				Default: "allow-valid",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationClientCertUsernameSource",
 				TerraformName:       "authentication_client_cert_username_source",
 				MarkdownDescription: "The field from the client certificate to use as the client username. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"common-name\"`. The allowed values and their meaning are:\n\n<pre>\n\"certificate-thumbprint\" - The username is computed as the SHA-1 hash over the entire DER-encoded contents of the client certificate.\n\"common-name\" - The username is extracted from the certificate's first instance of the Common Name attribute in the Subject DN.\n\"common-name-last\" - The username is extracted from the certificate's last instance of the Common Name attribute in the Subject DN.\n\"subject-alternate-name-msupn\" - The username is extracted from the certificate's Other Name type of the Subject Alternative Name and must have the msUPN signature.\n\"uid\" - The username is extracted from the certificate's first instance of the User Identifier attribute in the Subject DN.\n\"uid-last\" - The username is extracted from the certificate's last instance of the User Identifier attribute in the Subject DN.\n</pre>\n Available since 2.6.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("certificate-thumbprint", "common-name", "common-name-last", "subject-alternate-name-msupn", "uid", "uid-last"),
 				},
 				Default: "common-name",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationClientCertValidateDateEnabled",
 				TerraformName:       "authentication_client_cert_validate_date_enabled",
 				MarkdownDescription: "Enable or disable validation of the \"Not Before\" and \"Not After\" validity dates in the client certificate. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -172,6 +184,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationKerberosAllowApiProvidedUsernameEnabled",
 				TerraformName:       "authentication_kerberos_allow_api_provided_username_enabled",
 				MarkdownDescription: "Enable or disable allowing a client to specify a Client Username via the API connect method. When disabled, the Kerberos Principal name is always used. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -181,6 +194,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationKerberosEnabled",
 				TerraformName:       "authentication_kerberos_enabled",
 				MarkdownDescription: "Enable or disable Kerberos authentication in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -190,18 +204,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationOauthDefaultProfileName",
 				TerraformName:       "authentication_oauth_default_profile_name",
 				MarkdownDescription: "The name of the profile to use when the client does not supply a profile name. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since 2.25.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authenticationOauthDefaultProviderName",
 				TerraformName:       "authentication_oauth_default_provider_name",
 				MarkdownDescription: "The name of the provider to use when the client does not supply a provider name. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Deprecated since 2.25. authentication_oauth_default_provider_name and authenticationOauthProviders replaced by authentication_oauth_default_profile_name and authenticationoauth_profiles.",
@@ -209,13 +225,14 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 31),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^~]*$"), ""),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authenticationOauthEnabled",
 				TerraformName:       "authentication_oauth_enabled",
 				MarkdownDescription: "Enable or disable OAuth authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.13.",
@@ -225,18 +242,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authorizationLdapGroupMembershipAttributeName",
 				TerraformName:       "authorization_ldap_group_membership_attribute_name",
 				MarkdownDescription: "The name of the attribute that is retrieved from the LDAP server as part of the LDAP search when authorizing a client connecting to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"memberOf\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 64),
 				},
 				Default: "memberOf",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "authorizationLdapTrimClientUsernameDomainEnabled",
 				TerraformName:       "authorization_ldap_trim_client_username_domain_enabled",
 				MarkdownDescription: "Enable or disable client-username domain trimming for LDAP lookups of client connections. When enabled, the value of $CLIENT_USERNAME (when used for searching) will be truncated at the first occurance of the @ character. For example, if the client-username is in the form of an email address, then the domain portion will be removed. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.13.",
@@ -246,6 +265,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authorizationProfileName",
 				TerraformName:       "authorization_profile_name",
 				MarkdownDescription: "The name of the LDAP Profile to use for client authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -253,8 +273,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("authorization_type"),
 					),
 					stringvalidator.LengthBetween(0, 32),
@@ -263,18 +283,20 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authorizationType",
 				TerraformName:       "authorization_type",
 				MarkdownDescription: "The type of authorization to use for clients connecting to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"internal\"`. The allowed values and their meaning are:\n\n<pre>\n\"ldap\" - LDAP authorization.\n\"internal\" - Internal authorization.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("ldap", "internal"),
 				},
 				Default: "internal",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "bridgingTlsServerCertEnforceTrustedCommonNameEnabled",
 				TerraformName:       "bridging_tls_server_cert_enforce_trusted_common_name_enabled",
 				MarkdownDescription: "Enable or disable validation of the Common Name (CN) in the server certificate from the remote broker. If enabled, the Common Name is checked against the list of Trusted Common Names configured for the Bridge. Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is enabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -285,18 +307,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "bridgingTlsServerCertMaxChainDepth",
 				TerraformName:       "bridging_tls_server_cert_max_chain_depth",
 				MarkdownDescription: "The maximum depth for a server certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 8),
 				},
 				Default: 3,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "bridgingTlsServerCertValidateDateEnabled",
 				TerraformName:       "bridging_tls_server_cert_validate_date_enabled",
 				MarkdownDescription: "Enable or disable validation of the \"Not Before\" and \"Not After\" validity dates in the server certificate. When disabled, a certificate will be accepted even if the certificate is not valid based on these dates. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -306,6 +330,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "bridgingTlsServerCertValidateNameEnabled",
 				TerraformName:       "bridging_tls_server_cert_validate_name_enabled",
 				MarkdownDescription: "Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the bridge. If enabled, the name used to connect to the bridge is checked against the names specified in the certificate returned by the remote router. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since 2.18.",
@@ -315,6 +340,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "distributedCacheManagementEnabled",
 				TerraformName:       "distributed_cache_management_enabled",
 				MarkdownDescription: "Enable or disable managing of cache instances over the message bus. The default value is `true`. Deprecated since 2.28. Distributed cache mangement is now redundancy aware and thus no longer requires administrative intervention for operational state.",
@@ -325,6 +351,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "dmrEnabled",
 				TerraformName:       "dmr_enabled",
 				MarkdownDescription: "Enable or disable Dynamic Message Routing (DMR) for the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.11.",
@@ -334,6 +361,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
 				MarkdownDescription: "Enable or disable the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -343,11 +371,13 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventConnectionCountThreshold",
 				TerraformName:       "event_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -356,18 +386,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -376,18 +407,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -396,18 +428,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -416,12 +449,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -430,11 +463,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventEgressFlowCountThreshold",
 				TerraformName:       "event_egress_flow_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -443,18 +478,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -463,18 +499,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -483,18 +520,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -503,12 +541,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -517,11 +555,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventEgressMsgRateThreshold",
 				TerraformName:       "event_egress_msg_rate_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.",
@@ -529,14 +569,15 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
+							int64validator.Between(0, 4294967295),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.",
@@ -544,21 +585,23 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
+							int64validator.Between(0, 4294967295),
 						},
 					},
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventEndpointCountThreshold",
 				TerraformName:       "event_endpoint_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -567,18 +610,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -587,18 +631,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -607,18 +652,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -627,12 +673,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -641,11 +687,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventIngressFlowCountThreshold",
 				TerraformName:       "event_ingress_flow_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -654,18 +702,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -674,18 +723,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -694,18 +744,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -714,12 +765,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -728,11 +779,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventIngressMsgRateThreshold",
 				TerraformName:       "event_ingress_msg_rate_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.",
@@ -740,14 +793,15 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
+							int64validator.Between(0, 4294967295),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.",
@@ -755,45 +809,49 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
+							int64validator.Between(0, 4294967295),
 						},
 					},
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "eventLargeMsgThreshold",
 				TerraformName:       "event_large_msg_threshold",
 				MarkdownDescription: "The threshold, in kilobytes, after which a message is considered to be large for the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1024`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 4294967295),
 				},
 				Default: 1024,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "eventLogTag",
 				TerraformName:       "event_log_tag",
 				MarkdownDescription: "A prefix applied to all published Events in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventMsgSpoolUsageThreshold",
 				TerraformName:       "event_msg_spool_usage_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -802,18 +860,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -822,18 +881,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -842,18 +902,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -862,12 +923,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -876,6 +937,7 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "eventPublishClientEnabled",
 				TerraformName:       "event_publish_client_enabled",
 				MarkdownDescription: "Enable or disable Client level Event message publishing. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -885,6 +947,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "eventPublishMsgVpnEnabled",
 				TerraformName:       "event_publish_msg_vpn_enabled",
 				MarkdownDescription: "Enable or disable Message VPN level Event message publishing. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -894,18 +957,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "eventPublishSubscriptionMode",
 				TerraformName:       "event_publish_subscription_mode",
 				MarkdownDescription: "Subscription level Event message publishing mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"off\"`. The allowed values and their meaning are:\n\n<pre>\n\"off\" - Disable client level event message publishing.\n\"on-with-format-v1\" - Enable client level event message publishing with format v1.\n\"on-with-no-unsubscribe-events-on-disconnect-format-v1\" - As \"on-with-format-v1\", but unsubscribe events are not generated when a client disconnects. Unsubscribe events are still raised when a client explicitly unsubscribes from its subscriptions.\n\"on-with-format-v2\" - Enable client level event message publishing with format v2.\n\"on-with-no-unsubscribe-events-on-disconnect-format-v2\" - As \"on-with-format-v2\", but unsubscribe events are not generated when a client disconnects. Unsubscribe events are still raised when a client explicitly unsubscribes from its subscriptions.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("off", "on-with-format-v1", "on-with-no-unsubscribe-events-on-disconnect-format-v1", "on-with-format-v2", "on-with-no-unsubscribe-events-on-disconnect-format-v2"),
 				},
 				Default: "off",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "eventPublishTopicFormatMqttEnabled",
 				TerraformName:       "event_publish_topic_format_mqtt_enabled",
 				MarkdownDescription: "Enable or disable Event publish topics in MQTT format. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -913,14 +978,15 @@ func init() {
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				BoolValidators: []validator.Bool{
+					boolvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("event_publish_topic_format_smf_enabled"),
 					),
 				},
 				Default: false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "eventPublishTopicFormatSmfEnabled",
 				TerraformName:       "event_publish_topic_format_smf_enabled",
 				MarkdownDescription: "Enable or disable Event publish topics in SMF format. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -928,19 +994,21 @@ func init() {
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				BoolValidators: []validator.Bool{
+					boolvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("event_publish_topic_format_mqtt_enabled"),
 					),
 				},
 				Default: true,
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventServiceAmqpConnectionCountThreshold",
 				TerraformName:       "event_service_amqp_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -949,18 +1017,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -969,18 +1038,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -989,18 +1059,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1009,12 +1080,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1023,11 +1094,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventServiceMqttConnectionCountThreshold",
 				TerraformName:       "event_service_mqtt_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1036,18 +1109,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1056,18 +1130,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1076,18 +1151,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1096,12 +1172,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1110,11 +1186,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventServiceRestIncomingConnectionCountThreshold",
 				TerraformName:       "event_service_rest_incoming_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1123,18 +1201,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1143,18 +1222,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1163,18 +1243,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1183,12 +1264,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1197,11 +1278,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventServiceSmfConnectionCountThreshold",
 				TerraformName:       "event_service_smf_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1210,18 +1293,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1230,18 +1314,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1250,18 +1335,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1270,12 +1356,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1284,11 +1370,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventServiceWebConnectionCountThreshold",
 				TerraformName:       "event_service_web_connection_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1297,18 +1385,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1317,18 +1406,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1337,18 +1427,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1357,12 +1448,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 200000),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 200000),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1371,11 +1462,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventSubscriptionCountThreshold",
 				TerraformName:       "event_subscription_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1384,18 +1477,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1404,18 +1498,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1424,18 +1519,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1444,12 +1540,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1458,11 +1554,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventTransactedSessionCountThreshold",
 				TerraformName:       "event_transacted_session_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1471,18 +1569,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1491,18 +1590,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1511,18 +1611,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1531,12 +1632,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1545,11 +1646,13 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Struct,
 				SempName:            "eventTransactionCountThreshold",
 				TerraformName:       "event_transaction_count_threshold",
 				MarkdownDescription: "",
 				Attributes: []*broker.AttributeInfo{
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
 						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1558,18 +1661,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "clearValue",
 						TerraformName:       "clear_value",
 						MarkdownDescription: "The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1578,18 +1682,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
 						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1598,18 +1703,19 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 100),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 100),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
 					},
 					{
+						BaseType:            broker.Int64,
 						SempName:            "setValue",
 						TerraformName:       "set_value",
 						MarkdownDescription: "The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
@@ -1618,12 +1724,12 @@ func init() {
 						Type:                types.Int64Type,
 						TerraformType:       tftypes.Number,
 						Converter:           broker.IntegerConverter{},
-						Validators: []tfsdk.AttributeValidator{
-							int64validator.Between(0, 4294967295),
-							schemavalidator.AlsoRequires(
+						Int64Validators: []validator.Int64{
+							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							schemavalidator.ConflictsWith(
+							int64validator.Between(0, 4294967295),
+							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
 							),
@@ -1632,6 +1738,7 @@ func init() {
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "exportSubscriptionsEnabled",
 				TerraformName:       "export_subscriptions_enabled",
 				MarkdownDescription: "Enable or disable the export of subscriptions in the Message VPN to other routers in the network over Neighbor links. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -1641,6 +1748,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "jndiEnabled",
 				TerraformName:       "jndi_enabled",
 				MarkdownDescription: "Enable or disable JNDI access for clients in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.2.",
@@ -1650,110 +1758,120 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxConnectionCount",
 				TerraformName:       "max_connection_count",
 				MarkdownDescription: "The maximum number of client connections to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxEgressFlowCount",
 				TerraformName:       "max_egress_flow_count",
 				MarkdownDescription: "The maximum number of transmit flows that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 				Default: 1000,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxEndpointCount",
 				TerraformName:       "max_endpoint_count",
 				MarkdownDescription: "The maximum number of Queues and Topic Endpoints that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 				Default: 1000,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxIngressFlowCount",
 				TerraformName:       "max_ingress_flow_count",
 				MarkdownDescription: "The maximum number of receive flows that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 1000000),
 				},
 				Default: 1000,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxMsgSpoolUsage",
 				TerraformName:       "max_msg_spool_usage",
 				MarkdownDescription: "The maximum message spool usage by the Message VPN, in megabytes. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 6000000),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxSubscriptionCount",
 				TerraformName:       "max_subscription_count",
 				MarkdownDescription: "The maximum number of local client subscriptions that can be added to the Message VPN. This limit is not enforced when a subscription is added using a management interface, such as CLI or SEMP. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 4294967295),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxTransactedSessionCount",
 				TerraformName:       "max_transacted_session_count",
 				MarkdownDescription: "The maximum number of transacted sessions that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 30000),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "maxTransactionCount",
 				TerraformName:       "max_transaction_count",
 				MarkdownDescription: "The maximum number of transactions that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 50000),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "mqttRetainMaxMemory",
 				TerraformName:       "mqtt_retain_max_memory",
 				MarkdownDescription: "The maximum total memory usage of the MQTT Retain feature for this Message VPN, in MB. If the maximum memory is reached, any arriving retain messages that require more memory are discarded. A value of -1 indicates that the memory is bounded only by the global max memory limit. A value of 0 prevents MQTT Retain from becoming operational. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`. Available since 2.11.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(-1, 2147483647),
 				},
 				Default: -1,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",
@@ -1763,24 +1881,26 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "replicationAckPropagationIntervalMsgCount",
 				TerraformName:       "replication_ack_propagation_interval_msg_count",
 				MarkdownDescription: "The acknowledgement (ACK) propagation interval for the replication Bridge, in number of replicated messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(1, 65535),
 				},
 				Default: 20,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeAuthenticationBasicClientUsername",
 				TerraformName:       "replication_bridge_authentication_basic_client_username",
 				MarkdownDescription: "The Client Username the replication Bridge uses to login to the remote Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
@@ -1788,8 +1908,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("replication_bridge_authentication_basic_password"),
 					),
 					stringvalidator.LengthBetween(0, 189),
@@ -1798,6 +1918,7 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeAuthenticationBasicPassword",
 				TerraformName:       "replication_bridge_authentication_basic_password",
 				MarkdownDescription: "The password for the Client Username. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
@@ -1806,8 +1927,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("replication_bridge_authentication_basic_client_username"),
 					),
 					stringvalidator.LengthBetween(0, 128),
@@ -1815,6 +1936,7 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeAuthenticationClientCertContent",
 				TerraformName:       "replication_bridge_authentication_client_cert_content",
 				MarkdownDescription: "The PEM formatted content for the client certificate used by this bridge to login to the Remote Message VPN. It must consist of a private key and between one and three certificates comprising the certificate trust chain. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changing this attribute requires an HTTPS connection. The default value is `\"\"`. Available since 2.9.",
@@ -1822,12 +1944,13 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 32768),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeAuthenticationClientCertPassword",
 				TerraformName:       "replication_bridge_authentication_client_cert_password",
 				MarkdownDescription: "The password for the client certificate. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changing this attribute requires an HTTPS connection. The default value is `\"\"`. Available since 2.9.",
@@ -1836,8 +1959,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("replication_bridge_authentication_client_cert_content"),
 					),
 					stringvalidator.LengthBetween(0, 32768),
@@ -1845,18 +1968,20 @@ func init() {
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeAuthenticationScheme",
 				TerraformName:       "replication_bridge_authentication_scheme",
 				MarkdownDescription: "The authentication scheme for the replication Bridge in the Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"basic\"`. The allowed values and their meaning are:\n\n<pre>\n\"basic\" - Basic Authentication Scheme (via username and password).\n\"client-certificate\" - Client Certificate Authentication Scheme (via certificate file or content).\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("basic", "client-certificate"),
 				},
 				Default: "basic",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "replicationBridgeCompressedDataEnabled",
 				TerraformName:       "replication_bridge_compressed_data_enabled",
 				MarkdownDescription: "Enable or disable use of compression for the replication Bridge. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",
@@ -1866,30 +1991,33 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "replicationBridgeEgressFlowWindowSize",
 				TerraformName:       "replication_bridge_egress_flow_window_size",
 				MarkdownDescription: "The size of the window used for guaranteed messages published to the replication Bridge, in messages. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 255,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "replicationBridgeRetryDelay",
 				TerraformName:       "replication_bridge_retry_delay",
 				MarkdownDescription: "The number of seconds that must pass before retrying the replication Bridge connection. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 255),
 				},
 				Default: 3,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "replicationBridgeTlsEnabled",
 				TerraformName:       "replication_bridge_tls_enabled",
 				MarkdownDescription: "Enable or disable use of encryption (TLS) for the replication Bridge connection. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",
@@ -1899,19 +2027,21 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationBridgeUnidirectionalClientProfileName",
 				TerraformName:       "replication_bridge_unidirectional_client_profile_name",
 				MarkdownDescription: "The Client Profile for the unidirectional replication Bridge in the Message VPN. It is used only for the TCP parameters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#client-profile\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^#?[A-Za-z0-9\\-_]+$"), ""),
 				},
 				Default: "#client-profile",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "replicationEnabled",
 				TerraformName:       "replication_enabled",
 				MarkdownDescription: "Enable or disable replication for the Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.",
@@ -1921,6 +2051,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationEnabledQueueBehavior",
 				TerraformName:       "replication_enabled_queue_behavior",
 				MarkdownDescription: "The behavior to take when enabling replication for the Message VPN, depending on the existence of the replication Queue. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"fail-on-existing-queue\"`. The allowed values and their meaning are:\n\n<pre>\n\"fail-on-existing-queue\" - The data replication queue must not already exist.\n\"force-use-existing-queue\" - The data replication queue must already exist. Any data messages on the Queue will be forwarded to interested applications. IMPORTANT: Before using this mode be certain that the messages are not stale or otherwise unsuitable to be forwarded. This mode can only be specified when the existing queue is configured the same as is currently specified under replication configuration otherwise the enabling of replication will fail.\n\"force-recreate-queue\" - The data replication queue must already exist. Any data messages on the Queue will be discarded. IMPORTANT: Before using this mode be certain that the messages on the existing data replication queue are not needed by interested applications.\n</pre>\n",
@@ -1929,8 +2060,8 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
-					schemavalidator.AlsoRequires(
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("replication_enabled"),
 					),
 					stringvalidator.OneOf("fail-on-existing-queue", "force-use-existing-queue", "force-recreate-queue"),
@@ -1938,18 +2069,20 @@ func init() {
 				Default: "fail-on-existing-queue",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "replicationQueueMaxMsgSpoolUsage",
 				TerraformName:       "replication_queue_max_msg_spool_usage",
 				MarkdownDescription: "The maximum message spool usage by the replication Bridge local Queue (quota), in megabytes. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60000`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(1, 6000000),
 				},
 				Default: 60000,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "replicationQueueRejectMsgToSenderOnDiscardEnabled",
 				TerraformName:       "replication_queue_reject_msg_to_sender_on_discard_enabled",
 				MarkdownDescription: "Enable or disable whether messages discarded on the replication Bridge local Queue are rejected back to the sender. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -1959,6 +2092,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "replicationRejectMsgWhenSyncIneligibleEnabled",
 				TerraformName:       "replication_reject_msg_when_sync_ineligible_enabled",
 				MarkdownDescription: "Enable or disable whether guaranteed messages published to synchronously replicated Topics are rejected back to the sender when synchronous replication becomes ineligible. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -1968,30 +2102,33 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationRole",
 				TerraformName:       "replication_role",
 				MarkdownDescription: "The replication role for the Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"standby\"`. The allowed values and their meaning are:\n\n<pre>\n\"active\" - Assume the Active role in replication for the Message VPN.\n\"standby\" - Assume the Standby role in replication for the Message VPN.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("active", "standby"),
 				},
 				Default: "standby",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "replicationTransactionMode",
 				TerraformName:       "replication_transaction_mode",
 				MarkdownDescription: "The transaction replication mode for all transactions within the Message VPN. Changing this value during operation will not affect existing transactions; it is only used upon starting a transaction. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"async\"`. The allowed values and their meaning are:\n\n<pre>\n\"sync\" - Messages are acknowledged when replicated (spooled remotely).\n\"async\" - Messages are acknowledged when pending replication (spooled locally).\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("sync", "async"),
 				},
 				Default: "async",
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "restTlsServerCertEnforceTrustedCommonNameEnabled",
 				TerraformName:       "rest_tls_server_cert_enforce_trusted_common_name_enabled",
 				MarkdownDescription: "Enable or disable validation of the Common Name (CN) in the server certificate from the remote REST Consumer. If enabled, the Common Name is checked against the list of Trusted Common Names configured for the REST Consumer. Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is enabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.",
@@ -2002,18 +2139,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "restTlsServerCertMaxChainDepth",
 				TerraformName:       "rest_tls_server_cert_max_chain_depth",
 				MarkdownDescription: "The maximum depth for a REST Consumer server certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 8),
 				},
 				Default: 3,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "restTlsServerCertValidateDateEnabled",
 				TerraformName:       "rest_tls_server_cert_validate_date_enabled",
 				MarkdownDescription: "Enable or disable validation of the \"Not Before\" and \"Not After\" validity dates in the REST Consumer server certificate. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2023,6 +2162,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "restTlsServerCertValidateNameEnabled",
 				TerraformName:       "rest_tls_server_cert_validate_name_enabled",
 				MarkdownDescription: "Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the remote REST Consumer. If enabled, the name used to connect to the remote REST Consumer is checked against the names specified in the certificate returned by the remote router. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since 2.17.",
@@ -2032,6 +2172,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sempOverMsgBusAdminClientEnabled",
 				TerraformName:       "semp_over_msg_bus_admin_client_enabled",
 				MarkdownDescription: "Enable or disable \"admin client\" SEMP over the message bus commands for the current Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2041,6 +2182,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sempOverMsgBusAdminDistributedCacheEnabled",
 				TerraformName:       "semp_over_msg_bus_admin_distributed_cache_enabled",
 				MarkdownDescription: "Enable or disable \"admin distributed-cache\" SEMP over the message bus commands for the current Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2050,6 +2192,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sempOverMsgBusAdminEnabled",
 				TerraformName:       "semp_over_msg_bus_admin_enabled",
 				MarkdownDescription: "Enable or disable \"admin\" SEMP over the message bus commands for the current Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2059,6 +2202,7 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sempOverMsgBusEnabled",
 				TerraformName:       "semp_over_msg_bus_enabled",
 				MarkdownDescription: "Enable or disable SEMP over the message bus for the current Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2068,6 +2212,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "sempOverMsgBusShowEnabled",
 				TerraformName:       "semp_over_msg_bus_show_enabled",
 				MarkdownDescription: "Enable or disable \"show\" SEMP over the message bus commands for the current Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2077,17 +2222,19 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceAmqpMaxConnectionCount",
 				TerraformName:       "service_amqp_max_connection_count",
 				MarkdownDescription: "The maximum number of AMQP client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since 2.7.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceAmqpPlainTextEnabled",
 				TerraformName:       "service_amqp_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the plain-text AMQP service in the Message VPN. Disabling causes clients connected to the corresponding listen-port to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.7.",
@@ -2097,18 +2244,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceAmqpPlainTextListenPort",
 				TerraformName:       "service_amqp_plain_text_listen_port",
 				MarkdownDescription: "The port number for plain-text AMQP clients that connect to the Message VPN. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.7.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceAmqpTlsEnabled",
 				TerraformName:       "service_amqp_tls_enabled",
 				MarkdownDescription: "Enable or disable the use of encryption (TLS) for the AMQP service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.7.",
@@ -2118,41 +2267,45 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceAmqpTlsListenPort",
 				TerraformName:       "service_amqp_tls_listen_port",
 				MarkdownDescription: "The port number for AMQP clients that connect to the Message VPN over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.7.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "serviceMqttAuthenticationClientCertRequest",
 				TerraformName:       "service_mqtt_authentication_client_cert_request",
 				MarkdownDescription: "Determines when to request a client certificate from an incoming MQTT client connecting via a TLS port. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"when-enabled-in-message-vpn\"`. The allowed values and their meaning are:\n\n<pre>\n\"always\" - Always ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"never\" - Never ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"when-enabled-in-message-vpn\" - Only ask for a client-certificate if client certificate authentication is enabled under \"message-vpn >  authentication > client-certificate > shutdown\".\n</pre>\n Available since 2.21.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("always", "never", "when-enabled-in-message-vpn"),
 				},
 				Default: "when-enabled-in-message-vpn",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceMqttMaxConnectionCount",
 				TerraformName:       "service_mqtt_max_connection_count",
 				MarkdownDescription: "The maximum number of MQTT client connections that can be simultaneously connected to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since 2.1.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceMqttPlainTextEnabled",
 				TerraformName:       "service_mqtt_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the plain-text MQTT service in the Message VPN. Disabling causes clients currently connected to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.1.",
@@ -2162,18 +2315,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceMqttPlainTextListenPort",
 				TerraformName:       "service_mqtt_plain_text_listen_port",
 				MarkdownDescription: "The port number for plain-text MQTT clients that connect to the Message VPN. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.1.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceMqttTlsEnabled",
 				TerraformName:       "service_mqtt_tls_enabled",
 				MarkdownDescription: "Enable or disable the use of encryption (TLS) for the MQTT service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.1.",
@@ -2183,18 +2338,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceMqttTlsListenPort",
 				TerraformName:       "service_mqtt_tls_listen_port",
 				MarkdownDescription: "The port number for MQTT clients that connect to the Message VPN over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.1.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceMqttTlsWebSocketEnabled",
 				TerraformName:       "service_mqtt_tls_web_socket_enabled",
 				MarkdownDescription: "Enable or disable the use of encrypted WebSocket (WebSocket over TLS) for the MQTT service in the Message VPN. Disabling causes clients currently connected by encrypted WebSocket to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.1.",
@@ -2204,18 +2361,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceMqttTlsWebSocketListenPort",
 				TerraformName:       "service_mqtt_tls_web_socket_listen_port",
 				MarkdownDescription: "The port number for MQTT clients that connect to the Message VPN using WebSocket over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.1.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceMqttWebSocketEnabled",
 				TerraformName:       "service_mqtt_web_socket_enabled",
 				MarkdownDescription: "Enable or disable the use of WebSocket for the MQTT service in the Message VPN. Disabling causes clients currently connected by WebSocket to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.1.",
@@ -2225,53 +2384,58 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceMqttWebSocketListenPort",
 				TerraformName:       "service_mqtt_web_socket_listen_port",
 				MarkdownDescription: "The port number for plain-text MQTT clients that connect to the Message VPN using WebSocket. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.1.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "serviceRestIncomingAuthenticationClientCertRequest",
 				TerraformName:       "service_rest_incoming_authentication_client_cert_request",
 				MarkdownDescription: "Determines when to request a client certificate from an incoming REST Producer connecting via a TLS port. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"when-enabled-in-message-vpn\"`. The allowed values and their meaning are:\n\n<pre>\n\"always\" - Always ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"never\" - Never ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"when-enabled-in-message-vpn\" - Only ask for a client-certificate if client certificate authentication is enabled under \"message-vpn >  authentication > client-certificate > shutdown\".\n</pre>\n Available since 2.21.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("always", "never", "when-enabled-in-message-vpn"),
 				},
 				Default: "when-enabled-in-message-vpn",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "serviceRestIncomingAuthorizationHeaderHandling",
 				TerraformName:       "service_rest_incoming_authorization_header_handling",
 				MarkdownDescription: "The handling of Authorization headers for incoming REST connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"drop\"`. The allowed values and their meaning are:\n\n<pre>\n\"drop\" - Do not attach the Authorization header to the message as a user property. This configuration is most secure.\n\"forward\" - Forward the Authorization header, attaching it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n\"legacy\" - If the Authorization header was used for authentication to the broker, do not attach it to the message. If the Authorization header was not used for authentication to the broker, attach it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n</pre>\n Available since 2.19.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("drop", "forward", "legacy"),
 				},
 				Default: "drop",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceRestIncomingMaxConnectionCount",
 				TerraformName:       "service_rest_incoming_max_connection_count",
 				MarkdownDescription: "The maximum number of REST incoming client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceRestIncomingPlainTextEnabled",
 				TerraformName:       "service_rest_incoming_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the plain-text REST service for incoming clients in the Message VPN. Disabling causes clients currently connected to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2281,18 +2445,20 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceRestIncomingPlainTextListenPort",
 				TerraformName:       "service_rest_incoming_plain_text_listen_port",
 				MarkdownDescription: "The port number for incoming plain-text REST clients that connect to the Message VPN. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_rest_incoming_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceRestIncomingTlsEnabled",
 				TerraformName:       "service_rest_incoming_tls_enabled",
 				MarkdownDescription: "Enable or disable the use of encryption (TLS) for the REST service for incoming clients in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
@@ -2302,52 +2468,57 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceRestIncomingTlsListenPort",
 				TerraformName:       "service_rest_incoming_tls_listen_port",
 				MarkdownDescription: "The port number for incoming REST clients that connect to the Message VPN over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_rest_incoming_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 65535),
 				},
 				Default: 0,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "serviceRestMode",
 				TerraformName:       "service_rest_mode",
 				MarkdownDescription: "The REST service mode for incoming REST clients that connect to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"messaging\"`. The allowed values and their meaning are:\n\n<pre>\n\"gateway\" - Act as a message gateway through which REST messages are propagated.\n\"messaging\" - Act as a message broker on which REST messages are queued.\n</pre>\n Available since 2.6.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("gateway", "messaging"),
 				},
 				Default: "messaging",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceRestOutgoingMaxConnectionCount",
 				TerraformName:       "service_rest_outgoing_max_connection_count",
 				MarkdownDescription: "The maximum number of REST Consumer (outgoing) client connections that can be simultaneously connected to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 6000),
 				},
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceSmfMaxConnectionCount",
 				TerraformName:       "service_smf_max_connection_count",
 				MarkdownDescription: "The maximum number of SMF client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceSmfPlainTextEnabled",
 				TerraformName:       "service_smf_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the plain-text SMF service in the Message VPN. Disabling causes clients currently connected to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2357,6 +2528,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceSmfTlsEnabled",
 				TerraformName:       "service_smf_tls_enabled",
 				MarkdownDescription: "Enable or disable the use of encryption (TLS) for the SMF service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2366,29 +2538,32 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "serviceWebAuthenticationClientCertRequest",
 				TerraformName:       "service_web_authentication_client_cert_request",
 				MarkdownDescription: "Determines when to request a client certificate from a Web Transport client connecting via a TLS port. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"when-enabled-in-message-vpn\"`. The allowed values and their meaning are:\n\n<pre>\n\"always\" - Always ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"never\" - Never ask for a client certificate regardless of the \"message-vpn > authentication > client-certificate > shutdown\" configuration.\n\"when-enabled-in-message-vpn\" - Only ask for a client-certificate if client certificate authentication is enabled under \"message-vpn >  authentication > client-certificate > shutdown\".\n</pre>\n Available since 2.21.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.OneOf("always", "never", "when-enabled-in-message-vpn"),
 				},
 				Default: "when-enabled-in-message-vpn",
 			},
 			{
+				BaseType:            broker.Int64,
 				SempName:            "serviceWebMaxConnectionCount",
 				TerraformName:       "service_web_max_connection_count",
 				MarkdownDescription: "The maximum number of Web Transport client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
-				Validators: []tfsdk.AttributeValidator{
+				Int64Validators: []validator.Int64{
 					int64validator.Between(0, 200000),
 				},
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceWebPlainTextEnabled",
 				TerraformName:       "service_web_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the plain-text Web Transport service in the Message VPN. Disabling causes clients currently connected to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2398,6 +2573,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "serviceWebTlsEnabled",
 				TerraformName:       "service_web_tls_enabled",
 				MarkdownDescription: "Enable or disable the use of TLS for the Web Transport service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
@@ -2407,6 +2583,7 @@ func init() {
 				Default:             true,
 			},
 			{
+				BaseType:            broker.Bool,
 				SempName:            "tlsAllowDowngradeToPlainTextEnabled",
 				TerraformName:       "tls_allow_downgrade_to_plain_text_enabled",
 				MarkdownDescription: "Enable or disable the allowing of TLS SMF clients to downgrade their connections to plain-text connections. Changing this will not affect existing connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",

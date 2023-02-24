@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"terraform-provider-solacebroker/internal/broker"
@@ -33,6 +33,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "authorizationParameterName",
 				TerraformName:       "authorization_parameter_name",
 				MarkdownDescription: "The name of the authorization parameter.",
@@ -42,23 +43,25 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "authorizationParameterValue",
 				TerraformName:       "authorization_parameter_value",
 				MarkdownDescription: "The authorization parameter value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 255),
 				},
 				Default: "",
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "oauthProfileName",
 				TerraformName:       "oauth_profile_name",
 				MarkdownDescription: "The name of the OAuth profile.",
@@ -69,7 +72,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},

@@ -18,7 +18,7 @@ package generated
 
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
-	"github.com/hashicorp/terraform-plugin-framework/tfsdk"
+	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"terraform-provider-solacebroker/internal/broker"
@@ -34,6 +34,7 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
 				SempName:            "oauthProfileName",
 				TerraformName:       "oauth_profile_name",
 				MarkdownDescription: "The name of the OAuth profile.",
@@ -44,11 +45,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "resourceServerRequiredClaimName",
 				TerraformName:       "resource_server_required_claim_name",
 				MarkdownDescription: "The name of the access token claim to verify.",
@@ -58,11 +60,12 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 100),
 				},
 			},
 			{
+				BaseType:            broker.String,
 				SempName:            "resourceServerRequiredClaimValue",
 				TerraformName:       "resource_server_required_claim_value",
 				MarkdownDescription: "The required claim value, which must be a string containing a valid JSON value.",
@@ -71,7 +74,7 @@ func init() {
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Validators: []tfsdk.AttributeValidator{
+				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 200),
 				},
 			},

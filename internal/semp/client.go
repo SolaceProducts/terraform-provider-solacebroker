@@ -29,12 +29,16 @@ import (
 
 type Client struct {
 	*http.Client
-	url          string
-	username     string
-	password     string
-	retries      uint
-	retryWait    time.Duration
-	retryWaitMax time.Duration
+	url                    string
+	username               string
+	password               string
+	bearerToken            string
+	retries                uint
+	retryMinInterval       time.Duration
+	retryMaxInterval       time.Duration
+	requestTimeoutDuration time.Duration
+	requestMinInterval     time.Duration
+	rateLimiter            <-chan time.Time
 }
 
 type Option func(*Client)
@@ -46,11 +50,24 @@ func BasicAuth(username, password string) Option {
 	}
 }
 
-func Retries(numRetries uint, retryWait, retryWaitMax time.Duration) Option {
+func BearerToken(bearerToken string) Option {
+	return func(client *Client) {
+		client.bearerToken = bearerToken
+	}
+}
+
+func Retries(numRetries uint, retryMinInterval, retryMaxInterval time.Duration) Option {
 	return func(client *Client) {
 		client.retries = numRetries
-		client.retryWait = retryWait
-		client.retryWaitMax = retryWaitMax
+		client.retryMinInterval = retryMinInterval
+		client.retryMaxInterval = retryMaxInterval
+	}
+}
+
+func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Option {
+	return func(client *Client) {
+		client.requestTimeoutDuration = requestTimeoutDuration
+		client.requestMinInterval = requestMinInterval
 	}
 }
 
@@ -60,14 +77,23 @@ func NewClient(url string, options ...Option) *Client {
 	}
 	url += "SEMP/v2/config"
 	client := &Client{
-		Client:       http.DefaultClient,
-		url:          url,
-		retries:      3,
-		retryWait:    time.Second,
-		retryWaitMax: time.Second * 10,
+		Client:           http.DefaultClient,
+		url:              url,
+		retries:          3,
+		retryMinInterval: time.Second,
+		retryMaxInterval: time.Second * 10,
 	}
 	for _, o := range options {
 		o(client)
+	}
+	if client.requestMinInterval > 0 {
+		client.rateLimiter = time.Tick(client.requestMinInterval)
+	} else {
+		ch := make(chan time.Time)
+		// closing the channel will make receiving from the channel non-blocking (the value received will be the
+		//  zero value)
+		close(ch)
+		client.rateLimiter = ch
 	}
 	return client
 }
@@ -86,12 +112,14 @@ func (c *Client) RequestWithBody(method, url string, body any) (map[string]any, 
 }
 
 func (c *Client) doRequest(request *http.Request) (map[string]any, error) {
+	// the value doesn't matter, it is waiting for the value that matters
+	<-c.rateLimiter
 	if request.Method != http.MethodGet {
 		request.Header.Set("Content-Type", "application/json")
 	}
 	request.SetBasicAuth(c.username, c.password)
 	attemptsRemaining := c.retries + 1
-	retryWait := c.retryWait
+	retryWait := c.retryMinInterval
 	var response *http.Response
 	var err error
 loop:
@@ -112,8 +140,8 @@ loop:
 		}
 		time.Sleep(retryWait)
 		retryWait *= 2
-		if retryWait > c.retryWaitMax {
-			retryWait = c.retryWaitMax
+		if retryWait > c.retryMaxInterval {
+			retryWait = c.retryMaxInterval
 		}
 		attemptsRemaining--
 	}
