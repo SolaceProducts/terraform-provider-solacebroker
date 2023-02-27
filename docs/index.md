@@ -19,8 +19,10 @@ description: |-
 
 - `bearer_token` (String, Sensitive)
 - `password` (String, Sensitive)
+- `request_min_interval` (String)
+- `request_timeout_duration` (String)
 - `retries` (Number)
-- `retry_wait` (Number)
-- `retry_wait_max` (Number)
-- `url` (String)
-- `username` (String)
+- `retry_max_interval` (String)
+- `retry_min_interval` (String)
+- `url` (String) The base URL of the broker, for example `https://mybroker.example.org:1943/`.
+- `username` (String) The username for the broker request.
