@@ -29,16 +29,15 @@ import (
 
 type Client struct {
 	*http.Client
-	url                    string
-	username               string
-	password               string
-	bearerToken            string
-	retries                uint
-	retryMinInterval       time.Duration
-	retryMaxInterval       time.Duration
-	requestTimeoutDuration time.Duration
-	requestMinInterval     time.Duration
-	rateLimiter            <-chan time.Time
+	url                string
+	username           string
+	password           string
+	bearerToken        string
+	retries            uint
+	retryMinInterval   time.Duration
+	retryMaxInterval   time.Duration
+	requestMinInterval time.Duration
+	rateLimiter        <-chan time.Time
 }
 
 type Option func(*Client)
@@ -66,7 +65,7 @@ func Retries(numRetries uint, retryMinInterval, retryMaxInterval time.Duration) 
 
 func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Option {
 	return func(client *Client) {
-		client.requestTimeoutDuration = requestTimeoutDuration
+		client.Client.Timeout = requestTimeoutDuration
 		client.requestMinInterval = requestMinInterval
 	}
 }
@@ -132,8 +131,11 @@ loop:
 			case http.StatusOK:
 				break loop
 			case http.StatusTooManyRequests:
+				// ignore the too many requests body and any errors that happen while reading it
+				_, _ = io.ReadAll(response.Body)
 				// just continue
 			default:
+				// ignore errors while reading the error response body
 				body, _ := io.ReadAll(response.Body)
 				return nil, fmt.Errorf("unexpected status %v (%v) during %v to %v, body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, body)
 			}
