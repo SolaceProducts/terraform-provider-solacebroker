@@ -19,5 +19,5 @@
 package main
 
 func debugRun(debugRun, address string) {
-	panic("not implemented")
+	// panic("not implemented")
 }
