@@ -46,10 +46,12 @@ jobs:
 
       - name: Generate provider code
         run: |
+          SWAGGER_SPEC_NAME=`ls ci/swagger_spec`
+          echo "Generating code using spec $SWAGGER_SPEC_NAME"
           BASE=`pwd`
           pushd internal/broker/generated
           rm ./*
-          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/semp-v2-swagger-config-extended.json" ~/go/bin/broker-terraform-provider-generator all
+          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
           popd
 
       - name: Build provider
