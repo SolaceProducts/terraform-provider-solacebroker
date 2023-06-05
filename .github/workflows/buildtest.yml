@@ -135,11 +135,11 @@ jobs:
           committer_email: actions@github.com
           message: 'Updating generated source [skip ci]'
           add: 'internal/broker/generated/*.go'
-          new_branch: 'GeneratedSourceUpdates-${{ GITHUB_REF_NAME }}'
+          new_branch: GeneratedSourceUpdates-${{ GITHUB_REF_NAME }}
 
       - name: Create pull request
         run: |
           CURRENT_BRANCH=${GITHUB_REF_NAME}
-          gh pr create -B ${CURRENT_BRANCH} -H 'GeneratedSourceUpdates-${{ GITHUB_REF_NAME }}' --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
+          gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
