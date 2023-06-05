@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "broker",
-		MarkdownDescription: "This object contains global configuration for the message broker.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ntls_server_cert_content||x||x\ntls_server_cert_password||x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation. Requests which include the following attributes require greater access scope/level:\n\n\nAttribute|Access Scope/Level\n:---|:---:\nconfig_sync_authentication_client_cert_max_chain_depth|global/read-only\nconfig_sync_authentication_client_cert_validate_date_enabled|global/read-only\nconfig_sync_client_profile_tcp_initial_congestion_window|global/read-only\nconfig_sync_client_profile_tcp_keepalive_count|global/read-only\nconfig_sync_client_profile_tcp_keepalive_idle|global/read-only\nconfig_sync_client_profile_tcp_keepalive_interval|global/read-only\nconfig_sync_client_profile_tcp_max_window|global/read-only\nconfig_sync_client_profile_tcp_mss|global/read-only\nconfig_sync_enabled|global/read-only\nconfig_sync_synchronize_username_enabled|global/read-only\nconfig_sync_tls_enabled|global/read-only\nguaranteed_msging_defragmentation_schedule_day_list|global/read-only\nguaranteed_msging_defragmentation_schedule_enabled|global/read-only\nguaranteed_msging_defragmentation_schedule_time_list|global/read-only\nguaranteed_msging_defragmentation_threshold_enabled|global/read-only\nguaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only\nguaranteed_msging_defragmentation_threshold_min_interval|global/read-only\nguaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only\nguaranteed_msging_enabled|global/read-only\nguaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only\nguaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_cache_usage_threshold.set_value|global/read-only\nguaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only\nguaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only\nguaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only\nguaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only\nguaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.set_value|global/read-only\nguaranteed_msging_max_cache_usage|global/read-only\nguaranteed_msging_max_msg_spool_usage|global/read-only\nguaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only\nguaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only\nguaranteed_msging_transaction_replication_compatibility_mode|global/read-only\noauth_profile_default|global/read-only\nservice_amqp_enabled|global/read-only\nservice_amqp_tls_listen_port|global/read-only\nservice_event_connection_count_threshold.clear_percent|global/read-only\nservice_event_connection_count_threshold.clear_value|global/read-only\nservice_event_connection_count_threshold.set_percent|global/read-only\nservice_event_connection_count_threshold.set_value|global/read-only\nservice_health_check_enabled|global/read-only\nservice_health_check_listen_port|global/read-only\nservice_mate_link_enabled|global/read-only\nservice_mate_link_listen_port|global/read-only\nservice_mqtt_enabled|global/read-only\nservice_msg_backbone_enabled|global/read-only\nservice_redundancy_enabled|global/read-only\nservice_redundancy_first_listen_port|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.set_value|global/read-only\nservice_rest_incoming_enabled|global/read-only\nservice_rest_outgoing_enabled|global/read-only\nservice_semp_cors_allow_any_host_enabled|global/read-only\nservice_semp_legacy_timeout_enabled|global/read-only\nservice_semp_plain_text_enabled|global/read-only\nservice_semp_plain_text_listen_port|global/read-only\nservice_semp_session_idle_timeout|global/read-only\nservice_semp_session_max_lifetime|global/read-only\nservice_semp_tls_enabled|global/read-only\nservice_semp_tls_listen_port|global/read-only\nservice_smf_compression_listen_port|global/read-only\nservice_smf_enabled|global/read-only\nservice_smf_event_connection_count_threshold.clear_percent|global/read-only\nservice_smf_event_connection_count_threshold.clear_value|global/read-only\nservice_smf_event_connection_count_threshold.set_percent|global/read-only\nservice_smf_event_connection_count_threshold.set_value|global/read-only\nservice_smf_plain_text_listen_port|global/read-only\nservice_smf_routing_control_listen_port|global/read-only\nservice_smf_tls_listen_port|global/read-only\nservice_tls_event_connection_count_threshold.clear_percent|global/read-only\nservice_tls_event_connection_count_threshold.clear_value|global/read-only\nservice_tls_event_connection_count_threshold.set_percent|global/read-only\nservice_tls_event_connection_count_threshold.set_value|global/read-only\nservice_web_transport_enabled|global/read-only\nservice_web_transport_plain_text_listen_port|global/read-only\nservice_web_transport_tls_listen_port|global/read-only\nservice_web_transport_web_url_suffix|global/read-only\ntls_block_version11_enabled|global/read-only\ntls_cipher_suite_management_list|global/read-only\ntls_cipher_suite_msg_backbone_list|global/read-only\ntls_cipher_suite_secure_shell_list|global/read-only\ntls_crime_exploit_protection_enabled|global/read-only\ntls_server_cert_content|global/read-only\ntls_standard_domain_certificate_authorities_enabled|vpn/read-only\ntls_ticket_lifetime|global/read-only\nweb_manager_allow_unencrypted_wizards_enabled|vpn/read-only\nweb_manager_customization|vpn/read-only\nweb_manager_redirect_http_enabled|vpn/read-only\nweb_manager_redirect_http_override_tls_port|vpn/read-only\n\n\n\nThis has been available since 2.13.",
+		MarkdownDescription: "This object contains global configuration for the message broker.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ntls_server_cert_content||x||x\ntls_server_cert_password||x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation. Requests which include the following attributes require greater access scope/level:\n\n\nAttribute|Access Scope/Level\n:---|:---:\nconfig_sync_authentication_client_cert_max_chain_depth|global/read-only\nconfig_sync_authentication_client_cert_validate_date_enabled|global/read-only\nconfig_sync_client_profile_tcp_initial_congestion_window|global/read-only\nconfig_sync_client_profile_tcp_keepalive_count|global/read-only\nconfig_sync_client_profile_tcp_keepalive_idle|global/read-only\nconfig_sync_client_profile_tcp_keepalive_interval|global/read-only\nconfig_sync_client_profile_tcp_max_window|global/read-only\nconfig_sync_client_profile_tcp_mss|global/read-only\nconfig_sync_enabled|global/read-only\nconfig_sync_synchronize_username_enabled|global/read-only\nconfig_sync_tls_enabled|global/read-only\nguaranteed_msging_defragmentation_schedule_day_list|global/read-only\nguaranteed_msging_defragmentation_schedule_enabled|global/read-only\nguaranteed_msging_defragmentation_schedule_time_list|global/read-only\nguaranteed_msging_defragmentation_threshold_enabled|global/read-only\nguaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only\nguaranteed_msging_defragmentation_threshold_min_interval|global/read-only\nguaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only\nguaranteed_msging_enabled|global/read-only\nguaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only\nguaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_cache_usage_threshold.set_value|global/read-only\nguaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only\nguaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only\nguaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only\nguaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only\nguaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only\nguaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only\nguaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only\nguaranteed_msging_event_transaction_count_threshold.set_value|global/read-only\nguaranteed_msging_max_cache_usage|global/read-only\nguaranteed_msging_max_msg_spool_usage|global/read-only\nguaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only\nguaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only\nguaranteed_msging_transaction_replication_compatibility_mode|global/read-only\noauth_profile_default|global/read-only\nservice_amqp_enabled|global/read-only\nservice_amqp_tls_listen_port|global/read-only\nservice_event_connection_count_threshold.clear_percent|global/read-only\nservice_event_connection_count_threshold.clear_value|global/read-only\nservice_event_connection_count_threshold.set_percent|global/read-only\nservice_event_connection_count_threshold.set_value|global/read-only\nservice_health_check_enabled|global/read-only\nservice_health_check_listen_port|global/read-only\nservice_health_check_tls_enabled|global/read-only\nservice_health_check_tls_listen_port|global/read-only\nservice_mate_link_enabled|global/read-only\nservice_mate_link_listen_port|global/read-only\nservice_mqtt_enabled|global/read-only\nservice_msg_backbone_enabled|global/read-only\nservice_redundancy_enabled|global/read-only\nservice_redundancy_first_listen_port|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only\nservice_rest_event_outgoing_connection_count_threshold.set_value|global/read-only\nservice_rest_incoming_enabled|global/read-only\nservice_rest_outgoing_enabled|global/read-only\nservice_semp_cors_allow_any_host_enabled|global/read-only\nservice_semp_legacy_timeout_enabled|global/read-only\nservice_semp_plain_text_enabled|global/read-only\nservice_semp_plain_text_listen_port|global/read-only\nservice_semp_session_idle_timeout|global/read-only\nservice_semp_session_max_lifetime|global/read-only\nservice_semp_tls_enabled|global/read-only\nservice_semp_tls_listen_port|global/read-only\nservice_smf_compression_listen_port|global/read-only\nservice_smf_enabled|global/read-only\nservice_smf_event_connection_count_threshold.clear_percent|global/read-only\nservice_smf_event_connection_count_threshold.clear_value|global/read-only\nservice_smf_event_connection_count_threshold.set_percent|global/read-only\nservice_smf_event_connection_count_threshold.set_value|global/read-only\nservice_smf_plain_text_listen_port|global/read-only\nservice_smf_routing_control_listen_port|global/read-only\nservice_smf_tls_listen_port|global/read-only\nservice_tls_event_connection_count_threshold.clear_percent|global/read-only\nservice_tls_event_connection_count_threshold.clear_value|global/read-only\nservice_tls_event_connection_count_threshold.set_percent|global/read-only\nservice_tls_event_connection_count_threshold.set_value|global/read-only\nservice_web_transport_enabled|global/read-only\nservice_web_transport_plain_text_listen_port|global/read-only\nservice_web_transport_tls_listen_port|global/read-only\nservice_web_transport_web_url_suffix|global/read-only\ntls_block_version11_enabled|global/read-only\ntls_cipher_suite_management_list|global/read-only\ntls_cipher_suite_msg_backbone_list|global/read-only\ntls_cipher_suite_secure_shell_list|global/read-only\ntls_crime_exploit_protection_enabled|global/read-only\ntls_server_cert_content|global/read-only\ntls_standard_domain_certificate_authorities_enabled|vpn/read-only\ntls_ticket_lifetime|global/read-only\nweb_manager_allow_unencrypted_wizards_enabled|vpn/read-only\nweb_manager_customization|vpn/read-only\nweb_manager_redirect_http_enabled|vpn/read-only\nweb_manager_redirect_http_override_tls_port|vpn/read-only\n\n\n\nThis has been available since 2.13.",
 		ObjectType:          broker.SingletonObject,
 		PathTemplate:        "/",
 		Version:             0,
@@ -126,7 +126,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "configSyncClientProfileTcpMaxWindow",
 				TerraformName:       "config_sync_client_profile_tcp_max_window",
-				MarkdownDescription: "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. The default value is `256`. Available since 2.22.",
+				MarkdownDescription: "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. The default value is `256`. Available since 2.22.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -299,6 +299,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -341,6 +342,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -386,6 +388,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -402,6 +405,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 80,
 					},
 				},
 			},
@@ -426,6 +430,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -442,6 +447,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 80,
 					},
 				},
 			},
@@ -471,6 +477,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -513,6 +520,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -563,6 +571,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -605,6 +614,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -655,6 +665,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -697,6 +708,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -742,6 +754,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -758,6 +771,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 80,
 					},
 				},
 			},
@@ -782,6 +796,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -798,6 +813,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 80,
 					},
 				},
 			},
@@ -827,6 +843,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -869,6 +886,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -919,6 +937,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -961,6 +980,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1006,6 +1026,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1022,6 +1043,7 @@ func init() {
 							),
 							int64validator.Between(0, 100),
 						},
+						Default: 80,
 					},
 				},
 			},
@@ -1051,6 +1073,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1093,6 +1116,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1244,6 +1268,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1286,6 +1311,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1314,7 +1340,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "serviceHealthCheckEnabled",
 				TerraformName:       "service_health_check_enabled",
-				MarkdownDescription: "Enable or disable the health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.",
+				MarkdownDescription: "Enable or disable the plain-text health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.17.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
@@ -1324,7 +1350,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "serviceHealthCheckListenPort",
 				TerraformName:       "service_health_check_listen_port",
-				MarkdownDescription: "The port number for the health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since 2.17.",
+				MarkdownDescription: "The port number for the plain-text health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since 2.17.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
@@ -1332,6 +1358,29 @@ func init() {
 					int64validator.Between(1, 65535),
 				},
 				Default: 5550,
+			},
+			{
+				BaseType:            broker.Bool,
+				SempName:            "serviceHealthCheckTlsEnabled",
+				TerraformName:       "service_health_check_tls_enabled",
+				MarkdownDescription: "Enable or disable the TLS health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.34.",
+				Type:                types.BoolType,
+				TerraformType:       tftypes.Bool,
+				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
+				Default:             false,
+			},
+			{
+				BaseType:            broker.Int64,
+				SempName:            "serviceHealthCheckTlsListenPort",
+				TerraformName:       "service_health_check_tls_listen_port",
+				MarkdownDescription: "The port number for the TLS health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since 2.34.",
+				Type:                types.Int64Type,
+				TerraformType:       tftypes.Number,
+				Converter:           broker.IntegerConverter{},
+				Int64Validators: []validator.Int64{
+					int64validator.Between(0, 65535),
+				},
+				Default: 0,
 			},
 			{
 				BaseType:            broker.Bool,
@@ -1395,7 +1444,7 @@ func init() {
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
 				Int64Validators: []validator.Int64{
-					int64validator.Between(1, 65535),
+					int64validator.Between(1, 65533),
 				},
 				Default: 8300,
 			},
@@ -1425,6 +1474,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1467,6 +1517,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1652,6 +1703,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1694,6 +1746,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1783,6 +1836,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1825,6 +1879,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1985,7 +2040,7 @@ func init() {
 					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("tls_server_cert_content"),
 					),
-					stringvalidator.LengthBetween(0, 32768),
+					stringvalidator.LengthBetween(0, 512),
 				},
 				Default: "",
 			},
