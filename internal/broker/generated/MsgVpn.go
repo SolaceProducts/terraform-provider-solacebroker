@@ -396,6 +396,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -438,6 +439,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -488,6 +490,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -530,6 +533,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -575,6 +579,7 @@ func init() {
 							),
 							int64validator.Between(0, 4294967295),
 						},
+						Default: 3e+06,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -591,6 +596,7 @@ func init() {
 							),
 							int64validator.Between(0, 4294967295),
 						},
+						Default: 4e+06,
 					},
 				},
 			},
@@ -620,6 +626,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -662,6 +669,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -712,6 +720,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -754,6 +763,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -799,6 +809,7 @@ func init() {
 							),
 							int64validator.Between(0, 4294967295),
 						},
+						Default: 3e+06,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -815,6 +826,7 @@ func init() {
 							),
 							int64validator.Between(0, 4294967295),
 						},
+						Default: 4e+06,
 					},
 				},
 			},
@@ -870,6 +882,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -912,6 +925,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1027,6 +1041,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1069,6 +1084,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1119,6 +1135,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1161,6 +1178,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1211,6 +1229,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1253,6 +1272,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1303,6 +1323,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1345,6 +1366,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1395,6 +1417,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1437,6 +1460,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1487,6 +1511,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1529,6 +1554,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1579,6 +1605,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1621,6 +1648,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1671,6 +1699,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1713,6 +1742,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1963,7 +1993,7 @@ func init() {
 					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("replication_bridge_authentication_client_cert_content"),
 					),
-					stringvalidator.LengthBetween(0, 32768),
+					stringvalidator.LengthBetween(0, 512),
 				},
 				Default: "",
 			},

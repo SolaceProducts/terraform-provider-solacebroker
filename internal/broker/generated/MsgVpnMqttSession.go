@@ -155,6 +155,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -197,6 +198,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -341,6 +343,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -383,6 +386,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,

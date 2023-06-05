@@ -59,7 +59,7 @@ func init() {
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
-					stringvalidator.LengthBetween(0, 256),
+					stringvalidator.LengthBetween(0, 200),
 				},
 				Default: "",
 			},

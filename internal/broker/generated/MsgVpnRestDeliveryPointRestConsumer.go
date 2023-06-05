@@ -117,7 +117,7 @@ func init() {
 					stringvalidator.AlsoRequires(
 						path.MatchRelative().AtParent().AtName("authentication_client_cert_content"),
 					),
-					stringvalidator.LengthBetween(0, 32768),
+					stringvalidator.LengthBetween(0, 512),
 				},
 				Default: "",
 			},

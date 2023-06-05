@@ -306,6 +306,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -348,6 +349,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -398,6 +400,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -440,6 +443,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -490,6 +494,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -532,6 +537,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -582,6 +588,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -624,6 +631,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -674,6 +682,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -716,6 +725,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -766,6 +776,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -808,6 +819,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -858,6 +870,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -900,6 +913,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -950,6 +964,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -992,6 +1007,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1042,6 +1058,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 60,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1084,6 +1101,7 @@ func init() {
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
 						},
+						Default: 80,
 					},
 					{
 						BaseType:            broker.Int64,
@@ -1518,7 +1536,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "tcpMaxWindowSize",
 				TerraformName:       "tcp_max_window_size",
-				MarkdownDescription: "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.",
+				MarkdownDescription: "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
