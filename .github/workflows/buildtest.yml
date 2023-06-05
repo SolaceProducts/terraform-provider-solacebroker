@@ -135,7 +135,7 @@ jobs:
           committer_email: actions@github.com
           message: 'Updating generated source [skip ci]'
           add: 'internal/broker/generated/*.go'
-          new_branch: GeneratedSourceUpdates-${{ GITHUB_REF_NAME }}
+          new_branch: GeneratedSourceUpdates-${{ env.GITHUB_REF_NAME }}
 
       - name: Create pull request
         run: |
