@@ -21,6 +21,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"regexp"
 	"terraform-provider-solacebroker/internal/broker"
 )
 
@@ -47,6 +48,7 @@ func init() {
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 64),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[A-Za-z0-9_\\-.]+$"), ""),
 				},
 			},
 			{

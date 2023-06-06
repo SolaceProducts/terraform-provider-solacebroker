@@ -22,6 +22,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"regexp"
 	"terraform-provider-solacebroker/internal/broker"
 )
 
@@ -50,7 +51,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "accessLevelGroupsClaimStringFormat",
 				TerraformName:       "access_level_groups_claim_string_format",
-				MarkdownDescription: "The format of the access level groups claim value when it is a string. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"single\"`. The allowed values and their meaning are:\n\n<pre>\n\"single\" - When the claim is a string, it is interpreted as a single group.\n\"space-delimited\" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the \"scope\" claim.\n</pre>\n Available since 2.32.",
+				MarkdownDescription: "The format of the access level groups claim value when it is a string. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"single\"`. The allowed values and their meaning are:\n\n<pre>\n\"single\" - When the claim is a string, it is interpreted as as single group.\n\"space-delimited\" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the \"scope\" claim.\n</pre>\n Available since 2.32.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -389,6 +390,7 @@ func init() {
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 32),
+					stringvalidator.RegexMatches(regexp.MustCompile("^[A-Za-z0-9_]+$"), ""),
 				},
 			},
 			{
