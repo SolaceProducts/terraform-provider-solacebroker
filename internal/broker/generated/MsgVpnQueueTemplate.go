@@ -52,7 +52,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "consumerAckPropagationEnabled",
 				TerraformName:       "consumer_ack_propagation_enabled",
-				MarkdownDescription: "Enable or disable the propagation of consumer acknowledgements (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
+				MarkdownDescription: "Enable or disable the propagation of consumer acknowledgments (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
@@ -140,7 +140,7 @@ func init() {
 							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							int64validator.Between(0, 4294967295),
+							int64validator.Between(0, 10000),
 							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
@@ -183,7 +183,7 @@ func init() {
 							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							int64validator.Between(0, 4294967295),
+							int64validator.Between(0, 10000),
 							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
@@ -234,7 +234,7 @@ func init() {
 							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("set_value"),
 							),
-							int64validator.Between(0, 4294967295),
+							int64validator.Between(0, 6000000),
 							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
@@ -277,7 +277,7 @@ func init() {
 							int64validator.AlsoRequires(
 								path.MatchRelative().AtParent().AtName("clear_value"),
 							),
-							int64validator.Between(0, 4294967295),
+							int64validator.Between(0, 6000000),
 							int64validator.ConflictsWith(
 								path.MatchRelative().AtParent().AtName("clear_percent"),
 								path.MatchRelative().AtParent().AtName("set_percent"),
@@ -492,7 +492,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "queueNameFilter",
 				TerraformName:       "queue_name_filter",
-				MarkdownDescription: "A wildcardable pattern used to determine which Queues use settings from this Template. Two different wildcards are supported: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "A pattern used to determine which Queues use settings from this Template. Two different wildcards can be used in the pattern: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -603,12 +603,12 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "rejectMsgToSenderOnDiscardBehavior",
 				TerraformName:       "reject_msg_to_sender_on_discard_behavior",
-				MarkdownDescription: "Determines when to return negative acknowledgements (NACKs) to sending clients on message discards. Note that NACKs prevent the message from being delivered to any destination and Transacted Session commits to fail. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as reject_low_priority_msg_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"when-queue-enabled\"`. The allowed values and their meaning are:\n\n<pre>\n\"always\" - Always return a negative acknowledgment (NACK) to the sending client on message discard.\n\"when-queue-enabled\" - Only return a negative acknowledgment (NACK) to the sending client on message discard when the Queue is enabled.\n\"never\" - Never return a negative acknowledgment (NACK) to the sending client on message discard.\n</pre>\n",
+				MarkdownDescription: "Determines when to return negative acknowledgments (NACKs) to sending clients on message discards. Note that NACKs prevent the message from being delivered to any destination and Transacted Session commits to fail. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"when-queue-enabled\"`. The allowed values and their meaning are:\n\n<pre>\n\"never\" - Silently discard messages.\n\"when-queue-enabled\" - NACK each message discard back to the client, except messages that are discarded because an endpoint is administratively disabled.\n\"always\" - NACK each message discard back to the client, including messages that are discarded because an endpoint is administratively disabled.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
-					stringvalidator.OneOf("always", "when-queue-enabled", "never"),
+					stringvalidator.OneOf("never", "when-queue-enabled", "always"),
 				},
 				Default: "when-queue-enabled",
 			},
