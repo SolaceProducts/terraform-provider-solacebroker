@@ -62,7 +62,7 @@ func resolveSempPath(pathTemplate string, attributes []*AttributeInfo, v tftypes
 func stringWithDefaultFromEnv(value types.String, name string) (string, error) {
 	if value.IsUnknown() {
 		// Cannot connect to client with an unknown value
-		return "", fmt.Errorf("Cannot use unknown value as %v", name)
+		return "", fmt.Errorf("cannot use unknown value as %v", name)
 	}
 
 	var s string
@@ -78,7 +78,7 @@ func stringWithDefaultFromEnv(value types.String, name string) (string, error) {
 func int64WithDefaultFromEnv(value types.Int64, name string, def int64) (int64, error) {
 	if value.IsUnknown() {
 		// Cannot connect to client with an unknown value
-		return 0, fmt.Errorf("Cannot use unknown value as %v", name)
+		return 0, fmt.Errorf("cannot use unknown value as %v", name)
 	}
 
 	if !value.IsNull() {
@@ -96,7 +96,7 @@ func int64WithDefaultFromEnv(value types.Int64, name string, def int64) (int64, 
 func durationWithDefaultFromEnv(value types.String, name string, def time.Duration) (time.Duration, error) {
 	if value.IsUnknown() {
 		// Cannot connect to client with an unknown value
-		return 0, fmt.Errorf("Cannot use unknown value as %v", name)
+		return 0, fmt.Errorf("cannot use unknown value as %v", name)
 	}
 
 	var s string

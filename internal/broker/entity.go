@@ -70,14 +70,11 @@ func copyMatchingFields(prefix string, in reflect.Value, out reflect.Value) {
 						iIn := vIn.Interface()
 						tvIn := reflect.TypeOf(iIn)
 						tvOut := resourceToDataSourceTypes[tvIn]
-						if tvOut == nil {
-						}
 						vOut := reflect.New(tvOut).Elem()
 						copyMatchingFields(fmt.Sprintf("%v.%v", prefix, k), reflect.ValueOf(iIn), vOut)
 						fOut.SetMapIndex(k, vOut)
 
 					}
-				} else {
 				}
 			}
 		}
