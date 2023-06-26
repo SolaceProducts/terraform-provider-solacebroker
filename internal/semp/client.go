@@ -18,6 +18,7 @@ package semp
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -97,12 +98,12 @@ func NewClient(url string, options ...Option) *Client {
 	return client
 }
 
-func (c *Client) RequestWithBody(method, url string, body any) (map[string]any, error) {
+func (c *Client) RequestWithBody(ctx context.Context, method, url string, body any) (map[string]any, error) {
 	data, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
-	request, err := http.NewRequest(method, c.url+url, bytes.NewBuffer(data))
+	request, err := http.NewRequestWithContext(ctx, method, c.url+url, bytes.NewBuffer(data))
 	if err != nil {
 		return nil, err
 	}
@@ -170,8 +171,8 @@ loop:
 	return data, nil
 }
 
-func (c *Client) RequestWithoutBody(method, url string) (map[string]interface{}, error) {
-	request, err := http.NewRequest(method, c.url+url, nil)
+func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (map[string]interface{}, error) {
+	request, err := http.NewRequestWithContext(ctx, method, c.url+url, nil)
 	if err != nil {
 		return nil, err
 	}

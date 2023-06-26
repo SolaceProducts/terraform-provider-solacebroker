@@ -20,13 +20,14 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"net/http"
+	"net/url"
+	"strings"
+
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
-	"net/http"
-	"net/url"
-	"strings"
 )
 
 const (
@@ -92,15 +93,15 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 	return tftypes.NewValue(response.Type(), responseValues), nil
 }
 
-func (r *brokerResource) Schema(ctx context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
+func (r *brokerResource) Schema(_ context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
 	response.Schema = r.schema
 }
 
-func (r *brokerResource) Metadata(ctx context.Context, request resource.MetadataRequest, response *resource.MetadataResponse) {
+func (r *brokerResource) Metadata(_ context.Context, request resource.MetadataRequest, response *resource.MetadataResponse) {
 	response.TypeName = request.ProviderTypeName + "_" + r.terraformName
 }
 
-func (r *brokerResource) Configure(ctx context.Context, request resource.ConfigureRequest, response *resource.ConfigureResponse) {
+func (r *brokerResource) Configure(_ context.Context, request resource.ConfigureRequest, response *resource.ConfigureResponse) {
 	if request.ProviderData == nil {
 		return
 	}
@@ -152,7 +153,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(method, path, sempData)
+	_, err = client.RequestWithBody(ctx, method, path, sempData)
 	if err != nil {
 		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
 		return
@@ -176,7 +177,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
 		return
 	}
-	sempData, err := client.RequestWithoutBody(http.MethodGet, path)
+	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
 		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
 		return
@@ -228,7 +229,7 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	if r.objectType == SingletonObject {
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(method, path, sempData)
+	_, err = client.RequestWithBody(ctx, method, path, sempData)
 	if err != nil {
 		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
 		return
@@ -257,14 +258,14 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
 		return
 	}
-	_, err = client.RequestWithoutBody(http.MethodDelete, path)
+	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
 		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
 		return
 	}
 }
 
-func (r *brokerResource) ImportState(ctx context.Context, request resource.ImportStateRequest, response *resource.ImportStateResponse) {
+func (r *brokerResource) ImportState(_ context.Context, request resource.ImportStateRequest, response *resource.ImportStateResponse) {
 
 	if len(r.identifyingAttributes) == 0 {
 		if request.ID != "" {
@@ -307,6 +308,6 @@ func (r *brokerResource) generateIdentifierDiagnostic(id string) diag.Diagnostic
 		fmt.Errorf("invalid identifier %v, identifier must be of the form %v with each segment URL-encoded as necessary", id, strings.Join(identifiers, "/")))
 }
 
-func (r *brokerResource) ConfigValidators(ctx context.Context) []resource.ConfigValidator {
+func (r *brokerResource) ConfigValidators(_ context.Context) []resource.ConfigValidator {
 	return nil
 }

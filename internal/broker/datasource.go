@@ -19,10 +19,11 @@ package broker
 import (
 	"context"
 	"fmt"
+	"net/http"
+
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"net/http"
 )
 
 func newBrokerDataSource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -67,7 +68,7 @@ func (ds *brokerDataSource) Configure(_ context.Context, request datasource.Conf
 	ds.providerData = config
 }
 
-func (ds *brokerDataSource) Read(_ context.Context, request datasource.ReadRequest, response *datasource.ReadResponse) {
+func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadRequest, response *datasource.ReadResponse) {
 	client, d := client(ds.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
@@ -81,7 +82,7 @@ func (ds *brokerDataSource) Read(_ context.Context, request datasource.ReadReque
 		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
 		return
 	}
-	sempData, err := client.RequestWithoutBody(http.MethodGet, path)
+	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
 		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
 		return

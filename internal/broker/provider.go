@@ -18,6 +18,7 @@ package broker
 
 import (
 	"context"
+
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -88,7 +89,7 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	resp.DataSourceData = &config
 }
 
-func (p *BrokerProvider) Resources(context.Context) []func() resource.Resource {
+func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {
 	return Resources
 }
 

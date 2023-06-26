@@ -179,6 +179,7 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 			pathTemplate:          inputs.PathTemplate,
 			postPathTemplate:      inputs.PostPathTemplate,
 			terraformName:         inputs.TerraformName,
+			objectType:            inputs.ObjectType,
 			identifyingAttributes: identifyingAttributes,
 			attributes:            inputs.Attributes,
 			converter:             NewObjectConverter(inputs.TerraformName, inputs.Attributes),
