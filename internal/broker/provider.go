@@ -18,13 +18,18 @@ package broker
 
 import (
 	"context"
+	"fmt"
+	"net/http"
 
+	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
+
+const minRequiredBrokerSempApiVersion = "2.33"  // Shipped with broker version 10.3
 
 var _ provider.Provider = &BrokerProvider{}
 
@@ -82,6 +87,32 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	diags := req.Config.Get(ctx, &config)
 	resp.Diagnostics.Append(diags...)
 	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	client, d := client(&config)
+	if d != nil {
+		resp.Diagnostics.Append(d)
+		if resp.Diagnostics.HasError() {
+			return
+		}
+	}
+
+	path := "/about/api"
+	result, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
+	if err != nil {
+		resp.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		return
+	}
+	brokerSempVersion, err := version.NewVersion(result["sempVersion"].(string))
+	if err != nil {
+		resp.Diagnostics = generateDiagnostics("Unable to parse SEMP version returned from \"/about/api\"", err)
+		return
+	}
+	minSempVersion, _ := version.NewVersion(minRequiredBrokerSempApiVersion)
+	if brokerSempVersion.LessThan(minSempVersion) {
+		err := fmt.Errorf("BrokerSempVersion %s is less than required %s", brokerSempVersion, minSempVersion)
+		resp.Diagnostics = generateDiagnostics("Broker does not meet minimum SEMP API version", err)
 		return
 	}
 
