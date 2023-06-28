@@ -88,6 +88,12 @@ jobs:
           sleep 1
           # Delete
           terraform destroy -auto-approve
+          sleep 1
+          # import
+          terraform apply -auto-approve
+          sleep 1
+          rm terraform.tfstate*
+          terraform import solacebroker_msg_vpn.newone new
           popd
 
       - name: Check changed files
