@@ -19,6 +19,13 @@ jobs:
       - name: Set up Terraform latest
         uses: hashicorp/setup-terraform@v2
 
+      - name: Setup test broker
+        run: |
+          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
+            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
+          while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
+
       - name: Use local provider
         run: |
           echo "
@@ -65,41 +72,7 @@ jobs:
           pushd ci/broker_vpn_q
           terraform plan
           popd
-
-      - name: Create k8s Kind Cluster
-        uses: helm/kind-action@v1.3.0
-
-      - name: Broker operator deployment
-        run: |
-          kubectl cluster-info
-          kubectl get pods -n kube-system
-          echo "current-context:" $(kubectl config current-context)
-          echo "environment-kubeconfig:" ${KUBECONFIG}
-          kubectl apply -f https://raw.githubusercontent.com/SolaceProducts/pubsubplus-kubernetes-quickstart/main/deploy/deploy.yaml
-          kubectl rollout status deployment pubsubplus-eventbroker-operator -n pubsubplus-operator-system --timeout=30s
-          kubectl get crd | grep eventbrokers
-
-      - name: Setup test broker
-        run: |
-          kubectl create secret generic adminpw-secret --from-literal=username_admin_password=admin
-          echo "
-          apiVersion: pubsubplus.solace.com/v1beta1
-          kind: PubSubPlusEventBroker
-          metadata:
-            name: test-broker
-          spec:
-            developer: true
-            image:
-              tag: "10.4.0.23"
-            adminCredentialsSecret: adminpw-secret" > developer.yaml
-          # Then apply it
-          kubectl apply -f developer.yaml | grep "test-broker created"
-          sleep 5 ; kubectl get all
-          kubectl wait pods --selector app.kubernetes.io/instance=test-broker --for condition=Ready --timeout=120s
-          kubectl get po --show-labels | grep test-broker | grep "1/1"
-          kubectl get po --show-labels | grep test-broker | grep active=true
-          kubectl get sts | grep test-broker
-          kubectl port-forward svc/test-broker-pubsubplus 8080:8080 &
+          
 
       - name: Test provider on test broker
         run: |
@@ -115,6 +88,12 @@ jobs:
           sleep 1
           # Delete
           terraform destroy -auto-approve
+          sleep 1
+          # import
+          terraform apply -auto-approve
+          sleep 1
+          rm terraform.tfstate*
+          terraform import solacebroker_msg_vpn.newone new
           popd
 
       - name: Check changed files
