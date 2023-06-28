@@ -19,6 +19,13 @@ jobs:
       - name: Set up Terraform latest
         uses: hashicorp/setup-terraform@v2
 
+      - name: Setup test broker
+        run: |
+          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
+            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
+          while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
+
       - name: Use local provider
         run: |
           echo "
@@ -65,13 +72,6 @@ jobs:
           pushd ci/broker_vpn_q
           terraform plan
           popd
-
-      - name: Setup test broker
-        run: |
-          mkdir -p $HOME/solace; chmod 777 $HOME/solace
-          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
-          while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
           
 
       - name: Test provider on test broker
