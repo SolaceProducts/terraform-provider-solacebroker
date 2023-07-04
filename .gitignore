@@ -5,3 +5,6 @@
 build
 terraform.tfstate
 terraform.tfstate.backup
+.vscode
+examples
+__debug*
