@@ -176,7 +176,7 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-
+	url = getFullSempAPIURL(url)
 	client := semp.NewClient(
 		url,
 		insecure_skip_verify,
@@ -185,4 +185,15 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),
 		semp.RequestLimits(requestTimeoutDuration, requestMinInterval))
 	return client, nil
+}
+
+func getFullSempAPIURL(url string) string {
+	baseBath := SempDetail.BasePath
+	if strings.HasSuffix(url, "/") {
+		url = url[:len(url)-1]
+	}
+	if strings.HasPrefix(baseBath, "/") {
+		baseBath = baseBath[1:]
+	}
+	return url + "/" + baseBath
 }

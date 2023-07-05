@@ -19,17 +19,16 @@ package broker
 import (
 	"context"
 	"fmt"
-	"net/http"
-
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"net/http"
 )
 
-const minRequiredBrokerSempApiVersion = "2.33"  // Shipped with broker version 10.3
+const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
 
 var _ provider.Provider = &BrokerProvider{}
 
@@ -122,6 +121,10 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 	resp.ResourceData = &config
 	resp.DataSourceData = &config
+}
+
+func (p *BrokerProvider) SempVersionDetails() SempVersionDetail {
+	return SempDetail
 }
 
 func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {

@@ -42,6 +42,15 @@ func RegisterResource(inputs EntityInputs) {
 	Resources = append(Resources, newBrokerResourceGenerator(inputs))
 }
 
+var SempDetail SempVersionDetail
+
+func RegisterSempVersionDetails(sempAPIBasePath string, sempVersion string) {
+	SempDetail = SempVersionDetail{
+		BasePath: sempAPIBasePath,
+		Version:  sempVersion,
+	}
+}
+
 func addObjectConverters(attributes []*AttributeInfo) {
 	for _, attr := range attributes {
 		// if it is an object, we need to add a converter for it (simple attributes will already have converters)

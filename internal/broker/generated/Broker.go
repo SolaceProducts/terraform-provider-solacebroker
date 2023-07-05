@@ -1596,19 +1596,6 @@ func init() {
 			},
 			{
 				BaseType:            broker.Int64,
-				SempName:            "serviceSempPlainTextListenPort",
-				TerraformName:       "service_semp_plain_text_listen_port",
-				MarkdownDescription: "The TCP port for plain-text SEMP client connections. This attribute cannot be cannot be changed while service_semp_plain_text_enabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`. Available since 2.17.",
-				Type:                types.Int64Type,
-				TerraformType:       tftypes.Number,
-				Converter:           broker.IntegerConverter{},
-				Int64Validators: []validator.Int64{
-					int64validator.Between(1, 65535),
-				},
-				Default: 80,
-			},
-			{
-				BaseType:            broker.Int64,
 				SempName:            "serviceSempSessionIdleTimeout",
 				TerraformName:       "service_semp_session_idle_timeout",
 				MarkdownDescription: "The session idle timeout, in minutes. Sessions will be invalidated if there is no activity in this period of time. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since 2.21.",
@@ -1642,19 +1629,6 @@ func init() {
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
 				Default:             true,
-			},
-			{
-				BaseType:            broker.Int64,
-				SempName:            "serviceSempTlsListenPort",
-				TerraformName:       "service_semp_tls_listen_port",
-				MarkdownDescription: "The TCP port for TLS SEMP client connections. This attribute cannot be cannot be changed while service_semp_tls_enabled are set to true. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1943`. Available since 2.17.",
-				Type:                types.Int64Type,
-				TerraformType:       tftypes.Number,
-				Converter:           broker.IntegerConverter{},
-				Int64Validators: []validator.Int64{
-					int64validator.Between(1, 65535),
-				},
-				Default: 1943,
 			},
 			{
 				BaseType:            broker.Int64,

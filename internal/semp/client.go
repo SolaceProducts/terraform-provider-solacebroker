@@ -25,7 +25,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -73,10 +72,6 @@ func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Opt
 }
 
 func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client {
-	if !strings.HasSuffix(url, "/") {
-		url += "/"
-	}
-	url += "SEMP/v2/config"
 	customTransport := &(*http.DefaultTransport.(*http.Transport)) // make shallow copy
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: insecure_skip_verify}
 	client := &Client{
