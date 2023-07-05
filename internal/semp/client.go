@@ -24,7 +24,6 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 )
 
@@ -72,10 +71,6 @@ func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Opt
 }
 
 func NewClient(url string, options ...Option) *Client {
-	if !strings.HasSuffix(url, "/") {
-		url += "/"
-	}
-	url += "SEMP/v2/config"
 	client := &Client{
 		Client:           http.DefaultClient,
 		url:              url,
