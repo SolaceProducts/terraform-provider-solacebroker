@@ -28,7 +28,7 @@ import (
 	"net/http"
 )
 
-const minRequiredBrokerSempApiVersion = "0.2.33" // Shipped with broker version 10.3
+const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
 
 var _ provider.Provider = &BrokerProvider{}
 
