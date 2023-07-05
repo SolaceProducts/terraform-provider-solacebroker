@@ -125,7 +125,7 @@ func durationWithDefaultFromEnv(value types.String, name string, def time.Durati
 	if s == "" {
 		return def, nil
 	}
-
+	// Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h"
 	d, err := time.ParseDuration(s)
 	if err != nil {
 		return 0, fmt.Errorf("%v is not valid; %q cannot be parsed as a duration: %w", name, s, err)
