@@ -19,6 +19,7 @@ package semp
 import (
 	"bytes"
 	"context"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -70,9 +71,13 @@ func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Opt
 	}
 }
 
-func NewClient(url string, options ...Option) *Client {
+func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client {
+	customTransport := &(*http.DefaultTransport.(*http.Transport)) // make shallow copy
+	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: insecure_skip_verify}
 	client := &Client{
-		Client:           http.DefaultClient,
+		Client:             &http.Client{
+			Transport: customTransport,
+		},
 		url:              url,
 		retries:          3,
 		retryMinInterval: time.Second,
@@ -90,6 +95,7 @@ func NewClient(url string, options ...Option) *Client {
 		close(ch)
 		client.rateLimiter = ch
 	}
+
 	return client
 }
 
@@ -112,7 +118,15 @@ func (c *Client) doRequest(request *http.Request) (map[string]any, error) {
 	if request.Method != http.MethodGet {
 		request.Header.Set("Content-Type", "application/json")
 	}
-	request.SetBasicAuth(c.username, c.password)
+	// Prefer OAuth even if Basic Auth credentials provided
+	if c.bearerToken != "" {
+		// TODO: add log
+		request.Header.Set("Authorization", "Bearer " + c.bearerToken)
+	} else if c.username != "" {
+		request.SetBasicAuth(c.username, c.password)
+	} else {
+		return nil, fmt.Errorf("either username or bearer token must be provided to access the broker")
+  }
 	attemptsRemaining := c.retries + 1
 	retryWait := c.retryMinInterval
 	var response *http.Response

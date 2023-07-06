@@ -75,6 +75,10 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 			"request_min_interval": schema.StringAttribute{
 				Optional: true,
 			},
+			"insecure_skip_verify": schema.BoolAttribute{
+				MarkdownDescription: "Accept/Ignore self-signed server SSL certificates",
+				Optional: true,
+			},
 		},
 		MarkdownDescription: "",
 	}
@@ -141,6 +145,7 @@ type providerData struct {
 	RetryMaxInterval       types.String `tfsdk:"retry_max_interval"`
 	RequestTimeoutDuration types.String `tfsdk:"request_timeout_duration"`
 	RequestMinInterval     types.String `tfsdk:"request_min_interval"`
+	InsecureSkipVerify		 types.Bool   `tfsdk:"insecure_skip_verify"`
 }
 
 func New(version string) func() provider.Provider {
