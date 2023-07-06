@@ -19,17 +19,16 @@ package broker
 import (
 	"context"
 	"fmt"
-	"net/http"
-
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"net/http"
 )
 
-const minRequiredBrokerSempApiVersion = "2.33"  // Shipped with broker version 10.3
+const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
 
 var _ provider.Provider = &BrokerProvider{}
 
@@ -76,6 +75,10 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 			"request_min_interval": schema.StringAttribute{
 				Optional: true,
 			},
+			"insecure_skip_verify": schema.BoolAttribute{
+				MarkdownDescription: "Accept/Ignore self-signed server SSL certificates",
+				Optional: true,
+			},
 		},
 		MarkdownDescription: "",
 	}
@@ -120,6 +123,10 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	resp.DataSourceData = &config
 }
 
+func (p *BrokerProvider) SempVersionDetails() SempVersionDetail {
+	return SempDetail
+}
+
 func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {
 	return Resources
 }
@@ -138,6 +145,7 @@ type providerData struct {
 	RetryMaxInterval       types.String `tfsdk:"retry_max_interval"`
 	RequestTimeoutDuration types.String `tfsdk:"request_timeout_duration"`
 	RequestMinInterval     types.String `tfsdk:"request_min_interval"`
+	InsecureSkipVerify		 types.Bool   `tfsdk:"insecure_skip_verify"`
 }
 
 func New(version string) func() provider.Provider {

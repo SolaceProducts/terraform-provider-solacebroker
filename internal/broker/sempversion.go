@@ -14,6 +14,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package broker
 
-const version = "0.2.36"
+type SempVersionDetail struct {
+	BasePath string
+	Version  string
+}
