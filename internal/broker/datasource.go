@@ -62,7 +62,8 @@ func (ds *brokerDataSource) Configure(_ context.Context, request datasource.Conf
 	}
 	config, ok := request.ProviderData.(*providerData)
 	if !ok {
-		response.Diagnostics = diag.Diagnostics{diag.NewErrorDiagnostic("Unexpected resource configuration", fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, config))}
+		d := diag.NewErrorDiagnostic("Unexpected datasource configuration", fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, config))
+		response.Diagnostics.Append(d)
 		return
 	}
 	ds.providerData = config
@@ -76,21 +77,20 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 			return
 		}
 	}
-
 	path, err := resolveSempPath(ds.pathTemplate, ds.identifyingAttributes, request.Config.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
 	responseData, err := ds.converter.ToTerraform(sempData)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP response conversion failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
 

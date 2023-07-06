@@ -107,19 +107,11 @@ func (r *brokerResource) Configure(_ context.Context, request resource.Configure
 	}
 	config, ok := request.ProviderData.(*providerData)
 	if !ok {
-		response.Diagnostics = diag.Diagnostics{diag.NewErrorDiagnostic("Unexpected resource configuration", fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, config))}
+		d := diag.NewErrorDiagnostic("Unexpected resource configuration", fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, config))
+		response.Diagnostics.Append(d)
 		return
 	}
 	r.providerData = config
-}
-
-func generateDiagnostics(summary string, err error) diag.Diagnostics {
-	diags := &diag.Diagnostics{}
-	for err != nil {
-		diags.AddError(summary, err.Error())
-		err = errors.Unwrap(err)
-	}
-	return *diags
 }
 
 func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequest, response *resource.CreateResponse) {
@@ -133,7 +125,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error converting data", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error converting data", err)
 		return
 	}
 
@@ -146,7 +138,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		path, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
 	}
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
 	if r.objectType == SingletonObject {
@@ -155,7 +147,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 	}
 	_, err = client.RequestWithBody(ctx, method, path, sempData)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
@@ -174,18 +166,18 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 
 	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP response conversion failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
 
@@ -197,7 +189,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	if string(applied) == "true" {
 		responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
 		if err != nil {
-			response.Diagnostics = generateDiagnostics("Response postprocessing failed", err)
+			addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 			return
 		}
 	}
@@ -216,13 +208,13 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error converting data", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error converting data", err)
 		return
 	}
 
 	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
 	method := http.MethodPut
@@ -231,7 +223,7 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	}
 	_, err = client.RequestWithBody(ctx, method, path, sempData)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
@@ -255,12 +247,12 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 
 	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("Error generating SEMP path", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		response.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 }
@@ -268,6 +260,7 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 func (r *brokerResource) ImportState(_ context.Context, request resource.ImportStateRequest, response *resource.ImportStateResponse) {
 
 	if len(r.identifyingAttributes) == 0 {
+		// TODO: Diags
 		if request.ID != "" {
 			response.Diagnostics.AddError(
 				"singleton object requires empty identifier for import",
@@ -278,7 +271,7 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 	}
 	split := strings.Split(strings.ReplaceAll(request.ID, ",", "/"), "/")
 	if len(split) != len(r.identifyingAttributes) {
-		response.Diagnostics = r.generateIdentifierDiagnostic(request.ID)
+		r.addIdentifierErrorToDiagnostics(&response.Diagnostics, request.ID)
 		return
 	}
 
@@ -286,24 +279,34 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 	for i, attr := range r.identifyingAttributes {
 		v, err := url.PathUnescape(split[i])
 		if err != nil {
-			response.Diagnostics = r.generateIdentifierDiagnostic(request.ID)
+			// TODO: Diags
+			r.addIdentifierErrorToDiagnostics(&response.Diagnostics, request.ID)
 		}
 		identifierData[attr.SempName] = v
 	}
 	identifierState, err := r.converter.ToTerraform(identifierData)
 	if err != nil {
-		response.Diagnostics = r.generateIdentifierDiagnostic(request.ID)
+		// TODO: Diags
+		r.addIdentifierErrorToDiagnostics(&response.Diagnostics, request.ID)
 		return
 	}
 	response.State.Raw = identifierState
 }
 
-func (r *brokerResource) generateIdentifierDiagnostic(id string) diag.Diagnostics {
-	var identifiers []string
-	for _, id := range r.identifyingAttributes {
-		identifiers = append(identifiers, id.TerraformName)
+func addErrorToDiagnostics(diags *diag.Diagnostics, summary string, err error) {
+	for err != nil {
+		diags.AddError(summary, err.Error())
+		err = errors.Unwrap(err)
 	}
-	return generateDiagnostics(
+}
+
+func (r *brokerResource) addIdentifierErrorToDiagnostics(diags *diag.Diagnostics, id string) {
+	var identifiers []string
+	for _, attr := range r.identifyingAttributes {
+		identifiers = append(identifiers, attr.TerraformName)
+	}
+	addErrorToDiagnostics(
+		diags,
 		"invalid identifier",
 		fmt.Errorf("invalid identifier %v, identifier must be of the form %v with each segment URL-encoded as necessary", id, strings.Join(identifiers, "/")))
 }
