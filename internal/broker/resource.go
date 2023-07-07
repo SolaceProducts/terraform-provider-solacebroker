@@ -259,8 +259,10 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
-		return
+		if err.Error() != semp.ResourceNotFoundError {
+			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
+			return
+		}
 	}
 }
 
