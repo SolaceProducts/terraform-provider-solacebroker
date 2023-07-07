@@ -77,7 +77,7 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Optional: true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
-				MarkdownDescription: "Accept/Ignore self-signed server SSL certificates",
+				MarkdownDescription: "Disable validation of server SSL certificates, accept/ignore self-signed.",
 				Optional:            true,
 			},
 		},

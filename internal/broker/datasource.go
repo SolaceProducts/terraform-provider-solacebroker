@@ -24,6 +24,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+
+	"terraform-provider-solacebroker/internal/semp"
 )
 
 func newBrokerDataSource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -84,8 +86,12 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
-		return
+		if err.Error() == semp.ResourceNotFoundError {
+			// Log
+			response.State.RemoveResource(ctx)
+		} else {
+			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
+		}
 	}
 
 	responseData, err := ds.converter.ToTerraform(sempData)

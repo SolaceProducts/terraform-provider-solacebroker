@@ -28,6 +28,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+
+	"terraform-provider-solacebroker/internal/semp"
 )
 
 const (
@@ -171,7 +173,12 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
+		if err.Error() == semp.ResourceNotFoundError {
+			// Log
+			response.State.RemoveResource(ctx)
+		} else {
+			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
+		}
 		return
 	}
 

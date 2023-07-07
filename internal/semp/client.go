@@ -28,6 +28,10 @@ import (
 	"time"
 )
 
+const (
+	ResourceNotFoundError = "resource not found"
+)
+
 type Client struct {
 	*http.Client
 	url                string
@@ -140,6 +144,8 @@ loop:
 			switch response.StatusCode {
 			case http.StatusOK:
 				break loop
+			case http.StatusBadRequest:
+				break loop
 			case http.StatusTooManyRequests:
 				// ignore the too many requests body and any errors that happen while reading it
 				_, _ = io.ReadAll(response.Body)
@@ -160,8 +166,8 @@ loop:
 	if response == nil {
 		return nil, err
 	}
-	rawBody, err := io.ReadAll(response.Body)
-	if response.StatusCode != http.StatusOK {
+	rawBody, _ := io.ReadAll(response.Body)
+	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusBadRequest {
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
 	data := map[string]any{}
@@ -172,12 +178,16 @@ loop:
 	dumpData("response", rawBody)
 	rawData, ok := data["data"]
 	if ok {
-		data, ok = rawData.(map[string]any)
+		data, _ = rawData.(map[string]any)
+		return data, nil
+	} else {
+		rawData, ok = data["meta"]
+		if ok {
+			data, _ = rawData.(map[string]any)
+			return data, fmt.Errorf(ResourceNotFoundError)
+		}
 	}
-	if !ok {
-		return nil, nil
-	}
-	return data, nil
+	return nil, nil
 }
 
 func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (map[string]interface{}, error) {
