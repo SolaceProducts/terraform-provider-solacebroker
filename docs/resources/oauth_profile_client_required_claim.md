@@ -38,5 +38,3 @@ This has been available since 2.24.
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
 - `client_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
 - `oauth_profile_name` (String) The name of the OAuth profile.
-
-

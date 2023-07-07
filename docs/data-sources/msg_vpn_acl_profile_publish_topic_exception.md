@@ -48,5 +48,3 @@ This has been available since 2.14.
 "smf" - Topic uses SMF syntax.
 "mqtt" - Topic uses MQTT syntax.
 </pre>
-
-

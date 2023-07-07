@@ -44,5 +44,3 @@ This has been available since 2.21.
 - `oauth_jwt_claim_value` (String) The value of the additional claim, which must be a string containing a valid JSON value.
 - `rest_consumer_name` (String) The name of the REST Consumer.
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
-
-

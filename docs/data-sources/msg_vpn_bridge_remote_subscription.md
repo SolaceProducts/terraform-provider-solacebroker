@@ -53,5 +53,3 @@ This has been available since 2.0.
 ### Read-Only
 
 - `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both.
-
-

@@ -37,5 +37,3 @@ This has been available since 2.19.
 
 - `cert_authority_name` (String) The name of the Certificate Authority.
 - `ocsp_tls_trusted_common_name` (String) The expected Trusted Common Name of the OCSP responder remote certificate.
-
-

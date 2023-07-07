@@ -53,13 +53,11 @@ This has been available since 2.27.
 "issuer" - The attribute is extracted from the certificate's Issuer DN.
 "subject" - The attribute is extracted from the certificate's Subject DN.
 "serial-number" - The attribute is extracted from the certificate's Serial Number.
-"dns-name" - The attribute is extracted from the certificate's Subject Alt Name DNSName.
-"ip-address" - The attribute is extracted from the certificate's Subject Alt Name IPAddress.
+"dns-name" - The attribute is extracted from the certificate's Subject Alt Name DNS Name.
+"ip-address" - The attribute is extracted from the certificate's Subject Alt Name IP Address.
 </pre>
 
 ### Read-Only
 
 - `attribute` (String) Client Username Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
 - `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
-
-

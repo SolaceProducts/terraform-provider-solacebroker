@@ -51,5 +51,3 @@ This has been available since 2.31.
 </pre>
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
 - `trace_filter_name` (String) A name used to identify the trace filter. Consider a name that describes the subscriptions contained within the filter, such as the name of the application and/or the scenario in which the trace filter might be enabled, such as "appNameDebug".
-
-

@@ -44,5 +44,3 @@ This has been available since 2.10.
 - `ingress_enabled` (Boolean) Enable or disable the reception of messages to the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_spool_usage` (Number) The maximum spool usage allowed by the Replay Log, in megabytes (MB). If this limit is exceeded, old messages will be trimmed. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `topic_filter_enabled` (Boolean) Enable or disable topic filtering for the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.27.
-
-

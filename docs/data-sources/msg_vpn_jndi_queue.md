@@ -41,5 +41,3 @@ This has been available since 2.2.
 ### Read-Only
 
 - `physical_name` (String) The physical name of the JMS Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-

@@ -38,5 +38,3 @@ This has been available since 2.24.
 - `oauth_profile_name` (String) The name of the OAuth profile.
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
 - `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
-
-

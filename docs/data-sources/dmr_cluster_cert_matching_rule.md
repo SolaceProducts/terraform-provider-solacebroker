@@ -41,5 +41,3 @@ This has been available since 2.28.
 ### Read-Only
 
 - `enabled` (Boolean) Enable or disable a certificate matching rule. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-
-

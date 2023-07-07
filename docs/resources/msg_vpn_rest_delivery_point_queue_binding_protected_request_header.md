@@ -49,5 +49,3 @@ This has been available since 2.30.
 ### Optional
 
 - `header_value` (String, Sensitive) The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-

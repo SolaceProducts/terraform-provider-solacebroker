@@ -76,5 +76,3 @@ This has been available since 2.0.
 "da" - Ignore priority and deliver always.
 </pre>
 - `tls_cipher_suite_list` (String) The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN. The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
-
-

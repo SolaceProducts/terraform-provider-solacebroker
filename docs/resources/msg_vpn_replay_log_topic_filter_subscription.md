@@ -40,5 +40,3 @@ This has been available since 2.27.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `replay_log_name` (String) The name of the Replay Log.
 - `topic_filter_subscription` (String) The topic of the Subscription.
-
-

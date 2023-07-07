@@ -47,5 +47,3 @@ This has been available since 2.23.
 ### Optional
 
 - `header_value` (String) A substitution expression for the value of the HTTP request header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-

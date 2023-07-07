@@ -45,5 +45,3 @@ This has been available since 2.28.
 
 - `attribute_name` (String) Client Username Attribute to be tested. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-

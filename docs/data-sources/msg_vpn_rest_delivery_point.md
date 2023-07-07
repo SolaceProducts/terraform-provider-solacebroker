@@ -44,5 +44,3 @@ This has been available since 2.0.
 - `enabled` (Boolean) Enable or disable the REST Delivery Point. When disabled, no connections are initiated or messages delivered to any of the contained REST Consumers. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service` (String) The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since 2.19.
 - `vendor` (String) The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since 2.19.
-
-

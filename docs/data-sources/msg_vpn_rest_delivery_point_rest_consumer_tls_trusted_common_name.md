@@ -11,7 +11,7 @@ description: |-
   restdeliverypointname|x||x|
   tlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
+  This has been deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_rest_consumer_tls_trusted_common_name (Data Source)
@@ -30,7 +30,7 @@ tls_trusted_common_name|x||x|
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
+This has been deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.
 
 
 
@@ -39,9 +39,7 @@ This has been deprecated since (will be deprecated in next SEMP version). Common
 
 ### Required
 
-- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
-- `rest_consumer_name` (String, Deprecated) The name of the REST Consumer. Deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
-- `rest_delivery_point_name` (String, Deprecated) The name of the REST Delivery Point. Deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
-- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since (will be deprecated in next SEMP version). Common Name validation has been replaced by Server Certificate Name validation.
-
-
+- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.
+- `rest_consumer_name` (String, Deprecated) The name of the REST Consumer. Deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.
+- `rest_delivery_point_name` (String, Deprecated) The name of the REST Delivery Point. Deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.
+- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since 2.17. Common Name validation has been replaced by Server Certificate Name validation.

@@ -120,5 +120,3 @@ This has been deprecated since 2.25. Replaced by authenticationoauth_profiles.
 </pre>
  Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.
 - `username_validate_enabled` (Boolean, Deprecated) Enable or disable whether the API provided username will be validated against the username calculated from the token(s); the connection attempt is rejected if they differ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Deprecated since 2.25. authenticationOauthProviders replaced by authenticationoauth_profiles.
-
-
