@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -27,6 +28,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
@@ -94,6 +96,10 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
+	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
+	tflog.Debug(ctx, "Configuring solacebroker provider client")
+
 	client, d := client(&config)
 	if d != nil {
 		resp.Diagnostics.Append(d)
@@ -110,7 +116,7 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	}
 	brokerSempVersion, err := version.NewVersion(result["sempVersion"].(string))
 	if err != nil {
-		addErrorToDiagnostics(&resp.Diagnostics, "Unable to parse SEMP version returned from \"/about/api\"", err)
+		addErrorToDiagnostics(&resp.Diagnostics, "unable to parse SEMP version returned from \"/about/api\"", err)
 		return
 	}
 	minSempVersion, _ := version.NewVersion(minRequiredBrokerSempApiVersion)
@@ -119,6 +125,8 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		addErrorToDiagnostics(&resp.Diagnostics, "Broker does not meet minimum SEMP API version", err)
 		return
 	}
+
+	tflog.Info(ctx, "Solacebroker provider client config success")
 
 	resp.ResourceData = &config
 	resp.DataSourceData = &config

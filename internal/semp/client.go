@@ -24,8 +24,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"os"
 	"time"
+
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 const (
@@ -76,7 +77,7 @@ func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Opt
 }
 
 func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client {
-	customTransport := &(*http.DefaultTransport.(*http.Transport)) // make shallow copy
+	customTransport := http.DefaultTransport.(*http.Transport)
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: insecure_skip_verify}
 	client := &Client{
 		Client:             &http.Client{
@@ -91,7 +92,7 @@ func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client
 		o(client)
 	}
 	if client.requestMinInterval > 0 {
-		client.rateLimiter = time.Tick(client.requestMinInterval)
+		client.rateLimiter = time.NewTicker(client.requestMinInterval).C
 	} else {
 		ch := make(chan time.Time)
 		// closing the channel will make receiving from the channel non-blocking (the value received will be the
@@ -112,11 +113,11 @@ func (c *Client) RequestWithBody(ctx context.Context, method, url string, body a
 	if err != nil {
 		return nil, err
 	}
-	dumpData(fmt.Sprintf("%v to %v", request.Method, request.URL), data)
-	return c.doRequest(request)
+	dumpData(ctx, fmt.Sprintf("%v to %v", request.Method, request.URL), data)
+	return c.doRequest(ctx, request)
 }
 
-func (c *Client) doRequest(request *http.Request) (map[string]any, error) {
+func (c *Client) doRequest(ctx context.Context, request *http.Request) (map[string]any, error) {
 	// the value doesn't matter, it is waiting for the value that matters
 	<-c.rateLimiter
 	if request.Method != http.MethodGet {
@@ -175,7 +176,7 @@ loop:
 	if err != nil {
 		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
 	}
-	dumpData("response", rawBody)
+	dumpData(ctx, "response", rawBody)
 	rawData, ok := data["data"]
 	if ok {
 		data, _ = rawData.(map[string]any)
@@ -195,13 +196,13 @@ func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (ma
 	if err != nil {
 		return nil, err
 	}
-	fmt.Fprintf(os.Stderr, "===== %v to %v =====\n", request.Method, request.URL)
-	return c.doRequest(request)
+	tflog.Debug(ctx, fmt.Sprintf("===== %v to %v =====", request.Method, request.URL))
+	return c.doRequest(ctx, request)
 }
 
-func dumpData(tag string, data []byte) {
+func dumpData(ctx context.Context, tag string, data []byte) {
 	var in any
 	_ = json.Unmarshal(data, &in)
 	out, _ := json.MarshalIndent(in, "", "\t")
-	fmt.Fprintf(os.Stderr, "===== %v =====\n%s\n", tag, out)
+	tflog.Debug(ctx, fmt.Sprintf("===== %v =====\n%s\n", tag, out))
 }
