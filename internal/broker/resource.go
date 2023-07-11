@@ -55,6 +55,7 @@ var (
 	_ resource.ResourceWithConfigure        = &brokerResource{}
 	_ resource.ResourceWithConfigValidators = &brokerResource{}
 	_ resource.ResourceWithImportState      = &brokerResource{}
+	_ resource.ResourceWithUpgradeState     = &brokerResource{}
 )
 
 type brokerResource brokerEntity[schema.Schema]
@@ -321,5 +322,25 @@ func (r *brokerResource) addIdentifierErrorToDiagnostics(diags *diag.Diagnostics
 }
 
 func (r *brokerResource) ConfigValidators(_ context.Context) []resource.ConfigValidator {
+	return nil
+}
+
+func (r *brokerResource) UpgradeState(ctx context.Context) map[int64]resource.StateUpgrader {
+	// Placeholder for future StateUpgrader code
+	// example:
+	// if r.terraformName == "a_b_c" {
+	// 	return map[int64]resource.StateUpgrader{
+	// 		// State upgrade implementation from 0 (prior state version) to 2 (Schema.Version)
+	// 		0: {
+	// 				// Optionally, the PriorSchema field can be defined.
+	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
+	// 		},
+	// 		// State upgrade implementation from 1 (prior state version) to 2 (Schema.Version)
+	// 		1: {
+	// 				// Optionally, the PriorSchema field can be defined.
+	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
+	// 		},
+	// 	}
+	// }
 	return nil
 }
