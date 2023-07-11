@@ -46,5 +46,3 @@ This has been available since 2.11.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `topic_prefix` (String) A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/>) is implied at the end of the prefix.
-
-

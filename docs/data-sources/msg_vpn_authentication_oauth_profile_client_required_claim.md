@@ -44,5 +44,3 @@ This has been available since 2.25.
 ### Read-Only
 
 - `client_required_claim_value` (String) The required claim value.
-
-

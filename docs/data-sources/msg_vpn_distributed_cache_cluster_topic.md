@@ -43,5 +43,3 @@ This has been available since 2.11.
 - `cluster_name` (String) The name of the Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `topic` (String) The value of the Topic in the form a/b/c.
-
-

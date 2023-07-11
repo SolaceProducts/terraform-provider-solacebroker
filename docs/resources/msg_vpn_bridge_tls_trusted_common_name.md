@@ -50,5 +50,3 @@ This has been deprecated since 2.18. Common Name validation has been replaced by
  Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 - `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 - `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
-
-

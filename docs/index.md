@@ -18,6 +18,7 @@ description: |-
 ### Optional
 
 - `bearer_token` (String, Sensitive)
+- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed.
 - `password` (String, Sensitive)
 - `request_min_interval` (String)
 - `request_timeout_duration` (String)

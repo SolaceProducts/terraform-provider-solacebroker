@@ -41,5 +41,3 @@ This has been available since 2.25.
 - `client_required_claim_value` (String) The required claim value.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `oauth_profile_name` (String) The name of the OAuth profile.
-
-

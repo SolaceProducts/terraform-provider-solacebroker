@@ -37,5 +37,3 @@ This has been deprecated since 2.19. Replaced by clientCertAuthorities.
 
 - `cert_authority_name` (String, Deprecated) The name of the Certificate Authority. Deprecated since 2.19. Replaced by clientCertAuthorities.
 - `ocsp_tls_trusted_common_name` (String, Deprecated) The expected Trusted Common Name of the OCSP responder remote certificate. Deprecated since 2.19. Replaced by clientCertAuthorities.
-
-

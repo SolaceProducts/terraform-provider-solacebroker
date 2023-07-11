@@ -40,5 +40,3 @@ This has been available since 2.0.
 - `acl_profile_name` (String) The name of the ACL Profile.
 - `client_connect_exception_address` (String) The IP address/netmask of the client connect exception in canonical CIDR form.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-

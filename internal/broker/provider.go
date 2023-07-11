@@ -19,13 +19,16 @@ package broker
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"strings"
+
 	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	"net/http"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
@@ -76,8 +79,8 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Optional: true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
-				MarkdownDescription: "Accept/Ignore self-signed server SSL certificates",
-				Optional: true,
+				MarkdownDescription: "Disable validation of server SSL certificates, accept/ignore self-signed.",
+				Optional:            true,
 			},
 		},
 		MarkdownDescription: "",
@@ -93,6 +96,10 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 
+	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
+	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
+	tflog.Debug(ctx, "Configuring solacebroker provider client")
+
 	client, d := client(&config)
 	if d != nil {
 		resp.Diagnostics.Append(d)
@@ -104,20 +111,22 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	path := "/about/api"
 	result, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
 	if err != nil {
-		resp.Diagnostics = generateDiagnostics("SEMP call failed", err)
+		addErrorToDiagnostics(&resp.Diagnostics, "SEMP call failed", err)
 		return
 	}
 	brokerSempVersion, err := version.NewVersion(result["sempVersion"].(string))
 	if err != nil {
-		resp.Diagnostics = generateDiagnostics("Unable to parse SEMP version returned from \"/about/api\"", err)
+		addErrorToDiagnostics(&resp.Diagnostics, "unable to parse SEMP version returned from \"/about/api\"", err)
 		return
 	}
 	minSempVersion, _ := version.NewVersion(minRequiredBrokerSempApiVersion)
 	if brokerSempVersion.LessThan(minSempVersion) {
 		err := fmt.Errorf("BrokerSempVersion %s is less than required %s", brokerSempVersion, minSempVersion)
-		resp.Diagnostics = generateDiagnostics("Broker does not meet minimum SEMP API version", err)
+		addErrorToDiagnostics(&resp.Diagnostics, "Broker does not meet minimum SEMP API version", err)
 		return
 	}
+
+	tflog.Info(ctx, "Solacebroker provider client config success")
 
 	resp.ResourceData = &config
 	resp.DataSourceData = &config
@@ -145,7 +154,7 @@ type providerData struct {
 	RetryMaxInterval       types.String `tfsdk:"retry_max_interval"`
 	RequestTimeoutDuration types.String `tfsdk:"request_timeout_duration"`
 	RequestMinInterval     types.String `tfsdk:"request_min_interval"`
-	InsecureSkipVerify		 types.Bool   `tfsdk:"insecure_skip_verify"`
+	InsecureSkipVerify     types.Bool   `tfsdk:"insecure_skip_verify"`
 }
 
 func New(version string) func() provider.Provider {

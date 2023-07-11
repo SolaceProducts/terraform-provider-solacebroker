@@ -52,5 +52,3 @@ This has been available since 2.0.
 "substitution-expressions" - Evaluate substitution expressions on the request target.
 </pre>
  Available since 2.23.
-
-

@@ -43,5 +43,3 @@ This has been available since 2.27.
 - `attribute_value` (String) The value of the Attribute.
 - `client_username` (String) The name of the Client Username.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-

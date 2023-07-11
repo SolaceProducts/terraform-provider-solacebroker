@@ -61,5 +61,3 @@ This has been deprecated since 2.19. Replaced by clientCertAuthorities and domai
 - `ocsp_override_url` (String, Deprecated) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
 - `ocsp_timeout` (Number, Deprecated) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
 - `revocation_check_enabled` (Boolean, Deprecated) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-
-

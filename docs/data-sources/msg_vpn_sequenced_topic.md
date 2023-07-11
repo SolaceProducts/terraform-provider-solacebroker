@@ -37,5 +37,3 @@ This has been available since 2.0.
 
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `sequenced_topic` (String) Topic for applying sequence numbers.
-
-

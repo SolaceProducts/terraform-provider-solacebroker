@@ -46,7 +46,7 @@ This has been available since 2.25.
 - `authorization_groups_claim_string_format` (String) The format of the authorization groups claim value when it is a string. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"single"`. The allowed values and their meaning are:
 
 <pre>
-"single" - When the claim is a string, it is interpreted as a single group.
+"single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
  Available since 2.32.
@@ -82,5 +82,3 @@ This has been available since 2.25.
 - `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `username_claim_name` (String) The name of the username claim. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sub"`.
-
-
