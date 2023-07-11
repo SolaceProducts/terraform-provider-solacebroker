@@ -43,5 +43,3 @@ This has been available since 2.11.
 - `cluster_name` (String) The name of the Cache Cluster.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-

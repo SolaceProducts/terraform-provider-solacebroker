@@ -37,5 +37,3 @@ This has been deprecated since 2.2. /systemInformation was replaced by /about/ap
 
 - `platform` (String, Deprecated) The platform running the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.
 - `semp_version` (String, Deprecated) The version of the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.
-
-

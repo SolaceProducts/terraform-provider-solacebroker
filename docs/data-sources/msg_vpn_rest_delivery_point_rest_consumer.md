@@ -72,8 +72,8 @@ This has been available since 2.0.
 
 <pre>
 "none" - Login with no authentication. This may be useful for anonymous connections or when a REST Consumer does not require authentication.
-"http-basic" - Login with a username and optional password according to HTTP Basic authentication as per RFC2616.
-"client-certificate" - Login with a client TLS certificate as per RFC5246. Client certificate authentication is only available on TLS connections.
+"http-basic" - Login with a username and optional password according to HTTP Basic authentication as per RFC 2616.
+"client-certificate" - Login with a client TLS certificate as per RFC 5246. Client certificate authentication is only available on TLS connections.
 "http-header" - Login with a specified HTTP header.
 "oauth-client" - Login with OAuth 2.0 client credentials.
 "oauth-jwt" - Login with OAuth (RFC 7523 JWT Profile).
@@ -91,10 +91,9 @@ This has been available since 2.0.
 - `local_interface` (String) The interface that will be used for all outgoing connections associated with the REST Consumer. When unspecified, an interface is automatically chosen. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `max_post_wait_time` (Number) The maximum amount of time (in seconds) to wait for an HTTP POST response from the REST Consumer. Once this time is exceeded, the TCP connection is reset. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`.
 - `outgoing_connection_count` (Number) The number of concurrent TCP connections open to the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
+- `proxy_name` (String) The name of the proxy to use. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since 2.36.
 - `remote_host` (String) The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `remote_port` (Number) The port associated with the host of the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `8080`.
 - `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
 - `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-

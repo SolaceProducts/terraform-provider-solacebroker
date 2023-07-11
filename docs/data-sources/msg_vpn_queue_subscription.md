@@ -40,5 +40,3 @@ This has been available since 2.0.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `queue_name` (String) The name of the Queue.
 - `subscription_topic` (String) The topic of the Subscription.
-
-

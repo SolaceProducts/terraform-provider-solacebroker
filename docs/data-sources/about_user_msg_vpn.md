@@ -44,5 +44,3 @@ This has been available since 2.2.
 "read-only" - Read only access.
 "read-write" - Read and write access.
 </pre>
-
-

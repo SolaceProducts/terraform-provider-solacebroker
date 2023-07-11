@@ -27,5 +27,3 @@ This has been available since 2.2.
 
 - `platform` (String) The platform running the SEMP API.
 - `semp_version` (String) The version of the SEMP API.
-
-

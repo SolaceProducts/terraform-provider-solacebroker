@@ -49,5 +49,3 @@ This has been deprecated since 2.14. Replaced by subscribe_topic_exceptions.
 "mqtt" - Topic uses MQTT syntax.
 </pre>
  Deprecated since 2.14. Replaced by subscribe_topic_exceptions.
-
-

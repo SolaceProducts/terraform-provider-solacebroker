@@ -188,12 +188,7 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 }
 
 func getFullSempAPIURL(url string) string {
-	baseBath := SempDetail.BasePath
-	if strings.HasSuffix(url, "/") {
-		url = url[:len(url)-1]
-	}
-	if strings.HasPrefix(baseBath, "/") {
-		baseBath = baseBath[1:]
-	}
+	url = strings.TrimSuffix(url, "/")
+	baseBath := strings.TrimPrefix(SempDetail.BasePath, "/")
 	return url + "/" + baseBath
 }

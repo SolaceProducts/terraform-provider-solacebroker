@@ -123,5 +123,3 @@ Optional:
 
 - `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
 - `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
-
-

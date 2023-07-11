@@ -65,5 +65,3 @@ This has been available since 2.0.
 "allow" - Allow topic unless an exception is found for it.
 "disallow" - Disallow topic unless an exception is found for it.
 </pre>
-
-

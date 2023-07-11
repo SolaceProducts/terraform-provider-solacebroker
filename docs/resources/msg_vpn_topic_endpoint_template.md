@@ -44,9 +44,9 @@ This has been available since 2.14.
 
 <pre>
 "exclusive" - Exclusive delivery of messages to the first bound consumer flow.
-"non-exclusive" - Non-exclusive delivery of messages to all bound consumer flows in a round-robin fashion.
+"non-exclusive" - Non-exclusive delivery of messages to bound consumer flows in a round-robin (if partition count is zero) or partitioned (if partition count is non-zero) fashion.
 </pre>
-- `consumer_ack_propagation_enabled` (Boolean) Enable or disable the propagation of consumer acknowledgements (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `consumer_ack_propagation_enabled` (Boolean) Enable or disable the propagation of consumer acknowledgments (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `dead_msg_queue` (String) The name of the Dead Message Queue (DMQ). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"#DEAD_MSG_QUEUE"`.
 - `delivery_delay` (Number) The delay, in seconds, to apply to messages arriving on the Topic Endpoint before the messages are eligible for delivery. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since 2.22.
 - `event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_bind_count_threshold))
@@ -74,16 +74,16 @@ This has been available since 2.14.
 - `redelivery_enabled` (Boolean) Enable or disable message redelivery. When enabled, the number of redelivery attempts is controlled by max_redelivery_count. When disabled, the message will never be delivered from the topic-endpoint more than once. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since 2.18.
 - `reject_low_priority_msg_enabled` (Boolean) Enable or disable the checking of low priority messages against the `reject_low_priority_msg_limit`. This may only be enabled if `reject_msg_to_sender_on_discard_behavior` does not have a value of `"never"`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `reject_low_priority_msg_limit` (Number) The number of messages that are permitted before low priority messages are rejected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
-- `reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgements (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as reject_low_priority_msg_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"never"`. The allowed values and their meaning are:
+- `reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgments (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"never"`. The allowed values and their meaning are:
 
 <pre>
-"always" - Always return a negative acknowledgment (NACK) to the sending client on message discard.
-"when-topic-endpoint-enabled" - Only return a negative acknowledgment (NACK) to the sending client on message discard when the Topic Endpoint is enabled.
-"never" - Never return a negative acknowledgment (NACK) to the sending client on message discard.
+"never" - Silently discard messages.
+"when-topic-endpoint-enabled" - NACK each message discard back to the client, except messages that are discarded because an endpoint is administratively disabled.
+"always" - NACK each message discard back to the client, including messages that are discarded because an endpoint is administratively disabled.
 </pre>
 - `respect_msg_priority_enabled` (Boolean) Enable or disable the respecting of message priority. When enabled, messages are delivered in priority order, from 9 (highest) to 0 (lowest). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages. When enabled, expired messages are discarded or moved to the DMQ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `topic_endpoint_name_filter` (String) A wildcardable pattern used to determine which Topic Endpoints use settings from this Template. Two different wildcards are supported: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `topic_endpoint_name_filter` (String) A pattern used to determine which Topic Endpoints use settings from this Template. Two different wildcards can be used in the pattern: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when  used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 
 <a id="nestedatt--event_bind_count_threshold"></a>
 ### Nested Schema for `event_bind_count_threshold`
@@ -116,5 +116,3 @@ Optional:
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
 - `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
-
-

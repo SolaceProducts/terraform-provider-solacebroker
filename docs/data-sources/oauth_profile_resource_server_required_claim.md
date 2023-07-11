@@ -41,5 +41,3 @@ This has been available since 2.24.
 ### Read-Only
 
 - `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
-
-

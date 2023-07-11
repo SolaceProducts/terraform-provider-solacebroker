@@ -41,5 +41,3 @@ This has been available since 2.2.
 - `session_id` (String) An identifier for the session to differentiate this session from other sessions for the same user. This value is not guaranteed to be unique between active sessions for different users. This attribute may not be returned in a GET. Available since 2.21.
 - `session_idle_expiry_time` (Number) The session idle expiry time. After this time the session will be invalid if there has been no activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.
 - `username` (String) The username of the User. Available since 2.21.
-
-
