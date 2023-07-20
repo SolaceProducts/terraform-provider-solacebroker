@@ -32,13 +32,8 @@ BINARIES = [
 ]
 
 def extractSemanticVersion(String inputString) {
-    // Define the regular expression pattern for the semantic version
-    def pattern = /\d+\.\d+\.\d+/
-
-    // Find the first occurrence of the pattern in the input string
-    def matcher = (inputString =~ pattern)
-
-    // If a match is found, return the matched semantic version, else return null
+    pattern = /\d+\.\d+\.\d+/
+    matcher = (inputString =~ pattern)
     return matcher.find() ? matcher.group() : null
 }
 
