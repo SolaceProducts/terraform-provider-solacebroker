@@ -152,11 +152,11 @@ node(label: 'master') {
 				def (String response, int code) = sh(
 					script: """
 						curl \
-						-X POST \
-						-H 'Authorization: Bearer ${TF_BEARER_TOKEN}' \
-						-H 'Content-Type: application/vnd.api+json' \
-						-d '${request}' \
-						'${url}'
+							-X POST \
+							-H 'Authorization: Bearer ${TF_BEARER_TOKEN}' \
+							-H 'Content-Type: application/vnd.api+json' \
+							-d '${request}' \
+							'${url}'
 					""", 
 					returnStdout: true
 				).trim().tokenize("\n") 
