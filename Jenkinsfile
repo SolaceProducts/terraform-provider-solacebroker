@@ -223,5 +223,3 @@ node(label: 'master') {
 		}        
 	}
 }
-
-  
