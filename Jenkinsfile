@@ -54,7 +54,13 @@ node(label: 'master') {
 				])
 			sshagent(credentials: [JENKINSCRED_GH_ROBOT_ID]) {
 				sh "git checkout ${env.BRANCH_NAME}"      
-				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME)
+
+        latestGitTag = sh(
+          script: "git ls-remote --tags --sort=committerdate | awk '{ print \$2 }' | grep -o 'v.*' | sort -r | head -1 | sed 's/^v//'",
+          returnStdout: true
+        ).trim()
+
+				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME) ?: latestGitTag
 
 				gitTagCheck = sh(
 						script: "git tag -l v${PROVIDER_VERSION}",
