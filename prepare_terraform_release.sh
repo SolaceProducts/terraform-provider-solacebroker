@@ -38,7 +38,7 @@ for os in "${PLATFORMS[@]}"; do
             echo "Creating zip for $file..."
             tar -czf "../dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip" "$file"
             cd ../dist
-            sha256sum "${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip" | awk '{print $1, $2}' >> "$SHASUMS_FILE"
+            sha256sum "${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip" >> "$SHASUMS_FILE"
             cd ../bin
         fi
     done
