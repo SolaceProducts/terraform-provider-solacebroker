@@ -45,7 +45,8 @@ for os in "${PLATFORMS[@]}"; do
 done
 
 #Sign file
-gpg --batch --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE} --armor --detach-sign --output ${SHASUMS_SIG_FILE} ${SHASUMS_FILE}
+echo "Signing File"
+gpg --batch --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE} --detach-sign --output ${SHASUMS_SIG_FILE} ${SHASUMS_FILE}
 
 cd ..
 

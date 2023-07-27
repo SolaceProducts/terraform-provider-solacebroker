@@ -57,7 +57,7 @@ node(label: 'master') {
 	"GOROOT=${root}", 
 	"PATH+GO=${root}/bin"
 	]) {
-		stage('Check for Git Tag'){
+		stage('Get Semantic Version') {
 			cleanWs()
 			checkout ( [$class: 'GitSCM',
 				branches: [[name: 'main' ]],
@@ -66,22 +66,21 @@ node(label: 'master') {
 						url: GIT_REPO_PROVIDER]]
 				])
 			sshagent(credentials: [JENKINSCRED_GH_ROBOT_ID]) {
-				sh "git checkout ${env.BRANCH_NAME}"      
-
-        latestGitTag = sh(
-          script: "git ls-remote --tags --sort=committerdate | awk '{ print \$2 }' | grep -o 'v.*' | sort -r | head -1 | sed 's/^v//'",
-          returnStdout: true
-        ).trim()
-
-				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME) ?: latestGitTag
+				sh "git checkout ${env.BRANCH_NAME}"
+				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME) 
 
 				SHASUMS_FILE = "${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS"
 				SHASUMS_SIG_FILE = "${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS.sig"
-
 			}
 		}
 
-		stage ('Create binaries and SHASUMS'){
+    if (PROVIDER_VERSION == null) {
+      echo '[UNSTABLE] No Semantic Version Found'
+      currentBuild.result = 'UNSTABLE'
+      return
+    }
+
+		stage ('Create binaries and SHASUMS') {
 			withCredentials([
 				string(credentialsId: 'terraform-github-token-secret', variable: 'GITHUB_TOKEN'), 
 				string(credentialsId: 'tf-passphrase', variable: 'GPG_PASSPHRASE'), 
@@ -95,7 +94,7 @@ node(label: 'master') {
 			}
 		}
 
-		stage ('Create Registry Version'){
+		stage ('Create Registry Version') {
 			withCredentials([
 			string(credentialsId: 'terraform-registry-key-id', variable: 'TF_REGISTRY_KEY_ID'), 
 			string(credentialsId: 'terraform-bearer-token', variable: 'TF_BEARER_TOKEN')
@@ -145,13 +144,13 @@ node(label: 'master') {
 			}
 		}
 
-		stage ('Upload SHASUMS'){
+		stage ('Upload SHASUMS') {
 			sh "curl -T dist/${SHASUMS_FILE} ${SHASUMS_UPLOAD_URL}"
 			sh "curl -T dist/${SHASUMS_SIG_FILE} ${SHASUMS_SIG_UPLOAD_URL}"
 		}
 
 
-		stage ('Create Platforms for Binaries'){
+		stage ('Create Platforms for Binaries') {
 			for (binary in BINARIES) {
 				osAndArch = binary.split('_')
 				binaryFileName = "${PROVIDER_NAME}_${PROVIDER_VERSION}_${binary}.zip"
@@ -172,7 +171,7 @@ node(label: 'master') {
 													"os": "${osAndArch[0]}",
 													"arch": "${osAndArch[1]}",
 													"shasum": "${fileShasum}",
-													"filename": "${binary}"
+													"filename": "${binaryFileName}"
 											}
 									}
 								}
@@ -194,7 +193,7 @@ node(label: 'master') {
 			}
 		}
 
-		stage ('Upload Binaries'){
+		stage ('Upload Binaries') {
 			PROVIDER_BINARY_UPLOAD_URLS.each{entry ->  
 				sh "curl -T dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_${entry.key}.zip ${entry.value}"
 			}
