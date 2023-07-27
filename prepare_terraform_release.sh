@@ -29,6 +29,17 @@ done
 SHASUMS_FILE="../dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS"
 SHASUMS_SIG_FILE="${SHASUMS_FILE}.sig"
 
+# Function to create zip files using Python
+function create_zip() {
+    local source_file=$1
+    local destination_file=$2
+    python - <<EOF
+import zipfile
+with zipfile.ZipFile("$destination_file", "w") as zf:
+    zf.write("$source_file", arcname="${PROVIDER_NAME}_${VERSION}_$source_file")
+EOF
+}
+
 # Compress binaries into zip files and generate shasums
 cd bin
 for os in "${PLATFORMS[@]}"; do
@@ -36,7 +47,7 @@ for os in "${PLATFORMS[@]}"; do
         file="${os}_${arch}/${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}"
         if [[ -f "$file" ]]; then
             echo "Creating zip for $file..."
-            tar -czf "../dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip" "$file"
+            node -e "const AdmZip = require('adm-zip'); const zip = new AdmZip(); zip.addLocalFile('$file'); zip.writeZip('../dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip');"
             cd ../dist
             sha256sum "${PROVIDER_NAME}_${PROVIDER_VERSION}_${os}_${arch}.zip" >> "$SHASUMS_FILE"
             cd ../bin
@@ -46,7 +57,9 @@ done
 
 #Sign file
 echo "Signing File"
-gpg --batch --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE} --detach-sign --output ${SHASUMS_SIG_FILE} ${SHASUMS_FILE}
+gpg --batch --pinentry-mode loopback --passphrase ${GPG_PASSPHRASE} --local-user ${TF_REGISTRY_KEY_ID} --detach-sign --output ${SHASUMS_SIG_FILE} ${SHASUMS_FILE}
+echo "verifying"
+gpg --verify ${SHASUMS_SIG_FILE} ${SHASUMS_FILE}
 
 cd ..
 

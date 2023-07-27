@@ -52,10 +52,11 @@ def isTerraformVersionExists(version){
 
 node(label: 'master') {
 	def root = tool type: 'go', name: 'go120'
-
+	def nodeRoot = tool name: 'node19'
 	withEnv([
 	"GOROOT=${root}", 
-	"PATH+GO=${root}/bin"
+	"PATH+GO=${root}/bin",
+	"PATH+NODE=${nodeRoot}/bin"
 	]) {
 		stage('Get Semantic Version') {
 			cleanWs()
@@ -67,7 +68,8 @@ node(label: 'master') {
 				])
 			sshagent(credentials: [JENKINSCRED_GH_ROBOT_ID]) {
 				sh "git checkout ${env.BRANCH_NAME}"
-				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME) 
+				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME)
+        sh 'npm install adm-zip' 
 
 				SHASUMS_FILE = "${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS"
 				SHASUMS_SIG_FILE = "${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS.sig"
@@ -80,19 +82,21 @@ node(label: 'master') {
       return
     }
 
-		stage ('Create binaries and SHASUMS') {
-			withCredentials([
-				string(credentialsId: 'terraform-github-token-secret', variable: 'GITHUB_TOKEN'), 
-				string(credentialsId: 'tf-passphrase', variable: 'GPG_PASSPHRASE'), 
-				file(credentialsId: 'tf-gpg-private-key-file', variable: 'privateKey')
-			]) {
-				env.GPG_TTY="\$(tty)"  
-				env.GORELEASER_CURRENT_TAG="v${PROVIDER_VERSION}"  
+    stage ('Create binaries and SHASUMS') {
+      withCredentials([
+        string(credentialsId: 'terraform-github-token-secret', variable: 'GITHUB_TOKEN'), 
+        string(credentialsId: 'tf-passphrase', variable: 'GPG_PASSPHRASE'), 
+        string(credentialsId: 'terraform-registry-key-id', variable: 'TF_REGISTRY_KEY_ID'), 
+        file(credentialsId: 'tf-gpg-private-key-file', variable: 'privateKey'),
+        file(credentialsId: 'tf-gpg-public-key-file', variable: 'publicKey')
+      ]) {
+        env.GPG_TTY="\$(tty)"  
         env.PROVIDER_VERSION=PROVIDER_VERSION
-				sh "gpg --import --passphrase ${GPG_PASSPHRASE} --batch --yes --no-tty ${privateKey}"
-				sh './prepare_terraform_release.sh'
-			}
-		}
+        sh "gpg --import --passphrase ${GPG_PASSPHRASE} --batch --yes --no-tty ${privateKey}"
+        sh "gpg --import --passphrase ${GPG_PASSPHRASE} --batch --yes --no-tty  ${publicKey}"
+        sh './prepare_terraform_release.sh'
+      }
+    }
 
 		stage ('Create Registry Version') {
 			withCredentials([
