@@ -29,17 +29,6 @@ done
 SHASUMS_FILE="../dist/${PROVIDER_NAME}_${PROVIDER_VERSION}_SHA256SUMS"
 SHASUMS_SIG_FILE="${SHASUMS_FILE}.sig"
 
-# Function to create zip files using Python
-function create_zip() {
-    local source_file=$1
-    local destination_file=$2
-    python - <<EOF
-import zipfile
-with zipfile.ZipFile("$destination_file", "w") as zf:
-    zf.write("$source_file", arcname="${PROVIDER_NAME}_${VERSION}_$source_file")
-EOF
-}
-
 # Compress binaries into zip files and generate shasums
 cd bin
 for os in "${PLATFORMS[@]}"; do
