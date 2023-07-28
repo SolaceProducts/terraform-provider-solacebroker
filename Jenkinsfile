@@ -45,7 +45,7 @@ def isTerraformVersionExists(version){
       --request GET \
       https://app.terraform.io/api/v2/organizations/${TF_ORGANIZATION_NAME}/registry-providers/${TF_REGISTRY_TYPE}/${TF_ORGANIZATION_NAME}/${TF_REGISTRY_NAME}/versions/${version}
     """, 
-  returnStdout: true
+    returnStdout: true
   ).trim()
   return (httpStatusCode == '200')
 }
@@ -63,9 +63,9 @@ node(label: 'master') {
 			checkout ( [$class: 'GitSCM',
 				branches: [[name: 'main' ]],
 				userRemoteConfigs: [[
-						credentialsId: JENKINSCRED_GH_ROBOT_ID, 
-						url: GIT_REPO_PROVIDER]]
-				])
+          credentialsId: JENKINSCRED_GH_ROBOT_ID, 
+          url: GIT_REPO_PROVIDER]]
+			])
 			sshagent(credentials: [JENKINSCRED_GH_ROBOT_ID]) {
 				sh "git checkout ${env.BRANCH_NAME}"
 				PROVIDER_VERSION = extractSemanticVersion(env.BRANCH_NAME)
@@ -152,7 +152,6 @@ node(label: 'master') {
 			sh "curl -T dist/${SHASUMS_FILE} ${SHASUMS_UPLOAD_URL}"
 			sh "curl -T dist/${SHASUMS_SIG_FILE} ${SHASUMS_SIG_UPLOAD_URL}"
 		}
-
 
 		stage ('Create Platforms for Binaries') {
 			for (binary in BINARIES) {
