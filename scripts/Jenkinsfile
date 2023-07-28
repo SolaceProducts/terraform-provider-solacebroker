@@ -94,7 +94,7 @@ node(label: 'master') {
         env.PROVIDER_VERSION=PROVIDER_VERSION
         sh "gpg --import --passphrase ${GPG_PASSPHRASE} --batch --yes --no-tty ${privateKey}"
         sh "gpg --import --passphrase ${GPG_PASSPHRASE} --batch --yes --no-tty  ${publicKey}"
-        sh './prepare_terraform_release.sh'
+        sh './scripts/prepare_terraform_release.sh'
       }
     }
 
