@@ -1,14 +1,14 @@
 String GIT_REPO_PROVIDER = 'git@github.com:SolaceDev/terraform-provider-solacebroker.git'
 String JENKINSCRED_GH_ROBOT_ID = 're-github-bot-1'
 
-library 'jenkins-pipeline-library@main'
-
 PROVIDER_NAME = 'terraform-provider-solacebroker'
 TF_ORGANIZATION_NAME = 'SolaceDev-CRE'
 TF_REGISTRY_TYPE = 'private'
 TF_REGISTRY_NAME = 'solacebroker'
 PROVIDER_BINARY_UPLOAD_URLS = [:]
 PROVIDER_VERSION = ''
+
+library 'jenkins-pipeline-library@main'
 
 BINARIES = [
   'darwin_amd64', 
