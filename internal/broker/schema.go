@@ -143,6 +143,21 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 				PlanModifiers:       modifiers[planmodifier.Object](attrRequiresReplace, objectplanmodifier.RequiresReplace),
 			}
 		}
+		if attr.TerraformName == "id" && isResource {
+			tfAttributes[attr.TerraformName] = schema.StringAttribute{
+				Description:         attr.Description,
+				MarkdownDescription: attr.MarkdownDescription,
+				Required:            attr.Required && isResource || attr.Identifying,
+				Optional:            !attr.Required && isResource,
+				Computed:            true,
+				Sensitive:           attr.Sensitive,
+				DeprecationMessage:  deprecationMessage,
+				Validators:          attr.StringValidators,
+				PlanModifiers:       []planmodifier.String{
+					stringplanmodifier.UseStateForUnknown(),
+				},
+			}
+		}
 	}
 	return tfAttributes
 }

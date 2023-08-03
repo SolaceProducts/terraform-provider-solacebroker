@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -132,13 +133,13 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		return
 	}
 
-	var path string
+	var sempPath string
 	method := http.MethodPut
 	if r.postPathTemplate != "" {
 		method = http.MethodPost
-		path, err = resolveSempPath(r.postPathTemplate, r.identifyingAttributes, request.Plan.Raw)
+		sempPath, err = resolveSempPath(r.postPathTemplate, r.identifyingAttributes, request.Plan.Raw)
 	} else {
-		path, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+		sempPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
 	}
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -148,13 +149,14 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(ctx, method, path, sempData)
+	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
 	response.State.Raw = request.Plan.Raw
+	response.State.SetAttribute(ctx, path.Root("id"), sempPath)
 	response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
@@ -220,7 +222,7 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 		return
 	}
 
-	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
@@ -229,13 +231,14 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	if r.objectType == SingletonObject {
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(ctx, method, path, sempData)
+	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
 
 	response.State.Raw = request.Plan.Raw
+	response.State.SetAttribute(ctx, path.Root("id"), sempPath)
 	response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
