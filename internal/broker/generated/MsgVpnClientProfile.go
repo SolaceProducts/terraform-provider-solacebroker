@@ -36,6 +36,16 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:            broker.String,
+				SempName:            "id",
+				TerraformName:       "id",
+				MarkdownDescription: "",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Default: "",
+			},
+			{
 				BaseType:            broker.Bool,
 				SempName:            "allowBridgeConnectionsEnabled",
 				TerraformName:       "allow_bridge_connections_enabled",

@@ -35,6 +35,16 @@ func init() {
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
+				SempName:            "id",
+				TerraformName:       "id",
+				MarkdownDescription: "",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
 				MarkdownDescription: "The name of the Message VPN.",

@@ -93,7 +93,7 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
 	}
-
+  sempData["id"] = path
 	responseData, err := ds.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)

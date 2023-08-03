@@ -70,13 +70,6 @@ func modifiers[T any](requiresReplace bool, f func() T) []T {
 
 func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, requiresReplace bool) map[string]schema.Attribute {
 	tfAttributes := map[string]schema.Attribute{}
-	tfAttributes["id"] = schema.StringAttribute{
-		Description:         "Numeric identifier required by the testing fwk",
-		Computed:    true,
-		PlanModifiers: []planmodifier.String{
-				stringplanmodifier.UseStateForUnknown(),
-		},
-	}
 	for _, attr := range attributes {
 		if attr.Sensitive && !isResource {
 			// write-only attributes can't be retrieved so we don't expose them in the datasource

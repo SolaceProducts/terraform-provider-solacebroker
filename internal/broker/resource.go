@@ -182,7 +182,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		}
 		return
 	}
-
+  sempData["id"] = path
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
