@@ -67,10 +67,15 @@ func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
 	if defaultValue == nil || attr.BaseType == Struct {
 		return true        // returning true here because this is a struct which has default nil
 	}
-	if attr.BaseType == Int64 {
-		return defaultValue.(int) == int(value.(int64))
-	}
-	return defaultValue == value
+	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", value)
+	
+	// if attr.BaseType == Int64 {
+	// 	if defaultValue == float64 {
+	// 		return defaultValue.(float64) == float64(value.(int64))
+	// 	}
+	// 	return defaultValue.(int) == int(value.(int64))
+	// }
+	// return defaultValue == value
 }
 
 func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
@@ -185,6 +190,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 
 	response.State.Raw = request.Plan.Raw
 	response.State.SetAttribute(ctx, path.Root("id"), id)
+	// TODO: review use of SetKey
 	response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
