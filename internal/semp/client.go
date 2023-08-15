@@ -185,6 +185,12 @@ loop:
 		rawData, ok = data["meta"]
 		if ok {
 			data, _ = rawData.(map[string]any)
+			
+			// tflog.Error(ctx, fmt.Sprintf("SEMP request returned %s, %s", response.Status, data["error"].(map[string]interface{})["description"].(string)))
+			
+			// TODO: Separate cases of resource not found vs 400 Bad Request
+			
+			
 			return data, fmt.Errorf(ResourceNotFoundError)
 		}
 	}

@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"path/filepath"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -79,12 +80,12 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 			return
 		}
 	}
-	path, err := resolveSempPath(ds.pathTemplate, ds.identifyingAttributes, request.Config.Raw)
+	sempPath, err := resolveSempPath(ds.pathTemplate, ds.identifyingAttributes, request.Config.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
-	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
+	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
 		if err.Error() == semp.ResourceNotFoundError {
 			// Log
@@ -93,7 +94,7 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
 	}
-  sempData["id"] = path
+  sempData["id"] = filepath.Base(sempPath)
 	responseData, err := ds.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)

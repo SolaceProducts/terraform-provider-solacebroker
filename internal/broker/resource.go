@@ -23,6 +23,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"path/filepath"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -61,6 +62,17 @@ var (
 
 type brokerResource brokerEntity[schema.Schema]
 
+func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
+	defaultValue := attr.Default
+	if defaultValue == nil || attr.BaseType == Struct {
+		return true        // returning true here because this is a struct which has default nil
+	}
+	if attr.BaseType == Int64 {
+		return defaultValue.(int) == int(value.(int64))
+	}
+	return defaultValue == value
+}
+
 func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
 	responseValues := map[string]tftypes.Value{}
 	err := response.As(&responseValues)
@@ -77,6 +89,13 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		response, responseExists := responseValues[name]
 		state, stateExists := stateValues[name]
 		if responseExists && response.IsKnown() && !response.IsNull() {
+			val, err := attr.Converter.FromTerraform(response)
+			if err != nil {
+				return tftypes.Value{}, err
+			}
+			if !isValueEqualsAttrDefault(attr, val)  {
+				continue   // do not change response for this
+			}
 			if stateExists && state.IsNull() {
 				responseValues[name] = state
 			} else {
@@ -95,6 +114,10 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		}
 	}
 	return tftypes.NewValue(response.Type(), responseValues), nil
+}
+
+func convert(any any) {
+	panic("unimplemented")
 }
 
 func (r *brokerResource) Schema(_ context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
@@ -134,12 +157,17 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 	}
 
 	var sempPath string
+	var id string
 	method := http.MethodPut
 	if r.postPathTemplate != "" {
 		method = http.MethodPost
 		sempPath, err = resolveSempPath(r.postPathTemplate, r.identifyingAttributes, request.Plan.Raw)
+		var idPath string
+		idPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+		id = filepath.Base(idPath)
 	} else {
 		sempPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+		id = filepath.Base(sempPath)
 	}
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -156,7 +184,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 	}
 
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), sempPath)
+	response.State.SetAttribute(ctx, path.Root("id"), id)
 	response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
@@ -169,12 +197,12 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		}
 	}
 
-	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
+	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
 	}
-	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
+	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
 		if err.Error() == semp.ResourceNotFoundError {
 			// Log
@@ -184,25 +212,30 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		}
 		return
 	}
-  sempData["id"] = path
+  sempData["id"] = filepath.Base(sempPath)
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
 
-	applied, diags := request.Private.GetKey(ctx, applied)
-	if diags.HasError() {
-		response.Diagnostics.Append(diags...)
-		return
-	}
-	if string(applied) == "true" {
+	// TODO: examine this!
+
+
+
+
+	// applied, diags := request.Private.GetKey(ctx, applied)
+	// if diags.HasError() {
+	// 	response.Diagnostics.Append(diags...)
+	// 	return
+	// }
+	// if string(applied) == "true" {
 		responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
 		if err != nil {
 			addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 			return
 		}
-	}
+	// }
 
 	response.State.Raw = responseData
 }
@@ -238,7 +271,7 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	}
 
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), sempPath)
+	response.State.SetAttribute(ctx, path.Root("id"), filepath.Base(sempPath))
 	response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
@@ -272,8 +305,9 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 
 func (r *brokerResource) ImportState(_ context.Context, request resource.ImportStateRequest, response *resource.ImportStateResponse) {
 
+  // TODO: check that id doesn't get imported. Shall make id transparent!
+
 	if len(r.identifyingAttributes) == 0 {
-		// TODO: Diags
 		if request.ID != "" {
 			response.Diagnostics.AddError(
 				"singleton object requires empty identifier for import",
@@ -292,14 +326,12 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 	for i, attr := range r.identifyingAttributes {
 		v, err := url.PathUnescape(split[i])
 		if err != nil {
-			// TODO: Diags
 			r.addIdentifierErrorToDiagnostics(&response.Diagnostics, request.ID)
 		}
 		identifierData[attr.SempName] = v
 	}
 	identifierState, err := r.converter.ToTerraform(identifierData)
 	if err != nil {
-		// TODO: Diags
 		r.addIdentifierErrorToDiagnostics(&response.Diagnostics, request.ID)
 		return
 	}
