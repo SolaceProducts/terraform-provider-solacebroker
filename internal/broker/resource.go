@@ -22,8 +22,9 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
-	"strings"
 	"path/filepath"
+	"reflect"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
 	"github.com/hashicorp/terraform-plugin-framework/path"
@@ -66,6 +67,12 @@ func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
 	defaultValue := attr.Default
 	if defaultValue == nil || attr.BaseType == Struct {
 		return true        // returning true here because this is a struct which has default nil
+	}
+	if attr.BaseType == Int64 {
+		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
+			return value == int64(defaultValue.(float64))
+		}
+		return defaultValue.(int) == int(value.(int64))
 	}
 	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", value)
 	
