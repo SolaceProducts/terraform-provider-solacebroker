@@ -71,6 +71,24 @@ func modifiers[T any](requiresReplace bool, f func() T) []T {
 func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, requiresReplace bool) map[string]schema.Attribute {
 	tfAttributes := map[string]schema.Attribute{}
 	for _, attr := range attributes {
+		if attr.TerraformName == "id" {
+			// Handle the id attribute for each object, required by the acceptance test framework
+			if isResource {
+				tfAttributes["id"] = schema.StringAttribute{
+					Description: "Placeholder identifier attribute.",
+					Computed:    true,
+					}
+			} else {
+				tfAttributes["id"] = schema.StringAttribute{
+					Description: "Placeholder identifier attribute.",
+					Computed:    true,
+					PlanModifiers:       []planmodifier.String{
+						stringplanmodifier.UseStateForUnknown(),
+					},
+				}
+			}
+			continue
+		}
 		if attr.Sensitive && !isResource {
 			// write-only attributes can't be retrieved so we don't expose them in the datasource
 			continue
@@ -141,21 +159,6 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 				Sensitive:           attr.Sensitive,
 				DeprecationMessage:  deprecationMessage,
 				PlanModifiers:       modifiers[planmodifier.Object](attrRequiresReplace, objectplanmodifier.RequiresReplace),
-			}
-		}
-		if attr.TerraformName == "id" && isResource {
-			tfAttributes[attr.TerraformName] = schema.StringAttribute{
-				Description:         attr.Description,
-				MarkdownDescription: attr.MarkdownDescription,
-				Required:            attr.Required && isResource || attr.Identifying,
-				Optional:            !attr.Required && isResource,
-				Computed:            true,
-				Sensitive:           attr.Sensitive,
-				DeprecationMessage:  deprecationMessage,
-				Validators:          attr.StringValidators,
-				PlanModifiers:       []planmodifier.String{
-					stringplanmodifier.UseStateForUnknown(),
-				},
 			}
 		}
 	}

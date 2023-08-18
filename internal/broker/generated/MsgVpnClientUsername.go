@@ -35,16 +35,6 @@ func init() {
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
-				SempName:            "id",
-				TerraformName:       "id",
-				MarkdownDescription: "",
-				Type:                types.StringType,
-				TerraformType:       tftypes.String,
-				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default: "",
-			},
-			{
-				BaseType:            broker.String,
 				SempName:            "aclProfileName",
 				TerraformName:       "acl_profile_name",
 				MarkdownDescription: "The ACL Profile of the Client Username. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
