@@ -29,8 +29,7 @@ const (
 provider "solacebroker" {
     username = "admin"
     password = "admin"
-    url      = "https://localhost:1943"
-    insecure_skip_verify = true
+    url      = "http://localhost:8080"
 }
 `
 )

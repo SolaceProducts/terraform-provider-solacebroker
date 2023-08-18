@@ -63,6 +63,7 @@ var (
 
 type brokerResource brokerEntity[schema.Schema]
 
+// Compares the value with the attribute default value. Must take care of type conversions.
 func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
 	defaultValue := attr.Default
 	if defaultValue == nil || attr.BaseType == Struct {
@@ -75,14 +76,11 @@ func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
 		return defaultValue.(int) == int(value.(int64))
 	}
 	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", value)
-	
-	// if attr.BaseType == Int64 {
-	// 	if defaultValue == float64 {
-	// 		return defaultValue.(float64) == float64(value.(int64))
-	// 	}
-	// 	return defaultValue.(int) == int(value.(int64))
-	// }
-	// return defaultValue == value
+}
+
+func toId(path string) string {
+	// the generated id will only be used for testing
+	return filepath.Base(path)
 }
 
 func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
@@ -176,10 +174,10 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		sempPath, err = resolveSempPath(r.postPathTemplate, r.identifyingAttributes, request.Plan.Raw)
 		var idPath string
 		idPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
-		id = filepath.Base(idPath)
+		id = toId(idPath)
 	} else {
 		sempPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
-		id = filepath.Base(sempPath)
+		id = toId(sempPath)
 	}
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -197,8 +195,9 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 
 	response.State.Raw = request.Plan.Raw
 	response.State.SetAttribute(ctx, path.Root("id"), id)
-	// TODO: review use of SetKey
-	response.Private.SetKey(ctx, applied, []byte("true"))
+	// removing SetKey for now
+	// reason: read post processing is required in all cases
+	// response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
 func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
@@ -225,18 +224,14 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		}
 		return
 	}
-  sempData["id"] = filepath.Base(sempPath)
+  sempData["id"] = toId(sempPath)
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
 
-	// TODO: examine this!
-
-
-
-
+	// removing SetKey for now
 	// applied, diags := request.Private.GetKey(ctx, applied)
 	// if diags.HasError() {
 	// 	response.Diagnostics.Append(diags...)
@@ -284,8 +279,9 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	}
 
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), filepath.Base(sempPath))
-	response.Private.SetKey(ctx, applied, []byte("true"))
+	response.State.SetAttribute(ctx, path.Root("id"), toId(sempPath))
+	// removing SetKey for now
+	// response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
 func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {

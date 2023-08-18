@@ -20,7 +20,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"path/filepath"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -94,7 +93,7 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
 	}
-  sempData["id"] = filepath.Base(sempPath)
+  sempData["id"] = toId(sempPath)
 	responseData, err := ds.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
