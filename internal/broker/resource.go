@@ -31,6 +31,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"github.com/hashicorp/terraform-plugin-log/tflog"
 
 	"terraform-provider-solacebroker/internal/semp"
 )
@@ -216,8 +217,8 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
-		if err.Error() == semp.ResourceNotFoundError {
-			// Log
+		if err == semp.ResourceNotFoundError {
+			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
@@ -305,7 +306,7 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err.Error() != semp.ResourceNotFoundError {
+		if err != semp.ResourceNotFoundError {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}
@@ -313,8 +314,6 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 }
 
 func (r *brokerResource) ImportState(_ context.Context, request resource.ImportStateRequest, response *resource.ImportStateResponse) {
-
-  // TODO: check that id doesn't get imported. Shall make id transparent!
 
 	if len(r.identifyingAttributes) == 0 {
 		if request.ID != "" {

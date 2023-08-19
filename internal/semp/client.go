@@ -21,6 +21,7 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -29,8 +30,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-const (
-	ResourceNotFoundError = "resource not found"
+var (
+	ResourceNotFoundError = errors.New("resource not found")
 )
 
 type Client struct {
@@ -171,7 +172,7 @@ loop:
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusBadRequest {
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
-	data := map[string]any{}
+	var data map[string]interface{}
 	err = json.Unmarshal(rawBody, &data)
 	if err != nil {
 		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
@@ -179,22 +180,30 @@ loop:
 	dumpData(ctx, "response", rawBody)
 	rawData, ok := data["data"]
 	if ok {
+		// Valid data
 		data, _ = rawData.(map[string]any)
 		return data, nil
 	} else {
+		// Analize response metadata details
 		rawData, ok = data["meta"]
 		if ok {
 			data, _ = rawData.(map[string]any)
+			if data["responseCode"].(float64) == http.StatusOK {
+				// this is valid response for delete
+				return nil, nil
+			}
+			description := data["error"].(map[string]interface{})["description"].(string)
+			status := data["error"].(map[string]interface{})["status"].(string)
+			if status == "NOT_FOUND" {
+				// resource not found is a special type we want to return 
+				return nil, ResourceNotFoundError
+			}
+			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
 			
-			// tflog.Error(ctx, fmt.Sprintf("SEMP request returned %s, %s", response.Status, data["error"].(map[string]interface{})["description"].(string)))
-			
-			// TODO: Separate cases of resource not found vs 400 Bad Request
-			
-			
-			return data, fmt.Errorf(ResourceNotFoundError)
+			return nil, fmt.Errorf("request failed from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
 		}
 	}
-	return nil, nil
+	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
 }
 
 func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (map[string]interface{}, error) {

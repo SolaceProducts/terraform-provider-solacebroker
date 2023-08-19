@@ -29,10 +29,11 @@ func TestDataSource(t *testing.T) {
         Steps: []resource.TestStep{
             // Read testing
             {
-            Config: providerConfig + `data "solacebroker_msg_vpn" "default" {
-                msg_vpn_name = "default"
-                }
-                `,
+            Config: providerConfig + `
+data "solacebroker_msg_vpn" "default" {
+		msg_vpn_name = "default"
+}
+`,
             Check: resource.ComposeAggregateTestCheckFunc(
                     resource.TestCheckResourceAttr("data.solacebroker_msg_vpn.default", "authentication_basic_enabled", "true"),
                 ),
