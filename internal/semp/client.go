@@ -200,7 +200,7 @@ loop:
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
 			
-			return nil, fmt.Errorf("request failed from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
+			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
 		}
 	}
 	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
