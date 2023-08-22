@@ -1,0 +1,24 @@
+
+terraform {
+  required_providers {
+    solacebroker = {
+      source = "{{.Registry}}"
+    }
+  }
+}
+
+provider solacebroker {
+  username       = "{{.Username}}"{{if not .Password}}
+  bearer_token   = "{{.BearerToken}}"{{else}}
+  password       = "{{.Password}}"{{end}}
+  url            = "{{.BrokerURL}}"
+}
+
+{{range  .BrokerResources}}
+{{range $k, $v := . -}}
+resource {{$k}} {
+{{$v}}
+}
+{{end -}}
+
+{{end}}

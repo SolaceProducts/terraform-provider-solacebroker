@@ -16,15 +16,14 @@
 
 package main
 
-// Provider documentation generation.
-//go:generate go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-name solacebroker
-
 import (
 	"context"
 	"flag"
+	"fmt"
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"log"
 	"os"
+	"terraform-provider-solacebroker/cmd"
 	"terraform-provider-solacebroker/internal/broker"
 	"terraform-provider-solacebroker/internal/broker/generated"
 )
@@ -41,29 +40,39 @@ var (
 )
 
 func main() {
-	var debug bool
 
-	flag.BoolVar(&debug, "debug", false, "set to true to run the provider with support for debuggers like delve")
-	flag.Parse()
+	if len(os.Args) > 1 && (os.Args[1] == "generate" || os.Args[1] == "help" || os.Args[1] == "--help" || os.Args[1] == "-h") {
+		err := cmd.Execute()
+		if err != nil && err.Error() != "" {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+	} else {
 
-	registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
-	if !ok {
-		registry = "registry.terraform.io"
-	}
+		var debug bool
 
-	opts := providerserver.ServeOpts{
-		// TODO: Update this string with the published name of your provider.
-		Address: registry + "/" + providerNamespace + "/" + providerType,
-		Debug:   debug,
-	}
+		flag.BoolVar(&debug, "debug", false, "set to true to run the provider with support for debuggers like delve")
+		flag.Parse()
 
-	if debug {
-		go debugRun(os.Getenv("SOLACEBROKER_DEBUG_RUN"), opts.Address)
-	}
+		registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
+		if !ok {
+			registry = "registry.terraform.io"
+		}
 
-	err := providerserver.Serve(context.Background(), broker.New(generated.Version), opts)
+		opts := providerserver.ServeOpts{
+			// TODO: Update this string with the published name of your provider.
+			Address: registry + "/" + providerNamespace + "/" + providerType,
+			Debug:   debug,
+		}
 
-	if err != nil {
-		log.Fatal(err.Error())
+		if debug {
+			go debugRun(os.Getenv("SOLACEBROKER_DEBUG_RUN"), opts.Address)
+		}
+
+		err := providerserver.Serve(context.Background(), broker.New(generated.Version), opts)
+
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 	}
 }

@@ -1,0 +1,98 @@
+name: Terraform Plugin Pipeline
+
+on: workflow_call
+
+
+jobs:
+  test:
+    name: Setup broker for terraform plugin pipeline
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.20"
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform latest
+        uses: hashicorp/setup-terraform@v2
+
+      - name: Setup test broker
+        run: |
+          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
+            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
+          while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
+
+      - name: Use local provider
+        run: |
+          echo "
+          provider_installation {
+            dev_overrides {
+              \"registry.terraform.io/solaceproducts/solacebroker\" = \"${HOME}/go/bin\"
+            }
+            direct {}
+          }" > ~/.terraformrc
+
+      - name: Checkout generator
+        uses: actions/checkout@v3
+        with:
+          repository: SolaceDev/broker-terraform-provider-generator
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+          path: broker-terraform-provider-generator
+          ref: "1.0.0"
+
+      - name: Build and install generator
+        run: |
+          pushd broker-terraform-provider-generator
+          go mod tidy
+          go install .
+          ls ~/go/bin
+          popd
+
+      - name: Generate provider code
+        run: |
+          SWAGGER_SPEC_NAME=`ls ci/swagger_spec`
+          echo "Generating code using spec $SWAGGER_SPEC_NAME"
+          BASE=`pwd`
+          pushd internal/broker/generated
+          rm ./*
+          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
+          popd
+
+      - name: Build provider
+        run: |
+          go mod tidy
+          go install .
+          ls ~/go/bin
+
+      - name: Check provider available
+        run: |
+          pushd ci/broker_vpn_q
+          terraform plan
+          popd
+          
+
+      - name: Test provider on test broker
+        run: |
+          pushd ci/broker_vpn_q
+          # Create
+          terraform plan
+          terraform apply -auto-approve
+          sleep 1
+          # Modify
+          cat ../broker_vpn_q2/testconfig2.tf >> testconfig.tf
+          terraform plan
+          terraform apply -auto-approve
+          sleep 1
+          # Delete
+          terraform destroy -auto-approve
+          sleep 1
+          # import
+          terraform apply -auto-approve
+          sleep 1
+          rm terraform.tfstate*
+          terraform import solacebroker_msg_vpn.newone new
+          popd
