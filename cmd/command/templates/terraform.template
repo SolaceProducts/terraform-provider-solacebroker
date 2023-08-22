@@ -2,16 +2,15 @@
 terraform {
   required_providers {
     solacebroker = {
-      source = "{{.Registry}}"
+      source = "registry.terraform.io/solaceproducts/solacebroker"
     }
   }
 }
 
 provider solacebroker {
-  username       = "{{.Username}}"{{if not .Password}}
-  bearer_token   = "{{.BearerToken}}"{{else}}
-  password       = "{{.Password}}"{{end}}
-  url            = "{{.BrokerURL}}"
+  username       = "admin"
+  password       = "admin"
+  url            = "http://localhost:8080"
 }
 
 {{range  .BrokerResources}}
