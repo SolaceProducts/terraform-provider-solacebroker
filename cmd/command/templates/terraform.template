@@ -15,6 +15,7 @@ provider solacebroker {
 }
 
 {{range  .BrokerResources}}
+
 {{range $k, $v := . -}}
 resource {{$k}} {
 {{$v}}

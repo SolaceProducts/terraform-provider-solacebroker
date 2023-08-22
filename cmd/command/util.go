@@ -112,7 +112,7 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}) ([]string, error) {
 	var tfBrokerObjects []string
 	for k, _ := range values {
-		tfAttributes := ""
+		tfAttributes := "\t"
 		for _, attr := range attributes {
 			//if attr.Sensitive {
 			//	// write-only attributes can't be retrieved so we don't expose them in the datasource
@@ -159,7 +159,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 			if attr.Deprecated {
 				tfAttributes += "	# Note: This attribute is deprecated."
 			}
-			tfAttributes += "\n"
+			tfAttributes += "\n\t"
 		}
 		tfBrokerObjects = append(tfBrokerObjects, tfAttributes)
 	}
