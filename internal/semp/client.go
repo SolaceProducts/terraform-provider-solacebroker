@@ -80,7 +80,7 @@ func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client
 	customTransport := http.DefaultTransport.(*http.Transport)
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: insecure_skip_verify}
 	client := &Client{
-		Client:             &http.Client{
+		Client: &http.Client{
 			Transport: customTransport,
 		},
 		url:              url,
@@ -114,10 +114,14 @@ func (c *Client) RequestWithBody(ctx context.Context, method, url string, body a
 		return nil, err
 	}
 	dumpData(ctx, fmt.Sprintf("%v to %v", request.Method, request.URL), data)
-	return c.doRequest(ctx, request)
+	rawBody, err := c.doRequest(request)
+	if err != nil {
+		return nil, err
+	}
+	return parseResponseAsObject(ctx, request, rawBody)
 }
 
-func (c *Client) doRequest(ctx context.Context, request *http.Request) (map[string]any, error) {
+func (c *Client) doRequest(request *http.Request) ([]byte, error) {
 	// the value doesn't matter, it is waiting for the value that matters
 	<-c.rateLimiter
 	if request.Method != http.MethodGet {
@@ -126,12 +130,12 @@ func (c *Client) doRequest(ctx context.Context, request *http.Request) (map[stri
 	// Prefer OAuth even if Basic Auth credentials provided
 	if c.bearerToken != "" {
 		// TODO: add log
-		request.Header.Set("Authorization", "Bearer " + c.bearerToken)
+		request.Header.Set("Authorization", "Bearer "+c.bearerToken)
 	} else if c.username != "" {
 		request.SetBasicAuth(c.username, c.password)
 	} else {
 		return nil, fmt.Errorf("either username or bearer token must be provided to access the broker")
-  }
+	}
 	attemptsRemaining := c.retries + 1
 	retryWait := c.retryMinInterval
 	var response *http.Response
@@ -171,12 +175,16 @@ loop:
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusBadRequest {
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
+	return rawBody, nil
+}
+
+func parseResponseAsObject(ctx context.Context, request *http.Request, dataResponse []byte) (map[string]any, error) {
 	data := map[string]any{}
-	err = json.Unmarshal(rawBody, &data)
+	err := json.Unmarshal(dataResponse, &data)
 	if err != nil {
-		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, rawBody)
+		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 	}
-	dumpData(ctx, "response", rawBody)
+	dumpData(ctx, "response", dataResponse)
 	rawData, ok := data["data"]
 	if ok {
 		data, _ = rawData.(map[string]any)
@@ -191,13 +199,60 @@ loop:
 	return nil, nil
 }
 
+func parseResponseForGenerator(ctx context.Context, request *http.Request, dataResponse []byte) ([]map[string]any, error) {
+	data := map[string]any{}
+	err := json.Unmarshal(dataResponse, &data)
+	if err != nil {
+		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
+	}
+	responseData := []map[string]any{}
+	dumpData(ctx, "response", dataResponse)
+	rawData, ok := data["data"]
+	if ok {
+		switch rawData.(type) {
+		case []interface{}:
+			responseDataRaw, _ := rawData.([]interface{})
+			for _, t := range responseDataRaw {
+				responseData = append(responseData, t.(map[string]any))
+			}
+		case map[string]interface{}:
+			responseDataRaw, _ := rawData.(map[string]any)
+			responseData = append(responseData, responseDataRaw)
+		}
+		return responseData, nil
+	} else {
+		rawData, ok = data["meta"]
+		if ok {
+			data, _ = rawData.(map[string]any)
+			responseData = append(responseData, data)
+			return responseData, fmt.Errorf(ResourceNotFoundError)
+		}
+	}
+	return nil, nil
+}
+
 func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (map[string]interface{}, error) {
 	request, err := http.NewRequestWithContext(ctx, method, c.url+url, nil)
 	if err != nil {
 		return nil, err
 	}
 	tflog.Debug(ctx, fmt.Sprintf("===== %v to %v =====", request.Method, request.URL))
-	return c.doRequest(ctx, request)
+	rawBody, err := c.doRequest(request)
+	if err != nil {
+		return nil, err
+	}
+	return parseResponseAsObject(ctx, request, rawBody)
+}
+func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, method, url string) ([]map[string]interface{}, error) {
+	request, err := http.NewRequestWithContext(ctx, method, c.url+url, nil)
+	if err != nil {
+		return nil, err
+	}
+	rawBody, err := c.doRequest(request)
+	if err != nil {
+		return nil, err
+	}
+	return parseResponseForGenerator(ctx, request, rawBody)
 }
 
 func dumpData(ctx context.Context, tag string, data []byte) {
