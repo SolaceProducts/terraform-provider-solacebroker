@@ -32,6 +32,8 @@ import (
 
 var DataSources []func() datasource.DataSource
 
+var Entities []EntityInputs
+
 func RegisterDataSource(inputs EntityInputs) {
 	DataSources = append(DataSources, newBrokerDataSourceGenerator(inputs))
 }
@@ -40,6 +42,7 @@ var Resources []func() resource.Resource
 
 func RegisterResource(inputs EntityInputs) {
 	Resources = append(Resources, newBrokerResourceGenerator(inputs))
+	Entities = append(Entities, inputs)
 }
 
 var SempDetail SempVersionDetail

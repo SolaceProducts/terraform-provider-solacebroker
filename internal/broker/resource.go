@@ -65,10 +65,10 @@ var (
 type brokerResource brokerEntity[schema.Schema]
 
 // Compares the value with the attribute default value. Must take care of type conversions.
-func isValueEqualsAttrDefault(attr *AttributeInfo, value interface {}) bool {
+func isValueEqualsAttrDefault(attr *AttributeInfo, value interface{}) bool {
 	defaultValue := attr.Default
 	if defaultValue == nil || attr.BaseType == Struct {
-		return true        // returning true here because this is a struct which has default nil
+		return true // returning true here because this is a struct which has default nil
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
@@ -104,8 +104,8 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 			if err != nil {
 				return tftypes.Value{}, err
 			}
-			if !isValueEqualsAttrDefault(attr, val)  {
-				continue   // do not change response for this
+			if !isValueEqualsAttrDefault(attr, val) {
+				continue // do not change response for this
 			}
 			if stateExists && state.IsNull() {
 				responseValues[name] = state
@@ -217,7 +217,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
-		if err == semp.ResourceNotFoundError {
+		if err == semp.ErrResourceNotFound {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
 		} else {
@@ -225,7 +225,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		}
 		return
 	}
-  sempData["id"] = toId(sempPath)
+	sempData["id"] = toId(sempPath)
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
@@ -239,11 +239,11 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	// 	return
 	// }
 	// if string(applied) == "true" {
-		responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
-		if err != nil {
-			addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
-			return
-		}
+	responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
 	// }
 
 	response.State.Raw = responseData
@@ -306,7 +306,7 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err != semp.ResourceNotFoundError {
+		if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}

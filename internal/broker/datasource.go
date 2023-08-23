@@ -87,14 +87,14 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
-		if err == semp.ResourceNotFoundError {
+		if err == semp.ErrResourceNotFound {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
 	}
-  sempData["id"] = toId(sempPath)
+	sempData["id"] = toId(sempPath)
 	responseData, err := ds.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
