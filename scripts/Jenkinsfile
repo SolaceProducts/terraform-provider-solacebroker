@@ -1,0 +1,14 @@
+currentBuild.description = "Publish Private Terraform Provider"
+node(label: 'master') {
+  library 'jenkins-pipeline-library@main'
+  cleanWs()
+
+  String TERRAFORM_BRANCH = env.BRANCH_NAME
+  println "Launching build"
+  stage("publish-broker-terraform-provider") {
+    job = build job: 'publish-broker-terraform-provider', propagate: true, parameters:
+    [
+      string(name: 'TERRAFORM_BRANCH', value: TERRAFORM_BRANCH),
+    ]
+  }
+}
