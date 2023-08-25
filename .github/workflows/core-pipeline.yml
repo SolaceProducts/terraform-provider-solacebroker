@@ -18,6 +18,8 @@ jobs:
 
       - name: Set up Terraform latest
         uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
 
       - name: Checkout generator
         uses: actions/checkout@v3
@@ -45,9 +47,10 @@ jobs:
           SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
           popd
 
-      - name: Test Provider
+      - name: Test Provider and generate documentations
         run: |
           make test-coverage
+          make generate-docs
 
       - name: Build provider
         run: |
@@ -61,6 +64,7 @@ jobs:
         with:
           files: |
             internal/broker/generated
+            docs
 
       - name: Run step only when any of the above files change.
         if: steps.check-changed-files.outputs.files_changed == 'true'

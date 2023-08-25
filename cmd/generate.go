@@ -1,4 +1,4 @@
-// terraform-provider-solacebroker
+// Package cmd terraform-provider-solacebroker
 //
 // Copyright 2023 Solace Corporation. All rights reserved.
 //
@@ -27,14 +27,24 @@ import (
 
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
-	Use:   "generate",
-	Short: "Generates a Terraform configuration file for a specified object and all child objects known to the provider",
+	Use:   "generate --url=<terraform resource address> <provider-specific identifier> <filename>",
+	Short: "Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-Generate is not a Terraform command (Terraform does not have the concept).  It is a broker provider command.  If a user has a copy of the provider binary (from either an automatic Terraform download or by downloading it directly), they can execute that binary with the generate command to generate a Terraform configuration file from the current configuration of a broker.
-<binary> generate [options] <terraform resource address> <provider-specific identifier> <filename>
-where <binary> is the broker provider binary, <terraform resource address> and <provider-specific identifier> are the same as for the Terraform Import command, <filename> is the desirable name of the generated filename (would general end with the standard Terraform extension of .tf), and [options] are the supported options, which mirror the configuration options for the provider object (for example -url=https://f93.soltestlab.ca:1943 and -retry_wait_max=90s) and can be set via environment variables in the same way and with the same validations.
-For example: 
-terraform-provider-solacebroker generate -url=https://f93.soltestlab.ca:1943 solacebroker_msg_vpn_rest_delivery_point.my_rdp default/my-rdp my-rdp.tf`,
+This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker..
+
+ <binary> generate <terraform resource address> <provider-specific identifier> <filename>
+
+ where;
+	<binary> is the broker provider binary,
+	<terraform resource address> is the terraform resource address, for example https://mybroker.example.org:1943/,
+	<provider-specific identifier> are the similar to the Terraform Import command,this is the resource name and possible values to find a specific resource,
+	<filename> is the desirable name of the generated filename.
+
+For example:
+  terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf
+
+This command would create a file my-messagevpn.tf that contains a resource definition for the default message VPN and any child objects, assuming the appropriate broker credentials were set in environment variables.`,
+
 	Run: func(cmd *cobra.Command, args []string) {
 		brokerURL, _ := cmd.Flags().GetString("url")
 		command.LogCLIInfo("Connecting to Broker : " + brokerURL)
