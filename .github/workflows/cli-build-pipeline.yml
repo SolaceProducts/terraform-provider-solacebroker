@@ -66,6 +66,7 @@ jobs:
           go mod tidy
           go install .
           ls ~/go/bin
+          terraform-provider-solacebroker -h
 
       - name: Failure to  Generate sample Terraform due to Missing Username for  Broker
         run: |
@@ -120,7 +121,7 @@ jobs:
           terraform apply -auto-approve
           sleep 1
 
-      - name: Test a complex file
+      - name: Create custom messageVPN
         run: |
           pushd ci/broker_vpn_test
           # Create
