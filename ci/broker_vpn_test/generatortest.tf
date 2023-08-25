@@ -283,13 +283,6 @@ resource "solacebroker_msg_vpn_bridge" "msg_vpn_bridge" {
   tls_cipher_suite_list                       = "default"
 }
 
-resource "solacebroker_msg_vpn_bridge_tls_trusted_common_name" "msg_vpn_bridge_tls_trusted_common_name" {
-  msg_vpn_name            = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  bridge_name             = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
-  bridge_virtual_router   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
-  tls_trusted_common_name = "test"
-}
-
 resource "solacebroker_msg_vpn_bridge_remote_msg_vpn" "msg_vpn_bridge_remote_msg_vpn" {
   msg_vpn_name                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   bridge_name                   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
