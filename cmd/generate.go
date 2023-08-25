@@ -106,12 +106,24 @@ terraform-provider-solacebroker generate -url=https://f93.soltestlab.ca:1943 sol
 		brokerResources := []map[string]string{}
 
 		//get parent resource
-		brokerResources = append(brokerResources, command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, brokerObjectTerraformName, providerSpecificIdentifier))
+		parentBrokerResource := command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, brokerObjectTerraformName, providerSpecificIdentifier)
+		brokerResources = append(brokerResources, parentBrokerResource)
 
 		//get all children resources
 		childBrokerObjects := command.BrokerObjectRelationship[command.BrokerObjectType(brokerObjectTerraformName)]
 		for _, childBrokerObject := range childBrokerObjects {
-			brokerResources = append(brokerResources, command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier))
+			brokerResourcesToAppend := map[string]string{}
+			childBrokerResource := command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier)
+			for childBrokerResourceKey, childBrokerResourceValue := range childBrokerResource {
+				_, existsInParent := parentBrokerResource[childBrokerResourceKey]
+				if existsInParent {
+					//replace all parameters of child resources with parent resource
+					brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+				} else {
+					brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+				}
+			}
+			brokerResources = append(brokerResources, brokerResourcesToAppend)
 		}
 
 		object.BrokerResources = brokerResources
