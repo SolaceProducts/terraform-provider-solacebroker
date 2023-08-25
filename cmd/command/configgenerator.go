@@ -2,6 +2,7 @@ package terraform
 
 import (
 	"context"
+	"golang.org/x/exp/maps"
 	"golang.org/x/exp/slices"
 	"net/http"
 	"os"
@@ -33,18 +34,20 @@ func CreateBrokerObjectRelationships() {
 				parent = strings.TrimSuffix(parent, "}")
 
 				//first item in node
-				tfParentName, tfObjectExists := getDataSourceNameIfDatasource(parent, "")
+				tfParentNameCollection, tfObjectExists := getDataSourceNameIfDatasource(parent, "")
 
 				if tfObjectExists {
-					_, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
-					if !ok {
-						BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
+					for _, tfParentName := range tfParentNameCollection {
+						_, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
+						if !ok {
+							BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
+						}
 					}
 				}
 			}
 			if i != 0 {
 				var parent string
-				var tfParentName string
+				var tfParentNameCollection []string
 				baseParent := strings.TrimPrefix((matches[0][0]), "{")
 				baseParent = strings.TrimSuffix(baseParent, "}")
 
@@ -52,27 +55,36 @@ func CreateBrokerObjectRelationships() {
 				parent = strings.TrimSuffix(parent, "}")
 
 				if baseParent != parent {
-					tfParentName, _ = getDataSourceNameIfDatasource(baseParent, parent)
+					tfParentNameCollection, _ = getDataSourceNameIfDatasource(baseParent, parent)
 				} else {
-					tfParentName, _ = getDataSourceNameIfDatasource(parent, "")
+					tfParentNameCollection, _ = getDataSourceNameIfDatasource(parent, "")
 				}
 
-				children, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
-				if !ok {
-					BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
-					children = []BrokerObjectType{}
-				}
+				for _, tfParentName := range tfParentNameCollection {
 
-				child := strings.TrimPrefix((matches[i][0]), "{")
-				child = strings.TrimSuffix(child, "}")
+					children, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
+					if !ok {
+						BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
+						children = []BrokerObjectType{}
+					}
 
-				tfChildName, tfValueExists := getDataSourceNameIfDatasource(parent, child)
+					child := strings.TrimPrefix((matches[i][0]), "{")
+					child = strings.TrimSuffix(child, "}")
 
-				if tfValueExists {
-					valExists := slices.Contains(children, BrokerObjectType(tfChildName))
-					if !valExists {
-						children = append(children, BrokerObjectType(tfChildName))
-						BrokerObjectRelationship[BrokerObjectType(tfParentName)] = children
+					tfChildNameCollection, tfValueExists := getDataSourceNameIfDatasource(parent, child)
+
+					if tfValueExists {
+						for _, tfChildName := range tfChildNameCollection {
+							valExists := slices.Contains(children, BrokerObjectType(tfChildName))
+							if !valExists {
+								children = append(children, BrokerObjectType(tfChildName))
+								BrokerObjectRelationship[BrokerObjectType(tfParentName)] = children
+							}
+							_, ok := BrokerObjectRelationship[BrokerObjectType(tfChildName)]
+							if !ok {
+								BrokerObjectRelationship[BrokerObjectType(tfChildName)] = []BrokerObjectType{}
+							}
+						}
 					}
 				}
 			}
@@ -80,7 +92,8 @@ func CreateBrokerObjectRelationships() {
 	}
 }
 
-func getDataSourceNameIfDatasource(parent string, child string) (string, bool) {
+func getDataSourceNameIfDatasource(parent string, child string) ([]string, bool) {
+	tfNames := map[string]string{}
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
@@ -92,7 +105,10 @@ func getDataSourceNameIfDatasource(parent string, child string) (string, bool) {
 					parentToSet = strings.TrimSuffix(parentToSet, "}")
 
 					if child == "" && parentToSet == parent {
-						return ds.TerraformName, true
+						_, exists := tfNames[ds.TerraformName]
+						if !exists {
+							tfNames[ds.TerraformName] = ds.TerraformName
+						}
 					}
 				}
 				if len(matches) == 2 && i == 1 {
@@ -103,14 +119,17 @@ func getDataSourceNameIfDatasource(parent string, child string) (string, bool) {
 					childToSet = strings.TrimSuffix(childToSet, "}")
 
 					if child == childToSet && parentToSet == parent {
-						return ds.TerraformName, true
+						_, exists := tfNames[ds.TerraformName]
+						if !exists {
+							tfNames[ds.TerraformName] = ds.TerraformName
+						}
 					}
 				}
 			}
 		}
 	}
-
-	return "", false
+	collectionTfNames := maps.Keys(tfNames)
+	return collectionTfNames, len(collectionTfNames) > 0
 }
 
 func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string) map[string]string {

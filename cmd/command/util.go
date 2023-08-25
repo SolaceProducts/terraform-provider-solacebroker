@@ -114,6 +114,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 	for k, _ := range values {
 		tfAttributes := "\t"
 		for _, attr := range attributes {
+			systemProvisioned := false
 			//if attr.Sensitive {
 			//	// write-only attributes can't be retrieved so we don't expose them in the datasource
 			//	continue
@@ -131,6 +132,9 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 			case broker.String:
 				if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
 					continue
+				}
+				if strings.Contains(valuesRes.(string), "#") {
+					systemProvisioned = true
 				}
 				val := attr.TerraformName + "\t\t\t\t\t\t=\t\"" + valuesRes.(string) + "\""
 				tfAttributes += val
@@ -156,8 +160,12 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				val := attr.TerraformName + "\t\t\t\t\t\t=\t" + string(valueJson)
 				tfAttributes += val
 			}
-			if attr.Deprecated {
+			if attr.Deprecated && systemProvisioned {
+				tfAttributes += "	# Note: This attribute is deprecated and may also be system provisioned."
+			} else if attr.Deprecated && !systemProvisioned {
 				tfAttributes += "	# Note: This attribute is deprecated."
+			} else if !attr.Deprecated && systemProvisioned {
+				tfAttributes += "	# Note: This attribute may be system provisioned."
 			}
 			tfAttributes += "\n\t"
 		}
