@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_rest_delivery_point_queue_binding",
-		MarkdownDescription: "A Queue Binding for a REST Delivery Point attracts messages to be delivered to REST consumers. If the queue does not exist it can be created subsequently, and once the queue is operational the broker performs the queue binding. Removing the queue binding does not delete the queue itself. Similarly, removing the queue does not remove the queue binding, which fails until the queue is recreated or the queue binding is deleted.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nqueue_binding_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "A Queue Binding for a REST Delivery Point attracts messages to be delivered to REST consumers. If the queue does not exist it can be created subsequently, and once the queue is operational the broker performs the queue binding. Removing the queue binding does not delete the queue itself. Similarly, removing the queue does not remove the queue binding, which fails until the queue is recreated or the queue binding is deleted.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nqueue_binding_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/queueBindings/{queueBindingName}",
 		Version:             0,
@@ -46,7 +46,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "gatewayReplaceTargetAuthorityEnabled",
 				TerraformName:       "gateway_replace_target_authority_enabled",
-				MarkdownDescription: "Enable or disable whether the authority for the request-target is replaced with that configured for the REST Consumer remote. When enabled, the broker sends HTTP requests in absolute-form, with the request-target's authority taken from the REST Consumer's remote host and port configuration. When disabled, the broker sends HTTP requests whose request-target matches that of the original request message, including whether to use absolute-form or origin-form. This configuration is applicable only when the Message VPN is in REST gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.6.",
+				MarkdownDescription: "Enable or disable whether the authority for the request-target is replaced with that configured for the REST Consumer remote. When enabled, the broker sends HTTP requests in absolute-form, with the request-target's authority taken from the REST Consumer's remote host and port configuration. When disabled, the broker sends HTTP requests whose request-target matches that of the original request message, including whether to use absolute-form or origin-form. This configuration is applicable only when the Message VPN is in REST gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.6.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
@@ -102,7 +102,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "requestTargetEvaluation",
 				TerraformName:       "request_target_evaluation",
-				MarkdownDescription: "The type of evaluation to perform on the request target. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - Do not evaluate substitution expressions on the request target.\n\"substitution-expressions\" - Evaluate substitution expressions on the request target.\n</pre>\n Available since 2.23.",
+				MarkdownDescription: "The type of evaluation to perform on the request target. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - Do not evaluate substitution expressions on the request target.\n\"substitution-expressions\" - Evaluate substitution expressions on the request target.\n</pre>\n Available since SEMP API version 2.23.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

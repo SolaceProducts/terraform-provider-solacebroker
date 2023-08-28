@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_acl_profile",
-		MarkdownDescription: "An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nacl_profile_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nacl_profile_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/aclProfiles/{aclProfileName}",
 		Version:             0,
@@ -104,7 +104,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "subscribeShareNameDefaultAction",
 				TerraformName:       "subscribe_share_name_default_action",
-				MarkdownDescription: "The default action to take when a client using the ACL Profile subscribes to a share-name subscription in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"allow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow topic unless an exception is found for it.\n\"disallow\" - Disallow topic unless an exception is found for it.\n</pre>\n Available since 2.14.",
+				MarkdownDescription: "The default action to take when a client using the ACL Profile subscribes to a share-name subscription in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"allow\"`. The allowed values and their meaning are:\n\n<pre>\n\"allow\" - Allow topic unless an exception is found for it.\n\"disallow\" - Disallow topic unless an exception is found for it.\n</pre>\n Available since SEMP API version 2.14.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

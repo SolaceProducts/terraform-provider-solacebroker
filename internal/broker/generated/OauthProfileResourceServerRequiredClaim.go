@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_resource_server_required_claim",
-		MarkdownDescription: "Additional claims to be verified in the access token.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\noauth_profile_name|x|||\nresource_server_required_claim_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since 2.24.",
+		MarkdownDescription: "Additional claims to be verified in the access token.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\noauth_profile_name|x|||\nresource_server_required_claim_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/resourceServerRequiredClaims/{resourceServerRequiredClaimName}",
 		PostPathTemplate:    "/oauthProfiles/{oauthProfileName}/resourceServerRequiredClaims",

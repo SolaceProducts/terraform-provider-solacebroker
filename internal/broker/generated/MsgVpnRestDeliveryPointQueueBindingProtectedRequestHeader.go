@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_rest_delivery_point_queue_binding_protected_request_header",
-		MarkdownDescription: "A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nheader_name|x|||\nheader_value||x||x\nmsg_vpn_name|x|||\nqueue_binding_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.30.",
+		MarkdownDescription: "A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nheader_name|x|||\nheader_value||x||x\nmsg_vpn_name|x|||\nqueue_binding_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.30.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/queueBindings/{queueBindingName}/protectedRequestHeaders/{headerName}",
 		Version:             0,
@@ -62,7 +62,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "headerValue",
 				TerraformName:       "header_value",
-				MarkdownDescription: "The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Sensitive:           true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,

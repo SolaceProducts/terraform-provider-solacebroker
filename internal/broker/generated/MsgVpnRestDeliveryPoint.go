@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_rest_delivery_point",
-		MarkdownDescription: "A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nrest_delivery_point_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}",
 		Version:             0,
@@ -102,7 +102,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "service",
 				TerraformName:       "service",
-				MarkdownDescription: "The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since 2.19.",
+				MarkdownDescription: "The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.19.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -115,7 +115,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "vendor",
 				TerraformName:       "vendor",
-				MarkdownDescription: "The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since 2.19.",
+				MarkdownDescription: "The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.19.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

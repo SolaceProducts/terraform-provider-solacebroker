@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_kafka_sender_queue_binding",
-		MarkdownDescription: "A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nkafka_sender_name|x|||\nmsg_vpn_name|x|||\nqueue_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.36.",
+		MarkdownDescription: "A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nkafka_sender_name|x|||\nmsg_vpn_name|x|||\nqueue_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaSenders/{kafkaSenderName}/queueBindings/{queueName}",
 		Version:             0,

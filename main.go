@@ -69,7 +69,7 @@ func main() {
 			go debugRun(os.Getenv("SOLACEBROKER_DEBUG_RUN"), opts.Address)
 		}
 
-		err := providerserver.Serve(context.Background(), broker.New(generated.Version), opts)
+		err := providerserver.Serve(context.Background(), broker.New(generated.SempVersion), opts)
 
 		if err != nil {
 			log.Fatal(err.Error())

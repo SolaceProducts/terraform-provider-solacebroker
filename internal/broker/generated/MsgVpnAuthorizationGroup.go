@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authorization_group",
-		MarkdownDescription: "To use client authorization groups configured on an external server to provide client authorizations, Authorization Group objects must be created on the Message VPN that match the authorization groups provisioned on the external server. These objects must be configured with the client profiles and ACL profiles that will be assigned to the clients that belong to those authorization groups. A newly created group is placed at the end of the group list which is the lowest priority.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthorization_group_name|x|||\nmsg_vpn_name|x|||\norder_after_authorization_group_name||x||\norder_before_authorization_group_name||x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since 2.0.",
+		MarkdownDescription: "To use client authorization groups configured on an external server to provide client authorizations, Authorization Group objects must be created on the Message VPN that match the authorization groups provisioned on the external server. These objects must be configured with the client profiles and ACL profiles that will be assigned to the clients that belong to those authorization groups. A newly created group is placed at the end of the group list which is the lowest priority.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthorization_group_name|x|||\nmsg_vpn_name|x|||\norder_after_authorization_group_name||x||\norder_before_authorization_group_name||x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authorizationGroups/{authorizationGroupName}",
 		Version:             0,
@@ -116,7 +116,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "orderAfterAuthorizationGroupName",
 				TerraformName:       "order_after_authorization_group_name",
-				MarkdownDescription: "Lower the priority to be less than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.",
+				MarkdownDescription: "Lower the priority to be less than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.",
 				Sensitive:           true,
 				ConflictsWith:       []string{"order_before_authorization_group_name"},
 				Type:                types.StringType,
@@ -133,7 +133,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "orderBeforeAuthorizationGroupName",
 				TerraformName:       "order_before_authorization_group_name",
-				MarkdownDescription: "Raise the priority to be greater than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.",
+				MarkdownDescription: "Raise the priority to be greater than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.",
 				Sensitive:           true,
 				ConflictsWith:       []string{"order_after_authorization_group_name"},
 				Type:                types.StringType,
