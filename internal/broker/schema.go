@@ -50,7 +50,7 @@ var SempDetail SempVersionDetail
 func RegisterSempVersionDetails(sempAPIBasePath string, sempVersion string) {
 	SempDetail = SempVersionDetail{
 		BasePath: sempAPIBasePath,
-		Version:  sempVersion,
+		SempVersion:  sempVersion,
 	}
 }
 

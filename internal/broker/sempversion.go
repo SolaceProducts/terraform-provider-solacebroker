@@ -18,5 +18,5 @@ package broker
 
 type SempVersionDetail struct {
 	BasePath string
-	Version  string
+	SempVersion  string
 }
