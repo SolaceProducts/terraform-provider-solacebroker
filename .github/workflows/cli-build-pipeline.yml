@@ -66,6 +66,7 @@ jobs:
           go mod tidy
           go install .
           ls ~/go/bin
+          terraform-provider-solacebroker -h
 
       - name: Failure to  Generate sample Terraform due to Missing Username for  Broker
         run: |
@@ -120,7 +121,7 @@ jobs:
           terraform apply -auto-approve
           sleep 1
 
-      - name: Test a complex file
+      - name: Create custom messageVPN
         run: |
           pushd ci/broker_vpn_test
           # Create
@@ -129,9 +130,14 @@ jobs:
           sleep 1
           popd
 
-      - name: Generate file for complex file
+      - name: Generate complete file for custom messageVPN file
         run: |
           SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.msg_vpn test messageVpn.tf
+          cat messageVpn.tf
+          
+      - name: Generate some resources( only msg_vpn_queue) for custom messageVPN file
+        run: |
+          SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn_queue.q test/test messageVpn.tf
           cat messageVpn.tf
           
           

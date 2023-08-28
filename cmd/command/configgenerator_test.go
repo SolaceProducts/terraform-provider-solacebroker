@@ -52,7 +52,7 @@ func Test_getDataSourceNameIfDatasource(t *testing.T) {
 	tests := []struct {
 		name  string
 		args  args
-		want  string
+		want  []string
 		want1 bool
 	}{
 		// TODO: Add test cases.
@@ -60,7 +60,7 @@ func Test_getDataSourceNameIfDatasource(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			got, got1 := getDataSourceNameIfDatasource(tt.args.parent, tt.args.child)
-			if got != tt.want {
+			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("getDataSourceNameIfDatasource() got = %v, want %v", got, tt.want)
 			}
 			if got1 != tt.want1 {

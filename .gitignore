@@ -9,3 +9,5 @@ terraform.tfstate.backup
 .vscode
 examples
 __debug*
+bin
+dist

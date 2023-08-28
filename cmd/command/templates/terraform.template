@@ -8,9 +8,9 @@ terraform {
 }
 
 provider solacebroker {
-  username       = "admin"
-  password       = "admin"
-  url            = "http://localhost:8080"
+  username       = "admin"                 # This is a placeholder.
+  password       = "admin"                 # This is a placeholder.
+  url            = "http://localhost:8080" # This is a placeholder.
 }
 
 {{range  .BrokerResources}}
