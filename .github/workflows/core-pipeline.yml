@@ -56,7 +56,9 @@ jobs:
         run: |
           go mod tidy
           go install .
-          ls ~/go/bin
+          ~/go/bin/terraform-provider-solacebroker version
+          ~/go/bin/terraform-provider-solacebroker help
+
           
       - name: Check changed files
         uses: tj-actions/verify-changed-files@v14

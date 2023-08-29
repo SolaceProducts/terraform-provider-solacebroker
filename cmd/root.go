@@ -23,22 +23,10 @@ import (
 
 var rootCmd = &cobra.Command{
 	Use:   "terraform-provider-solacebroker",
-	Short: "Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider",
-	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker..
-
- <binary> generate <terraform resource address> <provider-specific identifier> <filename>
-
- where;
-	<binary> is the broker provider binary,
-	<terraform resource address> is the terraform resource address, for example https://mybroker.example.org:1943/,
-	<provider-specific identifier> are the similar to the Terraform Import command,this is the resource name and possible values to find a specific resource,
-	<filename> is the desirable name of the generated filename.
-
-For example:
-  terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf
-
-This command would create a file my-messagevpn.tf that contains a resource definition for the default message VPN and any child objects, assuming the appropriate broker credentials were set in environment variables.`,
+	Short: "",
+	Long: `Terraform provider for the Solace PubSubPlus Software Event Broker.
+This binary is both a plugin for Terraform CLI and it also provides command-line options when invoked as standalone.
+The rest of this help describes the command-line use.`,
 }
 
 func Execute() error {

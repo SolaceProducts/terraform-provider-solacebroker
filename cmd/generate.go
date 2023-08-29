@@ -30,7 +30,7 @@ var generateCmd = &cobra.Command{
 	Use:   "generate --url=<terraform resource address> <provider-specific identifier> <filename>",
 	Short: "Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker..
+This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSubPlus event broker.
 
  <binary> generate <terraform resource address> <provider-specific identifier> <filename>
 

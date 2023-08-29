@@ -16,4 +16,4 @@
 
 package main
 
-const providerVersion = "0.5.0"
+const version = "0.5.0"
