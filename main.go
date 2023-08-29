@@ -25,7 +25,7 @@ import (
 	"os"
 	"terraform-provider-solacebroker/cmd"
 	"terraform-provider-solacebroker/internal/broker"
-	"terraform-provider-solacebroker/internal/broker/generated"
+	_ "terraform-provider-solacebroker/internal/broker/generated"
 )
 
 var (
@@ -69,7 +69,7 @@ func main() {
 			go debugRun(os.Getenv("SOLACEBROKER_DEBUG_RUN"), opts.Address)
 		}
 
-		err := providerserver.Serve(context.Background(), broker.New(generated.SempVersion), opts)
+		err := providerserver.Serve(context.Background(), broker.New(providerVersion), opts)
 
 		if err != nil {
 			log.Fatal(err.Error())

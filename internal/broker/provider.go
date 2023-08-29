@@ -132,10 +132,6 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	resp.DataSourceData = &config
 }
 
-func (p *BrokerProvider) SempVersionDetails() SempVersionDetail {
-	return SempDetail
-}
-
 func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {
 	return Resources
 }
