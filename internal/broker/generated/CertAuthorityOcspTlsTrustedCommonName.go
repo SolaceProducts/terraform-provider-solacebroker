@@ -28,17 +28,26 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "cert_authority_ocsp_tls_trusted_common_name",
-		MarkdownDescription: "When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncert_authority_name|x||x|\nocsp_tls_trusted_common_name|x||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been deprecated since 2.19. Replaced by clientCertAuthorities.",
+		MarkdownDescription: "When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncert_authority_name|x||x|\nocsp_tls_trusted_common_name|x||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/certAuthorities/{certAuthorityName}/ocspTlsTrustedCommonNames/{ocspTlsTrustedCommonName}",
 		PostPathTemplate:    "/certAuthorities/{certAuthorityName}/ocspTlsTrustedCommonNames",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:      broker.String,
+				SempName:      "id",
+				TerraformName: "id",
+				Type:          types.StringType,
+				TerraformType: tftypes.String,
+				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Default:       "",
+			},
+			{
 				BaseType:            broker.String,
 				SempName:            "certAuthorityName",
 				TerraformName:       "cert_authority_name",
-				MarkdownDescription: "The name of the Certificate Authority. Deprecated since 2.19. Replaced by clientCertAuthorities.",
+				MarkdownDescription: "The name of the Certificate Authority. Deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -56,7 +65,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "ocspTlsTrustedCommonName",
 				TerraformName:       "ocsp_tls_trusted_common_name",
-				MarkdownDescription: "The expected Trusted Common Name of the OCSP responder remote certificate. Deprecated since 2.19. Replaced by clientCertAuthorities.",
+				MarkdownDescription: "The expected Trusted Common Name of the OCSP responder remote certificate. Deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

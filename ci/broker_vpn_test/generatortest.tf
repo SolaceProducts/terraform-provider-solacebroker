@@ -12,7 +12,6 @@ provider "solacebroker" {
   password = "admin"
 }
 
-
 resource "solacebroker_msg_vpn" "msg_vpn" {
   msg_vpn_name                                                   = "test"
   alias                                                          = "test"
@@ -308,13 +307,6 @@ resource "solacebroker_msg_vpn_bridge_remote_subscription" "msg_vpn_bridge_remot
   bridge_virtual_router     = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
   remote_subscription_topic = "test"
   deliver_always_enabled    = true
-}
-
-resource "solacebroker_msg_vpn_bridge_tls_trusted_common_name" "msg_vpn_bridge_tls_trusted_common_name" {
-  msg_vpn_name            = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  bridge_name             = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
-  bridge_virtual_router   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
-  tls_trusted_common_name = "test"
 }
 
 resource "solacebroker_msg_vpn_cert_matching_rule" "msg_vpn_cert_matching_rule" {
@@ -859,6 +851,48 @@ resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_tls_trusted_com
 resource "solacebroker_msg_vpn_sequenced_topic" "msg_vpn_sequenced_topic" {
   msg_vpn_name    = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   sequenced_topic = "test"
+}
+
+resource "solacebroker_msg_vpn_telemetry_profile" "msg_vpn_telemetry_profile" {
+  msg_vpn_name                                                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+  telemetry_profile_name                                        = "test"
+  queue_event_bind_count_threshold                              = { "clear_percent" = 40, "set_percent" = 50 }
+  queue_event_msg_spool_usage_threshold                         = { "clear_percent" = 40, "set_percent" = 50 }
+  queue_max_bind_count                                          = 999
+  queue_max_msg_spool_usage                                     = 799999
+  receiver_acl_connect_default_action                           = "allow"
+  receiver_enabled                                              = true
+  receiver_event_connection_count_per_client_username_threshold = { "clear_percent" = 40, "set_percent" = 50 }
+  receiver_max_connection_count_per_client_username             = 999
+  receiver_tcp_congestion_window_size                           = 3
+  receiver_tcp_keepalive_count                                  = 4
+  receiver_tcp_keepalive_idle_time                              = 4
+  receiver_tcp_keepalive_interval                               = 2
+  receiver_tcp_max_segment_size                                 = 1459
+  receiver_tcp_max_window_size                                  = 255
+  trace_enabled                                                 = true
+  trace_send_span_generation_enabled                            = false
+}
+
+resource "solacebroker_msg_vpn_telemetry_profile_receiver_acl_connect_exception" "msg_vpn_telemetry_profile_receiver_acl_connect_exception" {
+  msg_vpn_name                           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+  telemetry_profile_name                 = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
+  receiver_acl_connect_exception_address = "192.168.1.1/24"
+}
+
+resource "solacebroker_msg_vpn_telemetry_profile_trace_filter" "msg_vpn_telemetry_profile_trace_filter" {
+  msg_vpn_name           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+  telemetry_profile_name = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
+  trace_filter_name      = "test"
+  enabled                = true
+}
+
+resource "solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription" "msg_vpn_telemetry_profile_trace_filter_subscription" {
+  msg_vpn_name           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+  telemetry_profile_name = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
+  trace_filter_name      = solacebroker_msg_vpn_telemetry_profile_trace_filter.msg_vpn_telemetry_profile_trace_filter.trace_filter_name
+  subscription           = "test"
+  subscription_syntax    = "smf"
 }
 
 resource "solacebroker_msg_vpn_topic_endpoint" "msg_vpn_topic_endpoint" {

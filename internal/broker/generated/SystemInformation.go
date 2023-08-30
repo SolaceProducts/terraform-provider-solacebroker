@@ -27,16 +27,25 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "system_information",
-		MarkdownDescription: "The System Information object provides metadata about the SEMP API.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nplatform|||x|\nsemp_version|||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been deprecated since 2.2. /systemInformation was replaced by /about/api.",
+		MarkdownDescription: "The System Information object provides metadata about the SEMP API.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nplatform|||x|\nsemp_version|||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/systemInformation",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
+				BaseType:      broker.String,
+				SempName:      "id",
+				TerraformName: "id",
+				Type:          types.StringType,
+				TerraformType: tftypes.String,
+				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				Default:       "",
+			},
+			{
 				BaseType:            broker.String,
 				SempName:            "platform",
 				TerraformName:       "platform",
-				MarkdownDescription: "The platform running the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.",
+				MarkdownDescription: "The platform running the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.",
 				ReadOnly:            true,
 				RequiresReplace:     true,
 				Deprecated:          true,
@@ -51,7 +60,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "sempVersion",
 				TerraformName:       "semp_version",
-				MarkdownDescription: "The version of the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.",
+				MarkdownDescription: "The version of the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.",
 				ReadOnly:            true,
 				RequiresReplace:     true,
 				Deprecated:          true,

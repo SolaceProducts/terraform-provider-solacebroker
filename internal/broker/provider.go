@@ -34,6 +34,7 @@ import (
 const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
 
 var _ provider.Provider = &BrokerProvider{}
+var ProviderVersion string
 
 type BrokerProvider struct {
 	Version string
@@ -130,10 +131,6 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 
 	resp.ResourceData = &config
 	resp.DataSourceData = &config
-}
-
-func (p *BrokerProvider) SempVersionDetails() SempVersionDetail {
-	return SempDetail
 }
 
 func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {

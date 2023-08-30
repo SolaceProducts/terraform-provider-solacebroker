@@ -21,6 +21,7 @@ import (
 	"context"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -29,8 +30,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-const (
-	ResourceNotFoundError = "resource not found"
+var (
+	ErrResourceNotFound = errors.New("resource not found")
 )
 
 type Client struct {
@@ -187,16 +188,30 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 	dumpData(ctx, "response", dataResponse)
 	rawData, ok := data["data"]
 	if ok {
+		// Valid data
 		data, _ = rawData.(map[string]any)
 		return data, nil
 	} else {
+		// Analize response metadata details
 		rawData, ok = data["meta"]
 		if ok {
 			data, _ = rawData.(map[string]any)
-			return data, fmt.Errorf(ResourceNotFoundError)
+			if data["responseCode"].(float64) == http.StatusOK {
+				// this is valid response for delete
+				return nil, nil
+			}
+			description := data["error"].(map[string]interface{})["description"].(string)
+			status := data["error"].(map[string]interface{})["status"].(string)
+			if status == "NOT_FOUND" {
+				// resource not found is a special type we want to return
+				return nil, ErrResourceNotFound
+			}
+			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
+
+			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
 		}
 	}
-	return nil, nil
+	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 }
 
 func parseResponseForGenerator(ctx context.Context, request *http.Request, dataResponse []byte) ([]map[string]any, error) {
@@ -225,7 +240,7 @@ func parseResponseForGenerator(ctx context.Context, request *http.Request, dataR
 		if ok {
 			data, _ = rawData.(map[string]any)
 			responseData = append(responseData, data)
-			return responseData, fmt.Errorf(ResourceNotFoundError)
+			return responseData, ErrResourceNotFound
 		}
 	}
 	return nil, nil
@@ -243,6 +258,7 @@ func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (ma
 	}
 	return parseResponseAsObject(ctx, request, rawBody)
 }
+
 func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, method, url string) ([]map[string]interface{}, error) {
 	request, err := http.NewRequestWithContext(ctx, method, c.url+url, nil)
 	if err != nil {
