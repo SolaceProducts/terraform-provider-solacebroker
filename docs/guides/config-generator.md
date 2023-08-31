@@ -1,17 +1,16 @@
 ---
-page_title: "solacebroker Generator"
-subcategory: ""
-description: |-
-  Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider.
-  Note that this is not a terraform command.
+page_title: "Command-line Terraform Configuration Generator Guide"
 ---
 
-### Generator
+# Command-line Terraform configuration generator
 
-The generate command on the provider binary generates a Terraform configuration file for the specified object and all
-child objects known to the provider.
-This is not a Terraform command. One can download the provider binary and can execute that binary with the `generate`
-command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker.
+The `solacebroker` provider offers this feature outside of Terraform CLI.
+
+Normally, provider binaries are are not running standalone, they are started and their services are used by Terraform CLI.
+
+The `solacebroker` provider can also be run standalone: the generate command on the provider binary generates a Terraform HLC configuration file for the specified object and all child objects known to the provider.
+
+This is not a Terraform CLI command. One can [locate](https://terra-farm.github.io/main/installation.html) the provider binary and can execute that binary with the `generate` command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker.
 
 `<binary> generate <terraform resource address> <provider-specific identifier> <filename>`
 

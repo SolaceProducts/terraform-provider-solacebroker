@@ -20,9 +20,7 @@ The _solacebroker_ provider enables configuration of a PubSub+ Software Event Br
 
 This provider also offers the possibility to generate [HCL configuration](https://developer.hashicorp.com/terraform/language) file from an already configured event broker.
 
-The [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) API is used to communicate with the broker.
-
-Use the navigation to the left for more information and for the available provider resources and data sources.
+Use the navigation to the left for more information in the guides and for the available provider resources and data sources.
 
 ## Example Usage
 
@@ -77,5 +75,9 @@ resource "solacebroker_msg_vpn_queue" "q" {
 - `retry_min_interval` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating how long to wait after an initial failed request before the first retry.  Exponential backoff is used, up to the limit set by retry_max_interval. The default value is 3s.
 - `username` (String) The username to connect to the broker with.  Requires password and conflicts with bearer_token.
 
-> Note: All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
+-> All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
 For example the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
+
+# Release Notes and History
+
+For detailed Release Notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebroker/releases).
