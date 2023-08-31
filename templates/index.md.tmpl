@@ -20,9 +20,7 @@ The _solacebroker_ provider enables configuration of a PubSub+ Software Event Br
 
 This provider also offers the possibility to generate [HCL configuration](https://developer.hashicorp.com/terraform/language) file from an already configured event broker.
 
-The [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) API is used to communicate with the broker.
-
-Use the navigation to the left for more information and for the available provider resources and data sources.
+Use the navigation to the left for more information in the guides and for the available provider resources and data sources.
 
 ## Example Usage
 
@@ -30,5 +28,9 @@ Use the navigation to the left for more information and for the available provid
 
 {{ .SchemaMarkdown | trimspace }}
 
-> Note: All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
+-> All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
 For example the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
+
+# Release Notes and History
+
+For detailed Release Notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebroker/releases).
