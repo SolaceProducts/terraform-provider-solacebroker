@@ -9,7 +9,7 @@ description: |-
   msgvpnname|x|||
   replaylogname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.10.
+  This has been available since SEMP API version 2.10.
 ---
 
 # solacebroker_msg_vpn_replay_log (Resource)
@@ -26,7 +26,7 @@ replay_log_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.10.
+This has been available since SEMP API version 2.10.
 
 
 
@@ -43,4 +43,8 @@ This has been available since 2.10.
 - `egress_enabled` (Boolean) Enable or disable the transmission of messages from the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `ingress_enabled` (Boolean) Enable or disable the reception of messages to the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_spool_usage` (Number) The maximum spool usage allowed by the Replay Log, in megabytes (MB). If this limit is exceeded, old messages will be trimmed. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
-- `topic_filter_enabled` (Boolean) Enable or disable topic filtering for the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.27.
+- `topic_filter_enabled` (Boolean) Enable or disable topic filtering for the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.27.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

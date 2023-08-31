@@ -10,7 +10,7 @@ description: |-
   remotenodename|x||x|
   tlstrustedcommon_name|x||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+  This has been deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 ---
 
 # solacebroker_dmr_cluster_link_tls_trusted_common_name (Resource)
@@ -28,7 +28,7 @@ tls_trusted_common_name|x||x|
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+This has been deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 
 
 
@@ -37,6 +37,10 @@ This has been deprecated since 2.18. Common Name validation has been replaced by
 
 ### Required
 
-- `dmr_cluster_name` (String, Deprecated) The name of the Cluster. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
-- `remote_node_name` (String, Deprecated) The name of the node at the remote end of the Link. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
-- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `dmr_cluster_name` (String, Deprecated) The name of the Cluster. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `remote_node_name` (String, Deprecated) The name of the node at the remote end of the Link. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

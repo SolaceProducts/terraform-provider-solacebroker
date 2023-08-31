@@ -10,7 +10,7 @@ description: |-
   msgvpnname|x|||
   oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.25.
+  This has been available since SEMP API version 2.25.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile (Resource)
@@ -28,7 +28,7 @@ oauth_profile_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.25.
+This has been available since SEMP API version 2.25.
 
 
 
@@ -49,10 +49,10 @@ This has been available since 2.25.
 "single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
- Available since 2.32.
+ Available since SEMP API version 2.32.
 - `client_id` (String) The OAuth client id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `client_required_type` (String) The required value for the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"JWT"`.
-- `client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `disconnect_on_token_expiration_enabled` (Boolean) Enable or disable the disconnection of clients when their tokens expire. Changing this value does not affect existing clients, only new client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `enabled` (Boolean) Enable or disable the OAuth profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
@@ -82,3 +82,7 @@ This has been available since 2.25.
 - `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `username_claim_name` (String) The name of the username claim. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sub"`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

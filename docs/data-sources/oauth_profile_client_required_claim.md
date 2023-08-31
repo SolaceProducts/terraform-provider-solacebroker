@@ -9,7 +9,7 @@ description: |-
   clientrequiredclaimname|x|||
   oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.24.
+  This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_client_required_claim (Data Source)
@@ -26,7 +26,7 @@ oauth_profile_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.24.
+This has been available since SEMP API version 2.24.
 
 
 
@@ -41,3 +41,4 @@ This has been available since 2.24.
 ### Read-Only
 
 - `client_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+- `id` (String) Placeholder identifier attribute.

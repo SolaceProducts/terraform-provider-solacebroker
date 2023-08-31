@@ -10,7 +10,7 @@ description: |-
   telemetryprofilename|x|||
   tracefiltername|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.31.
+  This has been available since SEMP API version 2.31.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile_trace_filter (Resource)
@@ -28,7 +28,7 @@ trace_filter_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.31.
+This has been available since SEMP API version 2.31.
 
 
 
@@ -44,3 +44,7 @@ This has been available since 2.31.
 ### Optional
 
 - `enabled` (Boolean) Enable or disable the trace filter. When the filter is disabled, the filter's subscriptions will not trigger a message to be traced. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

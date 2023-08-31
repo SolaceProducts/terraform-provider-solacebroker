@@ -10,7 +10,7 @@ description: |-
   msgvpnname|x|||
   oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.25.
+  This has been available since SEMP API version 2.25.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile (Data Source)
@@ -28,7 +28,7 @@ oauth_profile_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.25.
+This has been available since SEMP API version 2.25.
 
 
 
@@ -49,7 +49,7 @@ This has been available since 2.25.
 "single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
- Available since 2.32.
+ Available since SEMP API version 2.32.
 - `client_id` (String) The OAuth client id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `client_required_type` (String) The required value for the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"JWT"`.
 - `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
@@ -63,6 +63,7 @@ This has been available since 2.25.
 - `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
 - `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
+- `id` (String) Placeholder identifier attribute.
 - `issuer` (String) The Issuer Identifier for the OAuth provider. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `mqtt_username_validate_enabled` (Boolean) Enable or disable whether the API provided MQTT client username will be validated against the username calculated from the token(s). When enabled, connection attempts by MQTT clients are rejected if they differ. Note that this value only applies to MQTT clients; SMF client usernames will not be validated. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `oauth_role` (String) The OAuth role of the broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"client"`. The allowed values and their meaning are:

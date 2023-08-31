@@ -10,7 +10,7 @@ description: |-
   msgvpnname|x|||
   proxy_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.36.
+  This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_proxy (Data Source)
@@ -28,7 +28,7 @@ proxy_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.36.
+This has been available since SEMP API version 2.36.
 
 
 
@@ -51,6 +51,7 @@ This has been available since 2.36.
 </pre>
 - `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular Proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `host` (String) The IP address or host name of the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `id` (String) Placeholder identifier attribute.
 - `port` (Number) The port to connect to on the proxy host. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
 - `proxy_type` (String) The type of proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"direct"`. The allowed values and their meaning are:
 

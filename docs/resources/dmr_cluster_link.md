@@ -10,7 +10,7 @@ description: |-
   dmrclustername|x|||
   remotenodename|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.11.
+  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_dmr_cluster_link (Resource)
@@ -28,7 +28,7 @@ remote_node_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.11.
+This has been available since SEMP API version 2.11.
 
 
 
@@ -42,7 +42,7 @@ This has been available since 2.11.
 
 ### Optional
 
-- `authentication_basic_password` (String, Sensitive) The password used to authenticate with the remote node when using basic internal authentication. If this per-Link password is not configured, the Cluster's password is used instead. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authentication_basic_password` (String, Sensitive) The password used to authenticate with the remote node when using basic internal authentication. If this per-Link password is not configured, the Cluster's password is used instead. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `authentication_scheme` (String) The authentication scheme to be used by the Link which initiates connections to the remote node. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"basic"`. The allowed values and their meaning are:
 
 <pre>
@@ -96,6 +96,10 @@ This has been available since 2.11.
 </pre>
 - `transport_compressed_enabled` (Boolean) Enable or disable compression on the Link. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `transport_tls_enabled` (Boolean) Enable or disable encryption (TLS) on the Link. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.
 
 <a id="nestedatt--queue_event_spool_usage_threshold"></a>
 ### Nested Schema for `queue_event_spool_usage_threshold`
