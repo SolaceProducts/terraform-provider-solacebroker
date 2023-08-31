@@ -9,7 +9,7 @@ description: |-
   msgvpnname|x|||
   rule_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.27.
+  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule (Data Source)
@@ -26,7 +26,7 @@ rule_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.27.
+This has been available since SEMP API version 2.27.
 
 
 
@@ -41,3 +41,4 @@ This has been available since 2.27.
 ### Read-Only
 
 - `enabled` (Boolean) Enable or disable a certificate matching rule. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `id` (String) Identifier attribute, for internal use only.

@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   Session and access level information about the user accessing the SEMP API.
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
-  This has been available since 2.2.
+  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user (Data Source)
@@ -16,7 +16,7 @@ Session and access level information about the user accessing the SEMP API.
 
 A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
 
-This has been available since 2.2.
+This has been available since SEMP API version 2.2.
 
 
 
@@ -34,10 +34,11 @@ This has been available since 2.2.
 "read-write" - Read and write access.
 </pre>
 - `global_dmr_bridge_access_enabled` (Boolean) Indicates whether global DMR Bridge access is enabled for the User. This is only for Solace internal use. This attribute may not be returned in a GET. Available since (hidden in public API).
-- `session_active` (Boolean) Indicates whether a session is active for this request. Available since 2.24.
-- `session_create_time` (Number) The timestamp of when the session was created. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.
-- `session_current_time` (Number) The current server timestamp. This is provided as a reference point for the other timestamps provided. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.
-- `session_hard_expiry_time` (Number) The hard expiry time for the session. After this time the session will be invalid, regardless of activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.
-- `session_id` (String) An identifier for the session to differentiate this session from other sessions for the same user. This value is not guaranteed to be unique between active sessions for different users. This attribute may not be returned in a GET. Available since 2.21.
-- `session_idle_expiry_time` (Number) The session idle expiry time. After this time the session will be invalid if there has been no activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since 2.21.
-- `username` (String) The username of the User. Available since 2.21.
+- `id` (String) Identifier attribute, for internal use only.
+- `session_active` (Boolean) Indicates whether a session is active for this request. Available since SEMP API version 2.24.
+- `session_create_time` (Number) The timestamp of when the session was created. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+- `session_current_time` (Number) The current server timestamp. This is provided as a reference point for the other timestamps provided. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+- `session_hard_expiry_time` (Number) The hard expiry time for the session. After this time the session will be invalid, regardless of activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+- `session_id` (String) An identifier for the session to differentiate this session from other sessions for the same user. This value is not guaranteed to be unique between active sessions for different users. This attribute may not be returned in a GET. Available since SEMP API version 2.21.
+- `session_idle_expiry_time` (Number) The session idle expiry time. After this time the session will be invalid if there has been no activity. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+- `username` (String) The username of the User. Available since SEMP API version 2.21.

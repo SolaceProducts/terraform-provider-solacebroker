@@ -78,12 +78,12 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			// Handle the id attribute for each object, required by the acceptance test framework
 			if isResource {
 				tfAttributes["id"] = schema.StringAttribute{
-					Description: "Placeholder identifier attribute.",
+					Description: "Identifier attribute, for internal use only.",
 					Computed:    true,
 					}
 			} else {
 				tfAttributes["id"] = schema.StringAttribute{
-					Description: "Placeholder identifier attribute.",
+					Description: "Identifier attribute, for internal use only.",
 					Computed:    true,
 					PlanModifiers:       []planmodifier.String{
 						stringplanmodifier.UseStateForUnknown(),

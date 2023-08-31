@@ -10,7 +10,7 @@ description: |-
   queuebindingname|x|||
   restdeliverypoint_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.0.
+  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding (Resource)
@@ -28,7 +28,7 @@ rest_delivery_point_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.0.
+This has been available since SEMP API version 2.0.
 
 
 
@@ -43,7 +43,7 @@ This has been available since 2.0.
 
 ### Optional
 
-- `gateway_replace_target_authority_enabled` (Boolean) Enable or disable whether the authority for the request-target is replaced with that configured for the REST Consumer remote. When enabled, the broker sends HTTP requests in absolute-form, with the request-target's authority taken from the REST Consumer's remote host and port configuration. When disabled, the broker sends HTTP requests whose request-target matches that of the original request message, including whether to use absolute-form or origin-form. This configuration is applicable only when the Message VPN is in REST gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.6.
+- `gateway_replace_target_authority_enabled` (Boolean) Enable or disable whether the authority for the request-target is replaced with that configured for the REST Consumer remote. When enabled, the broker sends HTTP requests in absolute-form, with the request-target's authority taken from the REST Consumer's remote host and port configuration. When disabled, the broker sends HTTP requests whose request-target matches that of the original request message, including whether to use absolute-form or origin-form. This configuration is applicable only when the Message VPN is in REST gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.6.
 - `post_request_target` (String) The request-target string to use when sending requests. It identifies the target resource on the far-end REST Consumer upon which to apply the request. There are generally two common forms for the request-target. The origin-form is most often used in practice and contains the path and query components of the target URI. If the path component is empty then the client must generally send a "/" as the path. When making a request to a proxy, most often the absolute-form is required. This configuration is only applicable when the Message VPN is in REST messaging mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `request_target_evaluation` (String) The type of evaluation to perform on the request target. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
@@ -51,4 +51,8 @@ This has been available since 2.0.
 "none" - Do not evaluate substitution expressions on the request target.
 "substitution-expressions" - Evaluate substitution expressions on the request target.
 </pre>
- Available since 2.23.
+ Available since SEMP API version 2.23.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

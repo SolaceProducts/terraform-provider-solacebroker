@@ -12,7 +12,7 @@ description: |-
   msgvpnname|x|||
   topic_prefix|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.11.
+  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster_topic_prefix (Data Source)
@@ -32,7 +32,7 @@ topic_prefix|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.11.
+This has been available since SEMP API version 2.11.
 
 
 
@@ -46,3 +46,7 @@ This has been available since 2.11.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `topic_prefix` (String) A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/>) is implied at the end of the prefix.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

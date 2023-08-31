@@ -11,7 +11,7 @@ description: |-
   publishtopicexception|x|||
   publishtopicexception_syntax|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.14.
+  This has been available since SEMP API version 2.14.
 ---
 
 # solacebroker_msg_vpn_acl_profile_publish_topic_exception (Data Source)
@@ -30,7 +30,7 @@ publish_topic_exception_syntax|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.14.
+This has been available since SEMP API version 2.14.
 
 
 
@@ -48,3 +48,7 @@ This has been available since 2.14.
 "smf" - Topic uses SMF syntax.
 "mqtt" - Topic uses MQTT syntax.
 </pre>
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

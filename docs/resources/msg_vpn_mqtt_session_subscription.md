@@ -11,7 +11,7 @@ description: |-
   msgvpnname|x|||
   subscription_topic|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.1.
+  This has been available since SEMP API version 2.1.
 ---
 
 # solacebroker_msg_vpn_mqtt_session_subscription (Resource)
@@ -30,7 +30,7 @@ subscription_topic|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.1.
+This has been available since SEMP API version 2.1.
 
 
 
@@ -53,3 +53,7 @@ This has been available since 2.1.
 ### Optional
 
 - `subscription_qos` (Number) The quality of service (QoS) for the subscription as either 0 (deliver at most once) or 1 (deliver at least once). QoS 2 is not supported, but QoS 2 messages attracted by QoS 0 or QoS 1 subscriptions are accepted and delivered accordingly. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

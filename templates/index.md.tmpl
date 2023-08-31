@@ -1,0 +1,34 @@
+---
+page_title: "Provider: solacebroker"
+description: |-
+  A provider for a Solace PubSub+ Software Event Broker.  
+---
+
+# Solace PubSub+ Software Event Broker (solacebroker) Provider
+
+The [Solace PubSub+ Platform](https://solace.com/products/platform/)'s [PubSub+ Software Event Broker](https://solace.com/products/event-broker/software/) 
+efficiently streams event-driven information between applications, IoT devices and user interfaces running in cloud, on-premises, and hybrid environments 
+using open APIs and protocols like AMQP, JMS, MQTT, REST and WebSocket.
+
+It can be installed into a variety of public and private clouds, PaaS, and on-premises environments, 
+and brokers in multiple locations can be linked together in an [Event Mesh](https://solace.com/what-is-an-event-mesh/) 
+to dynamically share events across the distributed enterprise.
+
+## Overview
+
+The _solacebroker_ provider enables configuration of a PubSub+ Software Event Broker using Terraform.
+
+This provider also offers the possibility to generate [HCL configuration](https://developer.hashicorp.com/terraform/language) file from an already configured event broker.
+
+The [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) API is used to communicate with the broker.
+
+Use the navigation to the left for more information and for the available provider resources and data sources.
+
+## Example Usage
+
+{{ tffile "examples/sampleconfig.tf" }}
+
+{{ .SchemaMarkdown | trimspace }}
+
+> Note: All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
+For example the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.

@@ -10,7 +10,7 @@ description: |-
   clientconnectexceptionaddress|x|||
   msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.0.
+  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_acl_profile_client_connect_exception (Data Source)
@@ -28,7 +28,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.0.
+This has been available since SEMP API version 2.0.
 
 
 
@@ -40,3 +40,7 @@ This has been available since 2.0.
 - `acl_profile_name` (String) The name of the ACL Profile.
 - `client_connect_exception_address` (String) The IP address/netmask of the client connect exception in canonical CIDR form.
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

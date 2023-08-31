@@ -10,7 +10,7 @@ description: |-
   msgvpnname|x|||
   rulename|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.28.
+  This has been available since SEMP API version 2.28.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule_attribute_filter (Data Source)
@@ -28,7 +28,7 @@ rule_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.28.
+This has been available since SEMP API version 2.28.
 
 
 
@@ -45,3 +45,4 @@ This has been available since 2.28.
 
 - `attribute_name` (String) Client Username Attribute to be tested. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `id` (String) Identifier attribute, for internal use only.

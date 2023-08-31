@@ -9,7 +9,7 @@ description: |-
   certauthorityname|x||x|
   ocsptlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been deprecated since 2.19. Replaced by clientCertAuthorities.
+  This has been deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.
 ---
 
 # solacebroker_cert_authority_ocsp_tls_trusted_common_name (Resource)
@@ -26,7 +26,7 @@ ocsp_tls_trusted_common_name|x||x|
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been deprecated since 2.19. Replaced by clientCertAuthorities.
+This has been deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.
 
 
 
@@ -35,5 +35,9 @@ This has been deprecated since 2.19. Replaced by clientCertAuthorities.
 
 ### Required
 
-- `cert_authority_name` (String, Deprecated) The name of the Certificate Authority. Deprecated since 2.19. Replaced by clientCertAuthorities.
-- `ocsp_tls_trusted_common_name` (String, Deprecated) The expected Trusted Common Name of the OCSP responder remote certificate. Deprecated since 2.19. Replaced by clientCertAuthorities.
+- `cert_authority_name` (String, Deprecated) The name of the Certificate Authority. Deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.
+- `ocsp_tls_trusted_common_name` (String, Deprecated) The expected Trusted Common Name of the OCSP responder remote certificate. Deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

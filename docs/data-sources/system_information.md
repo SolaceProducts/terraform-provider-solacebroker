@@ -9,7 +9,7 @@ description: |-
   platform|||x|
   semp_version|||x|
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
-  This has been deprecated since 2.2. /systemInformation was replaced by /about/api.
+  This has been deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.
 ---
 
 # solacebroker_system_information (Data Source)
@@ -26,7 +26,7 @@ semp_version|||x|
 
 A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
 
-This has been deprecated since 2.2. /systemInformation was replaced by /about/api.
+This has been deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.
 
 
 
@@ -35,5 +35,6 @@ This has been deprecated since 2.2. /systemInformation was replaced by /about/ap
 
 ### Read-Only
 
-- `platform` (String, Deprecated) The platform running the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.
-- `semp_version` (String, Deprecated) The version of the SEMP API. Deprecated since 2.2. /systemInformation was replaced by /about/api.
+- `id` (String) Identifier attribute, for internal use only.
+- `platform` (String, Deprecated) The platform running the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.
+- `semp_version` (String, Deprecated) The version of the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.

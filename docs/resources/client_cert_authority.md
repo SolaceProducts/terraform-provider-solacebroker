@@ -8,7 +8,7 @@ description: |-
   :---|:---:|:---:|:---:|:---:
   certauthorityname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.19.
+  This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_client_cert_authority (Resource)
@@ -24,7 +24,7 @@ cert_authority_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.19.
+This has been available since SEMP API version 2.19.
 
 
 
@@ -45,3 +45,7 @@ This has been available since 2.19.
 - `ocsp_override_url` (String) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `ocsp_timeout` (Number) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
 - `revocation_check_enabled` (Boolean) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

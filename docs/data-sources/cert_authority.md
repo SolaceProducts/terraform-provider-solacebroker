@@ -16,7 +16,7 @@ description: |-
   ocsptimeout|||x|
   revocationcheck_enabled|||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been deprecated since 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
+  This has been deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
 ---
 
 # solacebroker_cert_authority (Data Source)
@@ -40,7 +40,7 @@ revocation_check_enabled|||x|
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been deprecated since 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
+This has been deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
 
 
 
@@ -49,15 +49,16 @@ This has been deprecated since 2.19. Replaced by clientCertAuthorities and domai
 
 ### Required
 
-- `cert_authority_name` (String, Deprecated) The name of the Certificate Authority. Deprecated since 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
+- `cert_authority_name` (String, Deprecated) The name of the Certificate Authority. Deprecated since SEMP API version 2.19. Replaced by clientCertAuthorities and domainCertAuthorities.
 
 ### Read-Only
 
-- `cert_content` (String, Deprecated) The PEM formatted content for the trusted root certificate of a Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `crl_day_list` (String, Deprecated) The scheduled CRL refresh day(s), specified as "daily" or a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", or "Sat", with no spaces, and in sorted order from Sunday to Saturday. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `crl_time_list` (String, Deprecated) The scheduled CRL refresh time(s), specified as "hourly" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times must be in sorted order from 0:00 to 23:59. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"3:00"`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `crl_url` (String, Deprecated) The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `ocsp_non_responder_cert_enabled` (Boolean, Deprecated) Enable or disable allowing a non-responder certificate to sign an OCSP response. Typically used with an OCSP override URL in cases where a single certificate is used to sign client certificates and OCSP responses. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `ocsp_override_url` (String, Deprecated) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `ocsp_timeout` (Number, Deprecated) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
-- `revocation_check_enabled` (Boolean, Deprecated) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `cert_content` (String, Deprecated) The PEM formatted content for the trusted root certificate of a Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `crl_day_list` (String, Deprecated) The scheduled CRL refresh day(s), specified as "daily" or a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", or "Sat", with no spaces, and in sorted order from Sunday to Saturday. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `crl_time_list` (String, Deprecated) The scheduled CRL refresh time(s), specified as "hourly" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times must be in sorted order from 0:00 to 23:59. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"3:00"`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `crl_url` (String, Deprecated) The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `id` (String) Identifier attribute, for internal use only.
+- `ocsp_non_responder_cert_enabled` (Boolean, Deprecated) Enable or disable allowing a non-responder certificate to sign an OCSP response. Typically used with an OCSP override URL in cases where a single certificate is used to sign client certificates and OCSP responses. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `ocsp_override_url` (String, Deprecated) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `ocsp_timeout` (Number, Deprecated) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.
+- `revocation_check_enabled` (Boolean, Deprecated) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since SEMP API version 2.19. certAuthorities replaced by clientCertAuthorities and domainCertAuthorities.

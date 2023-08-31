@@ -11,7 +11,7 @@ description: |-
   orderafterauthorizationgroupname||x||
   orderbeforeauthorizationgroupname||x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.0.
+  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_authorization_group (Data Source)
@@ -30,7 +30,7 @@ order_before_authorization_group_name||x||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.0.
+This has been available since SEMP API version 2.0.
 
 
 
@@ -47,3 +47,4 @@ This has been available since 2.0.
 - `acl_profile_name` (String) The ACL Profile of the Authorization Group. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `client_profile_name` (String) The Client Profile of the Authorization Group. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `enabled` (Boolean) Enable or disable the Authorization Group in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `id` (String) Identifier attribute, for internal use only.

@@ -10,7 +10,7 @@ description: |-
   clustername|x|||
   msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.11.
+  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster (Resource)
@@ -28,7 +28,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.11.
+This has been available since SEMP API version 2.11.
 
 
 
@@ -61,6 +61,10 @@ This has been available since 2.11.
 - `max_topic_count` (Number) The maximum number of topics for each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000000`.
 - `msg_lifetime` (Number) The message lifetime, in seconds. If a message remains cached for the duration of its lifetime, the Cache Instance will remove the message. A lifetime of 0 results in the message being retained indefinitely. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `new_topic_advertisement_enabled` (Boolean) Enable or disable the advertising, onto the message bus, of new topics learned by each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--event_data_byte_rate_threshold"></a>
 ### Nested Schema for `event_data_byte_rate_threshold`

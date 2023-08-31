@@ -11,7 +11,7 @@ description: |-
   homeclustername|x|||
   msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.11.
+  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster (Resource)
@@ -30,7 +30,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.11.
+This has been available since SEMP API version 2.11.
 
 
 
@@ -43,3 +43,7 @@ This has been available since 2.11.
 - `cluster_name` (String) The name of the Cache Cluster.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+### Read-Only
+
+- `id` (String) Identifier attribute, for internal use only.

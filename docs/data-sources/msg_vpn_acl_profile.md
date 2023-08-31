@@ -9,7 +9,7 @@ description: |-
   aclprofilename|x|||
   msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.0.
+  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_acl_profile (Data Source)
@@ -26,7 +26,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.0.
+This has been available since SEMP API version 2.0.
 
 
 
@@ -46,6 +46,7 @@ This has been available since 2.0.
 "allow" - Allow client connection unless an exception is found for it.
 "disallow" - Disallow client connection unless an exception is found for it.
 </pre>
+- `id` (String) Identifier attribute, for internal use only.
 - `publish_topic_default_action` (String) The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>
@@ -58,7 +59,7 @@ This has been available since 2.0.
 "allow" - Allow topic unless an exception is found for it.
 "disallow" - Disallow topic unless an exception is found for it.
 </pre>
- Available since 2.14.
+ Available since SEMP API version 2.14.
 - `subscribe_topic_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>

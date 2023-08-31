@@ -15,7 +15,7 @@ description: |-
   kafkasendername|x|||
   msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.36.
+  This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_kafka_sender (Data Source)
@@ -39,7 +39,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.36.
+This has been available since SEMP API version 2.36.
 
 
 
@@ -78,6 +78,7 @@ This has been available since 2.36.
 - `batch_max_size` (Number) Maximum size of a message batch, in bytes (B). Batching is done for all Senders on a per-partition basis. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000000`.
 - `bootstrap_address_list` (String) Comma separated list of addresses (and optional ports) of brokers in the Kafka Cluster from which the state of the entire Kafka Cluster can be learned. If a port is not provided with an address it will default to 9092. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `enabled` (Boolean) Enable or disable the Kafka Sender. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `id` (String) Identifier attribute, for internal use only.
 - `idempotence_enabled` (Boolean) Enable or disable idempotence for the Kafka Sender. Idempotence guarantees in order at-least-once message delivery to the remote Kafka Topic, at the expense of performance. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `transport_compression_enabled` (Boolean) Enable or disable compression for the Kafka Sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `transport_compression_level` (Number) Compression level. The valid range is dependent on the compression type. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`.

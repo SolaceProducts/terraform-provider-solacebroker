@@ -11,7 +11,7 @@ description: |-
   instancename|x|||
   msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.11.
+  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_instance (Data Source)
@@ -30,7 +30,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.11.
+This has been available since SEMP API version 2.11.
 
 
 
@@ -48,4 +48,5 @@ This has been available since 2.11.
 
 - `auto_start_enabled` (Boolean) Enable or disable auto-start for the Cache Instance. When enabled, the Cache Instance will automatically attempt to transition from the Stopped operational state to Up whenever it restarts or reconnects to the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `enabled` (Boolean) Enable or disable the Cache Instance. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `id` (String) Identifier attribute, for internal use only.
 - `stop_on_lost_msg_enabled` (Boolean) Enable or disable stop-on-lost-message for the Cache Instance. When enabled, the Cache Instance will transition to the stopped operational state upon losing a message. When stopped, it cannot accept or respond to cache requests, but continues to cache messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
