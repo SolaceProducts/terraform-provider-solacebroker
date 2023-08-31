@@ -9,7 +9,7 @@ description: |-
   connectionfactoryname|x|||
   msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.2.
+  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_msg_vpn_jndi_connection_factory (Resource)
@@ -26,7 +26,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.2.
+This has been available since SEMP API version 2.2.
 
 
 
@@ -40,7 +40,7 @@ This has been available since 2.2.
 
 ### Optional
 
-- `allow_duplicate_client_id_enabled` (Boolean) Enable or disable whether new JMS connections can use the same Client identifier (ID) as an existing connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.3.
+- `allow_duplicate_client_id_enabled` (Boolean) Enable or disable whether new JMS connections can use the same Client identifier (ID) as an existing connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.3.
 - `client_description` (String) The description of the Client. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `client_id` (String) The Client identifier (ID). If not specified, a unique value for it will be generated. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `dto_receive_override_enabled` (Boolean) Enable or disable overriding by the Subscriber (Consumer) of the deliver-to-one (DTO) property on messages. When enabled, the Subscriber can receive all DTO tagged messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
@@ -50,8 +50,8 @@ This has been available since 2.2.
 - `dynamic_endpoint_create_durable_enabled` (Boolean) Enable or disable whether a durable endpoint will be dynamically created on the broker when the client calls "Session.createDurableSubscriber()" or "Session.createQueue()". The created endpoint respects the message time-to-live (TTL) according to the "dynamic_endpoint_respect_ttl_enabled" property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `dynamic_endpoint_respect_ttl_enabled` (Boolean) Enable or disable whether dynamically created durable and non-durable endpoints respect the message time-to-live (TTL) property. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `guaranteed_receive_ack_timeout` (Number) The timeout for sending the acknowledgment (ACK) for guaranteed messages received by the Subscriber (Consumer), in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
-- `guaranteed_receive_reconnect_retry_count` (Number) The maximum number of attempts to reconnect to the host or list of hosts after the guaranteed  messaging connection has been lost. The value "-1" means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`. Available since 2.14.
-- `guaranteed_receive_reconnect_retry_wait` (Number) The amount of time to wait before making another attempt to connect or reconnect to the host after the guaranteed messaging connection has been lost, in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3000`. Available since 2.14.
+- `guaranteed_receive_reconnect_retry_count` (Number) The maximum number of attempts to reconnect to the host or list of hosts after the guaranteed  messaging connection has been lost. The value "-1" means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`. Available since SEMP API version 2.14.
+- `guaranteed_receive_reconnect_retry_wait` (Number) The amount of time to wait before making another attempt to connect or reconnect to the host after the guaranteed messaging connection has been lost, in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3000`. Available since SEMP API version 2.14.
 - `guaranteed_receive_window_size` (Number) The size of the window for guaranteed messages received by the Subscriber (Consumer), in messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `18`.
 - `guaranteed_receive_window_size_ack_threshold` (Number) The threshold for sending the acknowledgment (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteed_receive_window_size`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
 - `guaranteed_send_ack_timeout` (Number) The timeout for receiving the acknowledgment (ACK) for guaranteed messages sent by the Publisher (Producer), in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000`.
@@ -84,3 +84,7 @@ This has been available since 2.2.
 - `transport_send_buffer_size` (Number) The size of the send socket buffer, in bytes. It corresponds to the SO_SNDBUF socket option. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `65536`.
 - `transport_tcp_no_delay_enabled` (Boolean) Enable or disable the TCP_NODELAY option. When enabled, Nagle's algorithm for TCP/IP congestion control (RFC 896) is disabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `xa_enabled` (Boolean) Enable or disable this as an XA Connection Factory. When enabled, the Connection Factory can be cast to "XAConnectionFactory", "XAQueueConnectionFactory" or "XATopicConnectionFactory". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

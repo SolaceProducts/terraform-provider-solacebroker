@@ -10,7 +10,7 @@ description: |-
   msgvpnname|x|||
   oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.25.
+  This has been available since SEMP API version 2.25.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile_client_required_claim (Resource)
@@ -28,7 +28,7 @@ oauth_profile_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.25.
+This has been available since SEMP API version 2.25.
 
 
 
@@ -41,3 +41,7 @@ This has been available since 2.25.
 - `client_required_claim_value` (String) The required claim value.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

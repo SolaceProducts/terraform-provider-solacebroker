@@ -10,7 +10,7 @@ description: |-
   :---|:---:|:---:|:---:|:---:
   virtual_hostname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.17.
+  This has been available since SEMP API version 2.17.
 ---
 
 # solacebroker_virtual_hostname (Data Source)
@@ -30,7 +30,7 @@ virtual_hostname|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.17.
+This has been available since SEMP API version 2.17.
 
 
 
@@ -44,4 +44,5 @@ This has been available since 2.17.
 ### Read-Only
 
 - `enabled` (Boolean) Enable or disable Virtual Hostname to Message VPN mapping. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `id` (String) Placeholder identifier attribute.
 - `msg_vpn_name` (String) The message VPN to which this virtual hostname is mapped. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

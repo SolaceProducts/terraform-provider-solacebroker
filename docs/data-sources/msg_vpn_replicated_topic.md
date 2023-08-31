@@ -9,7 +9,7 @@ description: |-
   msgvpnname|x|||
   replicated_topic|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.1.
+  This has been available since SEMP API version 2.1.
 ---
 
 # solacebroker_msg_vpn_replicated_topic (Data Source)
@@ -26,7 +26,7 @@ replicated_topic|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.1.
+This has been available since SEMP API version 2.1.
 
 
 
@@ -40,6 +40,7 @@ This has been available since 2.1.
 
 ### Read-Only
 
+- `id` (String) Placeholder identifier attribute.
 - `replication_mode` (String) The replication mode for the Replicated Topic. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"async"`. The allowed values and their meaning are:
 
 <pre>

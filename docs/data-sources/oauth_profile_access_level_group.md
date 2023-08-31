@@ -9,7 +9,7 @@ description: |-
   groupname|x|||
   oauthprofile_name|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.24.
+  This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_access_level_group (Data Source)
@@ -26,7 +26,7 @@ oauth_profile_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.24.
+This has been available since SEMP API version 2.24.
 
 
 
@@ -49,6 +49,7 @@ This has been available since 2.24.
 "read-write" - User has read-write access to most global data.
 "admin" - User has read-write access to all global data.
 </pre>
+- `id` (String) Placeholder identifier attribute.
 - `msg_vpn_access_level` (String) The default message VPN access level for this group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>

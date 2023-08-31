@@ -12,7 +12,7 @@ description: |-
   queuebindingname|x|||
   restdeliverypoint_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.30.
+  This has been available since SEMP API version 2.30.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding_protected_request_header (Resource)
@@ -32,7 +32,7 @@ rest_delivery_point_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.30.
+This has been available since SEMP API version 2.30.
 
 
 
@@ -48,4 +48,8 @@ This has been available since 2.30.
 
 ### Optional
 
-- `header_value` (String, Sensitive) The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `header_value` (String, Sensitive) The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

@@ -9,7 +9,7 @@ description: |-
   msgvpnname|x|||
   replicated_topic|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.1.
+  This has been available since SEMP API version 2.1.
 ---
 
 # solacebroker_msg_vpn_replicated_topic (Resource)
@@ -26,7 +26,7 @@ replicated_topic|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.1.
+This has been available since SEMP API version 2.1.
 
 
 
@@ -46,3 +46,7 @@ This has been available since 2.1.
 "sync" - Messages are acknowledged when replicated (spooled remotely).
 "async" - Messages are acknowledged when pending replication (spooled locally).
 </pre>
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

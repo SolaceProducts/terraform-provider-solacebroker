@@ -8,7 +8,7 @@ description: |-
   :---|:---:|:---:|:---:|:---:
   msgvpnname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
-  This has been available since 2.2.
+  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user_msg_vpn (Data Source)
@@ -24,7 +24,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
 
-This has been available since 2.2.
+This has been available since SEMP API version 2.2.
 
 
 
@@ -44,3 +44,4 @@ This has been available since 2.2.
 "read-only" - Read only access.
 "read-write" - Read and write access.
 </pre>
+- `id` (String) Placeholder identifier attribute.

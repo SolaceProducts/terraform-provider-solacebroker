@@ -9,7 +9,7 @@ description: |-
   certauthorityname|x|||
   ocsptlstrustedcommonname|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.19.
+  This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_client_cert_authority_ocsp_tls_trusted_common_name (Resource)
@@ -26,7 +26,7 @@ ocsp_tls_trusted_common_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.19.
+This has been available since SEMP API version 2.19.
 
 
 
@@ -37,3 +37,7 @@ This has been available since 2.19.
 
 - `cert_authority_name` (String) The name of the Certificate Authority.
 - `ocsp_tls_trusted_common_name` (String) The expected Trusted Common Name of the OCSP responder remote certificate.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

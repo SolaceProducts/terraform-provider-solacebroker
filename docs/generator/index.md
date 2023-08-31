@@ -33,6 +33,7 @@ Usage:
 Available Commands:
 generate    Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider
 help        Help about any command
+version     Provides version information about the current binary
 ```
 
 To `generate` the configuration, make sure all ENVIRONMENT VARIABLES, which mirrors the configuration options for the

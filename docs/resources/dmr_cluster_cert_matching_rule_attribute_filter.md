@@ -10,7 +10,7 @@ description: |-
   filtername|x|||
   rulename|x|||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
-  This has been available since 2.28.
+  This has been available since SEMP API version 2.28.
 ---
 
 # solacebroker_dmr_cluster_cert_matching_rule_attribute_filter (Resource)
@@ -28,7 +28,7 @@ rule_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
-This has been available since 2.28.
+This has been available since SEMP API version 2.28.
 
 
 
@@ -45,3 +45,7 @@ This has been available since 2.28.
 
 - `attribute_name` (String) Link Attribute to be tested. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

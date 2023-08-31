@@ -13,7 +13,7 @@ description: |-
   remoteauthenticationclientcertcontent||x||x
   remoteauthenticationclientcertpassword||x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.0.
+  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_bridge (Data Source)
@@ -34,7 +34,7 @@ remote_authentication_client_cert_password||x||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.0.
+This has been available since SEMP API version 2.0.
 
 
 
@@ -56,6 +56,7 @@ This has been available since 2.0.
 ### Read-Only
 
 - `enabled` (Boolean) Enable or disable the Bridge. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `id` (String) Placeholder identifier attribute.
 - `max_ttl` (Number) The maximum time-to-live (TTL) in hops. Messages are discarded if their TTL exceeds this value. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `8`.
 - `remote_authentication_basic_client_username` (String) The Client Username the Bridge uses to login to the remote Message VPN. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `remote_authentication_scheme` (String) The authentication scheme for the remote Message VPN. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"basic"`. The allowed values and their meaning are:

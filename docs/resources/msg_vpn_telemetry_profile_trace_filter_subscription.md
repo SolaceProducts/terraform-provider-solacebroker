@@ -12,7 +12,7 @@ description: |-
   telemetryprofilename|x|||
   tracefilter_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.31.
+  This has been available since SEMP API version 2.31.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription (Resource)
@@ -32,7 +32,7 @@ trace_filter_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.31.
+This has been available since SEMP API version 2.31.
 
 
 
@@ -51,3 +51,7 @@ This has been available since 2.31.
 </pre>
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
 - `trace_filter_name` (String) A name used to identify the trace filter. Consider a name that describes the subscriptions contained within the filter, such as the name of the application and/or the scenario in which the trace filter might be enabled, such as "appNameDebug".
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

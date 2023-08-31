@@ -10,7 +10,7 @@ description: |-
   rule_name|x|||
   source|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.27.
+  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule_condition (Resource)
@@ -28,7 +28,7 @@ source|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.27.
+This has been available since SEMP API version 2.27.
 
 
 
@@ -61,3 +61,7 @@ This has been available since 2.27.
 
 - `attribute` (String) Client Username Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
 - `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

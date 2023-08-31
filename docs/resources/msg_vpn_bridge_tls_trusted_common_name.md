@@ -11,7 +11,7 @@ description: |-
   msgvpnname|x||x|
   tlstrustedcommonname|x||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+  This has been deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 ---
 
 # solacebroker_msg_vpn_bridge_tls_trusted_common_name (Resource)
@@ -30,7 +30,7 @@ tls_trusted_common_name|x||x|
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+This has been deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 
 
 
@@ -39,7 +39,7 @@ This has been deprecated since 2.18. Common Name validation has been replaced by
 
 ### Required
 
-- `bridge_name` (String, Deprecated) The name of the Bridge. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `bridge_name` (String, Deprecated) The name of the Bridge. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
 - `bridge_virtual_router` (String, Deprecated) The virtual router of the Bridge. The allowed values and their meaning are:
 
 <pre>
@@ -47,6 +47,10 @@ This has been deprecated since 2.18. Common Name validation has been replaced by
 "backup" - The Bridge is used for the backup virtual router.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
- Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
-- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
-- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+ Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `msg_vpn_name` (String, Deprecated) The name of the Message VPN. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+- `tls_trusted_common_name` (String, Deprecated) The expected trusted common name of the remote certificate. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

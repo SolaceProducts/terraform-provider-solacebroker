@@ -11,7 +11,7 @@ description: |-
   clientusername|x|||
   msgvpn_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.27.
+  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_client_username_attribute (Data Source)
@@ -30,7 +30,7 @@ msg_vpn_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.27.
+This has been available since SEMP API version 2.27.
 
 
 
@@ -43,3 +43,7 @@ This has been available since 2.27.
 - `attribute_value` (String) The value of the Attribute.
 - `client_username` (String) The name of the Client Username.
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.

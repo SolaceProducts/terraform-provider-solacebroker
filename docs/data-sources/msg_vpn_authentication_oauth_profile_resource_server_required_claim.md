@@ -10,7 +10,7 @@ description: |-
   oauthprofilename|x|||
   resourceserverrequiredclaimname|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.25.
+  This has been available since SEMP API version 2.25.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile_resource_server_required_claim (Data Source)
@@ -28,7 +28,7 @@ resource_server_required_claim_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.25.
+This has been available since SEMP API version 2.25.
 
 
 
@@ -43,4 +43,5 @@ This has been available since 2.25.
 
 ### Read-Only
 
+- `id` (String) Placeholder identifier attribute.
 - `resource_server_required_claim_value` (String) The required claim value.

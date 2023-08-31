@@ -9,7 +9,7 @@ description: |-
   msgvpnname|x|||
   queue_name|x|||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
-  This has been available since 2.2.
+  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_msg_vpn_jndi_queue (Resource)
@@ -26,7 +26,7 @@ queue_name|x|||
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
-This has been available since 2.2.
+This has been available since SEMP API version 2.2.
 
 
 
@@ -41,3 +41,7 @@ This has been available since 2.2.
 ### Optional
 
 - `physical_name` (String) The physical name of the JMS Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+
+### Read-Only
+
+- `id` (String) Placeholder identifier attribute.
