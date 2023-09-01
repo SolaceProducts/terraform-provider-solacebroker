@@ -27,7 +27,7 @@ jobs:
           repository: SolaceDev/broker-terraform-provider-generator
           token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
           path: broker-terraform-provider-generator
-          ref: "v1.0.0"
+          ref: "v0.1.0"
 
       - name: Build and install generator
         run: |
