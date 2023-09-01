@@ -389,7 +389,7 @@ This has been available since SEMP API version 2.13.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--guaranteed_msging_event_cache_usage_threshold"></a>
 ### Nested Schema for `guaranteed_msging_event_cache_usage_threshold`

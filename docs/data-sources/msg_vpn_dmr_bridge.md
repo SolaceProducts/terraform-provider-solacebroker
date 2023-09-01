@@ -40,5 +40,5 @@ This has been available since SEMP API version 2.11.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `remote_msg_vpn_name` (String) The remote Message VPN of the DMR Bridge. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

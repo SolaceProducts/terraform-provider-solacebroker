@@ -35,6 +35,6 @@ This has been deprecated since SEMP API version 2.2. /systemInformation was repl
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `platform` (String, Deprecated) The platform running the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.
 - `semp_version` (String, Deprecated) The version of the SEMP API. Deprecated since SEMP API version 2.2. /systemInformation was replaced by /about/api.

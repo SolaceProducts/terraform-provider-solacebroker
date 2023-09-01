@@ -46,7 +46,7 @@ This has been available since SEMP API version 2.0.
 "allow" - Allow client connection unless an exception is found for it.
 "disallow" - Disallow client connection unless an exception is found for it.
 </pre>
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `publish_topic_default_action` (String) The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>

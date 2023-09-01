@@ -40,5 +40,5 @@ This has been available since SEMP API version 2.24.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.

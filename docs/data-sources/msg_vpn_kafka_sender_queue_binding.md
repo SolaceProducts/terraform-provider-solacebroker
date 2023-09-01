@@ -51,7 +51,7 @@ This has been available since SEMP API version 2.36.
 "all" - All Replica Acks.
 </pre>
 - `enabled` (Boolean) Enable or disable this queue binding of the Kafka Sender. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `partition_consistent_hash` (String) The hash algorithm to use for consistent partition selection. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"crc"`. The allowed values and their meaning are:
 
 <pre>

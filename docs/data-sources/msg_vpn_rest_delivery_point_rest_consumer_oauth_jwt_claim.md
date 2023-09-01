@@ -46,5 +46,5 @@ This has been available since SEMP API version 2.21.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `oauth_jwt_claim_value` (String) The value of the additional claim, which must be a string containing a valid JSON value.

@@ -64,4 +64,4 @@ This has been deprecated since SEMP API version 2.19. Replaced by clientCertAuth
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.

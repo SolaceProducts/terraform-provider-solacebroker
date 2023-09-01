@@ -270,7 +270,7 @@ Aliases may form a non-circular chain, cascading one to the next. Changes to thi
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--event_connection_count_threshold"></a>
 ### Nested Schema for `event_connection_count_threshold`

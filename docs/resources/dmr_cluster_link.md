@@ -99,7 +99,7 @@ This has been available since SEMP API version 2.11.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--queue_event_spool_usage_threshold"></a>
 ### Nested Schema for `queue_event_spool_usage_threshold`

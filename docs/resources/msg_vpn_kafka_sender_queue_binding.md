@@ -76,4 +76,4 @@ If empty, the Queue Binding will not be operational. Modifying this attribute wh
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.

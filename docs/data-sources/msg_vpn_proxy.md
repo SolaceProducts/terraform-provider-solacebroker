@@ -51,7 +51,7 @@ This has been available since SEMP API version 2.36.
 </pre>
 - `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular Proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `host` (String) The IP address or host name of the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `port` (Number) The port to connect to on the proxy host. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
 - `proxy_type` (String) The type of proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"direct"`. The allowed values and their meaning are:
 

@@ -49,7 +49,7 @@ This has been available since SEMP API version 2.24.
 "read-write" - User has read-write access to most global data.
 "admin" - User has read-write access to all global data.
 </pre>
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `msg_vpn_access_level` (String) The default message VPN access level for this group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>

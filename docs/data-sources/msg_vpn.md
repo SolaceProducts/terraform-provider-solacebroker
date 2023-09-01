@@ -143,7 +143,7 @@ Aliases may form a non-circular chain, cascading one to the next. Changes to thi
 - `event_transacted_session_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transacted_session_count_threshold))
 - `event_transaction_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transaction_count_threshold))
 - `export_subscriptions_enabled` (Boolean) Enable or disable the export of subscriptions in the Message VPN to other routers in the network over Neighbor links. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `jndi_enabled` (Boolean) Enable or disable JNDI access for clients in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.2.
 - `max_connection_count` (Number) The maximum number of client connections to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `max_egress_flow_count` (Number) The maximum number of transmit flows that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.

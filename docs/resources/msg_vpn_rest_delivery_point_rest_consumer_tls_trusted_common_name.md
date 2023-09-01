@@ -46,4 +46,4 @@ This has been deprecated since SEMP API version 2.17. Common Name validation has
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.

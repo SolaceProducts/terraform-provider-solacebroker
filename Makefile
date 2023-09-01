@@ -21,6 +21,10 @@ test-coverage: ## Run tests with coverage
 	@go test -short -coverprofile reports/cover.out ${PKG_LIST}
 	@go tool cover -html reports/cover.out -o reports/cover.html
 
+.PHONY: testacc
+testacc: # Run acceptance tests
+	TF_ACC=1 go test ./... -v $(TESTARGS) -timeout 120m
+
 .PHONY:
 generate-docs: dep ## Build the binary file
 	@go run github.com/hashicorp/terraform-plugin-docs/cmd/tfplugindocs generate --provider-name solacebroker

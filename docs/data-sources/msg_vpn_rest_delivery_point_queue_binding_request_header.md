@@ -47,4 +47,4 @@ This has been available since SEMP API version 2.23.
 ### Read-Only
 
 - `header_value` (String) A substitution expression for the value of the HTTP request header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.

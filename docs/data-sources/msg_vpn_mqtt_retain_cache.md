@@ -41,5 +41,5 @@ This has been available since SEMP API version 2.11.
 ### Read-Only
 
 - `enabled` (Boolean) Enable or disable this MQTT Retain Cache. When the cache is disabled, neither retain messages nor retain requests will be delivered by the cache. However, live retain messages will continue to be delivered to currently connected MQTT clients. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `msg_lifetime` (Number) The message lifetime, in seconds. If a message remains cached for the duration of its lifetime, the cache will remove the message. A lifetime of 0 results in the message being retained indefinitely, otherwise it must be 3 seconds or more. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.

@@ -40,7 +40,7 @@ This has been available since SEMP API version 2.31.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
 - `queue_event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_bind_count_threshold))
 - `queue_event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_msg_spool_usage_threshold))
 - `queue_max_bind_count` (Number) The maximum number of consumer flows that can bind to the Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.

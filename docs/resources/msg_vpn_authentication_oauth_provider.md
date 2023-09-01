@@ -124,4 +124,4 @@ This has been deprecated since SEMP API version 2.25. Replaced by authentication
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.

@@ -7,7 +7,8 @@ build
 terraform.tfstate
 terraform.tfstate.backup
 .vscode
-examples
+test
 __debug*
 bin
 dist
+vendor

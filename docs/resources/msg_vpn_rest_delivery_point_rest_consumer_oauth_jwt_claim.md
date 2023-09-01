@@ -47,4 +47,4 @@ This has been available since SEMP API version 2.21.
 
 ### Read-Only
 
-- `id` (String) Placeholder identifier attribute.
+- `id` (String) Identifier attribute, for internal use only.
