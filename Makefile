@@ -34,6 +34,10 @@ build: dep ## Build the binary file
 	@go build -a -ldflags '-s -w -extldflags "-static"' -o terraform-provider-solacebroker
 
 .PHONY:
+install: dep ## Install the provider for dev use
+	@go install -a
+
+.PHONY:
 clean: ## Remove previous build
 	@rm -f reports/cover.html reports/cover.out terraform-provider-solacebroker
 
