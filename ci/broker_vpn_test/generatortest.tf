@@ -1,15 +1,15 @@
 terraform {
-  required_providers {
-    solacebroker = {
-      source = "registry.terraform.io/solaceproducts/solacebroker"
-    }
-  }
+ required_providers {
+   solacebroker = {
+     source = "registry.terraform.io/solaceproducts/solacebroker"
+   }
+ }
 }
 
 provider "solacebroker" {
-  url      = "http://localhost:8080"
   username = "admin"
   password = "admin"
+  url      = "http://localhost:8080"
 }
 
 resource "solacebroker_msg_vpn" "msg_vpn" {
@@ -29,17 +29,14 @@ resource "solacebroker_msg_vpn" "msg_vpn" {
   authentication_kerberos_allow_api_provided_username_enabled    = true
   authentication_kerberos_enabled                                = true
   authentication_oauth_default_profile_name                      = "test"
-  authentication_oauth_default_provider_name                     = "test"
   authentication_oauth_enabled                                   = true
   authorization_ldap_group_membership_attribute_name             = "test"
   authorization_ldap_trim_client_username_domain_enabled         = true
   authorization_profile_name                                     = "default"
   authorization_type                                             = "ldap"
-  bridging_tls_server_cert_enforce_trusted_common_name_enabled   = true
   bridging_tls_server_cert_max_chain_depth                       = "4"
   bridging_tls_server_cert_validate_date_enabled                 = false
   bridging_tls_server_cert_validate_name_enabled                 = false
-  distributed_cache_management_enabled                           = false
   dmr_enabled                                                    = true
   enabled                                                        = true
   event_connection_count_threshold                               = { "clear_percent" = 40, "set_percent" = 50 }
@@ -91,7 +88,6 @@ resource "solacebroker_msg_vpn" "msg_vpn" {
   replication_reject_msg_when_sync_ineligible_enabled            = true
   replication_role                                               = "active"
   replication_transaction_mode                                   = "sync"
-  rest_tls_server_cert_enforce_trusted_common_name_enabled       = true
   rest_tls_server_cert_max_chain_depth                           = "4"
   rest_tls_server_cert_validate_date_enabled                     = false
   rest_tls_server_cert_validate_name_enabled                     = false
@@ -149,25 +145,11 @@ resource "solacebroker_msg_vpn_acl_profile_client_connect_exception" "msg_vpn_ac
   client_connect_exception_address = "192.168.1.1/24"
 }
 
-resource "solacebroker_msg_vpn_acl_profile_publish_exception" "msg_vpn_acl_profile_publish_exception" {
-  msg_vpn_name            = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  acl_profile_name        = solacebroker_msg_vpn_acl_profile.msg_vpn_acl_profile.acl_profile_name
-  publish_exception_topic = "test"
-  topic_syntax            = "smf"
-}
-
 resource "solacebroker_msg_vpn_acl_profile_publish_topic_exception" "msg_vpn_acl_profile_publish_topic_exception" {
   msg_vpn_name                   = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   acl_profile_name               = solacebroker_msg_vpn_acl_profile.msg_vpn_acl_profile.acl_profile_name
   publish_topic_exception        = "test1"
   publish_topic_exception_syntax = "smf"
-}
-
-resource "solacebroker_msg_vpn_acl_profile_subscribe_exception" "msg_vpn_acl_profile_subscribe_exception" {
-  msg_vpn_name              = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  acl_profile_name          = solacebroker_msg_vpn_acl_profile.msg_vpn_acl_profile.acl_profile_name
-  subscribe_exception_topic = "test2"
-  topic_syntax              = "smf"
 }
 
 resource "solacebroker_msg_vpn_acl_profile_subscribe_share_name_exception" "msg_vpn_acl_profile_subscribe_share_name_exception" {
@@ -232,31 +214,6 @@ resource "solacebroker_msg_vpn_authentication_oauth_profile_resource_server_requ
   resource_server_required_claim_value = "{\"test\":1}"
 }
 
-resource "solacebroker_msg_vpn_authentication_oauth_provider" "msg_vpn_authentication_oauth_provider" {
-  msg_vpn_name                           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  oauth_provider_name                    = "test"
-  audience_claim_name                    = "test"
-  audience_claim_source                  = "access-token"
-  audience_claim_value                   = "test"
-  audience_validation_enabled            = true
-  authorization_group_claim_name         = "test"
-  authorization_group_claim_source       = "introspection"
-  authorization_group_enabled            = true
-  disconnect_on_token_expiration_enabled = false
-  enabled                                = true
-  jwks_refresh_interval                  = 86399
-  jwks_uri                               = "https://dsfsdf.com:3243"
-  token_ignore_time_limits_enabled       = true
-  token_introspection_parameter_name     = "test"
-  token_introspection_password           = "test"
-  token_introspection_timeout            = 2
-  token_introspection_uri                = "https://dssdf.com:8035"
-  token_introspection_username           = "test"
-  username_claim_name                    = "test"
-  username_claim_source                  = "access-token"
-  username_validate_enabled              = true
-}
-
 resource "solacebroker_msg_vpn_authorization_group" "msg_vpn_authorization_group" {
   msg_vpn_name                         = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   authorization_group_name             = "test"
@@ -309,6 +266,13 @@ resource "solacebroker_msg_vpn_bridge_remote_subscription" "msg_vpn_bridge_remot
   deliver_always_enabled    = true
 }
 
+# resource "solacebroker_msg_vpn_bridge_tls_trusted_common_name" "msg_vpn_bridge_tls_trusted_common_name" {
+#   msg_vpn_name            = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+#   bridge_name             = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
+#   bridge_virtual_router   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
+#   tls_trusted_common_name = "test"
+# }
+
 resource "solacebroker_msg_vpn_cert_matching_rule" "msg_vpn_cert_matching_rule" {
   msg_vpn_name = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   rule_name    = "test"
@@ -334,16 +298,13 @@ resource "solacebroker_msg_vpn_client_profile" "msg_vpn_client_profile" {
   msg_vpn_name                                                     = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   client_profile_name                                              = "test"
   allow_bridge_connections_enabled                                 = true
-  allow_cut_through_forwarding_enabled                             = false
   allow_guaranteed_endpoint_create_durability                      = "durable"
   allow_guaranteed_endpoint_create_enabled                         = true
   allow_guaranteed_msg_receive_enabled                             = true
   allow_guaranteed_msg_send_enabled                                = true
   allow_shared_subscriptions_enabled                               = true
   allow_transacted_sessions_enabled                                = true
-  api_queue_management_copy_from_on_create_name                    = "test"
   api_queue_management_copy_from_on_create_template_name           = "test"
-  api_topic_endpoint_management_copy_from_on_create_name           = "test"
   api_topic_endpoint_management_copy_from_on_create_template_name  = "test"
   compression_enabled                                              = true
   eliding_delay                                                    = 1
@@ -841,58 +802,9 @@ resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_claim
   oauth_jwt_claim_value    = "{\"test\":1}"
 }
 
-resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_tls_trusted_common_name" "msg_vpn_rest_delivery_point_rest_consumer_tls_trusted_common_name" {
-  msg_vpn_name             = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  rest_delivery_point_name = solacebroker_msg_vpn_rest_delivery_point.msg_vpn_rest_delivery_point.rest_delivery_point_name
-  rest_consumer_name       = solacebroker_msg_vpn_rest_delivery_point_rest_consumer.msg_vpn_rest_delivery_point_rest_consumer.rest_consumer_name
-  tls_trusted_common_name  = "test"
-}
-
 resource "solacebroker_msg_vpn_sequenced_topic" "msg_vpn_sequenced_topic" {
   msg_vpn_name    = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   sequenced_topic = "test"
-}
-
-resource "solacebroker_msg_vpn_telemetry_profile" "msg_vpn_telemetry_profile" {
-  msg_vpn_name                                                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  telemetry_profile_name                                        = "test"
-  queue_event_bind_count_threshold                              = { "clear_percent" = 40, "set_percent" = 50 }
-  queue_event_msg_spool_usage_threshold                         = { "clear_percent" = 40, "set_percent" = 50 }
-  queue_max_bind_count                                          = 999
-  queue_max_msg_spool_usage                                     = 799999
-  receiver_acl_connect_default_action                           = "allow"
-  receiver_enabled                                              = true
-  receiver_event_connection_count_per_client_username_threshold = { "clear_percent" = 40, "set_percent" = 50 }
-  receiver_max_connection_count_per_client_username             = 999
-  receiver_tcp_congestion_window_size                           = 3
-  receiver_tcp_keepalive_count                                  = 4
-  receiver_tcp_keepalive_idle_time                              = 4
-  receiver_tcp_keepalive_interval                               = 2
-  receiver_tcp_max_segment_size                                 = 1459
-  receiver_tcp_max_window_size                                  = 255
-  trace_enabled                                                 = true
-  trace_send_span_generation_enabled                            = false
-}
-
-resource "solacebroker_msg_vpn_telemetry_profile_receiver_acl_connect_exception" "msg_vpn_telemetry_profile_receiver_acl_connect_exception" {
-  msg_vpn_name                           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  telemetry_profile_name                 = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
-  receiver_acl_connect_exception_address = "192.168.1.1/24"
-}
-
-resource "solacebroker_msg_vpn_telemetry_profile_trace_filter" "msg_vpn_telemetry_profile_trace_filter" {
-  msg_vpn_name           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  telemetry_profile_name = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
-  trace_filter_name      = "test"
-  enabled                = true
-}
-
-resource "solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription" "msg_vpn_telemetry_profile_trace_filter_subscription" {
-  msg_vpn_name           = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
-  telemetry_profile_name = solacebroker_msg_vpn_telemetry_profile.msg_vpn_telemetry_profile.telemetry_profile_name
-  trace_filter_name      = solacebroker_msg_vpn_telemetry_profile_trace_filter.msg_vpn_telemetry_profile_trace_filter.trace_filter_name
-  subscription           = "test"
-  subscription_syntax    = "smf"
 }
 
 resource "solacebroker_msg_vpn_topic_endpoint" "msg_vpn_topic_endpoint" {
