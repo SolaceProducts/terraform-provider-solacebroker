@@ -175,17 +175,6 @@ func init() {
 				},
 			},
 			{
-				BaseType:            broker.Bool,
-				SempName:            "tlsServerCertEnforceTrustedCommonNameEnabled",
-				TerraformName:       "tls_server_cert_enforce_trusted_common_name_enabled",
-				MarkdownDescription: "Enable or disable the enforcing of the common name provided by the remote broker against the list of trusted common names configured for the Link. If enabled, the certificate's common name must match one of the trusted common names for the Link to be accepted. Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is enabled. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Deprecated since SEMP API version 2.18. Common Name validation has been replaced by Server Certificate Name validation.",
-				Deprecated:          true,
-				Type:                types.BoolType,
-				TerraformType:       tftypes.Bool,
-				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
-				Default:             false,
-			},
-			{
 				BaseType:            broker.Int64,
 				SempName:            "tlsServerCertMaxChainDepth",
 				TerraformName:       "tls_server_cert_max_chain_depth",
