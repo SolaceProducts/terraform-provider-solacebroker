@@ -8,7 +8,7 @@ The provider is available from the [Terraform Providers Registry](https://regist
 
 1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [locally deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
 2. Install the [Terraform CLI](https://www.terraform.io/downloads)
-3. Create the [`sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust `url`, and the management credential parameters `username`` and `password` to your broker's setup.
+3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust `url`, and the management credential parameters `username` and `password` to your broker's setup.
 4. From this directory run `terraform plan`, then `terraform apply`.
 5. Open the `url` link in your browser to access the broker's web managment UI. The creadentials are the same as used in the Terraform config. Observe the new objects created: a new message-vpn and a messaging queue under that message-vpn.
 6. Run `terraform delete` from your command line and observe the message-vpn deleted.
