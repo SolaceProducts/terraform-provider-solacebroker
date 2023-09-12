@@ -25,8 +25,8 @@ It is recommended to familiarize yourself with Solace technology and broker mana
 
 ### Requirements
 
-* [Terraform](https://www.terraform.io/downloads) (>= 0.12)
-* [Go](https://go.dev/doc/install) (1.19)
+* [Terraform](https://www.terraform.io/downloads) (>= 1.0)
+* [Go](https://go.dev/doc/install) (1.20)
 * [Make](https://www.gnu.org/software/make/)
 
 ### Building
@@ -69,6 +69,6 @@ This project is licensed under the Apache License, Version 2.0. - See the [LICEN
 
 For more information about Solace technology in general please visit these resources:
 
-- Understanding [Solace technology](https://solace.com/products/platform/)
+- Understanding [Solace technology](https://docs.solace.com/Get-Started/Solace-PubSub-Platform.htm)
 - The Solace Developer Portal website at: [solace.dev](https://solace.dev/)
 - Ask the [Solace community](https://solace.community/).
