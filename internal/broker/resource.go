@@ -67,8 +67,11 @@ type brokerResource brokerEntity[schema.Schema]
 // Compares the value with the attribute default value. Must take care of type conversions.
 func isValueEqualsAttrDefault(attr *AttributeInfo, value interface{}) bool {
 	defaultValue := attr.Default
-	if defaultValue == nil || attr.BaseType == Struct {
-		return true // returning true here because this is a struct which has default nil
+	if attr.BaseType == Struct {
+		return true // returning true here because this is a struct
+	}
+	if defaultValue == nil {
+		return (value == nil) // return true if value is nil
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
