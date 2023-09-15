@@ -20,6 +20,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/http/cookiejar"
 	"strings"
 
 	"github.com/hashicorp/go-version"
@@ -35,6 +36,8 @@ const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10
 
 var _ provider.Provider = &BrokerProvider{}
 var ProviderVersion string
+
+var Cookiejar, _ = cookiejar.New(nil)
 
 type BrokerProvider struct {
 	Version string
@@ -58,33 +61,33 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 			},
 			"password": schema.StringAttribute{
 				MarkdownDescription: "The password to connect to the broker with. Requires username and conflicts with bearer_token.",
-				Optional:  true,
-				Sensitive: true,
+				Optional:            true,
+				Sensitive:           true,
 			},
 			"bearer_token": schema.StringAttribute{
 				MarkdownDescription: "A bearer token that will be sent in the Authorization header of SEMP requests. Conflicts with username and password.",
-				Optional:  true,
-				Sensitive: true,
+				Optional:            true,
+				Sensitive:           true,
 			},
 			"retries": schema.Int64Attribute{
 				MarkdownDescription: "The number of retries for a SEMP call. The default value is 10.",
-				Optional: true,
+				Optional:            true,
 			},
 			"retry_min_interval": schema.StringAttribute{
 				MarkdownDescription: "A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating how long to wait after an initial failed request before the first retry.  Exponential backoff is used, up to the limit set by retry_max_interval. The default value is 3s.",
-				Optional: true,
+				Optional:            true,
 			},
 			"retry_max_interval": schema.StringAttribute{
 				MarkdownDescription: "A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the maximum retry interval. The default value is 30s.",
-				Optional: true,
+				Optional:            true,
 			},
 			"request_timeout_duration": schema.StringAttribute{
 				MarkdownDescription: "A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the maximum time to wait for a SEMP request.  The default value is 1m.",
-				Optional: true,
+				Optional:            true,
 			},
 			"request_min_interval": schema.StringAttribute{
 				MarkdownDescription: "A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the minimum interval between requests; this serves as a rate limit. This setting does not apply to retries. Set to 0 for no rate limit. The default value is 100ms (which equates to a rate limit of 10 calls per second).",
-				Optional: true,
+				Optional:            true,
 			},
 			"insecure_skip_verify": schema.BoolAttribute{
 				MarkdownDescription: "Disable validation of server SSL certificates, accept/ignore self-signed. The default value is false.",

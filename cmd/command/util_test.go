@@ -35,26 +35,6 @@ func TestBooleanWithDefaultFromEnv(t *testing.T) {
 	}
 }
 
-func TestConvertToAlphabetic(t *testing.T) {
-	type args struct {
-		n int
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ConvertToAlphabetic(tt.args.n); got != tt.want {
-				t.Errorf("ConvertToAlphabetic() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestDurationWithDefaultFromEnv(t *testing.T) {
 	type args struct {
 		name        string
@@ -83,10 +63,31 @@ func TestDurationWithDefaultFromEnv(t *testing.T) {
 	}
 }
 
+func TestGenerateRandomString(t *testing.T) {
+	type args struct {
+		n int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GenerateRandomString(tt.args.n); got != tt.want {
+				t.Errorf("GenerateRandomString() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestGenerateTerraformString(t *testing.T) {
 	type args struct {
-		attributes []*broker.AttributeInfo
-		values     []map[string]interface{}
+		attributes                     []*broker.AttributeInfo
+		values                         []map[string]interface{}
+		parentBrokerResourceAttributes map[string]string
 	}
 	tests := []struct {
 		name    string
@@ -98,13 +99,33 @@ func TestGenerateTerraformString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := GenerateTerraformString(tt.args.attributes, tt.args.values)
+			got, err := GenerateTerraformString(tt.args.attributes, tt.args.values, tt.args.parentBrokerResourceAttributes)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("GenerateTerraformString() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GenerateTerraformString() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestGetParentResourceAttributes(t *testing.T) {
+	type args struct {
+		brokerParentResource map[string]string
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[string]string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetParentResourceAttributes(tt.args.brokerParentResource); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("GetParentResourceAttributes() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -146,7 +167,12 @@ func TestLogCLIError(t *testing.T) {
 		name string
 		args args
 	}{
-		// TODO: Add test cases.
+		{
+			"TestWritingErrorLog",
+			args{
+				"Sample write",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -163,7 +189,12 @@ func TestLogCLIInfo(t *testing.T) {
 		name string
 		args args
 	}{
-		// TODO: Add test cases.
+		{
+			"TestWritingInfoLog",
+			args{
+				"Sample write",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -216,6 +247,26 @@ func TestStringWithDefaultFromEnv(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := StringWithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback); got != tt.want {
 				t.Errorf("StringWithDefaultFromEnv() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_randStr(t *testing.T) {
+	type args struct {
+		n int
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := randStr(tt.args.n); got != tt.want {
+				t.Errorf("randStr() = %v, want %v", got, tt.want)
 			}
 		})
 	}

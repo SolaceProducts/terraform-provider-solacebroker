@@ -9,6 +9,7 @@ import (
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
+	"terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 )
 
@@ -22,15 +23,16 @@ type BrokerObjectAttributes []IdentifyingAttribute
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
 
 func CreateBrokerObjectRelationships() {
+	BrokerObjectRelationship[("broker")] = []BrokerObjectType{}
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
 
-		for i, _ := range matches {
+		for i := range matches {
 
 			if i == 0 {
 				var parent string
-				parent = strings.TrimPrefix((matches[i][0]), "{")
+				parent = strings.TrimPrefix(matches[i][0], "{")
 				parent = strings.TrimSuffix(parent, "}")
 
 				//first item in node
@@ -48,10 +50,10 @@ func CreateBrokerObjectRelationships() {
 			if i != 0 {
 				var parent string
 				var tfParentNameCollection []string
-				baseParent := strings.TrimPrefix((matches[0][0]), "{")
+				baseParent := strings.TrimPrefix(matches[0][0], "{")
 				baseParent = strings.TrimSuffix(baseParent, "}")
 
-				parent = strings.TrimPrefix((matches[i-1][0]), "{")
+				parent = strings.TrimPrefix(matches[i-1][0], "{")
 				parent = strings.TrimSuffix(parent, "}")
 
 				if baseParent != parent {
@@ -68,7 +70,7 @@ func CreateBrokerObjectRelationships() {
 						children = []BrokerObjectType{}
 					}
 
-					child := strings.TrimPrefix((matches[i][0]), "{")
+					child := strings.TrimPrefix(matches[i][0], "{")
 					child = strings.TrimSuffix(child, "}")
 
 					tfChildNameCollection, tfValueExists := getDataSourceNameIfDatasource(parent, child)
@@ -97,11 +99,11 @@ func getDataSourceNameIfDatasource(parent string, child string) ([]string, bool)
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
-		for i, _ := range matches {
+		for i := range matches {
 			if len(matches) <= 2 {
 
 				if len(matches) == 1 {
-					parentToSet := strings.TrimPrefix((matches[i][0]), "{")
+					parentToSet := strings.TrimPrefix(matches[i][0], "{")
 					parentToSet = strings.TrimSuffix(parentToSet, "}")
 
 					if child == "" && parentToSet == parent {
@@ -112,10 +114,10 @@ func getDataSourceNameIfDatasource(parent string, child string) ([]string, bool)
 					}
 				}
 				if len(matches) == 2 && i == 1 {
-					parentToSet := strings.TrimPrefix((matches[0][0]), "{")
+					parentToSet := strings.TrimPrefix(matches[0][0], "{")
 					parentToSet = strings.TrimSuffix(parentToSet, "}")
 
-					childToSet := strings.TrimPrefix((matches[1][0]), "{")
+					childToSet := strings.TrimPrefix(matches[1][0], "{")
 					childToSet = strings.TrimSuffix(childToSet, "}")
 
 					if child == childToSet && parentToSet == parent {
@@ -132,7 +134,7 @@ func getDataSourceNameIfDatasource(parent string, child string) ([]string, bool)
 	return collectionTfNames, len(collectionTfNames) > 0
 }
 
-func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string) map[string]string {
+func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributes map[string]string) map[string]string {
 	tfObject := map[string]string{}
 	LogCLIInfo("Generating terraform config for " + brokerObjectTerraformName)
 	entityToRead := internalbroker.EntityInputs{}
@@ -148,7 +150,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 		os.Exit(1)
 	}
 
-	sempData, err := client.RequestWithoutBodyForGenerator(ctx, http.MethodGet, path)
+	sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
 	if err != nil {
 		LogCLIError("SEMP called failed. " + err.Error() + " on path " + path)
 		os.Exit(1)
@@ -156,13 +158,13 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 
 	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
 
-	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData)
+	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributes)
 
 	if len(resourceValues) == 1 {
 		tfObject[strings.ToLower(resourceKey)] = resourceValues[0]
 	} else {
-		for i, _ := range resourceValues {
-			tfObject[strings.ToLower(resourceKey)+ConvertToAlphabetic(i)] = resourceValues[i]
+		for i := range resourceValues {
+			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(4)] = resourceValues[i]
 		}
 	}
 	return tfObject

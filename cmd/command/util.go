@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math/rand"
 	"os"
 	"reflect"
 	"regexp"
@@ -12,6 +13,23 @@ import (
 	"terraform-provider-solacebroker/internal/broker"
 	"time"
 )
+
+type Color string
+
+const (
+	Reset Color = "\033[0m"
+	Red   Color = "\033[31m"
+)
+
+const (
+	AttributesStart     string = "\t"
+	AttributeKeyEnd            = "\t\t\t\t\t\t"
+	AttributeValueStart        = "\t"
+	AttributeValueEnd          = "\t\n"
+	AttributesEnd              = "\n\t"
+)
+
+var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 type ObjectInfo struct {
 	Registry        string
@@ -66,7 +84,7 @@ func DurationWithDefaultFromEnv(name string, isMandatory bool, fallback time.Dur
 	// Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h"
 	d, err := time.ParseDuration(envValue)
 	if err != nil {
-		return 0, errors.New(fmt.Errorf("%v is not valid; %q cannot be parsed as a duration: %w", ("SOLACEBROKER_" + strings.ToUpper(name)), envValue, err).Error())
+		return 0, errors.New(fmt.Errorf("%v is not valid; %q cannot be parsed as a duration: %w", "SOLACEBROKER_"+strings.ToUpper(name), envValue, err).Error())
 	}
 	return d, nil
 }
@@ -92,72 +110,101 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 		os.Exit(1)
 	}
 
-	for i, _ := range identifiersValues {
+	for i := range identifiersValues {
 		if i < len(out) {
 			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], identifiersValues[i])
 		}
 	}
 	if len(out) > len(identifiersValues) {
 		//remove unused vars
-		for i, _ := range out {
+		for i := range out {
 			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
 		}
 	}
 
 	path := strings.TrimSuffix(generatedPath, ",")
-	path = strings.TrimSuffix(path, "/")
+	if strings.HasSuffix(path, "/") {
+		path = strings.TrimSuffix(path, "/")
+		path = path + "?count=10"
+	}
 	return path, nil
 }
 
-func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}) ([]string, error) {
+func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string) ([]string, error) {
 	var tfBrokerObjects []string
-	for k, _ := range values {
-		tfAttributes := "\t"
+	var attributesWithDefaultValue = []string{}
+	for k := range values {
+		tfAttributes := AttributesStart
+		systemProvisioned := false
 		for _, attr := range attributes {
-			systemProvisioned := false
-			//if attr.Sensitive {
-			//	// write-only attributes can't be retrieved so we don't expose them in the datasource
-			//	continue
-			//}
-			//if !attr.Identifying && attr.ReadOnly {
-			//	// read-only attributes should only be in the datasource
-			//	continue
-			//}
-
+			attributeParentNameAndValue, attributeExistInParent := parentBrokerResourceAttributes[attr.TerraformName]
+			if attr.Sensitive {
+				// write-only attributes can't be retrieved, so we don't expose them
+				continue
+			}
+			if !attr.Identifying && attr.ReadOnly {
+				// read-only attributes should only be in the datasource
+				continue
+			}
 			valuesRes := values[k][attr.SempName]
-			//if reflect.TypeOf(attr.Default) != nil {
-			//	continue
-			//}
+			if attr.Identifying && attributeExistInParent {
+				tfAttributes += attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + attributeParentNameAndValue + AttributeValueEnd + "\t"
+				continue
+			}
 			switch attr.BaseType {
 			case broker.String:
 				if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
 					continue
 				}
-				if strings.Contains(valuesRes.(string), "#") {
+				if attr.Identifying && strings.Contains(valuesRes.(string), "#") {
 					systemProvisioned = true
 				}
-				val := attr.TerraformName + "\t\t\t\t\t\t=\t\"" + valuesRes.(string) + "\""
+				if reflect.TypeOf(attr.Default) != nil && attr.Default == valuesRes.(string) {
+					//attributes with default values will be skipped
+					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					continue
+				}
+				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valuesRes.(string) + "\""
+				if strings.Contains(valuesRes.(string), "{") {
+					val = attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + valuesRes.(string)
+
+				}
 				tfAttributes += val
 			case broker.Int64:
 				if valuesRes == nil {
 					continue
 				}
 				intValue := valuesRes
-				val := attr.TerraformName + "\t\t\t\t\t\t=\t" + fmt.Sprintf("%v", intValue)
+				if reflect.TypeOf(attr.Default) != nil && attr.Default == intValue {
+					//attributes with default values will be skipped
+					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					continue
+				}
+				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + fmt.Sprintf("%v", intValue)
 				tfAttributes += val
 			case broker.Bool:
 				if valuesRes == nil {
 					continue
 				}
 				boolValue := valuesRes.(bool)
-				val := attr.TerraformName + "\t\t\t\t\t\t=\t" + strconv.FormatBool(boolValue)
+				if reflect.TypeOf(attr.Default) != nil && attr.Default == boolValue {
+					//attributes with default values will be skipped
+					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					continue
+				}
+				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + strconv.FormatBool(boolValue)
 				tfAttributes += val
 			case broker.Struct:
 				valueJson, err := json.Marshal(valuesRes)
 				if err != nil {
 					continue
 				}
-				val := attr.TerraformName + "\t\t\t\t\t\t=\t" + string(valueJson)
+				if reflect.TypeOf(attr.Default) != nil && attr.Default == valuesRes {
+					//attributes with default values will be skipped
+					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					continue
+				}
+				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + string(valueJson)
 				tfAttributes += val
 			}
 			if attr.Deprecated && systemProvisioned {
@@ -167,21 +214,46 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 			} else if !attr.Deprecated && systemProvisioned {
 				tfAttributes += "	# Note: This attribute may be system provisioned."
 			}
-			tfAttributes += "\n\t"
+			tfAttributes += AttributesEnd
 		}
-		tfBrokerObjects = append(tfBrokerObjects, tfAttributes)
+		if !systemProvisioned {
+			tfBrokerObjects = append(tfBrokerObjects, tfAttributes)
+		}
 	}
 	return tfBrokerObjects, nil
 }
 
-func ConvertToAlphabetic(n int) string {
-	return strings.ToLower(string(rune('A' + n)))
+func randStr(n int) string {
+	b := make([]byte, n)
+	for i := range b {
+		b[i] = charset[rand.Intn(len(charset))]
+	}
+	return string(b)
+}
+
+func GenerateRandomString(n int) string {
+	return "_" + randStr(n)
 }
 
 func LogCLIError(err string) {
-	fmt.Fprintf(os.Stdout, "\033[0;31m%s \033[0m\n", err)
+	_, _ = fmt.Fprintf(os.Stdout, "%s %s %s\n", Red, err, Reset)
 }
 
 func LogCLIInfo(info string) {
-	fmt.Fprintf(os.Stdout, "\u001B[0m%s \033[0m\n", info)
+	_, _ = fmt.Fprintf(os.Stdout, "\n%s %s %s", Reset, info, Reset)
+}
+
+func GetParentResourceAttributes(brokerParentResource map[string]string) map[string]string {
+	parentResourceAttributes := map[string]string{}
+	for parentResourceObject := range brokerParentResource {
+		resourceAttributes := strings.Split(brokerParentResource[parentResourceObject], "\n")
+		for n := range resourceAttributes {
+			if len(strings.TrimSpace(resourceAttributes[n])) > 0 {
+				parentResourceName := strings.ReplaceAll(parentResourceObject, " ", ".")
+				parentResourceAttribute := strings.Split(strings.Replace(resourceAttributes[n], "\t", "", -1), "=")[0]
+				parentResourceAttributes[parentResourceAttribute] = parentResourceName + "." + parentResourceAttribute
+			}
+		}
+	}
+	return parentResourceAttributes
 }
