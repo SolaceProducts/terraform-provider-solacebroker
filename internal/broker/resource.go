@@ -67,11 +67,8 @@ type brokerResource brokerEntity[schema.Schema]
 // Compares the value with the attribute default value. Must take care of type conversions.
 func isValueEqualsAttrDefault(attr *AttributeInfo, value interface{}) bool {
 	defaultValue := attr.Default
-	if attr.BaseType == Struct {
-		return true // returning true here because this is a struct
-	}
 	if defaultValue == nil {
-		return (value == nil) // return true if value is nil
+		return false // return if no default value defined
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
@@ -87,7 +84,7 @@ func toId(path string) string {
 	return filepath.Base(path)
 }
 
-func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
+func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value, isObject bool) (tftypes.Value, error) {
 	responseValues := map[string]tftypes.Value{}
 	err := response.As(&responseValues)
 	if err != nil {
@@ -103,23 +100,44 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		response, responseExists := responseValues[name]
 		state, stateExists := stateValues[name]
 		if responseExists && response.IsKnown() && !response.IsNull() {
-			val, err := attr.Converter.FromTerraform(response)
-			if err != nil {
-				return tftypes.Value{}, err
-			}
-			if !isValueEqualsAttrDefault(attr, val) {
-				continue // do not change response for this
-			}
-			if stateExists && state.IsNull() {
-				responseValues[name] = state
-			} else {
-				if len(attr.Attributes) != 0 {
-					v, err := r.resetResponse(attr.Attributes, response, state)
-					if err != nil {
-						return tftypes.Value{}, err
+			if len(attr.Attributes) != 0 {
+				// This case is an object, typically threshold attributes
+				v, err := r.resetResponse(attr.Attributes, response, state, true)
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				responseValuesMap := map[string]tftypes.Value{}
+				err = v.As(&responseValuesMap)
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				allDefaults := true
+				for _, attr := range responseValuesMap {
+					if !attr.IsNull() {
+						allDefaults = false
+						break
 					}
+				}
+				if allDefaults {
+					// Set the whole object to null
+					responseValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+				} else {
+					// Keep the object with individual attributes
 					responseValues[name] = v
 				}
+			} else {
+				val, err := attr.Converter.FromTerraform(response)
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				if !isValueEqualsAttrDefault(attr, val) {
+					continue // do not change response for this attr if set to non-default
+				}
+				if !stateExists && isObject {
+					responseValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+				} else if stateExists && state.IsNull() {
+					responseValues[name] = state
+				} // else leave attr response unchanged
 			}
 		} else if stateExists && attr.Sensitive {
 			responseValues[name] = state
@@ -242,7 +260,7 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 	// 	return
 	// }
 	// if string(applied) == "true" {
-	responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
+	responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw, false)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 		return
