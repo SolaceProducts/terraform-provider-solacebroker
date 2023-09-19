@@ -25,13 +25,15 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
 var (
-	ErrResourceNotFound = errors.New("resource not found")
+	ErrResourceNotFound                = errors.New("Resource not found")
+	ErrDeleteOfDefaultObjectNotAllowed = errors.New("Delete of default objects is not allowed")
 )
 
 type Client struct {
@@ -205,6 +207,11 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 			if status == "NOT_FOUND" {
 				// resource not found is a special type we want to return
 				return nil, ErrResourceNotFound
+			}
+			// TODO: Confirm with core broker team this is correct.
+			if status == "NOT_ALLOWED" && strings.Contains(description, "cannot be deleted") {
+				// resource cannot be deleted is a special type we want to return
+				return nil, ErrDeleteOfDefaultObjectNotAllowed
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
 

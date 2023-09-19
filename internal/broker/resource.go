@@ -412,10 +412,14 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err != semp.ErrResourceNotFound {
+		if err == semp.ErrDeleteOfDefaultObjectNotAllowed {
+			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("Default object %s, \"%s\" cannot be destroyed and will not be removed from state.", r.terraformName, toId(path)), err)
+			return
+		} else if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}
+		// Let destroy finish normally if the error was Resource Not Found - only means that the resource has already been removed from the broker.
 	}
 }
 
@@ -455,6 +459,13 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 func addErrorToDiagnostics(diags *diag.Diagnostics, summary string, err error) {
 	for err != nil {
 		diags.AddError(summary, err.Error())
+		err = errors.Unwrap(err)
+	}
+}
+
+func addWarningToDiagnostics(diags *diag.Diagnostics, summary string, err error) {
+	for err != nil {
+		diags.AddWarning(summary, err.Error())
 		err = errors.Unwrap(err)
 	}
 }
