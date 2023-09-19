@@ -18,6 +18,7 @@ package broker
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -37,7 +38,7 @@ import (
 )
 
 const (
-	applied = "applied"
+	defaults = "defaults"
 )
 
 func newBrokerResource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -65,18 +66,30 @@ var (
 type brokerResource brokerEntity[schema.Schema]
 
 // Compares the value with the attribute default value. Must take care of type conversions.
-func isValueEqualsAttrDefault(attr *AttributeInfo, value interface{}) bool {
+func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, brokerDefault tftypes.Value) bool {
+	responseValue, _ := attr.Converter.FromTerraform(response)
+	// if err != nil {
+	// 	return tftypes.Value{}, err
+	// }
 	defaultValue := attr.Default
 	if defaultValue == nil {
-		return false // return if no default value defined
+		if brokerDefault.IsNull() {
+			// No broker default
+			return false
+		}
+		// Analyze broker default
+		// TODO: check err
+		def, _ := attr.Converter.FromTerraform(brokerDefault)
+		// compare
+		return responseValue == def
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
-			return value == int64(defaultValue.(float64))
+			return responseValue == int64(defaultValue.(float64))
 		}
-		return defaultValue.(int) == int(value.(int64))
+		return defaultValue.(int) == int(responseValue.(int64))
 	}
-	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", value)
+	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", responseValue)
 }
 
 func toId(path string) string {
@@ -84,7 +97,7 @@ func toId(path string) string {
 	return filepath.Base(path)
 }
 
-func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value, isObject bool) (tftypes.Value, error) {
+func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, brokerDefaults tftypes.Value, state tftypes.Value, isObject bool) (tftypes.Value, error) {
 	responseValues := map[string]tftypes.Value{}
 	err := response.As(&responseValues)
 	if err != nil {
@@ -95,6 +108,11 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 	if err != nil {
 		return tftypes.Value{}, err
 	}
+	brokerDefaultValues := map[string]tftypes.Value{}
+	err = brokerDefaults.As(&brokerDefaultValues)
+	if err != nil {
+		return tftypes.Value{}, err
+	}
 	for _, attr := range attributes {
 		name := attr.TerraformName
 		response, responseExists := responseValues[name]
@@ -102,7 +120,7 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		if responseExists && response.IsKnown() && !response.IsNull() {
 			if len(attr.Attributes) != 0 {
 				// This case is an object, typically threshold attributes
-				v, err := r.resetResponse(attr.Attributes, response, state, true)
+				v, err := r.resetResponse(attr.Attributes, response, tftypes.NewValue(attr.TerraformType, nil), state, true)
 				if err != nil {
 					return tftypes.Value{}, err
 				}
@@ -126,11 +144,7 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 					responseValues[name] = v
 				}
 			} else {
-				val, err := attr.Converter.FromTerraform(response)
-				if err != nil {
-					return tftypes.Value{}, err
-				}
-				if !isValueEqualsAttrDefault(attr, val) {
+				if !isValueEqualsAttrDefault(attr, response, brokerDefaultValues[name]) {
 					continue // do not change response for this attr if set to non-default
 				}
 				if !stateExists && isObject {
@@ -146,6 +160,30 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		}
 	}
 	return tftypes.NewValue(response.Type(), responseValues), nil
+}
+
+func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, response tftypes.Value, request tftypes.Value) (any, error) {
+	defaultValues := map[string]tftypes.Value{}
+	requestValues := map[string]tftypes.Value{}
+	err := request.As(&requestValues)
+	if err != nil {
+		return nil, err
+	}
+	responseValues := map[string]tftypes.Value{}
+	err = response.As(&responseValues)
+	if err != nil {
+		return nil, err
+	}
+	for _, attr := range attributes {
+		// Set obtained default values and null for any other attributes
+		name := attr.TerraformName
+		if attr.Default == nil && requestValues[name].IsNull() && attr.BaseType != Struct {
+			defaultValues[name] = responseValues[name]
+		} else {
+			defaultValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+		}
+	}
+	return r.converter.FromTerraform(tftypes.NewValue(request.Type(), defaultValues))
 }
 
 func convert(any any) {
@@ -209,17 +247,31 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
+	responseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
-
+	tfResponseData, err := r.converter.ToTerraform(responseData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
+		return
+	}
+	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
+	brokerDefaultsData, err := r.findBrokerDefaults(r.attributes, tfResponseData, request.Plan.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	data, err := json.Marshal(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	response.Private.SetKey(ctx, defaults, data)
+  // TODO: add log
 	response.State.Raw = request.Plan.Raw
 	response.State.SetAttribute(ctx, path.Root("id"), id)
-	// removing SetKey for now
-	// reason: read post processing is required in all cases
-	// response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
 func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
@@ -230,7 +282,6 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 			return
 		}
 	}
-
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -253,19 +304,31 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		return
 	}
 
-	// removing SetKey for now
-	// applied, diags := request.Private.GetKey(ctx, applied)
-	// if diags.HasError() {
-	// 	response.Diagnostics.Append(diags...)
-	// 	return
-	// }
-	// if string(applied) == "true" {
-	responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw, false)
+	defaultsJson, diags := request.Private.GetKey(ctx, defaults)
+	if diags.HasError() {
+		response.Diagnostics.Append(diags...)
+		return
+	}
+	if defaultsJson == nil {
+		defaultsJson = []byte("{}")
+	}
+	brokerDefaultsData := map[string]any{}
+	err = json.Unmarshal(defaultsJson, &brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Retrieve of defaults failed", err)
+		return
+	}
+	defaultsData, err := r.converter.ToTerraform(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Retrieve of defaults failed", err)
+		return
+	}
+	
+	responseData, err = r.resetResponse(r.attributes, responseData, defaultsData, request.State.Raw, false)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 		return
 	}
-	// }
 
 	response.State.Raw = responseData
 }
@@ -294,6 +357,7 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	if r.objectType == SingletonObject {
 		method = http.MethodPatch
 	}
+	// TODO: obtain default values
 	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
