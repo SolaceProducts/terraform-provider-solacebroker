@@ -66,30 +66,32 @@ var (
 type brokerResource brokerEntity[schema.Schema]
 
 // Compares the value with the attribute default value. Must take care of type conversions.
-func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, brokerDefault tftypes.Value) bool {
-	responseValue, _ := attr.Converter.FromTerraform(response)
-	// if err != nil {
-	// 	return tftypes.Value{}, err
-	// }
+func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, brokerDefault tftypes.Value) (bool, error) {
+	responseValue, err := attr.Converter.FromTerraform(response)
+	if err != nil {
+		return false, err
+	}
 	defaultValue := attr.Default
 	if defaultValue == nil {
 		if brokerDefault.IsNull() {
 			// No broker default
-			return false
+			return false, nil
 		}
 		// Analyze broker default
-		// TODO: check err
-		def, _ := attr.Converter.FromTerraform(brokerDefault)
+		def, err := attr.Converter.FromTerraform(brokerDefault)
+		if err != nil {
+			return false, err
+		}
 		// compare
-		return responseValue == def
+		return responseValue == def, nil
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
-			return responseValue == int64(defaultValue.(float64))
+			return responseValue == int64(defaultValue.(float64)), nil
 		}
-		return defaultValue.(int) == int(responseValue.(int64))
+		return defaultValue.(int) == int(responseValue.(int64)), nil
 	}
-	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", responseValue)
+	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", responseValue), nil
 }
 
 func toId(path string) string {
@@ -144,8 +146,12 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 					responseValues[name] = v
 				}
 			} else {
-				if !isValueEqualsAttrDefault(attr, response, brokerDefaultValues[name]) {
-					continue // do not change response for this attr if set to non-default
+				isResponseValueDefault, err := isValueEqualsAttrDefault(attr, response, brokerDefaultValues[name])
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				if !isResponseValueDefault {
+					continue // do not change response for this attr if it was non-default
 				}
 				if !stateExists && isObject {
 					responseValues[name] = tftypes.NewValue(attr.TerraformType, nil)
@@ -247,29 +253,31 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	responseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
+	jsonResponseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
-	tfResponseData, err := r.converter.ToTerraform(responseData)
+	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
+	//   then store it as private data
+	tfResponseData, err := r.converter.ToTerraform(jsonResponseData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
-	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
 	brokerDefaultsData, err := r.findBrokerDefaults(r.attributes, tfResponseData, request.Plan.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 		return
 	}
-	data, err := json.Marshal(brokerDefaultsData)
+	privatData, err := json.Marshal(brokerDefaultsData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
 		return
 	}
-	response.Private.SetKey(ctx, defaults, data)
-  // TODO: add log
+	tflog.Info(ctx, fmt.Sprintf("Create: determined following broker-defined defaults:\n%v", brokerDefaultsData))
+	response.Private.SetKey(ctx, defaults, privatData)
+	// Set the response
 	response.State.Raw = request.Plan.Raw
 	response.State.SetAttribute(ctx, path.Root("id"), id)
 }
@@ -303,7 +311,6 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
-
 	defaultsJson, diags := request.Private.GetKey(ctx, defaults)
 	if diags.HasError() {
 		response.Diagnostics.Append(diags...)
@@ -323,13 +330,12 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		addErrorToDiagnostics(&response.Diagnostics, "Retrieve of defaults failed", err)
 		return
 	}
-	
+	// Replace default values in response to null
 	responseData, err = r.resetResponse(r.attributes, responseData, defaultsData, request.State.Raw, false)
 	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		addErrorToDiagnostics(&response.Diagnostics, "Read response postprocessing failed", err)
 		return
 	}
-
 	response.State.Raw = responseData
 }
 
@@ -341,14 +347,13 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 			return
 		}
 	}
-
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error converting data", err)
 		return
 	}
-
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+	id := toId(sempPath)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
@@ -357,17 +362,33 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	if r.objectType == SingletonObject {
 		method = http.MethodPatch
 	}
-	// TODO: obtain default values
-	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
+	jsonResponseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
-
+	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
+	//   then store it as private data
+	tfResponseData, err := r.converter.ToTerraform(jsonResponseData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
+		return
+	}
+	brokerDefaultsData, err := r.findBrokerDefaults(r.attributes, tfResponseData, request.Plan.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	privatData, err := json.Marshal(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	tflog.Info(ctx, fmt.Sprintf("Update: determined following broker-defined defaults:\n%v", brokerDefaultsData))
+	response.Private.SetKey(ctx, defaults, privatData)
+	// Set the response
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), toId(sempPath))
-	// removing SetKey for now
-	// response.Private.SetKey(ctx, applied, []byte("true"))
+	response.State.SetAttribute(ctx, path.Root("id"), id)
 }
 
 func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {
