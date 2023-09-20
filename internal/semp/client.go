@@ -25,7 +25,6 @@ import (
 	"fmt"
 	"io"
 	"net/http"
-	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -209,7 +208,7 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 				return nil, ErrResourceNotFound
 			}
 			// TODO: Confirm with core broker team this is correct.
-			if status == "NOT_ALLOWED" && strings.Contains(description, "cannot be deleted") {
+			if status == "NOT_ALLOWED" {
 				// resource cannot be deleted is a special type we want to return
 				return nil, ErrDeleteOfDefaultObjectNotAllowed
 			}

@@ -413,7 +413,7 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
 		if err == semp.ErrDeleteOfDefaultObjectNotAllowed {
-			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("Default object %s, \"%s\" cannot be destroyed and will not be removed from state.", r.terraformName, toId(path)), err)
+			addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Default object %s, \"%s\" will be removed from state but cannot be deleted from the event broker.", r.terraformName, toId(path)), err)
 			return
 		} else if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
