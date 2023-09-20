@@ -18,8 +18,10 @@ package broker
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
+	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -93,6 +95,10 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
+	}
+	if reflect.ValueOf(sempData).IsZero() {
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", errors.New("resource not found"))
+		return
 	}
 	sempData["id"] = toId(sempPath)
 	responseData, err := ds.converter.ToTerraform(sempData)

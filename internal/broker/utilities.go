@@ -180,6 +180,7 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	client := semp.NewClient(
 		url,
 		insecure_skip_verify,
+		Cookiejar,
 		semp.BasicAuth(username, password),
 		semp.BearerToken(bearerToken),
 		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),

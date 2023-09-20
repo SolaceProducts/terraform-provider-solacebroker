@@ -25,6 +25,8 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/http/cookiejar"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
@@ -34,6 +36,8 @@ var (
 	ErrResourceNotFound                = errors.New("Resource not found")
 	ErrDeleteOfDefaultObjectNotAllowed = errors.New("Delete of default objects is not allowed")
 )
+
+var cookieJar, _ = cookiejar.New(nil)
 
 type Client struct {
 	*http.Client
@@ -47,6 +51,8 @@ type Client struct {
 	requestMinInterval time.Duration
 	rateLimiter        <-chan time.Time
 }
+
+var Cookies = map[string]*http.Cookie{}
 
 type Option func(*Client)
 
@@ -78,12 +84,13 @@ func RequestLimits(requestTimeoutDuration, requestMinInterval time.Duration) Opt
 	}
 }
 
-func NewClient(url string, insecure_skip_verify bool, options ...Option) *Client {
+func NewClient(url string, insecure_skip_verify bool, cookiejar http.CookieJar, options ...Option) *Client {
 	customTransport := http.DefaultTransport.(*http.Transport)
 	customTransport.TLSClientConfig = &tls.Config{InsecureSkipVerify: insecure_skip_verify}
 	client := &Client{
 		Client: &http.Client{
 			Transport: customTransport,
+			Jar:       cookiejar,
 		},
 		url:              url,
 		retries:          3,
@@ -177,6 +184,10 @@ loop:
 	if response.StatusCode != http.StatusOK && response.StatusCode != http.StatusBadRequest {
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
+	if _, err := io.Copy(io.Discard, response.Body); err != nil {
+		fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
+	}
+	defer response.Body.Close()
 	return rawBody, nil
 }
 
@@ -220,7 +231,7 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 }
 
-func parseResponseForGenerator(ctx context.Context, request *http.Request, dataResponse []byte) ([]map[string]any, error) {
+func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, method string, request *http.Request, dataResponse []byte, appendToResult []map[string]any) ([]map[string]any, error) {
 	data := map[string]any{}
 	err := json.Unmarshal(dataResponse, &data)
 	if err != nil {
@@ -240,7 +251,18 @@ func parseResponseForGenerator(ctx context.Context, request *http.Request, dataR
 			responseDataRaw, _ := rawData.(map[string]any)
 			responseData = append(responseData, responseDataRaw)
 		}
-		return responseData, nil
+		metaData, hasMeta := data["meta"]
+		appendToResult = append(appendToResult, responseData...)
+		if hasMeta {
+			pageData, hasPaging := metaData.(map[string]any)["paging"]
+			if hasPaging {
+				nextPage := fmt.Sprint(pageData.(map[string]any)["nextPageUri"])
+				nextPageUrl := strings.Split(nextPage, basePath)
+				print("..")
+				return c.RequestWithoutBodyForGenerator(ctx, basePath, method, nextPageUrl[1], appendToResult)
+			}
+		}
+		return appendToResult, nil
 	} else {
 		rawData, ok = data["meta"]
 		if ok {
@@ -265,7 +287,7 @@ func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (ma
 	return parseResponseAsObject(ctx, request, rawBody)
 }
 
-func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, method, url string) ([]map[string]interface{}, error) {
+func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, basePath string, method string, url string, appendToResult []map[string]any) ([]map[string]interface{}, error) {
 	request, err := http.NewRequestWithContext(ctx, method, c.url+url, nil)
 	if err != nil {
 		return nil, err
@@ -274,7 +296,7 @@ func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, method, url
 	if err != nil {
 		return nil, err
 	}
-	return parseResponseForGenerator(ctx, request, rawBody)
+	return parseResponseForGenerator(c, ctx, basePath, method, request, rawBody, appendToResult)
 }
 
 func dumpData(ctx context.Context, tag string, data []byte) {

@@ -22,11 +22,12 @@ func TestCreateBrokerObjectRelationships(t *testing.T) {
 
 func TestParseTerraformObject(t *testing.T) {
 	type args struct {
-		ctx                        context.Context
-		client                     semp.Client
-		resourceName               string
-		brokerObjectTerraformName  string
-		providerSpecificIdentifier string
+		ctx                            context.Context
+		client                         semp.Client
+		resourceName                   string
+		brokerObjectTerraformName      string
+		providerSpecificIdentifier     string
+		parentBrokerResourceAttributes map[string]string
 	}
 	tests := []struct {
 		name string
@@ -37,7 +38,7 @@ func TestParseTerraformObject(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ParseTerraformObject(tt.args.ctx, tt.args.client, tt.args.resourceName, tt.args.brokerObjectTerraformName, tt.args.providerSpecificIdentifier); !reflect.DeepEqual(got, tt.want) {
+			if got := ParseTerraformObject(tt.args.ctx, tt.args.client, tt.args.resourceName, tt.args.brokerObjectTerraformName, tt.args.providerSpecificIdentifier, tt.args.parentBrokerResourceAttributes); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ParseTerraformObject() = %v, want %v", got, tt.want)
 			}
 		})
