@@ -167,7 +167,6 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valuesRes.(string) + "\""
 				if strings.Contains(valuesRes.(string), "{") {
 					val = attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + valuesRes.(string)
-
 				}
 				tfAttributes += val
 			case broker.Int64:

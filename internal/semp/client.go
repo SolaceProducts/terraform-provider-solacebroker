@@ -33,7 +33,8 @@ import (
 )
 
 var (
-	ErrResourceNotFound                = errors.New("Resource not found")
+	ErrResourceNotFound = errors.New("Resource not found")
+	ErrAPIUnreachable   = errors.New("SEMP API unreachable")
 )
 
 var cookieJar, _ = cookiejar.New(nil)
