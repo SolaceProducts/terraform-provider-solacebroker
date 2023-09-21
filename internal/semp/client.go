@@ -219,7 +219,6 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 				return nil, ErrResourceNotFound
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
-
 			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
 		}
 	}

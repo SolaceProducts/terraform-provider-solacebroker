@@ -24,7 +24,6 @@ import (
 	"net/http"
 	"net/url"
 	"path/filepath"
-	"reflect"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/diag"
@@ -76,27 +75,28 @@ func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, broke
 	if err != nil {
 		return false, err
 	}
-	defaultValue := attr.Default
-	if defaultValue == nil {
+	if attr.Default == nil {
 		if brokerDefault.IsNull() {
 			// No broker default
 			return false, nil
 		}
 		// Analyze broker default
-		def, err := attr.Converter.FromTerraform(brokerDefault)
+		brokerDefaultValue, err := attr.Converter.FromTerraform(brokerDefault)
 		if err != nil {
 			return false, err
 		}
 		// compare
-		return responseValue == def, nil
+		return responseValue == brokerDefaultValue, nil
 	}
-	if attr.BaseType == Int64 {
-		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
-			return responseValue == int64(defaultValue.(float64)), nil
-		}
-		return defaultValue.(int) == int(responseValue.(int64)), nil
+	tfDefault, err := attr.Converter.ToTerraform(attr.Default)
+	if err != nil {
+		return false, err
 	}
-	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", responseValue), nil
+	attrDefaultValue, err := attr.Converter.FromTerraform(tfDefault)
+	if err != nil {
+		return false, err
+	}
+	return responseValue == attrDefaultValue, nil
 }
 
 func toId(path string) string {
@@ -431,11 +431,12 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err != semp.ErrResourceNotFound {
+		if err == semp.ErrAPIUnreachable {
+			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", path), err)
+			return
+		} else if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
-		} else if err == semp.ErrAPIUnreachable {
-			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", path), err)
 		}
 		tflog.Info(ctx, fmt.Sprintf("Detected object %s, \"%s\" was already missing from the broker, removing from state", r.terraformName, toId(path)))
 		// Let destroy finish normally if the error was Resource Not Found - only means that the resource has already been removed from the broker.
