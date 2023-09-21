@@ -60,7 +60,19 @@ resource "solacebroker_msg_vpn" "test" {
 				ResourceName:      "solacebroker_msg_vpn.test",
 				ImportState:       true,
 				ImportStateVerify: true,
-				// ImportStateVerifyIgnore: []string{"configurable_attribute", "defaulted"},
+				ImportStateVerifyIgnore: []string{
+					// These attributes need to be ignored from the test as they have broker-defaults and cannot be imported so that state will be null
+					"max_connection_count",
+					"max_subscription_count",
+					"max_transacted_session_count",
+					"max_transaction_count",
+					"service_amqp_max_connection_count",
+					"service_mqtt_max_connection_count",
+					"service_rest_incoming_max_connection_count",
+					"service_rest_outgoing_max_connection_count",
+					"service_smf_max_connection_count",
+					"service_web_max_connection_count",
+				},
 			},
 			// Delete testing automatically occurs in TestCase
 		},

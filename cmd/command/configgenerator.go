@@ -164,7 +164,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 		tfObject[strings.ToLower(resourceKey)] = resourceValues[0]
 	} else {
 		for i := range resourceValues {
-			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(4)] = resourceValues[i]
+			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(6)] = resourceValues[i]
 		}
 	}
 	return tfObject

@@ -92,6 +92,8 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 		if err == semp.ErrResourceNotFound {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
+		} else if err == semp.ErrAPIUnreachable {
+			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", sempPath), err)
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
