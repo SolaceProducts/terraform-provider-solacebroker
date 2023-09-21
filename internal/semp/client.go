@@ -33,7 +33,8 @@ import (
 )
 
 var (
-	ErrResourceNotFound                = errors.New("Resource not found")
+	ErrResourceNotFound = errors.New("resource not found")
+	ErrAPIUnreachable   = errors.New("SEMP API unreachable")
 )
 
 var cookieJar, _ = cookiejar.New(nil)
@@ -184,7 +185,7 @@ loop:
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
 	if _, err := io.Copy(io.Discard, response.Body); err != nil {
-		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
+		fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
 	defer response.Body.Close()
 	return rawBody, nil
@@ -218,6 +219,7 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 				return nil, ErrResourceNotFound
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
+
 			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
 		}
 	}

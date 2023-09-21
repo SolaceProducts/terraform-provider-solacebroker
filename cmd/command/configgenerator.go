@@ -24,6 +24,9 @@ var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
 
 func CreateBrokerObjectRelationships() {
 	BrokerObjectRelationship[("broker")] = []BrokerObjectType{}
+	BrokerObjectRelationship[("msg_vpn_queue")] = []BrokerObjectType{
+		"msg_vpn_queue_subscription",
+	}
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
@@ -164,7 +167,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 		tfObject[strings.ToLower(resourceKey)] = resourceValues[0]
 	} else {
 		for i := range resourceValues {
-			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(4)] = resourceValues[i]
+			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(6)] = resourceValues[i]
 		}
 	}
 	return tfObject
