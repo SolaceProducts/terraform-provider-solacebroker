@@ -18,6 +18,7 @@ package broker
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
@@ -37,7 +38,12 @@ import (
 )
 
 const (
-	applied = "applied"
+	defaults = "defaults"
+	defaultObjectName = "default"
+)
+
+var (
+	ErrDeleteSingletonOrDefaultsNotAllowed = errors.New("Deleting singleton or default objects are not allowed from the broker")
 )
 
 func newBrokerResource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -65,18 +71,32 @@ var (
 type brokerResource brokerEntity[schema.Schema]
 
 // Compares the value with the attribute default value. Must take care of type conversions.
-func isValueEqualsAttrDefault(attr *AttributeInfo, value interface{}) bool {
+func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, brokerDefault tftypes.Value) (bool, error) {
+	responseValue, err := attr.Converter.FromTerraform(response)
+	if err != nil {
+		return false, err
+	}
 	defaultValue := attr.Default
-	if defaultValue == nil || attr.BaseType == Struct {
-		return true // returning true here because this is a struct which has default nil
+	if defaultValue == nil {
+		if brokerDefault.IsNull() {
+			// No broker default
+			return false, nil
+		}
+		// Analyze broker default
+		def, err := attr.Converter.FromTerraform(brokerDefault)
+		if err != nil {
+			return false, err
+		}
+		// compare
+		return responseValue == def, nil
 	}
 	if attr.BaseType == Int64 {
 		if reflect.ValueOf(defaultValue).Kind() == reflect.Float64 {
-			return value == int64(defaultValue.(float64))
+			return responseValue == int64(defaultValue.(float64)), nil
 		}
-		return defaultValue.(int) == int(value.(int64))
+		return defaultValue.(int) == int(responseValue.(int64)), nil
 	}
-	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", value)
+	return fmt.Sprintf("%v", defaultValue) == fmt.Sprintf("%v", responseValue), nil
 }
 
 func toId(path string) string {
@@ -84,7 +104,7 @@ func toId(path string) string {
 	return filepath.Base(path)
 }
 
-func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, state tftypes.Value) (tftypes.Value, error) {
+func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tftypes.Value, brokerDefaults tftypes.Value, state tftypes.Value, isObject bool) (tftypes.Value, error) {
 	responseValues := map[string]tftypes.Value{}
 	err := response.As(&responseValues)
 	if err != nil {
@@ -95,28 +115,54 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 	if err != nil {
 		return tftypes.Value{}, err
 	}
+	brokerDefaultValues := map[string]tftypes.Value{}
+	err = brokerDefaults.As(&brokerDefaultValues)
+	if err != nil {
+		return tftypes.Value{}, err
+	}
 	for _, attr := range attributes {
 		name := attr.TerraformName
 		response, responseExists := responseValues[name]
 		state, stateExists := stateValues[name]
 		if responseExists && response.IsKnown() && !response.IsNull() {
-			val, err := attr.Converter.FromTerraform(response)
-			if err != nil {
-				return tftypes.Value{}, err
-			}
-			if !isValueEqualsAttrDefault(attr, val) {
-				continue // do not change response for this
-			}
-			if stateExists && state.IsNull() {
-				responseValues[name] = state
-			} else {
-				if len(attr.Attributes) != 0 {
-					v, err := r.resetResponse(attr.Attributes, response, state)
-					if err != nil {
-						return tftypes.Value{}, err
+			if len(attr.Attributes) != 0 {
+				// This case is an object, typically threshold attributes
+				v, err := r.resetResponse(attr.Attributes, response, tftypes.NewValue(attr.TerraformType, nil), state, true)
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				responseValuesMap := map[string]tftypes.Value{}
+				err = v.As(&responseValuesMap)
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				allDefaults := true
+				for _, attr := range responseValuesMap {
+					if !attr.IsNull() {
+						allDefaults = false
+						break
 					}
+				}
+				if allDefaults {
+					// Set the whole object to null
+					responseValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+				} else {
+					// Keep the object with individual attributes
 					responseValues[name] = v
 				}
+			} else {
+				isResponseValueDefault, err := isValueEqualsAttrDefault(attr, response, brokerDefaultValues[name])
+				if err != nil {
+					return tftypes.Value{}, err
+				}
+				if !isResponseValueDefault {
+					continue // do not change response for this attr if it was non-default
+				}
+				if !stateExists && isObject {
+					responseValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+				} else if stateExists && state.IsNull() {
+					responseValues[name] = state
+				} // else leave attr response unchanged
 			}
 		} else if stateExists && attr.Sensitive {
 			responseValues[name] = state
@@ -125,6 +171,30 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 		}
 	}
 	return tftypes.NewValue(response.Type(), responseValues), nil
+}
+
+func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, response tftypes.Value, request tftypes.Value) (any, error) {
+	defaultValues := map[string]tftypes.Value{}
+	requestValues := map[string]tftypes.Value{}
+	err := request.As(&requestValues)
+	if err != nil {
+		return nil, err
+	}
+	responseValues := map[string]tftypes.Value{}
+	err = response.As(&responseValues)
+	if err != nil {
+		return nil, err
+	}
+	for _, attr := range attributes {
+		// Set obtained default values and null for any other attributes
+		name := attr.TerraformName
+		if attr.Default == nil && requestValues[name].IsNull() && attr.BaseType != Struct {
+			defaultValues[name] = responseValues[name]
+		} else {
+			defaultValues[name] = tftypes.NewValue(attr.TerraformType, nil)
+		}
+	}
+	return r.converter.FromTerraform(tftypes.NewValue(request.Type(), defaultValues))
 }
 
 func convert(any any) {
@@ -188,17 +258,33 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
+	jsonResponseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
-
+	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
+	//   then store it as private data
+	tfResponseData, err := r.converter.ToTerraform(jsonResponseData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
+		return
+	}
+	brokerDefaultsData, err := r.findBrokerDefaults(r.attributes, tfResponseData, request.Plan.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	privatData, err := json.Marshal(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	tflog.Info(ctx, fmt.Sprintf("Create: determined following broker-defined defaults:\n%v", brokerDefaultsData))
+	response.Private.SetKey(ctx, defaults, privatData)
+	// Set the response
 	response.State.Raw = request.Plan.Raw
 	response.State.SetAttribute(ctx, path.Root("id"), id)
-	// removing SetKey for now
-	// reason: read post processing is required in all cases
-	// response.Private.SetKey(ctx, applied, []byte("true"))
 }
 
 func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
@@ -209,7 +295,6 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 			return
 		}
 	}
-
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -231,21 +316,31 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
 		return
 	}
-
-	// removing SetKey for now
-	// applied, diags := request.Private.GetKey(ctx, applied)
-	// if diags.HasError() {
-	// 	response.Diagnostics.Append(diags...)
-	// 	return
-	// }
-	// if string(applied) == "true" {
-	responseData, err = r.resetResponse(r.attributes, responseData, request.State.Raw)
-	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+	defaultsJson, diags := request.Private.GetKey(ctx, defaults)
+	if diags.HasError() {
+		response.Diagnostics.Append(diags...)
 		return
 	}
-	// }
-
+	if defaultsJson == nil {
+		defaultsJson = []byte("{}")
+	}
+	brokerDefaultsData := map[string]any{}
+	err = json.Unmarshal(defaultsJson, &brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Retrieve of defaults failed", err)
+		return
+	}
+	defaultsData, err := r.converter.ToTerraform(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Retrieve of defaults failed", err)
+		return
+	}
+	// Replace default values in response to null
+	responseData, err = r.resetResponse(r.attributes, responseData, defaultsData, request.State.Raw, false)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Read response postprocessing failed", err)
+		return
+	}
 	response.State.Raw = responseData
 }
 
@@ -257,14 +352,13 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 			return
 		}
 	}
-
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error converting data", err)
 		return
 	}
-
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
+	id := toId(sempPath)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
@@ -273,24 +367,59 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	if r.objectType == SingletonObject {
 		method = http.MethodPatch
 	}
-	_, err = client.RequestWithBody(ctx, method, sempPath, sempData)
+	jsonResponseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return
 	}
-
+	// Determine broker defaults as each attribute response, where request was set to null and it didn't have a default
+	//   then store it as private data
+	tfResponseData, err := r.converter.ToTerraform(jsonResponseData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
+		return
+	}
+	brokerDefaultsData, err := r.findBrokerDefaults(r.attributes, tfResponseData, request.Plan.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	privatData, err := json.Marshal(brokerDefaultsData)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Response postprocessing failed", err)
+		return
+	}
+	tflog.Info(ctx, fmt.Sprintf("Update: determined following broker-defined defaults:\n%v", brokerDefaultsData))
+	response.Private.SetKey(ctx, defaults, privatData)
+	// Set the response
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), toId(sempPath))
-	// removing SetKey for now
-	// response.Private.SetKey(ctx, applied, []byte("true"))
+	response.State.SetAttribute(ctx, path.Root("id"), id)
 }
 
 func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {
+	// don't actually do anything if the object is a singleton
 	if r.objectType == SingletonObject {
-		// don't actually do anything if the object is a singleton
+		addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but singleton object %s cannot be deleted", r.terraformName), ErrDeleteSingletonOrDefaultsNotAllowed)
 		return
 	}
-
+	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
+		return
+	}
+	// don't actually do anything if the object is a default object
+  if toId(path) == defaultObjectName {
+		switch r.terraformName {
+			case
+				"msg_vpn",
+				"msg_vpn_client_profile",
+				"msg_vpn_acl_profile",
+				"msg_vpn_client_username":
+				addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but default object %s, \"%s\" cannot be deleted", r.terraformName, toId(path)), ErrDeleteSingletonOrDefaultsNotAllowed)
+				return
+		}
+	}
+  // request delete
 	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
@@ -298,18 +427,14 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 			return
 		}
 	}
-
-	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
-	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
-		return
-	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
 		if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}
+		tflog.Info(ctx, fmt.Sprintf("Detected object %s, \"%s\" was already missing from the broker, removing from state", r.terraformName, toId(path)))
+		// Let destroy finish normally if the error was Resource Not Found - only means that the resource has already been removed from the broker.
 	}
 }
 
@@ -349,6 +474,13 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 func addErrorToDiagnostics(diags *diag.Diagnostics, summary string, err error) {
 	for err != nil {
 		diags.AddError(summary, err.Error())
+		err = errors.Unwrap(err)
+	}
+}
+
+func addWarningToDiagnostics(diags *diag.Diagnostics, summary string, err error) {
+	for err != nil {
+		diags.AddWarning(summary, err.Error())
 		err = errors.Unwrap(err)
 	}
 }
