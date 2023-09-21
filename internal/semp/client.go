@@ -34,7 +34,6 @@ import (
 
 var (
 	ErrResourceNotFound                = errors.New("Resource not found")
-	ErrDeleteOfDefaultObjectNotAllowed = errors.New("Delete of default objects is not allowed")
 )
 
 var cookieJar, _ = cookiejar.New(nil)
@@ -185,7 +184,7 @@ loop:
 		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
 	if _, err := io.Copy(io.Discard, response.Body); err != nil {
-		fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
+		return nil, fmt.Errorf("could not perform request: status %v (%v) during %v to %v, response body:\n%s", response.StatusCode, response.Status, request.Method, request.URL, rawBody)
 	}
 	defer response.Body.Close()
 	return rawBody, nil
@@ -218,13 +217,7 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 				// resource not found is a special type we want to return
 				return nil, ErrResourceNotFound
 			}
-			// TODO: Confirm with core broker team this is correct.
-			if status == "NOT_ALLOWED" {
-				// resource cannot be deleted is a special type we want to return
-				return nil, ErrDeleteOfDefaultObjectNotAllowed
-			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
-
 			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
 		}
 	}

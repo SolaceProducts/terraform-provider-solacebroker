@@ -39,6 +39,11 @@ import (
 
 const (
 	defaults = "defaults"
+	defaultObjectName = "default"
+)
+
+var (
+	ErrDeleteSingletonOrDefaultsNotAllowed = errors.New("Deleting singleton or default objects are not allowed from the broker")
 )
 
 func newBrokerResource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -392,11 +397,29 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 }
 
 func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {
+	// don't actually do anything if the object is a singleton
 	if r.objectType == SingletonObject {
-		// don't actually do anything if the object is a singleton
+		addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but singleton object %s cannot be deleted", r.terraformName), ErrDeleteSingletonOrDefaultsNotAllowed)
 		return
 	}
-
+	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
+	if err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
+		return
+	}
+	// don't actually do anything if the object is a default object
+  if toId(path) == defaultObjectName {
+		switch r.terraformName {
+			case
+				"msg_vpn",
+				"msg_vpn_client_profile",
+				"msg_vpn_acl_profile",
+				"msg_vpn_client_username":
+				addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but default object %s, \"%s\" cannot be deleted", r.terraformName, toId(path)), ErrDeleteSingletonOrDefaultsNotAllowed)
+				return
+		}
+	}
+  // request delete
 	client, d := client(r.providerData)
 	if d != nil {
 		response.Diagnostics.Append(d)
@@ -404,21 +427,13 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 			return
 		}
 	}
-
-	path, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
-	if err != nil {
-		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
-		return
-	}
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err == semp.ErrDeleteOfDefaultObjectNotAllowed {
-			addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Default object %s, \"%s\" will be removed from state but cannot be deleted from the event broker.", r.terraformName, toId(path)), err)
-			return
-		} else if err != semp.ErrResourceNotFound {
+		if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}
+		tflog.Info(ctx, fmt.Sprintf("Detected object %s, \"%s\" was already missing from the broker, removing from state", r.terraformName, toId(path)))
 		// Let destroy finish normally if the error was Resource Not Found - only means that the resource has already been removed from the broker.
 	}
 }
