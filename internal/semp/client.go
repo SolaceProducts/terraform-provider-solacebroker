@@ -33,7 +33,7 @@ import (
 )
 
 var (
-	ErrResourceNotFound = errors.New("resource not found")
+	ErrResourceNotFound = errors.New("Resource not found")
 	ErrAPIUnreachable   = errors.New("SEMP API unreachable")
 )
 
