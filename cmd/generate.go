@@ -19,6 +19,7 @@ import (
 	"context"
 	"github.com/hashicorp/go-version"
 	"github.com/spf13/cobra"
+	"golang.org/x/exp/maps"
 	"net/http"
 	"os"
 	"strings"
@@ -115,35 +116,22 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			command.LogCLIError("\nError: Broker resource not found by terraform name : " + brokerObjectTerraformName + "\n\n")
 			os.Exit(1)
 		}
+		generatedResource := make(map[string]string)
 		var brokerResources []map[string]string
-		parentBrokerResourceAttribute := map[string]string{}
-		parentBrokerResource := command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, brokerObjectTerraformName, providerSpecificIdentifier, parentBrokerResourceAttribute)
-		brokerResources = append(brokerResources, parentBrokerResource)
 
-		parentBrokerResourceAttribute = command.GetParentResourceAttributes(parentBrokerResource)
-
-		//get all children resources
-		childBrokerObjects := command.BrokerObjectRelationship[command.BrokerObjectType(brokerObjectTerraformName)]
-		for _, childBrokerObject := range childBrokerObjects {
-			brokerResourcesToAppend := map[string]string{}
-			childBrokerResource := command.ParseTerraformObject(cmd.Context(), *client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier, parentBrokerResourceAttribute)
-
-			if len(childBrokerResource) > 0 {
-				for childBrokerResourceKey, childBrokerResourceValue := range childBrokerResource {
-					brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
-				}
+		// get all resources to be generated for
+		var resourcesToGenerate []command.BrokerObjectType
+		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectType(brokerObjectTerraformName))
+		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectRelationship[command.BrokerObjectType(brokerObjectTerraformName)]...)
+		for _, resource := range resourcesToGenerate {
+			_, alreadyGenerated := generatedResource[string(resource)]
+			if !alreadyGenerated {
+				generatedResource[string(resource)] = string(resource)
+				generatedResults, generatedResourceChildren := generateForParentAndChildren(cmd.Context(), *client, string(resource), brokerObjectInstanceName, providerSpecificIdentifier, generatedResource)
+				brokerResources = append(brokerResources, generatedResults...)
+				maps.Copy(generatedResource, generatedResourceChildren)
 			}
-
-			brokerResources = append(brokerResources, brokerResourcesToAppend)
 		}
-
-		//get all resources to be generated for
-		//resourcesToGenerate := []command.BrokerObjectType{}
-		//resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectType(brokerObjectTerraformName))
-		//resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectRelationship[command.BrokerObjectType(brokerObjectTerraformName)]...)
-		//for _, resource := range resourcesToGenerate {
-		//	brokerResources = append(brokerResources, generateForParentAndChildren(cmd.Context(), *client, string(resource), brokerObjectInstanceName, providerSpecificIdentifier, brokerResources)...)
-		//}
 
 		object.BrokerResources = brokerResources
 
@@ -169,10 +157,8 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 	},
 }
 
-func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources []map[string]string) []map[string]string {
+func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]string) ([]map[string]string, map[string]string) {
 	var brokerResources []map[string]string
-
-	//println("Generated is " + fmt.Sprint(generatedResources))
 
 	//get for parent
 	parentBrokerResourceAttribute := map[string]string{}
@@ -184,18 +170,24 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 	//get all children resources
 	childBrokerObjects := command.BrokerObjectRelationship[command.BrokerObjectType(parentTerraformName)]
 	for _, childBrokerObject := range childBrokerObjects {
-		brokerResourcesToAppend := map[string]string{}
-		childBrokerResource := command.ParseTerraformObject(context, client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier, parentBrokerResourceAttribute)
 
-		if len(childBrokerResource) > 0 {
-			for childBrokerResourceKey, childBrokerResourceValue := range childBrokerResource {
-				brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+		_, alreadyGenerated := generatedResources[string(childBrokerObject)]
+		if !alreadyGenerated {
+
+			brokerResourcesToAppend := map[string]string{}
+			generatedResources[string(childBrokerObject)] = string(childBrokerObject)
+			childBrokerResource := command.ParseTerraformObject(context, client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier, parentBrokerResourceAttribute)
+
+			if len(childBrokerResource) > 0 {
+				for childBrokerResourceKey, childBrokerResourceValue := range childBrokerResource {
+					brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+				}
 			}
-		}
 
-		brokerResources = append(brokerResources, brokerResourcesToAppend)
+			brokerResources = append(brokerResources, brokerResourcesToAppend)
+		}
 	}
-	return brokerResources
+	return brokerResources, generatedResources
 }
 
 func init() {

@@ -305,6 +305,8 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		if err == semp.ErrResourceNotFound {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
+		} else if err == semp.ErrAPIUnreachable {
+			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", sempPath), err)
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
@@ -432,6 +434,8 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 		if err != semp.ErrResourceNotFound {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
+		} else if err == semp.ErrAPIUnreachable {
+			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", path), err)
 		}
 		tflog.Info(ctx, fmt.Sprintf("Detected object %s, \"%s\" was already missing from the broker, removing from state", r.terraformName, toId(path)))
 		// Let destroy finish normally if the error was Resource Not Found - only means that the resource has already been removed from the broker.
