@@ -24,9 +24,6 @@ var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
 
 func CreateBrokerObjectRelationships() {
 	BrokerObjectRelationship[("broker")] = []BrokerObjectType{}
-	BrokerObjectRelationship[("msg_vpn_queue")] = []BrokerObjectType{
-		"msg_vpn_queue_subscription",
-	}
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
