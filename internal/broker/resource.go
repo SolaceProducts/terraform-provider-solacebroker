@@ -188,6 +188,9 @@ func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, respons
 	for _, attr := range attributes {
 		// Set obtained default values and null for any other attributes
 		name := attr.TerraformName
+		if !attr.Identifying && attr.ReadOnly {
+			continue
+		}
 		if attr.Default == nil && requestValues[name].IsNull() && attr.BaseType != Struct {
 			defaultValues[name] = responseValues[name]
 		} else {
