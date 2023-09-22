@@ -29,7 +29,7 @@ func TestDataSource(t *testing.T) {
         Steps: []resource.TestStep{
             // Read testing
             {
-            Config: providerConfig + `
+            Config: ProviderConfig + `
 data "solacebroker_msg_vpn" "default" {
 		msg_vpn_name = "default"
 }

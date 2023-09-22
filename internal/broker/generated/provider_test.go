@@ -17,22 +17,20 @@
 package generated
 
 import (
+	"os"
 	"terraform-provider-solacebroker/internal/broker"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/hashicorp/terraform-plugin-go/tfprotov6"
+
+	"context"
+
+	"github.com/testcontainers/testcontainers-go"
+	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-const (
-    providerConfig = `
-provider "solacebroker" {
-    username = "admin"
-    password = "admin"
-    url      = "http://localhost:8080"
-}
-`
-)
+var ProviderConfig string
 
 var (
     // testAccProtoV6ProviderFactories are used to instantiate a provider during
@@ -43,6 +41,62 @@ var (
         "solacebroker": providerserver.NewProtocol6WithError(broker.New("test")()),
     }
 )
+
+func init() {
+    // start docker test broker
+    ctx := context.Background()
+    req := testcontainers.ContainerRequest{
+        Image:        "solace/solace-pubsub-standard:latest",
+        ExposedPorts: []string{"8080/tcp"},
+        Env: map[string]string{
+            "username_admin_globalaccesslevel":  "admin",
+            "username_admin_password":           "admin",
+            "system_scaling_maxconnectioncount": "100",
+        },
+        Mounts: testcontainers.ContainerMounts{
+            {
+                Source: testcontainers.GenericVolumeMountSource{
+                    Name: "test-volume",
+                },
+                Target: "/var/lib/solace",
+            },
+        },
+        ShmSize:    1000000000,
+        WaitingFor: wait.ForHTTP("/").WithPort("8080/tcp"),
+    }
+    solaceC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+        ContainerRequest: req,
+        Started:          true,
+    })
+    if err != nil {
+        panic(err)
+    }
+    endpoint, err := solaceC.Endpoint(ctx, "")
+    if err != nil {
+        panic(err)
+    }
+    ProviderConfig = `
+provider "solacebroker" {
+username = "admin"
+password = "admin"
+url      = "http://` + endpoint + `"
+}
+`
+    const user = "admin"
+    const password = "admin"
+
+    if err = os.Setenv("SOLACEBROKER_URL", "http://" + endpoint); err != nil {
+        panic(err)
+    }
+
+    if err = os.Setenv("SOLACEBROKER_USERNAME", password); err != nil {
+        panic(err)
+    }
+
+    if err = os.Setenv("SOLACEBROKER_PASSWORD", password); err != nil {
+        panic(err)
+    }
+}
 
 func testAccPreCheck(t *testing.T) {
 	// You can add code here to run prior to any test case execution, for example assertions

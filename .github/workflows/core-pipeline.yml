@@ -51,6 +51,7 @@ jobs:
         run: |
           make test-coverage
           make generate-docs
+          make testacc
 
       - name: Build provider
         run: |
