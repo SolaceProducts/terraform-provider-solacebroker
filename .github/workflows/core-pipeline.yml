@@ -51,7 +51,6 @@ jobs:
         run: |
           make test-coverage
           make generate-docs
-          make testacc
 
       - name: Build provider
         run: |
@@ -95,7 +94,12 @@ jobs:
 
   Plugin-Integration-Test:
     needs: build
-    uses: ./.github/workflows/plugin-build-pipeline.yml
+    uses: ./.github/workflows/provider-build-pipeline.yml
+    secrets: inherit
+
+  Plugin-Acceptance-Test:
+    needs: build
+    uses: ./.github/workflows/provider-acceptance-test.yml
     secrets: inherit
 
   CLI-Integration-Test:
