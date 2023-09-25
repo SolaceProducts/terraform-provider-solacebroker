@@ -205,13 +205,6 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 					generatedResources[string(childBrokerObject)] = generatorTerraformOutputForChild
 					for childBrokerResourceKey, childBrokerResourceValue := range generatorTerraformOutputForChild.TerraformOutput {
 						if len(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]) > 0 {
-
-							//if childBrokerObject == "msg_vpn_client_username_attribute" || childBrokerObject == "msg_vpn_acl_profile_client_connect_exception" {
-							//	//we do not support templated comma separation of key value pair
-							//	println("SEMP RESP " + fmt.Sprint(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]))
-							//	continue
-							//}
-
 							brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
 						}
 					}
