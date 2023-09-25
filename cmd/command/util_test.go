@@ -35,6 +35,26 @@ func TestBooleanWithDefaultFromEnv(t *testing.T) {
 	}
 }
 
+func TestConvertAttributeTextToMap(t *testing.T) {
+	type args struct {
+		attribute string
+	}
+	tests := []struct {
+		name string
+		args args
+		want map[string]string
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ConvertAttributeTextToMap(tt.args.attribute); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("ConvertAttributeTextToMap() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
 func TestDurationWithDefaultFromEnv(t *testing.T) {
 	type args struct {
 		name        string
@@ -113,6 +133,7 @@ func TestGenerateTerraformString(t *testing.T) {
 
 func TestGetParentResourceAttributes(t *testing.T) {
 	type args struct {
+		parentObjectName     string
 		brokerParentResource map[string]string
 	}
 	tests := []struct {
@@ -124,7 +145,7 @@ func TestGetParentResourceAttributes(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetParentResourceAttributes(tt.args.brokerParentResource); !reflect.DeepEqual(got, tt.want) {
+			if got := GetParentResourceAttributes(tt.args.parentObjectName, tt.args.brokerParentResource); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("GetParentResourceAttributes() = %v, want %v", got, tt.want)
 			}
 		})
@@ -167,12 +188,7 @@ func TestLogCLIError(t *testing.T) {
 		name string
 		args args
 	}{
-		{
-			"TestWritingErrorLog",
-			args{
-				"Sample write",
-			},
-		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -189,12 +205,7 @@ func TestLogCLIInfo(t *testing.T) {
 		name string
 		args args
 	}{
-		{
-			"TestWritingInfoLog",
-			args{
-				"Sample write",
-			},
-		},
+		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -225,6 +236,33 @@ func TestResolveSempPath(t *testing.T) {
 			}
 			if got != tt.want {
 				t.Errorf("ResolveSempPath() got = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestResolveSempPathWithParent(t *testing.T) {
+	type args struct {
+		pathTemplate string
+		parentValues map[string]any
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    string
+		wantErr bool
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := ResolveSempPathWithParent(tt.args.pathTemplate, tt.args.parentValues)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("ResolveSempPathWithParent() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("ResolveSempPathWithParent() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
