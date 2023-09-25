@@ -129,6 +129,37 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 	}
 	return path, nil
 }
+func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any) (string, error) {
+
+	if !strings.Contains(pathTemplate, "{") {
+		return pathTemplate, nil
+	}
+	rex := regexp.MustCompile(`{[^{}]*}`)
+	out := rex.FindAllStringSubmatch(pathTemplate, -1)
+	generatedPath := pathTemplate
+
+	for i := range out {
+		key := strings.TrimPrefix(out[i][0], "{")
+		key = strings.TrimSuffix(key, "}")
+		value, found := parentValues[key]
+
+		if found {
+			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], fmt.Sprint(value))
+		}
+	}
+
+	//remove unused vars
+	for i := range out {
+		generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
+	}
+
+	path := strings.TrimSuffix(generatedPath, " ")
+	if strings.HasSuffix(path, "/") {
+		path = strings.TrimSuffix(path, "/")
+		path = path + "?count=10"
+	}
+	return path, nil
+}
 
 func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string) ([]string, error) {
 	var tfBrokerObjects []string
@@ -159,7 +190,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				if attr.Identifying && strings.Contains(valuesRes.(string), "#") {
 					systemProvisioned = true
 				}
-				if reflect.TypeOf(attr.Default) != nil && attr.Default == valuesRes.(string) {
+				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
 					//attributes with default values will be skipped
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
@@ -174,9 +205,10 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					continue
 				}
 				intValue := valuesRes
-				if reflect.TypeOf(attr.Default) != nil && attr.Default == intValue {
+				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(intValue) {
 					//attributes with default values will be skipped
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+
 					continue
 				}
 				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + fmt.Sprintf("%v", intValue)
@@ -186,7 +218,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					continue
 				}
 				boolValue := valuesRes.(bool)
-				if reflect.TypeOf(attr.Default) != nil && attr.Default == boolValue {
+				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(boolValue) {
 					//attributes with default values will be skipped
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
@@ -198,7 +230,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				if err != nil {
 					continue
 				}
-				if reflect.TypeOf(attr.Default) != nil && attr.Default == valuesRes {
+				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
 					//attributes with default values will be skipped
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
@@ -242,17 +274,29 @@ func LogCLIInfo(info string) {
 	_, _ = fmt.Fprintf(os.Stdout, "\n%s %s %s", Reset, info, Reset)
 }
 
-func GetParentResourceAttributes(brokerParentResource map[string]string) map[string]string {
+func GetParentResourceAttributes(parentObjectName string, brokerParentResource map[string]string) map[string]string {
 	parentResourceAttributes := map[string]string{}
+	parentResourceName := strings.ReplaceAll(parentObjectName, " ", ".")
 	for parentResourceObject := range brokerParentResource {
 		resourceAttributes := strings.Split(brokerParentResource[parentResourceObject], "\n")
 		for n := range resourceAttributes {
 			if len(strings.TrimSpace(resourceAttributes[n])) > 0 {
-				parentResourceName := strings.ReplaceAll(parentResourceObject, " ", ".")
 				parentResourceAttribute := strings.Split(strings.Replace(resourceAttributes[n], "\t", "", -1), "=")[0]
 				parentResourceAttributes[parentResourceAttribute] = parentResourceName + "." + parentResourceAttribute
 			}
 		}
 	}
 	return parentResourceAttributes
+}
+
+func ConvertAttributeTextToMap(attribute string) map[string]string {
+	attributeMap := map[string]string{}
+	attributeSlice := strings.Split(attribute, "\n")
+	for i := range attributeSlice {
+		keyValue := strings.ReplaceAll(attributeSlice[i], "\t", "")
+		if strings.Contains(keyValue, "=") {
+			attributeMap[strings.Split(keyValue, "=")[0]] = strings.ReplaceAll(strings.Split(keyValue, "=")[1], "\"", "")
+		}
+	}
+	return attributeMap
 }

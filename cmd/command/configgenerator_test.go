@@ -20,25 +20,47 @@ func TestCreateBrokerObjectRelationships(t *testing.T) {
 	}
 }
 
-func TestParseTerraformObject(t *testing.T) {
+func TestGetNameForResource(t *testing.T) {
 	type args struct {
-		ctx                            context.Context
-		client                         semp.Client
-		resourceName                   string
-		brokerObjectTerraformName      string
-		providerSpecificIdentifier     string
-		parentBrokerResourceAttributes map[string]string
+		resourceTerraformName      string
+		attributeResourceTerraform string
 	}
 	tests := []struct {
 		name string
 		args args
-		want map[string]string
+		want string
 	}{
 		// TODO: Add test cases.
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := ParseTerraformObject(tt.args.ctx, tt.args.client, tt.args.resourceName, tt.args.brokerObjectTerraformName, tt.args.providerSpecificIdentifier, tt.args.parentBrokerResourceAttributes); !reflect.DeepEqual(got, tt.want) {
+			if got := GetNameForResource(tt.args.resourceTerraformName, tt.args.attributeResourceTerraform); got != tt.want {
+				t.Errorf("GetNameForResource() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestParseTerraformObject(t *testing.T) {
+	type args struct {
+		ctx                                        context.Context
+		client                                     semp.Client
+		resourceName                               string
+		brokerObjectTerraformName                  string
+		providerSpecificIdentifier                 string
+		parentBrokerResourceAttributesRelationship map[string]string
+		parentResult                               map[string]any
+	}
+	tests := []struct {
+		name string
+		args args
+		want GeneratorTerraformOutput
+	}{
+		// TODO: Add test cases.
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := ParseTerraformObject(tt.args.ctx, tt.args.client, tt.args.resourceName, tt.args.brokerObjectTerraformName, tt.args.providerSpecificIdentifier, tt.args.parentBrokerResourceAttributesRelationship, tt.args.parentResult); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ParseTerraformObject() = %v, want %v", got, tt.want)
 			}
 		})
