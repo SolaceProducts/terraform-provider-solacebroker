@@ -16,8 +16,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v3
 
-      - name: Set up Terraform latest
-        uses: hashicorp/setup-terraform@v2
+      # - name: Set up Terraform latest
+      #   uses: hashicorp/setup-terraform@v2
 
       - name: Acceptance test
         run: |
