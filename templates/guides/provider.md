@@ -32,6 +32,14 @@ A given version of the Provider is built to support a specific version of the SE
 
 Broker inter-object references must be correctly encoded in Terraform configuration to have the apply work. It requires understanding of the PubSub+ event broker objects: it is recommended to consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially "Identifying" attributes that give a hint to required already configured objects. 
 
+## The Broker object
+
+The Broker object is the `solacebroker_broker` resource. This object contains global configuration for the PubSub+ event broker.
+
+The Broker object differs from all other objects as it always exists for a given broker and can only be updated.
+
+-> Important: only attributes that are specified will be set to their configured value. Unspecified attributes will not be set to their default-attribute value. This may result in `terraform plan` indicating a change to set attributes to default even after an `apply`, for example after removing an attribute from the config.
+
 ## Mapping of SEMP API and Provider names
 
 Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming scheme, while SEMP uses camel case. Resources and datasource are also prefixed with the provider local name, `solacebroker_`.  For example, `solacebroker_msg_vpn` is the message-vpn resource name and `max_subscription_count` is the attribute for the maximum subscription count, since `MsgVpn` is the SEMP API object name and `maxSubscriptionCount` is the name of the SEMP attribute.
