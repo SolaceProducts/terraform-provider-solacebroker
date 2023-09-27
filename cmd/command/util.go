@@ -122,10 +122,9 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 		}
 	}
 
-	path := strings.TrimSuffix(generatedPath, ",")
+	path := strings.ReplaceAll(generatedPath, ",", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
-		path = path + "?count=10"
 	}
 	return path, nil
 }
@@ -153,10 +152,9 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 		generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
 	}
 
-	path := strings.TrimSuffix(generatedPath, " ")
+	path := strings.ReplaceAll(generatedPath, ",", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
-		path = path + "?count=10"
 	}
 	return path, nil
 }
@@ -181,7 +179,12 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 			if attr.Identifying && attributeExistInParent {
 				tfAttributes += attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + attributeParentNameAndValue + AttributeValueEnd + "\t"
 				continue
+			} else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
+				//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
+				tfAttributes += attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + attributeParentNameAndValue + AttributeValueEnd + "\t"
+				continue
 			}
+
 			switch attr.BaseType {
 			case broker.String:
 				if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
@@ -197,7 +200,8 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				}
 				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valuesRes.(string) + "\""
 				if strings.Contains(valuesRes.(string), "{") {
-					val = attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + valuesRes.(string)
+					valueOutput := strings.ReplaceAll(valuesRes.(string), "\"", "\\\"")
+					val = attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valueOutput + "\""
 				}
 				tfAttributes += val
 			case broker.Int64:
@@ -235,7 +239,11 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
 				}
-				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + string(valueJson)
+				output := strings.ReplaceAll(string(valueJson), "clearPercent", "clear_percent")
+				output = strings.ReplaceAll(output, "setPercent", "set_percent")
+				output = strings.ReplaceAll(output, "clearValue", "clear_value")
+				output = strings.ReplaceAll(output, "setValue", "set_value")
+				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + output
 				tfAttributes += val
 			}
 			if attr.Deprecated && systemProvisioned {
@@ -299,4 +307,17 @@ func ConvertAttributeTextToMap(attribute string) map[string]string {
 		}
 	}
 	return attributeMap
+}
+
+func IndexOf(elm BrokerObjectType, data []BrokerObjectType) int {
+	for k, v := range data {
+		if elm == v {
+			return k
+		}
+	}
+	return -1
+}
+
+func RemoveIndex(s []BrokerObjectType, index int) []BrokerObjectType {
+	return append(s[:index], s[index+1:]...)
 }
