@@ -48,6 +48,21 @@ resource "solacebroker_msg_vpn_queue" "q" {
 }
 ```
 
+## The Broker object
+
+The Broker object is the `solacebroker_broker` resource. This object contains global configuration for the PubSub+ event broker.
+
+The Broker object differs from all other objects as it always exists for a given broker and can only be updated.
+
+-> Important: only attributes that are specified will be set to their configured value. Unspecified attributes will not be set to their default-attribute value. This may result in `terraform plan` indicating a change to set attributes to default even after an `apply`, for example after removing an attribute from the config.
+
+## Default objects
+
+There are objects that are preexisting defaults and cannot be created or destroyed, only updated. The default VPN and the default client profile are examples of this. Delete of these resources will fail.
+
+## Broker-defined attributes
+
+Some attributes don't have a default value, however is not specified their value will be determined by the broker. Typically these defaults depend on the broker scaling settings. While Terraform plan and apply operations work like for any other attributes, import will set the broker value in the state (instead of null), even if they were set at default. Subsequent plan and apply can be used to fix this.
 
 ## Mapping of SEMP API and Provider names
 

@@ -21,7 +21,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"reflect"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -89,7 +88,7 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 	}
 	sempData, err := client.RequestWithoutBody(ctx, http.MethodGet, sempPath)
 	if err != nil {
-		if err == semp.ErrResourceNotFound {
+		if errors.Is(err, semp.ErrResourceNotFound) {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
 		} else if err == semp.ErrAPIUnreachable {
@@ -97,10 +96,6 @@ func (ds *brokerDataSource) Read(ctx context.Context, request datasource.ReadReq
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
-	}
-	if reflect.ValueOf(sempData).IsZero() {
-		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", errors.New("resource not found"))
-		return
 	}
 	sempData["id"] = toId(sempPath)
 	responseData, err := ds.converter.ToTerraform(sempData)
