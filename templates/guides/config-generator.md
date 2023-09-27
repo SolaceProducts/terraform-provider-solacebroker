@@ -6,16 +6,18 @@ page_title: "Command-line Terraform Configuration Generator Guide"
 
 The `solacebroker` provider offers this feature outside of Terraform CLI.
 
-Normally, provider binaries are are not running standalone, they are started and their services are used by Terraform CLI.
+Normally, provider binaries are not run standalone, they are started and their services are used by Terraform CLI.
 
 The `solacebroker` provider can also be run standalone: the generate command on the provider binary generates a Terraform HLC configuration file for the specified object and all child objects known to the provider.
 
-This is not a Terraform CLI command. One can [locate](https://terra-farm.github.io/main/installation.html) the provider binary and can execute that binary with the `generate` command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker.
+This is not a Terraform CLI command. The provider binary can be located in the .terraform/providers directory of an existing Terraform configuration directory that uses the `solacebroker` provider, or can be downloaded from the Solace GitHub repository (TBD: add link).
 
-`<binary> generate <terraform resource address> <provider-specific identifier> <filename>`
+The provider binary can be run directly with the `generate` command to generate a Terraform configuration file from the current configuration of a PubSubPlus broker.
+
+`<binary> generate <broker URL> <provider-specific identifier> <filename>`
 
 - `<binary>` is the broker provider binary
-- `<terraform resource address>` is the terraform resource address, for example `https://mybroker.example.org:1943/`.
+- `<broker URL>` is the broker address, for example `https://mybroker.example.org:1943/`.
 - `<provider-specific identifier>` are the similar to the Terraform Import command. This is the resource name and possible values to find a specific resource.
 - `<filename>` is the desirable name of the generated filename.
 - There are also supported options, which mirror the configuration options for the provider object. These can be

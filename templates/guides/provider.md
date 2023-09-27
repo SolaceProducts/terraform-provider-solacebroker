@@ -28,9 +28,25 @@ A given version of the Provider is built to support a specific version of the SE
 * Broker versions at a lower SEMP API version level than the Provider can be configured, with the exception of objects or attributes that have been deprecated and removed in the Provider's SEMP version. However, configuration will fail when attempting to configure objects or attributes that have been introduced in a later SEMP version than the broker supports.
 * Broker versions at a higher SEMP API version level than the Provider can be configured for objects or attributes that are included in the Provider's SEMP version. Objects or attributes that have been introduced in a later SEMP version will be unknown to the Provider. Objects or attributes that have been deprecated in the broker SEMP version may result in configuration failure.
 
-## Objects relationship
+## Object relationships
 
 Broker inter-object references must be correctly encoded in Terraform configuration to have the apply work. It requires understanding of the PubSub+ event broker objects: it is recommended to consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially "Identifying" attributes that give a hint to required already configured objects.
+For example:
+
+```terraform
+resource "solacebroker_msg_vpn" "test" {
+  # on the resource itself, specify the value
+  msg_vpn_name        = "new"
+  # ... other attributes
+}
+
+resource "solacebroker_msg_vpn_queue" "q" {
+  # on dependent resources, specify as a reference so
+  # that Terraform creates the referenced object first
+  msg_vpn_name    = solacebroker_msg_vpn.test.msg_vpn_name
+  # ... other attributes
+}
+```
 
 ## The Broker object
 
@@ -54,10 +70,7 @@ Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming
 
 ## Notes
 
-Following limitations partly come from Terraform and partly from how the broker works.
-
-* Terraform apply will not be atomic.  If interrupted by user, failure, reboot, switchover; the configuration changes may be partly applied and there will be no attempt to rollback anything.
-* Terraform must be the authoritative source of configuration.  If there is any overlap between Terraform controlled configuration and either pre-existing configuration or modifications from other management interfaces; the behaviour will be undefined.
-* Apply operations may impact broker AD performance; especially large changes.  This can be mitigated by throttling the configuration commands that are executed as part of the apply, but that itself may cause a commit to take a long time.
-* Application of configuration may not be hitless.  Brief service interruptions may occur during an apply.  These can include a queue missing a published message, or clients being briefly disconnected.  These outages will be no different than if a current administrator manually makes an equivalent change to a broker.
-* Inter object references must be correctly encoded in Terraform configuration to have the apply work.  It may not be possible to detect these problems until during the apply operation.
+* Terraform `apply` is not atomic.  If interrupted by a user, failure, reboot, or switchover the configuration changes may be partly applied.  Terraform does not perform rollbacks.
+* Terraform must be the authoritative source of configuration.  If there is any overlap between Terraform controlled configuration and either pre-existing configuration or modifications from other management interfaces the behaviour will be undefined.
+* Apply operations may impact broker AD performance, especially large changes.  The `request_min_interval` attribute on the provider limits the request rate and can be adjusted to control the impact.
+* Application of configuration may cause brief service interruptions to the resources affected.  These can include a queue missing a published message or clients being briefly disconnected.  These outages are no different from a current administrator manually making an equivalent change to a broker.
