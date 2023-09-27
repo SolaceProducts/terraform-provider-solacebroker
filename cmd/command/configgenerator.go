@@ -153,8 +153,8 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 		count, objectNameExists := ObjectNamesCount[objectName]
 		if objectNameExists {
 			totalOccurrence = count + 1
-			objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
 		}
+		objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
 		tfObject[objectName] = resourceValues[i]
 		tfObjectSempDataResponse[objectName] = sempData[i]
 		ObjectNamesCount[objectName] = totalOccurrence
