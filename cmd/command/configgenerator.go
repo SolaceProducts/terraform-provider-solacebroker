@@ -71,14 +71,15 @@ func CreateBrokerObjectRelationships() {
 						BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)] = []BrokerObjectType{}
 						children = []BrokerObjectType{}
 					} else {
-						if !slices.Contains(children, BrokerObjectType(ds.TerraformName)) {
+						if !slices.Contains(children, BrokerObjectType(ds.TerraformName)) && ds.TerraformName != firstParameterRelationship.terraformName {
 							children = append(children, BrokerObjectType(ds.TerraformName))
 						}
 						//confirm if this should be child of child
 						for k := range children {
 							childrenOfChild, childrenOfChildExists := BrokerObjectRelationship[children[k]]
 							if childrenOfChildExists {
-								if strings.Contains(ds.TerraformName, string(children[k])) {
+								if !slices.Contains(childrenOfChild, BrokerObjectType(ds.TerraformName)) &&
+									strings.Contains(ds.TerraformName, string(children[k])) && ds.TerraformName != string(children[k]) {
 									childrenOfChild = append(childrenOfChild, BrokerObjectType(ds.TerraformName))
 								}
 							}
@@ -98,7 +99,6 @@ func CreateBrokerObjectRelationships() {
 			}
 		}
 	}
-	println("Echo relationship " + fmt.Sprint(BrokerObjectRelationship))
 }
 
 func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributesRelationship map[string]string, parentResult map[string]any) GeneratorTerraformOutput {
