@@ -205,12 +205,15 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 					generatedResources[string(childBrokerObject)] = generatorTerraformOutputForChild
 					for childBrokerResourceKey, childBrokerResourceValue := range generatorTerraformOutputForChild.TerraformOutput {
 						if len(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]) > 0 {
-							brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+							//remove blanks
+							if len(generatorTerraformOutputForChild.TerraformOutput[childBrokerResourceKey]) > 0 {
+								brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+							}
 						}
 					}
 					print("..")
+					brokerResources = append(brokerResources, brokerResourcesToAppend)
 				}
-				brokerResources = append(brokerResources, brokerResourcesToAppend)
 			}
 		}
 	}

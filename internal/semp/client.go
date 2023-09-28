@@ -34,6 +34,7 @@ import (
 
 var (
 	ErrResourceNotFound = errors.New("Resource not found")
+	ErrBadRequest       = errors.New("Bad request")
 	ErrAPIUnreachable   = errors.New("SEMP API unreachable")
 )
 
@@ -262,6 +263,10 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 		if ok {
 			data, _ = rawData.(map[string]any)
 			responseData = append(responseData, data)
+			errorCode, errorCodeExist := data["responseCode"]
+			if errorCodeExist && fmt.Sprint(errorCode) == "400" {
+				return responseData, ErrBadRequest
+			}
 			return responseData, ErrResourceNotFound
 		}
 	}

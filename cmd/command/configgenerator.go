@@ -2,6 +2,7 @@ package terraform
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"golang.org/x/exp/slices"
 	"net/http"
@@ -132,6 +133,12 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 	if err != nil {
 		if err == semp.ErrResourceNotFound {
 			// continue if error is resource not found
+			if len(parentResult) > 0 {
+				print("..")
+			}
+			sempData = []map[string]any{}
+		} else if errors.Is(err, semp.ErrBadRequest) {
+			// continue if error is also bad request
 			if len(parentResult) > 0 {
 				print("..")
 			}

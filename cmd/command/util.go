@@ -257,6 +257,9 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 		}
 		if !systemProvisioned {
 			tfBrokerObjects = append(tfBrokerObjects, tfAttributes)
+		} else {
+			//add to maintain index, it will not be included in generation
+			tfBrokerObjects = append(tfBrokerObjects, "")
 		}
 	}
 	return tfBrokerObjects, nil
