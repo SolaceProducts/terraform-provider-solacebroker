@@ -122,7 +122,8 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 		}
 	}
 
-	path := strings.ReplaceAll(generatedPath, ",", "")
+	path := strings.ReplaceAll(generatedPath, "/,,", "")
+	path = strings.ReplaceAll(path, "/,", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
 	}
@@ -152,7 +153,8 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 		generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
 	}
 
-	path := strings.ReplaceAll(generatedPath, ",", "")
+	path := strings.ReplaceAll(generatedPath, "/,,", "")
+	path = strings.ReplaceAll(path, "/,", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
 	}
