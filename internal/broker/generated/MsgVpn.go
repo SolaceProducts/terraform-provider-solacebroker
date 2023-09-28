@@ -85,7 +85,6 @@ func init() {
 					stringvalidator.LengthBetween(0, 32),
 					stringvalidator.RegexMatches(regexp.MustCompile("^[A-Za-z0-9_]*$"), ""),
 				},
-				Default: "default",
 			},
 			{
 				BaseType:            broker.String,

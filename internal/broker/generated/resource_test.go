@@ -72,6 +72,7 @@ resource "solacebroker_msg_vpn" "test" {
 					"service_rest_outgoing_max_connection_count",
 					"service_smf_max_connection_count",
 					"service_web_max_connection_count",
+					"authentication_basic_profile_name",
 				},
 			},
 			// Delete testing automatically occurs in TestCase
