@@ -1,11 +1,11 @@
-name: Terraform Plugin Pipeline
+name: Terraform Provider Pipeline
 
 on: workflow_call
 
 
 jobs:
   test:
-    name: Setup broker for terraform plugin pipeline
+    name: Run Provider setup and tests
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go

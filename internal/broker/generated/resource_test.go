@@ -29,7 +29,7 @@ func TestAccResource(t *testing.T) {
 		Steps: []resource.TestStep{
 			// Create and Read testing
 			{
-				Config: providerConfig + `
+				Config: ProviderConfig + `
 resource "solacebroker_msg_vpn" "test" {
 		msg_vpn_name = "test"
 		enabled      = true
@@ -43,7 +43,7 @@ resource "solacebroker_msg_vpn" "test" {
 			},
 			// Update and Read testing
 			{
-				Config: providerConfig + `
+				Config: ProviderConfig + `
 resource "solacebroker_msg_vpn" "test" {
 		msg_vpn_name = "test"
 		enabled      = true

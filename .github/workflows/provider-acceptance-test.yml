@@ -1,0 +1,21 @@
+name: Provider Acceptance Test
+
+on: workflow_call
+
+
+jobs:
+  test:
+    name: Run formal acceptance test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.20"
+
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Acceptance test
+        run: |
+          make testacc
