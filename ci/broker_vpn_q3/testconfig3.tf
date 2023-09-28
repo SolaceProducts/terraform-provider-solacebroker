@@ -120,6 +120,13 @@ resource "solacebroker_msg_vpn_queue" "ok" {
   max_msg_size    = 54321
 }
 
+resource "solacebroker_msg_vpn_queue_subscription" "foo" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok.queue_name
+  subscription_topic = "foo/one"
+}
+
+
 resource "solacebroker_msg_vpn_queue" "ok2" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
   queue_name      = "two"
@@ -127,6 +134,13 @@ resource "solacebroker_msg_vpn_queue" "ok2" {
   egress_enabled  = true
   max_msg_size    = 54321
 }
+
+resource "solacebroker_msg_vpn_queue_subscription" "ok2" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok2.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok2.queue_name
+  subscription_topic = "foo/ok2"
+}
+
 resource "solacebroker_msg_vpn_queue" "ok3" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
   queue_name      = "three"
@@ -134,6 +148,13 @@ resource "solacebroker_msg_vpn_queue" "ok3" {
   egress_enabled  = true
   max_msg_size    = 54321
 }
+
+resource "solacebroker_msg_vpn_queue_subscription" "ok3" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok3.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok3.queue_name
+  subscription_topic = "foo/ok3"
+}
+
 
 resource "solacebroker_msg_vpn_queue" "ok4" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
@@ -143,6 +164,13 @@ resource "solacebroker_msg_vpn_queue" "ok4" {
   max_msg_size    = 54321
 }
 
+resource "solacebroker_msg_vpn_queue_subscription" "ok4" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok4.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok4.queue_name
+  subscription_topic = "foo/ok4"
+}
+
+
 resource "solacebroker_msg_vpn_queue" "ok5" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
   queue_name      = "five"
@@ -151,21 +179,42 @@ resource "solacebroker_msg_vpn_queue" "ok5" {
   max_msg_size    = 54321
 }
 
-resource "solacebroker_msg_vpn_queue" "ok6" {
-  msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
-  queue_name      = "five"
-  ingress_enabled = true
-  egress_enabled  = true
-  max_msg_size    = 54321
+resource "solacebroker_msg_vpn_queue_subscription" "ok5" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok5.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok5.queue_name
+  subscription_topic = "foo/ok5"
 }
 
-resource "solacebroker_msg_vpn_queue" "ok7" {
+
+resource "solacebroker_msg_vpn_queue" "ok6" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
   queue_name      = "six"
   ingress_enabled = true
   egress_enabled  = true
   max_msg_size    = 54321
 }
+
+resource "solacebroker_msg_vpn_queue_subscription" "ok6" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok6.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok6.queue_name
+  subscription_topic = "foo/ok6"
+}
+
+resource "solacebroker_msg_vpn_queue" "ok7" {
+  msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
+  queue_name      = "seven"
+  ingress_enabled = true
+  egress_enabled  = true
+  max_msg_size    = 54321
+}
+
+resource "solacebroker_msg_vpn_queue_subscription" "ok7" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok7.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok7.queue_name
+  subscription_topic = "foo/ok7"
+}
+
+
 
 resource "solacebroker_msg_vpn_queue" "ok8" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
@@ -175,10 +224,23 @@ resource "solacebroker_msg_vpn_queue" "ok8" {
   max_msg_size    = 54321
 }
 
+resource "solacebroker_msg_vpn_queue_subscription" "ok8" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok8.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok8.queue_name
+  subscription_topic = "foo/ok8"
+}
+
+
 resource "solacebroker_msg_vpn_queue" "ok9" {
   msg_vpn_name    = solacebroker_msg_vpn.another.msg_vpn_name
   queue_name      = "nine"
   ingress_enabled = true
   egress_enabled  = true
   max_msg_size    = 54321
+}
+
+resource "solacebroker_msg_vpn_queue_subscription" "ok9" {
+  msg_vpn_name       = solacebroker_msg_vpn_queue.ok9.msg_vpn_name
+  queue_name         = solacebroker_msg_vpn_queue.ok9.queue_name
+  subscription_topic = "foo/ok9"
 }

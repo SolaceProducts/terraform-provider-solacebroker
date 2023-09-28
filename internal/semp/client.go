@@ -34,6 +34,7 @@ import (
 
 var (
 	ErrResourceNotFound = errors.New("Resource not found")
+	ErrBadRequest       = errors.New("Bad request")
 	ErrAPIUnreachable   = errors.New("SEMP API unreachable")
 )
 
@@ -216,10 +217,10 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 			status := data["error"].(map[string]interface{})["status"].(string)
 			if status == "NOT_FOUND" {
 				// resource not found is a special type we want to return
-				return nil, ErrResourceNotFound
+				return nil, fmt.Errorf("request failed from %v to %v, %v, %v, %w", request.Method, request.URL, description, status, ErrResourceNotFound)
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
-			return nil, fmt.Errorf("request failed from %v to %v, %v, %v", request.Method, request.URL, description, status)
+			return nil, fmt.Errorf("request failed for %v using %v, %v, %v", request.URL, request.Method, description, status)
 		}
 	}
 	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
@@ -262,6 +263,10 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 		if ok {
 			data, _ = rawData.(map[string]any)
 			responseData = append(responseData, data)
+			errorCode, errorCodeExist := data["responseCode"]
+			if errorCodeExist && fmt.Sprint(errorCode) == "400" {
+				return responseData, ErrBadRequest
+			}
 			return responseData, ErrResourceNotFound
 		}
 	}

@@ -2,7 +2,8 @@ package terraform
 
 import (
 	"context"
-	"golang.org/x/exp/maps"
+	"errors"
+	"fmt"
 	"golang.org/x/exp/slices"
 	"net/http"
 	"os"
@@ -18,154 +19,191 @@ type BrokerObjectType string
 type IdentifyingAttribute struct {
 	key, value string
 }
+
+type GeneratorTerraformOutput struct {
+	TerraformOutput  map[string]string
+	SEMPDataResponse map[string]map[string]any
+}
 type BrokerObjectAttributes []IdentifyingAttribute
 
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
 
+type BrokerRelationParameterPath struct {
+	path          string
+	terraformName string
+}
+
+var ObjectNamesCount = map[string]int{}
+
 func CreateBrokerObjectRelationships() {
-	BrokerObjectRelationship[("broker")] = []BrokerObjectType{}
+
+	//loop through entities
+	terraformNamePathMap := map[string]BrokerRelationParameterPath{}
 	for _, ds := range internalbroker.Entities {
 		rex := regexp.MustCompile(`{[^{}]*}`)
 		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
 
+		BrokerObjectRelationship[BrokerObjectType(ds.TerraformName)] = []BrokerObjectType{}
+
 		for i := range matches {
 
-			if i == 0 {
-				var parent string
-				parent = strings.TrimPrefix(matches[i][0], "{")
-				parent = strings.TrimSuffix(parent, "}")
+			if i == 0 || len(matches) <= 1 {
+				var firstParameter string
+				firstParameter = strings.TrimPrefix(matches[0][0], "{")
+				firstParameter = strings.TrimSuffix(firstParameter, "}")
 
-				//first item in node
-				tfParentNameCollection, tfObjectExists := getDataSourceNameIfDatasource(parent, "")
-
-				if tfObjectExists {
-					for _, tfParentName := range tfParentNameCollection {
-						_, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
-						if !ok {
-							BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
-						}
+				_, ok := terraformNamePathMap[firstParameter]
+				if !ok {
+					terraformNamePathMap[firstParameter] = BrokerRelationParameterPath{
+						ds.PathTemplate,
+						ds.TerraformName,
 					}
 				}
-			}
-			if i != 0 {
-				var parent string
-				var tfParentNameCollection []string
-				baseParent := strings.TrimPrefix(matches[0][0], "{")
-				baseParent = strings.TrimSuffix(baseParent, "}")
+			} else {
+				firstParameter := strings.TrimPrefix(matches[0][0], "{")
+				firstParameter = strings.TrimSuffix(firstParameter, "}")
 
-				parent = strings.TrimPrefix(matches[i-1][0], "{")
-				parent = strings.TrimSuffix(parent, "}")
+				//check if parent path is part of child path before we add
+				firstParameterRelationship, firstParameterRelationshipExist := terraformNamePathMap[firstParameter]
+				if firstParameterRelationshipExist && strings.Contains(ds.PathTemplate, firstParameterRelationship.path) {
 
-				if baseParent != parent {
-					tfParentNameCollection, _ = getDataSourceNameIfDatasource(baseParent, parent)
-				} else {
-					tfParentNameCollection, _ = getDataSourceNameIfDatasource(parent, "")
-				}
-
-				for _, tfParentName := range tfParentNameCollection {
-
-					children, ok := BrokerObjectRelationship[BrokerObjectType(tfParentName)]
+					children, ok := BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)]
 					if !ok {
-						BrokerObjectRelationship[BrokerObjectType(tfParentName)] = []BrokerObjectType{}
+						BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)] = []BrokerObjectType{}
 						children = []BrokerObjectType{}
-					}
-
-					child := strings.TrimPrefix(matches[i][0], "{")
-					child = strings.TrimSuffix(child, "}")
-
-					tfChildNameCollection, tfValueExists := getDataSourceNameIfDatasource(parent, child)
-
-					if tfValueExists {
-						for _, tfChildName := range tfChildNameCollection {
-							valExists := slices.Contains(children, BrokerObjectType(tfChildName))
-							if !valExists {
-								children = append(children, BrokerObjectType(tfChildName))
-								BrokerObjectRelationship[BrokerObjectType(tfParentName)] = children
+					} else {
+						if !slices.Contains(children, BrokerObjectType(ds.TerraformName)) && ds.TerraformName != firstParameterRelationship.terraformName {
+							children = append(children, BrokerObjectType(ds.TerraformName))
+						}
+						//confirm if this should be child of child
+						for k := range children {
+							childrenOfChild, childrenOfChildExists := BrokerObjectRelationship[children[k]]
+							if childrenOfChildExists {
+								if !slices.Contains(childrenOfChild, BrokerObjectType(ds.TerraformName)) &&
+									strings.Contains(ds.TerraformName, string(children[k])) && ds.TerraformName != string(children[k]) {
+									childrenOfChild = append(childrenOfChild, BrokerObjectType(ds.TerraformName))
+								}
 							}
-							_, ok := BrokerObjectRelationship[BrokerObjectType(tfChildName)]
-							if !ok {
-								BrokerObjectRelationship[BrokerObjectType(tfChildName)] = []BrokerObjectType{}
-							}
+							BrokerObjectRelationship[children[k]] = childrenOfChild
 						}
 					}
+
+					BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)] = children
+				} else {
+
+					terraformNamePathMap[firstParameter] = BrokerRelationParameterPath{
+						ds.PathTemplate,
+						ds.TerraformName,
+					}
+
 				}
 			}
 		}
 	}
 }
 
-func getDataSourceNameIfDatasource(parent string, child string) ([]string, bool) {
-	tfNames := map[string]string{}
-	for _, ds := range internalbroker.Entities {
-		rex := regexp.MustCompile(`{[^{}]*}`)
-		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
-		for i := range matches {
-			if len(matches) <= 2 {
-
-				if len(matches) == 1 {
-					parentToSet := strings.TrimPrefix(matches[i][0], "{")
-					parentToSet = strings.TrimSuffix(parentToSet, "}")
-
-					if child == "" && parentToSet == parent {
-						_, exists := tfNames[ds.TerraformName]
-						if !exists {
-							tfNames[ds.TerraformName] = ds.TerraformName
-						}
-					}
-				}
-				if len(matches) == 2 && i == 1 {
-					parentToSet := strings.TrimPrefix(matches[0][0], "{")
-					parentToSet = strings.TrimSuffix(parentToSet, "}")
-
-					childToSet := strings.TrimPrefix(matches[1][0], "{")
-					childToSet = strings.TrimSuffix(childToSet, "}")
-
-					if child == childToSet && parentToSet == parent {
-						_, exists := tfNames[ds.TerraformName]
-						if !exists {
-							tfNames[ds.TerraformName] = ds.TerraformName
-						}
-					}
-				}
-			}
-		}
-	}
-	collectionTfNames := maps.Keys(tfNames)
-	return collectionTfNames, len(collectionTfNames) > 0
-}
-
-func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributes map[string]string) map[string]string {
+func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributesRelationship map[string]string, parentResult map[string]any) GeneratorTerraformOutput {
+	var objectName string
 	tfObject := map[string]string{}
-	LogCLIInfo("Generating terraform config for " + brokerObjectTerraformName)
+	tfObjectSempDataResponse := map[string]map[string]any{}
 	entityToRead := internalbroker.EntityInputs{}
 	for _, ds := range internalbroker.Entities {
 		if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
 			entityToRead = ds
 		}
 	}
+	var path string
+	var err error
 
-	path, err := ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
-	if err != nil {
-		LogCLIError("Error calling Broker Endpoint")
-		os.Exit(1)
+	if len(parentResult) > 0 {
+		path, err = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
+		if err != nil {
+			LogCLIError("Error calling Broker Endpoint")
+			os.Exit(1)
+		}
+	} else {
+		path, err = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
+		if err != nil {
+			LogCLIError("Error calling Broker Endpoint")
+			os.Exit(1)
+		}
 	}
 
 	sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
 	if err != nil {
-		LogCLIError("SEMP called failed. " + err.Error() + " on path " + path)
-		os.Exit(1)
+		if err == semp.ErrResourceNotFound {
+			// continue if error is resource not found
+			if len(parentResult) > 0 {
+				print("..")
+			}
+			sempData = []map[string]any{}
+		} else if errors.Is(err, semp.ErrBadRequest) {
+			// continue if error is also bad request
+			if len(parentResult) > 0 {
+				print("..")
+			}
+			sempData = []map[string]any{}
+		} else {
+			LogCLIError("SEMP call failed. " + err.Error() + " on path " + path)
+			os.Exit(1)
+		}
 	}
 
 	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
 
-	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributes)
+	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship)
 
-	if len(resourceValues) == 1 {
-		tfObject[strings.ToLower(resourceKey)] = resourceValues[0]
-	} else {
-		for i := range resourceValues {
-			tfObject[strings.ToLower(resourceKey)+GenerateRandomString(6)] = resourceValues[i]
+	//check resource names used and deduplicate to avoid collision
+	for i := range resourceValues {
+		totalOccurrence := 1
+		objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
+		count, objectNameExists := ObjectNamesCount[objectName]
+		if objectNameExists {
+			totalOccurrence = count + 1
+		}
+		objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
+		tfObject[objectName] = resourceValues[i]
+		tfObjectSempDataResponse[objectName] = sempData[i]
+		ObjectNamesCount[objectName] = totalOccurrence
+	}
+	return GeneratorTerraformOutput{
+		TerraformOutput:  tfObject,
+		SEMPDataResponse: tfObjectSempDataResponse,
+	}
+}
+
+func GetNameForResource(resourceTerraformName string, attributeResourceTerraform string) string {
+
+	resourceName := GenerateRandomString(6) //use generated if not able to identify
+
+	resourceTerraformName = strings.Split(resourceTerraformName, " ")[0]
+	resourceTerraformName = strings.ReplaceAll(strings.ToLower(resourceTerraformName), "solacebroker_", "")
+	resources := ConvertAttributeTextToMap(attributeResourceTerraform)
+
+	//Get identifying attribute name to differentiate from multiples
+	for _, ds := range internalbroker.Entities {
+		if ds.TerraformName == resourceTerraformName {
+			for _, attr := range ds.Attributes {
+				if attr.Identifying &&
+					(strings.Contains(strings.ToLower(attr.TerraformName), "name") ||
+						strings.Contains(strings.ToLower(attr.TerraformName), "topic")) {
+					// intentionally continue looping till we get the best name
+					value, found := resources[attr.TerraformName]
+					if strings.Contains(value, ".") {
+						continue
+					}
+					if found {
+						//sanitize name
+						value = strings.ReplaceAll(value, " ", "_")
+						value = strings.ReplaceAll(value, "#", "_")
+						value = strings.ReplaceAll(value, "\\", "_")
+						value = strings.ReplaceAll(value, "/", "_")
+						value = strings.ReplaceAll(value, "\"", "")
+						resourceName = "_" + value
+					}
+				}
+			}
 		}
 	}
-	return tfObject
+	return resourceName
 }

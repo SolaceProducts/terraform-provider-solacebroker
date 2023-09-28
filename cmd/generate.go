@@ -116,7 +116,7 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			command.LogCLIError("\nError: Broker resource not found by terraform name : " + brokerObjectTerraformName + "\n\n")
 			os.Exit(1)
 		}
-		generatedResource := make(map[string]string)
+		generatedResource := make(map[string]command.GeneratorTerraformOutput)
 		var brokerResources []map[string]string
 
 		// get all resources to be generated for
@@ -124,13 +124,9 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectType(brokerObjectTerraformName))
 		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectRelationship[command.BrokerObjectType(brokerObjectTerraformName)]...)
 		for _, resource := range resourcesToGenerate {
-			_, alreadyGenerated := generatedResource[string(resource)]
-			if !alreadyGenerated {
-				generatedResource[string(resource)] = string(resource)
-				generatedResults, generatedResourceChildren := generateForParentAndChildren(cmd.Context(), *client, string(resource), brokerObjectInstanceName, providerSpecificIdentifier, generatedResource)
-				brokerResources = append(brokerResources, generatedResults...)
-				maps.Copy(generatedResource, generatedResourceChildren)
-			}
+			generatedResults, generatedResourceChildren := generateForParentAndChildren(cmd.Context(), *client, string(resource), brokerObjectInstanceName, providerSpecificIdentifier, generatedResource)
+			brokerResources = append(brokerResources, generatedResults...)
+			maps.Copy(generatedResource, generatedResourceChildren)
 		}
 
 		object.BrokerResources = brokerResources
@@ -157,34 +153,68 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 	},
 }
 
-func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]string) ([]map[string]string, map[string]string) {
+func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]command.GeneratorTerraformOutput) ([]map[string]string, map[string]command.GeneratorTerraformOutput) {
 	var brokerResources []map[string]string
+	var generatorTerraformOutputForParent command.GeneratorTerraformOutput
 
 	//get for parent
-	parentBrokerResourceAttribute := map[string]string{}
-	parentBrokerResource := command.ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, parentBrokerResourceAttribute)
-	brokerResources = append(brokerResources, parentBrokerResource)
+	_, alreadyGenerated := generatedResources[parentTerraformName]
 
-	parentBrokerResourceAttribute = command.GetParentResourceAttributes(parentBrokerResource)
+	if !alreadyGenerated {
+		generatorTerraformOutputForParent = command.ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, map[string]string{}, map[string]any{})
+		if len(generatorTerraformOutputForParent.TerraformOutput) > 0 {
+			command.LogCLIInfo("Generating terraform config for " + parentTerraformName)
+			brokerResources = append(brokerResources, generatorTerraformOutputForParent.TerraformOutput)
+			generatedResources[parentTerraformName] = generatorTerraformOutputForParent
+		}
+	} else {
+		//pick output for generated data
+		generatorTerraformOutputForParent = generatedResources[parentTerraformName]
+	}
 
-	//get all children resources
 	childBrokerObjects := command.BrokerObjectRelationship[command.BrokerObjectType(parentTerraformName)]
+	//get all children resources
+
 	for _, childBrokerObject := range childBrokerObjects {
 
-		_, alreadyGenerated := generatedResources[string(childBrokerObject)]
-		if !alreadyGenerated {
+		_, alreadyGeneratedChild := generatedResources[string(childBrokerObject)]
 
-			brokerResourcesToAppend := map[string]string{}
-			generatedResources[string(childBrokerObject)] = string(childBrokerObject)
-			childBrokerResource := command.ParseTerraformObject(context, client, brokerObjectInstanceName, string(childBrokerObject), providerSpecificIdentifier, parentBrokerResourceAttribute)
+		if !alreadyGeneratedChild {
 
-			if len(childBrokerResource) > 0 {
-				for childBrokerResourceKey, childBrokerResourceValue := range childBrokerResource {
-					brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+			command.LogCLIInfo("Generating terraform config for " + string(childBrokerObject) + " as related to " + parentTerraformName)
+
+			for key, parentBrokerResource := range generatorTerraformOutputForParent.TerraformOutput {
+
+				parentResourceAttributes := map[string]string{}
+
+				//use object name to build relationship
+				parentResourceAttributes[key] = parentBrokerResource
+
+				parentBrokerResourceAttributeRelationship := command.GetParentResourceAttributes(key, parentResourceAttributes)
+
+				brokerResourcesToAppend := map[string]string{}
+
+				//use parent semp response data to build semp request for children
+				generatorTerraformOutputForChild := command.ParseTerraformObject(context, client, brokerObjectInstanceName,
+					string(childBrokerObject),
+					providerSpecificIdentifier,
+					parentBrokerResourceAttributeRelationship,
+					generatorTerraformOutputForParent.SEMPDataResponse[key])
+
+				if len(generatorTerraformOutputForChild.TerraformOutput) > 0 {
+					generatedResources[string(childBrokerObject)] = generatorTerraformOutputForChild
+					for childBrokerResourceKey, childBrokerResourceValue := range generatorTerraformOutputForChild.TerraformOutput {
+						if len(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]) > 0 {
+							//remove blanks
+							if len(generatorTerraformOutputForChild.TerraformOutput[childBrokerResourceKey]) > 0 {
+								brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
+							}
+						}
+					}
+					print("..")
+					brokerResources = append(brokerResources, brokerResourcesToAppend)
 				}
 			}
-
-			brokerResources = append(brokerResources, brokerResourcesToAppend)
 		}
 	}
 	return brokerResources, generatedResources
