@@ -21,7 +21,7 @@ type IdentifyingAttribute struct {
 }
 
 type GeneratorTerraformOutput struct {
-	TerraformOutput  map[string]string
+	TerraformOutput  map[string]ResourceConfig
 	SEMPDataResponse map[string]map[string]any
 }
 type BrokerObjectAttributes []IdentifyingAttribute
@@ -104,7 +104,7 @@ func CreateBrokerObjectRelationships() {
 
 func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributesRelationship map[string]string, parentResult map[string]any) GeneratorTerraformOutput {
 	var objectName string
-	tfObject := map[string]string{}
+	tfObject := map[string]ResourceConfig{}
 	tfObjectSempDataResponse := map[string]map[string]any{}
 	entityToRead := internalbroker.EntityInputs{}
 	for _, ds := range internalbroker.Entities {
@@ -172,13 +172,13 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 	}
 }
 
-func GetNameForResource(resourceTerraformName string, attributeResourceTerraform string) string {
+func GetNameForResource(resourceTerraformName string, attributeResourceTerraform ResourceConfig) string {
 
 	resourceName := GenerateRandomString(6) //use generated if not able to identify
 
 	resourceTerraformName = strings.Split(resourceTerraformName, " ")[0]
 	resourceTerraformName = strings.ReplaceAll(strings.ToLower(resourceTerraformName), "solacebroker_", "")
-	resources := ConvertAttributeTextToMap(attributeResourceTerraform)
+	// resources := ConvertAttributeTextToMap(attributeResourceTerraform)
 
 	//Get identifying attribute name to differentiate from multiples
 	for _, ds := range internalbroker.Entities {
@@ -188,7 +188,8 @@ func GetNameForResource(resourceTerraformName string, attributeResourceTerraform
 					(strings.Contains(strings.ToLower(attr.TerraformName), "name") ||
 						strings.Contains(strings.ToLower(attr.TerraformName), "topic")) {
 					// intentionally continue looping till we get the best name
-					value, found := resources[attr.TerraformName]
+					attr, found := attributeResourceTerraform.ResourceAttributes[attr.TerraformName]
+					value := attr.AttributeValue
 					if strings.Contains(value, ".") {
 						continue
 					}
