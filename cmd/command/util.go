@@ -194,7 +194,7 @@ func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) Resou
 	}
 }
 
-func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string) ([]ResourceConfig, error) {
+func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string, brokerObjectTerraformName string) ([]ResourceConfig, error) {
 	var tfBrokerObjects []ResourceConfig
 	var attributesWithDefaultValue = []string{}  // list of attributes, collected but not used
 	for k := range values {
@@ -232,8 +232,13 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				}
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
 					//attributes with default values will be skipped
-					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
-					continue
+					// WORKAROUND: Except if attribute is "authentication_basic_type" in "msg_vpn"
+					if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
+						attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+						continue
+					} else {
+						fmt.Println("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
+					}
 				}
 				
 				/// => value in val

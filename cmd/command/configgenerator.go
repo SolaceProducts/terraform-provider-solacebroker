@@ -166,7 +166,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 
 	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
 
-	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship)
+	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
 
 	//check resource names used and deduplicate to avoid collision
 	for i := range resourceValues {
