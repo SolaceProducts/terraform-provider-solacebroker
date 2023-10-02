@@ -17,15 +17,17 @@ package cmd
 
 import (
 	"context"
-	"github.com/hashicorp/go-version"
-	"github.com/spf13/cobra"
-	"golang.org/x/exp/maps"
+	"fmt"
 	"net/http"
 	"os"
 	"strings"
 	"terraform-provider-solacebroker/cmd/broker"
 	command "terraform-provider-solacebroker/cmd/command"
 	"terraform-provider-solacebroker/internal/semp"
+
+	"github.com/hashicorp/go-version"
+	"github.com/spf13/cobra"
+	"golang.org/x/exp/maps"
 )
 
 // generateCmd represents the generate command
@@ -117,7 +119,7 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			os.Exit(1)
 		}
 		generatedResource := make(map[string]command.GeneratorTerraformOutput)
-		var brokerResources []map[string]string
+		var brokerResources []map[string]command.ResourceConfig
 
 		// get all resources to be generated for
 		var resourcesToGenerate []command.BrokerObjectType
@@ -129,8 +131,12 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			maps.Copy(generatedResource, generatedResourceChildren)
 		}
 
-		object.BrokerResources = brokerResources
-
+		fmt.Println("\nReplacing hardcoded names of inter-object dependencies by references where required ...")
+		fixInterObjectDependencies(brokerResources)
+		
+		// Format the results
+		object.BrokerResources = command.ToFormattedHCL(brokerResources)
+		
 		registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
 		if !ok {
 			registry = "registry.terraform.io"
@@ -153,8 +159,8 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 	},
 }
 
-func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]command.GeneratorTerraformOutput) ([]map[string]string, map[string]command.GeneratorTerraformOutput) {
-	var brokerResources []map[string]string
+func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]command.GeneratorTerraformOutput) ([]map[string]command.ResourceConfig, map[string]command.GeneratorTerraformOutput) {
+	var brokerResources []map[string]command.ResourceConfig
 	var generatorTerraformOutputForParent command.GeneratorTerraformOutput
 
 	//get for parent
@@ -164,7 +170,8 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 		generatorTerraformOutputForParent = command.ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, map[string]string{}, map[string]any{})
 		if len(generatorTerraformOutputForParent.TerraformOutput) > 0 {
 			command.LogCLIInfo("Generating terraform config for " + parentTerraformName)
-			brokerResources = append(brokerResources, generatorTerraformOutputForParent.TerraformOutput)
+			resource := generatorTerraformOutputForParent.TerraformOutput
+			brokerResources = append(brokerResources, resource)
 			generatedResources[parentTerraformName] = generatorTerraformOutputForParent
 		}
 	} else {
@@ -185,14 +192,14 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 
 			for key, parentBrokerResource := range generatorTerraformOutputForParent.TerraformOutput {
 
-				parentResourceAttributes := map[string]string{}
+				parentResourceAttributes := map[string]command.ResourceConfig{}
 
 				//use object name to build relationship
 				parentResourceAttributes[key] = parentBrokerResource
 
 				parentBrokerResourceAttributeRelationship := command.GetParentResourceAttributes(key, parentResourceAttributes)
 
-				brokerResourcesToAppend := map[string]string{}
+				brokerResourcesToAppend := map[string]command.ResourceConfig{}
 
 				//use parent semp response data to build semp request for children
 				generatorTerraformOutputForChild := command.ParseTerraformObject(context, client, brokerObjectInstanceName,
@@ -206,7 +213,7 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 					for childBrokerResourceKey, childBrokerResourceValue := range generatorTerraformOutputForChild.TerraformOutput {
 						if len(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]) > 0 {
 							//remove blanks
-							if len(generatorTerraformOutputForChild.TerraformOutput[childBrokerResourceKey]) > 0 {
+							if generatorTerraformOutputForChild.TerraformOutput[childBrokerResourceKey].ResourceAttributes != nil {
 								brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
 							}
 						}
@@ -218,6 +225,71 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 		}
 	}
 	return brokerResources, generatedResources
+}
+
+func fixInterObjectDependencies(brokerResources []map[string]command.ResourceConfig) {
+	// this will modify the passed brokerResources object
+
+	//temporal hard coding dependency graph fix not available in SEMP API
+	InterObjectDependencies := map[string][]string{"solacebroker_msg_vpn_authorization_group": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_client_username": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_rest_delivery_point": {"solacebroker_msg_vpn_client_profile"},
+		"solacebroker_msg_vpn_acl_profile_client_connect_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_publish_topic_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_subscribe_share_name_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_subscribe_topic_exception": {"solacebroker_msg_vpn_acl_profile"}}
+
+	ObjectNameAttributes := map[string]string{"solacebroker_msg_vpn_client_profile": "client_profile_name", "solacebroker_msg_vpn_acl_profile": "acl_profile_name"}
+
+	// Post-process brokerResources for dependencies
+
+	// For ech resource check if there is any dependency
+	for _, resources := range brokerResources {
+		var resourceType string
+		// var resourceConfig command.ResourceConfig
+		for resourceKey := range resources {
+			resourceType = strings.Split(resourceKey," ")[0]
+			resourceDependencies, exists := InterObjectDependencies[resourceType]
+			if !exists {
+				continue
+			}
+			// Found a resource that has inter-object relationship
+			// fmt.Print("Found " + resourceKey + " with dependencies ")
+			// fmt.Println(resourceDependencies)
+			for _, dependency := range resourceDependencies {
+				nameAttribute := ObjectNameAttributes[dependency]
+				dependencyName := strings.Trim(resources[resourceKey].ResourceAttributes[nameAttribute].AttributeValue, "\"")
+				if dependencyName != "" {
+					// fmt.Println("   Dependency " + dependency + " name is " + dependencyName)
+					// Look up key for dependency with dependencyName - iterate all brokerResources
+					found := false
+					for _, r := range brokerResources {
+						for k := range r {
+							rName := strings.Split(k," ")[0]
+							if rName != dependency {
+								continue
+							}
+							// Check the name of the found resource
+							if strings.Trim(r[k].ResourceAttributes[nameAttribute].AttributeValue, "\"") == dependencyName {
+								// fmt.Println("         Found " + k + " as suitable dependency")
+								// Replace hardcoded name by reference
+								newInfo := command.ResourceAttributeInfo{
+									AttributeValue: strings.Replace(k, " ", ".", -1) + "." + nameAttribute,
+									Comment:        resources[resourceKey].ResourceAttributes[nameAttribute].Comment,
+								}
+								resources[resourceKey].ResourceAttributes[nameAttribute] = newInfo
+								found = true
+								break
+							}
+						}
+						if found {
+							break
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 func init() {

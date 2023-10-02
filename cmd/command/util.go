@@ -1,6 +1,7 @@
 package terraform
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -8,9 +9,11 @@ import (
 	"os"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"terraform-provider-solacebroker/internal/broker"
+	"text/tabwriter"
 	"time"
 )
 
@@ -21,15 +24,16 @@ const (
 	Red   Color = "\033[31m"
 )
 
-const (
-	AttributesStart     string = "\t"
-	AttributeKeyEnd            = "\t\t\t\t\t\t"
-	AttributeValueStart        = "\t"
-	AttributeValueEnd          = "\t\n"
-	AttributesEnd              = "\n\t"
-)
-
 var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+type ResourceAttributeInfo struct {
+	AttributeValue string
+	Comment string
+}
+
+type ResourceConfig struct {
+	ResourceAttributes map[string]ResourceAttributeInfo  // indexed by resource attribute name
+}
 
 type ObjectInfo struct {
 	Registry        string
@@ -161,11 +165,27 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 	return path, nil
 }
 
-func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string) ([]string, error) {
-	var tfBrokerObjects []string
-	var attributesWithDefaultValue = []string{}
+func newAttributeInfo(value string) ResourceAttributeInfo {
+	return ResourceAttributeInfo{
+		AttributeValue: value,
+		Comment:        "",
+	}
+}
+
+func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) ResourceAttributeInfo {
+	return ResourceAttributeInfo{
+		AttributeValue: info.AttributeValue,
+		Comment:        comment,
+	}
+}
+
+func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string) ([]ResourceConfig, error) {
+	var tfBrokerObjects []ResourceConfig
+	var attributesWithDefaultValue = []string{}  // list of attributes, collected but not used
 	for k := range values {
-		tfAttributes := AttributesStart
+		resourceConfig := ResourceConfig{
+			ResourceAttributes: map[string]ResourceAttributeInfo{},
+		}
 		systemProvisioned := false
 		for _, attr := range attributes {
 			attributeParentNameAndValue, attributeExistInParent := parentBrokerResourceAttributes[attr.TerraformName]
@@ -179,11 +199,11 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 			}
 			valuesRes := values[k][attr.SempName]
 			if attr.Identifying && attributeExistInParent {
-				tfAttributes += attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + attributeParentNameAndValue + AttributeValueEnd + "\t"
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
 				continue
 			} else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
 				//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
-				tfAttributes += attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + attributeParentNameAndValue + AttributeValueEnd + "\t"
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
 				continue
 			}
 
@@ -200,12 +220,15 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
 				}
-				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valuesRes.(string) + "\""
+				
+				/// => value in val
+				
+				val := "\"" + valuesRes.(string) + "\""
 				if strings.Contains(valuesRes.(string), "{") {
 					valueOutput := strings.ReplaceAll(valuesRes.(string), "\"", "\\\"")
-					val = attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + "\"" + valueOutput + "\""
+					val = "\"" + valueOutput + "\""
 				}
-				tfAttributes += val
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Int64:
 				if valuesRes == nil {
 					continue
@@ -217,8 +240,8 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 
 					continue
 				}
-				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + fmt.Sprintf("%v", intValue)
-				tfAttributes += val
+				val := fmt.Sprintf("%v", intValue)
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Bool:
 				if valuesRes == nil {
 					continue
@@ -229,8 +252,8 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
 				}
-				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + strconv.FormatBool(boolValue)
-				tfAttributes += val
+				val := strconv.FormatBool(boolValue)
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Struct:
 				valueJson, err := json.Marshal(valuesRes)
 				if err != nil {
@@ -245,23 +268,27 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				output = strings.ReplaceAll(output, "setPercent", "set_percent")
 				output = strings.ReplaceAll(output, "clearValue", "clear_value")
 				output = strings.ReplaceAll(output, "setValue", "set_value")
-				val := attr.TerraformName + AttributeKeyEnd + "=" + AttributeValueStart + output
-				tfAttributes += val
+				val := output
+				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			}
 			if attr.Deprecated && systemProvisioned {
-				tfAttributes += "	# Note: This attribute is deprecated and may also be system provisioned."
+				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
+					" # Note: This attribute is deprecated and may also be system provisioned.")
 			} else if attr.Deprecated && !systemProvisioned {
-				tfAttributes += "	# Note: This attribute is deprecated."
+				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
+					" # Note: This attribute is deprecated.")
 			} else if !attr.Deprecated && systemProvisioned {
-				tfAttributes += "	# Note: This attribute may be system provisioned."
+				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
+					" # Note: This attribute may be system provisioned.")
 			}
-			tfAttributes += AttributesEnd
 		}
 		if !systemProvisioned {
-			tfBrokerObjects = append(tfBrokerObjects, tfAttributes)
+			tfBrokerObjects = append(tfBrokerObjects, resourceConfig)
 		} else {
 			//add to maintain index, it will not be included in generation
-			tfBrokerObjects = append(tfBrokerObjects, "")
+			tfBrokerObjects = append(tfBrokerObjects, ResourceConfig{
+				ResourceAttributes: nil,
+			})
 		}
 	}
 	return tfBrokerObjects, nil
@@ -287,16 +314,13 @@ func LogCLIInfo(info string) {
 	_, _ = fmt.Fprintf(os.Stdout, "\n%s %s %s", Reset, info, Reset)
 }
 
-func GetParentResourceAttributes(parentObjectName string, brokerParentResource map[string]string) map[string]string {
+func GetParentResourceAttributes(parentObjectName string, brokerParentResource map[string]ResourceConfig) map[string]string {
 	parentResourceAttributes := map[string]string{}
 	parentResourceName := strings.ReplaceAll(parentObjectName, " ", ".")
 	for parentResourceObject := range brokerParentResource {
-		resourceAttributes := strings.Split(brokerParentResource[parentResourceObject], "\n")
-		for n := range resourceAttributes {
-			if len(strings.TrimSpace(resourceAttributes[n])) > 0 {
-				parentResourceAttribute := strings.Split(strings.Replace(resourceAttributes[n], "\t", "", -1), "=")[0]
-				parentResourceAttributes[parentResourceAttribute] = parentResourceName + "." + parentResourceAttribute
-			}
+	 	resourceAttributes := brokerParentResource[parentResourceObject].ResourceAttributes
+		for resourceAttributeName := range resourceAttributes {
+			parentResourceAttributes[resourceAttributeName] = parentResourceName + "." + resourceAttributeName
 		}
 	}
 	return parentResourceAttributes
@@ -325,4 +349,37 @@ func IndexOf(elm BrokerObjectType, data []BrokerObjectType) int {
 
 func RemoveIndex(s []BrokerObjectType, index int) []BrokerObjectType {
 	return append(s[:index], s[index+1:]...)
+}
+
+func ToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]string {
+	var formattedResult []map[string]string
+	for _, resources := range brokerResources {
+		resourceCollection := make(map[string]string)
+		for resourceTypeAndName := range resources {
+			formattedResource := hclFormatResource(resources[resourceTypeAndName])
+			resourceCollection[resourceTypeAndName] = formattedResource
+		}
+		formattedResult = append(formattedResult, resourceCollection)
+	}
+	return formattedResult
+}
+
+func hclFormatResource(resourceConfig ResourceConfig) string {
+	var attributeNames []string
+  for attributeName := range resourceConfig.ResourceAttributes {
+		attributeNames = append(attributeNames, attributeName)
+	}
+	sort.Strings(attributeNames)
+  var b bytes.Buffer
+	w := tabwriter.NewWriter(&b, 0, 0, 2, ' ', 0)
+	for pos := range attributeNames {
+		attributeName := attributeNames[pos]
+		attributeConfigLine := "\t" + attributeName + "\t" + "= "
+		attributeConfigLine += resourceConfig.ResourceAttributes[attributeName].AttributeValue
+		attributeConfigLine += resourceConfig.ResourceAttributes[attributeName].Comment
+		fmt.Fprintln(w, attributeConfigLine)
+	}
+	w.Flush()
+	config := b.String()
+	return config
 }
