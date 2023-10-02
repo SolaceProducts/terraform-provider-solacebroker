@@ -131,68 +131,10 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			maps.Copy(generatedResource, generatedResourceChildren)
 		}
 
-		//temporal hard coding dependency graph fix not available in SEMP API
-		InterObjectDependencies := map[string][]string{"solacebroker_msg_vpn_authorization_group": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
-			"solacebroker_msg_vpn_client_username": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
-			"solacebroker_msg_vpn_rest_delivery_point": {"solacebroker_msg_vpn_client_profile"},
-			"solacebroker_msg_vpn_acl_profile_client_connect_exception": {"solacebroker_msg_vpn_acl_profile"},
-			"solacebroker_msg_vpn_acl_profile_publish_topic_exception": {"solacebroker_msg_vpn_acl_profile"},
-			"solacebroker_msg_vpn_acl_profile_subscribe_share_name_exception": {"solacebroker_msg_vpn_acl_profile"},
-			"solacebroker_msg_vpn_acl_profile_subscribe_topic_exception": {"solacebroker_msg_vpn_acl_profile"}}
-
-		// ObjectNameAttributes := map[string]string{"solacebroker_msg_vpn_client_profile": "client_profile_name", "solacebroker_msg_vpn_acl_profile": "acl_profile_name"}
-
-    // Post-process brokerResources
-
-		// For ech resource check if there is any dependency
-		for _, resources := range brokerResources {
-			var resourceType string
-			// var resourceConfig command.ResourceConfig
-			for key := range resources {
-				resourceType = strings.Split(key," ")[0]
-				// resourceConfig = resources[key]
-				break
-			}
-			resourceDependencies, exists := InterObjectDependencies[resourceType]
-			if !exists {
-				continue
-			}
-			// Found a resource that has inter-object relationship
-			// Look up all relationships and their values
-			fmt.Println("Found ", resourceType, resources, resourceDependencies)
-			// for _, dependency := range resourceDependencies {
-			// 	dependencyName := resourceConfig.ResourceAttributes[ObjectNameAttributes[dependency]].AttributeValue
-			// 	// Search for dependency with dependencyName in the broker resources
-			// 	for _, generatedResources := range brokerResources {
-			// 		var resType string
-			// 		var resConfig command.ResourceConfig
-			// 		for key := range generatedResources {
-			// 			resType = strings.Split(key," ")[0]
-
-			// 			break
-			// 		}
-			// 		if resource == dependency {
-			// 			// Check the name
-
-			// 			break
-			// 		}
-			// 	}
-			// }
-		}
-
-
-
-
-
-
-
-
-
-
-
-
-		// TODO: undo
-		// object.BrokerResources = brokerResources
+		fmt.Println("\nReplacing hardcoded names of inter-object dependencies by references where required ...")
+		fixInterObjectDependencies(brokerResources)
+		
+		// Format the results
 		object.BrokerResources = command.ToFormattedHCL(brokerResources)
 		
 		registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
@@ -283,6 +225,71 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 		}
 	}
 	return brokerResources, generatedResources
+}
+
+func fixInterObjectDependencies(brokerResources []map[string]command.ResourceConfig) {
+	// this will modify the passed brokerResources object
+
+	//temporal hard coding dependency graph fix not available in SEMP API
+	InterObjectDependencies := map[string][]string{"solacebroker_msg_vpn_authorization_group": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_client_username": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_rest_delivery_point": {"solacebroker_msg_vpn_client_profile"},
+		"solacebroker_msg_vpn_acl_profile_client_connect_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_publish_topic_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_subscribe_share_name_exception": {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_subscribe_topic_exception": {"solacebroker_msg_vpn_acl_profile"}}
+
+	ObjectNameAttributes := map[string]string{"solacebroker_msg_vpn_client_profile": "client_profile_name", "solacebroker_msg_vpn_acl_profile": "acl_profile_name"}
+
+	// Post-process brokerResources for dependencies
+
+	// For ech resource check if there is any dependency
+	for _, resources := range brokerResources {
+		var resourceType string
+		// var resourceConfig command.ResourceConfig
+		for resourceKey := range resources {
+			resourceType = strings.Split(resourceKey," ")[0]
+			resourceDependencies, exists := InterObjectDependencies[resourceType]
+			if !exists {
+				continue
+			}
+			// Found a resource that has inter-object relationship
+			// fmt.Print("Found " + resourceKey + " with dependencies ")
+			// fmt.Println(resourceDependencies)
+			for _, dependency := range resourceDependencies {
+				nameAttribute := ObjectNameAttributes[dependency]
+				dependencyName := strings.Trim(resources[resourceKey].ResourceAttributes[nameAttribute].AttributeValue, "\"")
+				if dependencyName != "" {
+					// fmt.Println("   Dependency " + dependency + " name is " + dependencyName)
+					// Look up key for dependency with dependencyName - iterate all brokerResources
+					found := false
+					for _, r := range brokerResources {
+						for k := range r {
+							rName := strings.Split(k," ")[0]
+							if rName != dependency {
+								continue
+							}
+							// Check the name of the found resource
+							if strings.Trim(r[k].ResourceAttributes[nameAttribute].AttributeValue, "\"") == dependencyName {
+								// fmt.Println("         Found " + k + " as suitable dependency")
+								// Replace hardcoded name by reference
+								newInfo := command.ResourceAttributeInfo{
+									AttributeValue: strings.Replace(k, " ", ".", -1) + "." + nameAttribute,
+									Comment:        resources[resourceKey].ResourceAttributes[nameAttribute].Comment,
+								}
+								resources[resourceKey].ResourceAttributes[nameAttribute] = newInfo
+								found = true
+								break
+							}
+						}
+						if found {
+							break
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 func init() {
