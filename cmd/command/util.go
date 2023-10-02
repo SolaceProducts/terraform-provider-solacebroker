@@ -1,6 +1,7 @@
 package terraform
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -8,9 +9,11 @@ import (
 	"os"
 	"reflect"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 	"terraform-provider-solacebroker/internal/broker"
+	"text/tabwriter"
 	"time"
 )
 
@@ -19,14 +22,6 @@ type Color string
 const (
 	Reset Color = "\033[0m"
 	Red   Color = "\033[31m"
-)
-
-const (
-	AttributesStart     string = "\t"
-	AttributeKeyEnd            = "\t\t\t\t\t\t"
-	AttributeValueStart        = "\t"
-	AttributeValueEnd          = "\t\n"
-	AttributesEnd              = "\n\t"
 )
 
 var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
@@ -370,13 +365,21 @@ func ToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]st
 }
 
 func hclFormatResource(resourceConfig ResourceConfig) string {
-	var config string
+	var attributeNames []string
   for attributeName := range resourceConfig.ResourceAttributes {
-		attributeConfigLine := AttributesStart + attributeName + AttributeKeyEnd + "="
-		attributeConfigLine += AttributeValueStart + resourceConfig.ResourceAttributes[attributeName].AttributeValue
-		attributeConfigLine += resourceConfig.ResourceAttributes[attributeName].Comment + AttributeValueEnd
-		config += attributeConfigLine
+		attributeNames = append(attributeNames, attributeName)
 	}
-	config += AttributesEnd
+	sort.Strings(attributeNames)
+  var b bytes.Buffer
+	w := tabwriter.NewWriter(&b, 0, 0, 2, ' ', 0)
+	for pos := range attributeNames {
+		attributeName := attributeNames[pos]
+		attributeConfigLine := "\t" + attributeName + "\t" + "= "
+		attributeConfigLine += resourceConfig.ResourceAttributes[attributeName].AttributeValue
+		attributeConfigLine += resourceConfig.ResourceAttributes[attributeName].Comment
+		fmt.Fprintln(w, attributeConfigLine)
+	}
+	w.Flush()
+	config := b.String()
 	return config
 }
