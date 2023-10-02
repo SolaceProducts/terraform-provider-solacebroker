@@ -117,6 +117,8 @@ jobs:
       - name: Test generated terraform on broker
         run: |
           # Create
+          sed -i '/# username       = "admin"/c\username       = "admin"' messageVpn.tf
+          sed -i '/# password       = "admin"/c\password       = "admin"' messageVpn.tf
           terraform plan
           terraform apply -auto-approve
           sleep 1

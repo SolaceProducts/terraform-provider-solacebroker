@@ -8,8 +8,8 @@ terraform {
 }
 
 provider solacebroker {
-  username       = "admin"                 # This is a placeholder.
-  password       = "admin"                 # This is a placeholder.
+  # username       = "admin"                 # This is a placeholder.
+  # password       = "admin"                 # This is a placeholder.
   url            = "{{.BrokerURL}}"
 }
 
