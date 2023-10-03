@@ -14,12 +14,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package generated
+package acctest
 
 import (
-    "testing"
+	"testing"
 
-    "github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
 func TestAccDataSource(t *testing.T) {
@@ -41,3 +41,5 @@ data "solacebroker_msg_vpn" "default" {
         },
     })
 }
+
+

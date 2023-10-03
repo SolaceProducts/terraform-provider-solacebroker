@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package generated
+package acctest
 
 import (
 	"os"
@@ -28,6 +28,9 @@ import (
 
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+
+    _ "terraform-provider-solacebroker/internal/broker/generated"
+
 )
 
 var ProviderConfig string
