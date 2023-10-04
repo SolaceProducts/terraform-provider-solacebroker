@@ -1,23 +1,23 @@
-# Terraform provider for Solace PubSub+ Software Event Broker
+# Terraform Provider for Solace PubSub+ Software Event Broker
 
-This provider is a plugin for Terraform that allows for the configuration of the PubSub+ Software Event Broker and it is maintained by Solace.
+This provider, maintained by Solace, is a plugin for Terraform that enables you to configure PubSub+ Software Event Brokers.
 
 The provider is available from the [Terraform Providers Registry](https://registry.terraform.io/providers/solaceproducts/solacebroker/latest).
 
 ## Quick Start
 
-1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [locally deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
+1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
 2. Install the [Terraform CLI](https://www.terraform.io/downloads)
-3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust `url`, and the management credential parameters `username` and `password` to your broker's setup.
+3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust the `url`, and the management credential parameters `username` and `password` to your broker's setup.
 4. From this directory run `terraform plan`, then `terraform apply`.
-5. Open the `url` link in your browser to access the broker's web managment UI. The creadentials are the same as used in the Terraform config. Observe the new objects created: a new message-vpn and a messaging queue under that message-vpn.
-6. Run `terraform delete` from your command line and observe the message-vpn deleted.
+5. Open the `url` link in your browser to access the broker's web management UI. The credentials are the same as used in the Terraform config. Observe the new objects created: a new Message VPN and a messaging queue under that Message VPN.
+6. Run `terraform delete` from your command line and observe that the Message VPN is deleted.
    
-Note that the provider also offers the unique functionality of generating a config file from an already configured broker. Refer to the documentation for more details on that.
+Note that the provider also offers the unique ability to generate a config file from an already configured broker. For more information, refer to the full documentation.
 
 ## Documentation
 
-Full documentation is available on the [Terraform Providers Registry website](https://registry.terraform.io/providers/confluentinc/confluent/latest/docs).
+Full documentation is available on the [Terraform Providers Registry website](https://registry.terraform.io/providers/solaceproducts/solacebroker/latest/docs).
 
 It is recommended to familiarize yourself with Solace technology and broker management, refer to the [Resources section](#resources).
 
@@ -31,13 +31,13 @@ It is recommended to familiarize yourself with Solace technology and broker mana
 
 ### Building
 
-1. `git clone` this repository and `cd` into its directory
+1. `git clone` this repository and `cd` into its directory.
 2. `make install` will trigger the Golang build of the provider in your [`${GOBIN}`](https://pkg.go.dev/cmd/go#hdr-Compile_and_install_packages_and_dependencies) (defaults to `${GOPATH}/bin` or `${HOME}/go/bin` if `${GOPATH}` is not set). Repeat
 this every time you make changes to the provider locally.
 
-The provided `makefile` defines additional commands generally useful during development.
+The provided `makefile` defines additional commands that are useful during development.
 
-### Using a development build
+### Using a Development Build
 
 Create or update your `${HOME}/.terraformrc` (Unix) / `%APPDATA%\terraform.rc` (Windows) configuration with a `provider_installation` section that contains the following `dev_overrides`:
 
