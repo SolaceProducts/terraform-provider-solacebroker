@@ -26,7 +26,7 @@ The SEMP API minor version reflects the supported set of objects, attributes, th
 
 New versions of the PubSub+ event broker with new features typically require a newer SEMP API version that supports the new or updated objects, attributes, etc. The SEMP API version of a broker version can be determined from the [Solace PubSub+ documentation](https://docs.solace.com/Admin/SEMP/SEMP-API-Versions.htm#SEMP_v2_to_SolOS_Version_Mapping).
 
-A given version of the provider is built to support a specific version of the SEMP API. For the SEMP API version of the provider, see the release notes in the GitHub repo.
+A given version of the provider is built to support a specific version of the SEMP API. For the SEMP API version of the provider and corresponding broker version, refer to the [Version Compatibility section](https://docs.solace.com/Admin/SEMP/Declarative-SEMP.htm#Version) of the Solace PubSub+ documentation.
 
 * Broker versions at the same SEMP API version level as the provider can be fully configured.
 * Broker versions at a lower SEMP API version level than the provider can be configured, except for objects or attributes that have been deprecated and removed in the provider's SEMP version. However, configuration will fail when attempting to configure objects or attributes that have been introduced in a later SEMP version than the broker supports.
