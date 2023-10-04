@@ -22,6 +22,10 @@ This provider also offers the possibility to generate an [HCL configuration](htt
 
 Use the navigation to the left for more information in the guides and for the available provider resources and data sources.
 
+## Minimum broker version
+
+The minimum required PubSub+ Software Event Broker version 10.4.
+
 ## Example Usage
 
 ```terraform
@@ -65,7 +69,7 @@ resource "solacebroker_msg_vpn_queue" "q" {
 
 ### Optional
 
-- `bearer_token` (String, Sensitive) A bearer token that will be sent in the Authorization header of SEMP requests. Conflicts with username and password.
+- `bearer_token` (String, Sensitive) A bearer token that will be sent in the Authorization header of SEMP requests. Requires TLS transport enabled. Conflicts with username and password.
 - `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed. The default value is false.
 - `password` (String, Sensitive) The password to connect to the broker with. Requires username and conflicts with bearer_token.
 - `request_min_interval` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the minimum interval between requests; this serves as a rate limit. This setting does not apply to retries. Set to 0 for no rate limit. The default value is 100ms (which equates to a rate limit of 10 calls per second).

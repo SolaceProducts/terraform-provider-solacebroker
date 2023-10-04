@@ -65,7 +65,7 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				Sensitive:           true,
 			},
 			"bearer_token": schema.StringAttribute{
-				MarkdownDescription: "A bearer token that will be sent in the Authorization header of SEMP requests. Conflicts with username and password.",
+				MarkdownDescription: "A bearer token that will be sent in the Authorization header of SEMP requests. Requires TLS transport enabled. Conflicts with username and password.",
 				Optional:            true,
 				Sensitive:           true,
 			},

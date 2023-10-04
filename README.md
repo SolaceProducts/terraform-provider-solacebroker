@@ -4,6 +4,8 @@ This provider, maintained by Solace, is a plugin for Terraform that enables you 
 
 The provider is available from the [Terraform Providers Registry](https://registry.terraform.io/providers/solaceproducts/solacebroker/latest).
 
+The minimum required PubSub+ Software Event Broker version 10.4.
+
 ## Quick Start
 
 1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).

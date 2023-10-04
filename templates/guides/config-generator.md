@@ -20,7 +20,16 @@ You can run the provider binary directly with the `generate` command to generate
 - `<filename>` is the desirable name of the generated filename.
 - There are also supported options, which mirror the configuration options for the provider object. These can be found [here](#supported-options).
 
-### Usage
+## Important notes
+
+The generated configuration shoud be reviewed for followings:
+
+* Provider configuration values (url, username, etc.) may need to be updated.
+* Write-only attributes, such as passwords, are omitted from the config as they cannot be read from the broker configuration. They need to be added manually.
+* Default resources may be present that may be omitted.
+* The generator uses a naming scheme for the resources. This may be updated by manually replacing the generated names.
+
+## Usage
 
 ```shell
 terraform-provider-solacebroker -h
@@ -52,7 +61,26 @@ For example:
 This command would create a file `my-message-vpn-queue.tf` that contains the msg_vpn_queue resource , `test`  for the
 Message VPN, `default`, assuming a msg_vpn_queue resource called `test` exists for the Message VPN, `default`.
 
-### Troubleshooting
+### Supported Options
+
+The following parameters can be set as ENVIRONMENT VARIABLES. When used as environment variables
+each parameter must be preceded with _SOLACEBROKER__. For example for a PubSub+ broker using username and password
+_**admin/password**_
+would be:
+
+`SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=password`
+
+- `bearer_token`, (String, Sensitive, Mandatory if `password` will not be provided)
+- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed.
+- `password` (String, Sensitive, Mandatory is `bearer_token` will not be provided)
+- `request_min_interval` (String)
+- `request_timeout_duration` (String)
+- `retries` (Number)
+- `retry_max_interval` (String)
+- `retry_min_interval` (String)
+- `username` (String, Mandatory) The username for the broker request.
+
+## Troubleshooting
 
 The following issues may arise while using the generator.
 
@@ -80,22 +108,3 @@ The following issues may arise while using the generator.
 |-----------------|------------------------------------------------------------------------------------------------------------|
 | Explanation     | This indicates the resource by name _xxx_ is not recognized by the generator.                              |
 | Possible Action | Ensure the resource name used is available as a Terraform resource for the version of the provider in use. |
-
-### Supported Options
-
-The following parameters can be set as ENVIRONMENT VARIABLES. When used as environment variables
-each parameter must be preceded with _SOLACEBROKER__. For example for a PubSub+ broker using username and password
-_**admin/password**_
-would be:
-
-`SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=password`
-
-- `bearer_token`, (String, Sensitive, Mandatory if `password` will not be provided)
-- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed.
-- `password` (String, Sensitive, Mandatory is `bearer_token` will not be provided)
-- `request_min_interval` (String)
-- `request_timeout_duration` (String)
-- `retries` (Number)
-- `retry_max_interval` (String)
-- `retry_min_interval` (String)
-- `username` (String, Mandatory) The username for the broker request.
