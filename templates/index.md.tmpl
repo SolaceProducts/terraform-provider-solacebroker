@@ -24,7 +24,7 @@ Use the navigation to the left for more information in the guides and for the av
 
 ## Minimum broker version
 
-The minimum required PubSub+ Software Event Broker version 10.4.
+The minimum required PubSub+ Software Event Broker version is 10.4.
 
 ## Example Usage
 
