@@ -16,9 +16,9 @@ to dynamically share events across the distributed enterprise.
 
 ## Overview
 
-The _solacebroker_ provider enables configuration of a PubSub+ Software Event Broker using Terraform.
+The _solacebroker_ provider enables you to configure a PubSub+ Software Event Broker using Terraform.
 
-This provider also offers the possibility to generate [HCL configuration](https://developer.hashicorp.com/terraform/language) file from an already configured event broker.
+This provider also offers the possibility to generate an [HCL configuration](https://developer.hashicorp.com/terraform/language) file from a preconfigured event broker.
 
 Use the navigation to the left for more information in the guides and for the available provider resources and data sources.
 
@@ -76,7 +76,7 @@ resource "solacebroker_msg_vpn_queue" "q" {
 - `username` (String) The username to connect to the broker with.  Requires password and conflicts with bearer_token.
 
 -> All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
-For example the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
+For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
 
 # Release Notes and History
 
