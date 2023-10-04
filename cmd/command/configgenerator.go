@@ -210,16 +210,11 @@ func GetNameForResource(resourceTerraformName string, attributeResourceTerraform
 					}
 					if found {
 						//sanitize name
-						value = strings.ReplaceAll(value, " ", "_")
-						value = strings.ReplaceAll(value, "#", "_")
-						value = strings.ReplaceAll(value, "\\", "_")
-						value = strings.ReplaceAll(value, "/", "_")
-						value = strings.ReplaceAll(value, "\"", "")
 						resourceName = "_" + value
 					}
 				}
 			}
 		}
 	}
-	return resourceName
+	return SanitizeHclIdentifierName(resourceName)
 }

@@ -69,7 +69,7 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 		}
 		providerSpecificIdentifier := cmd.Flags().Arg(1)
 		if len(providerSpecificIdentifier) == 0 {
-			command.LogCLIError("Broker object  not provided")
+			command.LogCLIError("Broker object not provided")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
@@ -108,7 +108,8 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 		brokerObjectInstanceName := strings.ToLower(brokerObjectType)
 		if strings.Contains(brokerObjectType, ".") {
 			brokerObjectTypeName = strings.Split(brokerObjectType, ".")[0]
-			brokerObjectInstanceName = strings.Split(brokerObjectType, ".")[1]
+			//sanitize name
+			brokerObjectInstanceName = command.SanitizeHclIdentifierName(strings.Split(brokerObjectType, ".")[1])
 		}
 
 		brokerObjectTerraformName := strings.ReplaceAll(brokerObjectTypeName, "solacebroker_", "")
@@ -133,10 +134,10 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 
 		fmt.Println("\nReplacing hardcoded names of inter-object dependencies by references where required ...")
 		fixInterObjectDependencies(brokerResources)
-		
+
 		// Format the results
 		object.BrokerResources = command.ToFormattedHCL(brokerResources)
-		
+
 		registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
 		if !ok {
 			registry = "registry.terraform.io"
@@ -231,13 +232,13 @@ func fixInterObjectDependencies(brokerResources []map[string]command.ResourceCon
 	// this will modify the passed brokerResources object
 
 	//temporal hard coding dependency graph fix not available in SEMP API
-	InterObjectDependencies := map[string][]string{"solacebroker_msg_vpn_authorization_group": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
-		"solacebroker_msg_vpn_client_username": {"solacebroker_msg_vpn_client_profile","solacebroker_msg_vpn_acl_profile"},
-		"solacebroker_msg_vpn_rest_delivery_point": {"solacebroker_msg_vpn_client_profile"},
-		"solacebroker_msg_vpn_acl_profile_client_connect_exception": {"solacebroker_msg_vpn_acl_profile"},
-		"solacebroker_msg_vpn_acl_profile_publish_topic_exception": {"solacebroker_msg_vpn_acl_profile"},
+	InterObjectDependencies := map[string][]string{"solacebroker_msg_vpn_authorization_group": {"solacebroker_msg_vpn_client_profile", "solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_client_username":                            {"solacebroker_msg_vpn_client_profile", "solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_rest_delivery_point":                        {"solacebroker_msg_vpn_client_profile"},
+		"solacebroker_msg_vpn_acl_profile_client_connect_exception":       {"solacebroker_msg_vpn_acl_profile"},
+		"solacebroker_msg_vpn_acl_profile_publish_topic_exception":        {"solacebroker_msg_vpn_acl_profile"},
 		"solacebroker_msg_vpn_acl_profile_subscribe_share_name_exception": {"solacebroker_msg_vpn_acl_profile"},
-		"solacebroker_msg_vpn_acl_profile_subscribe_topic_exception": {"solacebroker_msg_vpn_acl_profile"}}
+		"solacebroker_msg_vpn_acl_profile_subscribe_topic_exception":      {"solacebroker_msg_vpn_acl_profile"}}
 
 	ObjectNameAttributes := map[string]string{"solacebroker_msg_vpn_client_profile": "client_profile_name", "solacebroker_msg_vpn_acl_profile": "acl_profile_name"}
 
@@ -248,7 +249,7 @@ func fixInterObjectDependencies(brokerResources []map[string]command.ResourceCon
 		var resourceType string
 		// var resourceConfig command.ResourceConfig
 		for resourceKey := range resources {
-			resourceType = strings.Split(resourceKey," ")[0]
+			resourceType = strings.Split(resourceKey, " ")[0]
 			resourceDependencies, exists := InterObjectDependencies[resourceType]
 			if !exists {
 				continue
@@ -265,7 +266,7 @@ func fixInterObjectDependencies(brokerResources []map[string]command.ResourceCon
 					found := false
 					for _, r := range brokerResources {
 						for k := range r {
-							rName := strings.Split(k," ")[0]
+							rName := strings.Split(k, " ")[0]
 							if rName != dependency {
 								continue
 							}

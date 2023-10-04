@@ -399,3 +399,12 @@ func hclFormatResource(resourceConfig ResourceConfig) string {
 	config := b.String()
 	return config
 }
+
+func SanitizeHclIdentifierName(name string) string {
+	name = regexp.MustCompile(`[^a-zA-Z0-9 ]+`).ReplaceAllString(strings.TrimSpace(name), "_")
+	if len(name) == 0 || (name[0] >= '0' && name[0] <= '9') || (len(name) == 1 && name[0] == '_') {
+		//just prepend static string to avoid checking all characters
+		name = "gn_" + name
+	}
+	return name
+}
