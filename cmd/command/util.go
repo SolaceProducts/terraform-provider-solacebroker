@@ -43,11 +43,11 @@ var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 type ResourceAttributeInfo struct {
 	AttributeValue string
-	Comment string
+	Comment        string
 }
 
 type ResourceConfig struct {
-	ResourceAttributes map[string]ResourceAttributeInfo  // indexed by resource attribute name
+	ResourceAttributes map[string]ResourceAttributeInfo // indexed by resource attribute name
 }
 
 type ObjectInfo struct {
@@ -196,7 +196,7 @@ func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) Resou
 
 func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string, brokerObjectTerraformName string) ([]ResourceConfig, error) {
 	var tfBrokerObjects []ResourceConfig
-	var attributesWithDefaultValue = []string{}  // list of attributes, collected but not used
+	var attributesWithDefaultValue = []string{} // list of attributes, collected but not used
 	for k := range values {
 		resourceConfig := ResourceConfig{
 			ResourceAttributes: map[string]ResourceAttributeInfo{},
@@ -240,9 +240,9 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 						fmt.Println("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
 					}
 				}
-				
+
 				/// => value in val
-				
+
 				val := "\"" + valuesRes.(string) + "\""
 				if strings.Contains(valuesRes.(string), "{") {
 					valueOutput := strings.ReplaceAll(valuesRes.(string), "\"", "\\\"")
@@ -338,7 +338,7 @@ func GetParentResourceAttributes(parentObjectName string, brokerParentResource m
 	parentResourceAttributes := map[string]string{}
 	parentResourceName := strings.ReplaceAll(parentObjectName, " ", ".")
 	for parentResourceObject := range brokerParentResource {
-	 	resourceAttributes := brokerParentResource[parentResourceObject].ResourceAttributes
+		resourceAttributes := brokerParentResource[parentResourceObject].ResourceAttributes
 		for resourceAttributeName := range resourceAttributes {
 			parentResourceAttributes[resourceAttributeName] = parentResourceName + "." + resourceAttributeName
 		}
@@ -367,10 +367,6 @@ func IndexOf(elm BrokerObjectType, data []BrokerObjectType) int {
 	return -1
 }
 
-func RemoveIndex(s []BrokerObjectType, index int) []BrokerObjectType {
-	return append(s[:index], s[index+1:]...)
-}
-
 func ToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]string {
 	var formattedResult []map[string]string
 	for _, resources := range brokerResources {
@@ -386,11 +382,11 @@ func ToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]st
 
 func hclFormatResource(resourceConfig ResourceConfig) string {
 	var attributeNames []string
-  for attributeName := range resourceConfig.ResourceAttributes {
+	for attributeName := range resourceConfig.ResourceAttributes {
 		attributeNames = append(attributeNames, attributeName)
 	}
 	sort.Strings(attributeNames)
-  var b bytes.Buffer
+	var b bytes.Buffer
 	w := tabwriter.NewWriter(&b, 0, 0, 2, ' ', 0)
 	for pos := range attributeNames {
 		attributeName := attributeNames[pos]
