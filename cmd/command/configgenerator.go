@@ -125,6 +125,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 	for _, ds := range internalbroker.Entities {
 		if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
 			entityToRead = ds
+			break
 		}
 	}
 	var path string
@@ -193,7 +194,6 @@ func GetNameForResource(resourceTerraformName string, attributeResourceTerraform
 
 	resourceTerraformName = strings.Split(resourceTerraformName, " ")[0]
 	resourceTerraformName = strings.ReplaceAll(strings.ToLower(resourceTerraformName), "solacebroker_", "")
-	// resources := ConvertAttributeTextToMap(attributeResourceTerraform)
 
 	//Get identifying attribute name to differentiate from multiples
 	for _, ds := range internalbroker.Entities {

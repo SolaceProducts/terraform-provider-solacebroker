@@ -1,21 +1,40 @@
+// terraform-provider-solacebroker
+//
+// Copyright 2023 Solace Corporation. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package terraform
 
 import (
-	"context"
-	"fmt"
-	"reflect"
-	"terraform-provider-solacebroker/internal/semp"
 	"testing"
 )
 
 func TestCreateBrokerObjectRelationships(t *testing.T) {
 	tests := []struct {
 		name string
-	}{}
+	}{
+		{"Generate Broker Relationship"},
+	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			CreateBrokerObjectRelationships()
-			println("Broker relationship object is " + fmt.Sprint(BrokerObjectRelationship))
+			if len(BrokerObjectRelationship) == 0 {
+				t.Errorf("Broker relationship not built ")
+			}
+			_, exist := BrokerObjectRelationship["msg_vpn"]
+			if !exist {
+				t.Errorf("Broker relationship does not contain msgVPn relation")
+			}
 		})
 	}
 }
@@ -23,73 +42,73 @@ func TestCreateBrokerObjectRelationships(t *testing.T) {
 func TestGetNameForResource(t *testing.T) {
 	type args struct {
 		resourceTerraformName      string
-		attributeResourceTerraform string
+		attributeResourceTerraform ResourceConfig
 	}
 	tests := []struct {
 		name string
 		args args
 		want string
 	}{
-		// TODO: Add test cases.
+		{
+			"GetNameForMsgVPN",
+			args{
+				resourceTerraformName: "solacebroker_msg_vpn qn",
+				attributeResourceTerraform: ResourceConfig{
+					ResourceAttributes: map[string]ResourceAttributeInfo{"msg_vpn_name": {
+						"test",
+						"no comment",
+					},
+						"ingress": {
+							"0",
+							"comment here",
+						},
+					},
+				},
+			},
+			"_test",
+		},
+		{
+			"GetNameForAclProfile",
+			args{
+				resourceTerraformName: "solacebroker_msg_vpn_acl_profile acl",
+				attributeResourceTerraform: ResourceConfig{
+					ResourceAttributes: map[string]ResourceAttributeInfo{"acl_profile_name": {
+						"default",
+						"no comment",
+					},
+						"random": {
+							"0",
+							"comment here",
+						},
+					},
+				},
+			},
+			"_default",
+		},
+		{
+			"GetNameForTopicName",
+			args{
+				resourceTerraformName: "solacebroker_msg_vpn_jndi_topic topic",
+				attributeResourceTerraform: ResourceConfig{
+					ResourceAttributes: map[string]ResourceAttributeInfo{"topic_name": {
+						"random",
+						"no comment",
+					},
+						"mock": {
+							"parameter",
+							"comment here",
+						},
+					},
+				},
+			},
+			"_random",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			// TODO: fix unit test
-			// if got := GetNameForResource(tt.args.resourceTerraformName, tt.args.attributeResourceTerraform); got != tt.want {
-			// 	t.Errorf("GetNameForResource() = %v, want %v", got, tt.want)
-			// }
-		})
-	}
-}
-
-func TestParseTerraformObject(t *testing.T) {
-	type args struct {
-		ctx                                        context.Context
-		client                                     semp.Client
-		resourceName                               string
-		brokerObjectTerraformName                  string
-		providerSpecificIdentifier                 string
-		parentBrokerResourceAttributesRelationship map[string]string
-		parentResult                               map[string]any
-	}
-	tests := []struct {
-		name string
-		args args
-		want GeneratorTerraformOutput
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ParseTerraformObject(tt.args.ctx, tt.args.client, tt.args.resourceName, tt.args.brokerObjectTerraformName, tt.args.providerSpecificIdentifier, tt.args.parentBrokerResourceAttributesRelationship, tt.args.parentResult); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ParseTerraformObject() = %v, want %v", got, tt.want)
+			if got := GetNameForResource(tt.args.resourceTerraformName, tt.args.attributeResourceTerraform); got != tt.want {
+				t.Errorf("GetNameForResource() = %v, want %v", got, tt.want)
 			}
 		})
 	}
 }
-
-//func Test_getDataSourceNameIfDatasource(t *testing.T) {
-//	type args struct {
-//		parent string
-//		child  string
-//	}
-//	tests := []struct {
-//		name  string
-//		args  args
-//		want  []string
-//		want1 bool
-//	}{
-//		// TODO: Add test cases.
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			got, got1 := getDataSourceNameIfDatasource(tt.args.parent, tt.args.child)
-//			if !reflect.DeepEqual(got, tt.want) {
-//				t.Errorf("getDataSourceNameIfDatasource() got = %v, want %v", got, tt.want)
-//			}
-//			if got1 != tt.want1 {
-//				t.Errorf("getDataSourceNameIfDatasource() got1 = %v, want %v", got1, tt.want1)
-//			}
-//		})
-//	}
-//}
