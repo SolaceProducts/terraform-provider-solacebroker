@@ -28,6 +28,10 @@ A given version of the Provider is built to support a specific version of the SE
 * Broker versions at a lower SEMP API version level than the Provider can be configured, with the exception of objects or attributes that have been deprecated and removed in the Provider's SEMP version. However, configuration will fail when attempting to configure objects or attributes that have been introduced in a later SEMP version than the broker supports.
 * Broker versions at a higher SEMP API version level than the Provider can be configured for objects or attributes that are included in the Provider's SEMP version. Objects or attributes that have been introduced in a later SEMP version will be unknown to the Provider. Objects or attributes that have been deprecated in the broker SEMP version may result in configuration failure.
 
+## Mapping of SEMP API and Provider names
+
+Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming scheme, while SEMP uses camel case. Resources and datasource are also prefixed with the provider local name, `solacebroker_`.  For example, `solacebroker_msg_vpn` is the message-vpn resource name and `max_subscription_count` is the attribute for the maximum subscription count, since `MsgVpn` is the SEMP API object name and `maxSubscriptionCount` is the name of the SEMP attribute.
+
 ## Object relationships
 
 Broker inter-object references must be correctly encoded in Terraform configuration to have the apply work. It requires understanding of the PubSub+ event broker objects: it is recommended to consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially "Identifying" attributes that give a hint to required already configured objects.
@@ -64,9 +68,20 @@ There are objects that are preexisting defaults and cannot be created or destroy
 
 Some attributes don't have a default value, however is not specified their value will be determined by the broker. Typically these defaults depend on the broker scaling settings. While Terraform plan and apply operations work like for any other attributes, import will set the broker value in the state (instead of null), even if they were set at default. Subsequent plan and apply can be used to fix this.
 
-## Mapping of SEMP API and Provider names
+## Importing resources
 
-Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming scheme, while SEMP uses camel case. Resources and datasource are also prefixed with the provider local name, `solacebroker_`.  For example, `solacebroker_msg_vpn` is the message-vpn resource name and `max_subscription_count` is the attribute for the maximum subscription count, since `MsgVpn` is the SEMP API object name and `maxSubscriptionCount` is the name of the SEMP attribute.
+When [importing resources to Terraform](https://developer.hashicorp.com/terraform/language/import#syntax) an `id` is required. Note that this `id` is not the same as the internal `id` attribute of resources.
+
+The `id` to be used shall be constructed as a path from the highest parent object down to the resource.
+
+For example, when importing a `solacebroker_msg_vpn_queue_subscription`, the parent relationship is `msg_vpn` > `msg_vpn_queue` > `msg_vpn_queue_subscription`. To construct the `id`, concatenate the identifications of parents and the particular resource identification, separated by `/` (slash). Also note that elements containing `/` must be URL-encoded.
+
+For this example:
+```
+id = <msg-vpn-name>/<queue-name>/<url-encoded subscription-name>
+# using my-vpn, my-queue, a/b/c
+id = my-vpn/my-queue/a%2Fb%2Fc
+```
 
 ## Notes
 

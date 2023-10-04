@@ -22,7 +22,7 @@ test-coverage: ## Run tests with coverage
 	@go tool cover -html reports/cover.out -o reports/cover.html
 
 .PHONY: testacc
-testacc: # Run acceptance tests
+testacc: ## Run acceptance tests
 	TF_ACC=1 go test ./... -v $(TESTARGS) -timeout 120m
 
 .PHONY:
