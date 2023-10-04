@@ -1,220 +1,24 @@
+// terraform-provider-solacebroker
+//
+// Copyright 2023 Solace Corporation. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package terraform
 
 import (
-	// "reflect"
-	"terraform-provider-solacebroker/internal/broker"
+	"reflect"
 	"testing"
-	"time"
 )
-
-func TestBooleanWithDefaultFromEnv(t *testing.T) {
-	type args struct {
-		name        string
-		isMandatory bool
-		fallback    bool
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    bool
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := BooleanWithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("BooleanWithDefaultFromEnv() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("BooleanWithDefaultFromEnv() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-// func TestConvertAttributeTextToMap(t *testing.T) {
-// 	type args struct {
-// 		attribute string
-// 	}
-// 	tests := []struct {
-// 		name string
-// 		args args
-// 		want map[string]string
-// 	}{
-// 		// TODO: Add test cases.
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if got := ConvertAttributeTextToMap(tt.args.attribute); !reflect.DeepEqual(got, tt.want) {
-// 				t.Errorf("ConvertAttributeTextToMap() = %v, want %v", got, tt.want)
-// 			}
-// 		})
-// 	}
-// }
-
-func TestDurationWithDefaultFromEnv(t *testing.T) {
-	type args struct {
-		name        string
-		isMandatory bool
-		fallback    time.Duration
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    time.Duration
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := DurationWithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("DurationWithDefaultFromEnv() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("DurationWithDefaultFromEnv() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGenerateRandomString(t *testing.T) {
-	type args struct {
-		n int
-	}
-	tests := []struct {
-		name string
-		args args
-		want string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := GenerateRandomString(tt.args.n); got != tt.want {
-				t.Errorf("GenerateRandomString() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestGenerateTerraformString(t *testing.T) {
-	type args struct {
-		attributes                     []*broker.AttributeInfo
-		values                         []map[string]interface{}
-		parentBrokerResourceAttributes map[string]string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    []string
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// TODO: fix this with new argument
-			// got, err := GenerateTerraformString(tt.args.attributes, tt.args.values, tt.args.parentBrokerResourceAttributes)
-			// if (err != nil) != tt.wantErr {
-			// 	t.Errorf("GenerateTerraformString() error = %v, wantErr %v", err, tt.wantErr)
-			// 	return
-			// }
-			// if !reflect.DeepEqual(got, tt.want) {
-			// 	t.Errorf("GenerateTerraformString() got = %v, want %v", got, tt.want)
-			// }
-		})
-	}
-}
-
-func TestGetParentResourceAttributes(t *testing.T) {
-	type args struct {
-		parentObjectName     string
-		brokerParentResource map[string]string
-	}
-	tests := []struct {
-		name string
-		args args
-		want map[string]string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			// TODO: fix unit test
-			// if got := GetParentResourceAttributes(tt.args.parentObjectName, tt.args.brokerParentResource); !reflect.DeepEqual(got, tt.want) {
-			// 	t.Errorf("GetParentResourceAttributes() = %v, want %v", got, tt.want)
-			// }
-		})
-	}
-}
-
-func TestInt64WithDefaultFromEnv(t *testing.T) {
-	type args struct {
-		name        string
-		isMandatory bool
-		fallback    int64
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    int64
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := Int64WithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("Int64WithDefaultFromEnv() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("Int64WithDefaultFromEnv() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestLogCLIError(t *testing.T) {
-	type args struct {
-		err string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			LogCLIError(tt.args.err)
-		})
-	}
-}
-
-func TestLogCLIInfo(t *testing.T) {
-	type args struct {
-		info string
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			LogCLIInfo(tt.args.info)
-		})
-	}
-}
 
 func TestResolveSempPath(t *testing.T) {
 	type args struct {
@@ -227,7 +31,24 @@ func TestResolveSempPath(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			"MSGVPNParsing",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}",
+				v:            "Test",
+			},
+			"/msgVpns/Test",
+			false,
+		},
+		{
+			"MSGVPNParsing",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}/{anotherMock}",
+				v:            "Test/Mock",
+			},
+			"/msgVpns/Test/Mock",
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -254,7 +75,33 @@ func TestResolveSempPathWithParent(t *testing.T) {
 		want    string
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			"MSGVPNParsing",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}",
+				parentValues: map[string]any{"msgVpnName": "Test"},
+			},
+			"/msgVpns/Test",
+			false,
+		},
+		{
+			"Parsing where all values not available",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}",
+				parentValues: map[string]any{"msgVpnName": "Test"},
+			},
+			"/msgVpns/Test/bridges",
+			false,
+		},
+		{
+			"Parsing with commas",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}",
+				parentValues: map[string]any{"msgVpnName": "Test", "bridgeName": "TestBridge", "bridgeVirtualRouter": "TestingBridgeRouter"},
+			},
+			"/msgVpns/Test/bridges/TestBridge,TestingBridgeRouter",
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -281,7 +128,15 @@ func TestStringWithDefaultFromEnv(t *testing.T) {
 		args args
 		want string
 	}{
-		// TODO: Add test cases.
+		{
+			"GetDefaultValue",
+			args{
+				name:        "REGISTRY",
+				isMandatory: false,
+				fallback:    "Test",
+			},
+			"Test",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -292,21 +147,61 @@ func TestStringWithDefaultFromEnv(t *testing.T) {
 	}
 }
 
-func Test_randStr(t *testing.T) {
+func Test_addCommentToAttributeInfo(t *testing.T) {
 	type args struct {
-		n int
+		info    ResourceAttributeInfo
+		comment string
 	}
 	tests := []struct {
 		name string
 		args args
-		want string
+		want ResourceAttributeInfo
 	}{
-		// TODO: Add test cases.
+		{
+			"TestCommentAdd",
+			args{
+				info: ResourceAttributeInfo{
+					"test",
+					"",
+				},
+			},
+			ResourceAttributeInfo{
+				AttributeValue: "test",
+				Comment:        "",
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := randStr(tt.args.n); got != tt.want {
-				t.Errorf("randStr() = %v, want %v", got, tt.want)
+			if got := addCommentToAttributeInfo(tt.args.info, tt.args.comment); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("addCommentToAttributeInfo() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_newAttributeInfo(t *testing.T) {
+	type args struct {
+		value string
+	}
+	tests := []struct {
+		name string
+		args args
+		want ResourceAttributeInfo
+	}{
+		{
+			"AttributeTest",
+			args{value: "msg_vpn"},
+			ResourceAttributeInfo{
+				AttributeValue: "msg_vpn",
+				Comment:        "",
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := newAttributeInfo(tt.args.value); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("newAttributeInfo() = %v, want %v", got, tt.want)
 			}
 		})
 	}
