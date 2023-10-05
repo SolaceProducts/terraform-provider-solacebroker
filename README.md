@@ -13,7 +13,7 @@ The minimum required PubSub+ Software Event Broker version is 10.4.
 3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust the `url`, and the management credential parameters `username` and `password` to your broker's setup.
 4. From this directory run `terraform plan`, then `terraform apply`.
 5. Open the `url` link in your browser to access the broker's web management UI. The credentials are the same as used in the Terraform config. Observe the new objects created: a new Message VPN and a messaging queue under that Message VPN.
-6. Run `terraform delete` from your command line and observe that the Message VPN is deleted.
+6. Run `terraform destroy` from your command line and observe that the Message VPN is deleted.
    
 Note that the provider also offers the unique ability to generate a config file from an already configured broker. For more information, refer to the full documentation.
 
