@@ -1,0 +1,14 @@
+.idea
+*.iml
+.terraform
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+build
+terraform.tfstate
+terraform.tfstate.backup
+.vscode
+test
+__debug*
+bin
+dist
+vendor

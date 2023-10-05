@@ -1,0 +1,24 @@
+
+terraform {
+  required_providers {
+    solacebroker = {
+      source = "registry.terraform.io/solaceproducts/solacebroker"
+    }
+  }
+}
+
+provider solacebroker {
+  # username       = "admin"                 # This is a placeholder.
+  # password       = "admin"                 # This is a placeholder.
+  url            = "{{.BrokerURL}}"
+}
+
+{{range  .BrokerResources}}
+
+{{range $k, $v := . -}}
+resource {{$k}} {
+{{$v}}
+}
+{{end -}}
+
+{{end}}
