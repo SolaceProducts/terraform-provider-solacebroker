@@ -206,3 +206,67 @@ func Test_newAttributeInfo(t *testing.T) {
 		})
 	}
 }
+
+func TestSanitizeHclIdentifierName(t *testing.T) {
+	type args struct {
+		name string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"SanitizeTextStartingWithNumber",
+			args{name: "1testing"},
+			"gn_1testing",
+		},
+		{
+			"SanitizeTextContainingSpecialCharacters",
+			args{name: "*testing*"},
+			"_testing_",
+		},
+		{
+			"SanitizeTextContainingSpecialCharactersTwo",
+			args{name: "#testing/"},
+			"_testing_",
+		},
+		{
+			"SanitizeTextContainingSpecialCharactersThree",
+			args{name: "$testing\""},
+			"_testing_",
+		},
+		{
+			"SanitizeTextContainingSpecialCharactersFour",
+			args{name: "%testing^"},
+			"_testing_",
+		},
+		{
+			"SanitizeTextContainingSpecialCharactersFive",
+			args{name: "%testing^"},
+			"_testing_",
+		},
+		{
+			"SanitizeTextEmpty",
+			args{name: ""},
+			"gn_",
+		},
+		{
+			"SanitizeTextContainingEmpty",
+			args{name: " "},
+			"gn_",
+		},
+		{
+			"SanitizeTextOnlySpecialCharacter",
+			args{name: "#"},
+			"gn__",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := SanitizeHclIdentifierName(tt.args.name); got != tt.want {
+				t.Errorf("SanitizeHclIdentifierName() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
