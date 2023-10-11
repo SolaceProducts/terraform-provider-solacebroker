@@ -46,7 +46,7 @@ Create or update your `${HOME}/.terraformrc` (Unix) / `%APPDATA%\terraform.rc` (
 ```hcl
 provider_installation {
   dev_overrides {
-    "hashicorp/random" = "${GOBIN}" //< replace `${GOBIN}` with the actual path on your system
+    "registry.terraform.io/solaceproducts/solacebroker" = "${GOBIN}" //< replace `${GOBIN}` with the actual path on your system
   }
 
   direct {}
