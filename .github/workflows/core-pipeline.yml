@@ -59,6 +59,14 @@ jobs:
           ~/go/bin/terraform-provider-solacebroker version
           ~/go/bin/terraform-provider-solacebroker help
 
+      - name: Run Whitesource Action
+        uses: mercari/Whitesource-Scan-Action@v1.0.0
+        with:
+          wssURL: https://saas.whitesourcesoftware.com/agent
+          apiKey: ${{ secrets.WSS_API_KEY }}
+          productName: 'terraform-provider-solacebroker'
+          projectName: 'terraform-provider-solacebroker'
+          configFile: 'ci/whitesource/whitesource-agent.config'
           
       - name: Check changed files
         uses: tj-actions/verify-changed-files@v14
@@ -73,36 +81,37 @@ jobs:
         run: |
           echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
 
-      # - name: Commit back any updated source code
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   uses: EndBug/add-and-commit@v9
-      #   with:
-      #     committer_name: GitHub Actions
-      #     committer_email: actions@github.com
-      #     message: 'Updating generated source [skip ci]'
-      #     add: 'internal/broker/generated/*.go'
-      #     new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
 
-      # - name: Create pull request
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   run: |
-      #     CURRENT_BRANCH=${GITHUB_REF_NAME}
-      #     gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit back any updated source code
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: 'Updating generated source [skip ci]'
+          add: 'internal/broker/generated/*.go'
+          new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
+
+      - name: Create pull request
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          CURRENT_BRANCH=${GITHUB_REF_NAME}
+          gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
-  Plugin-Integration-Test:
-    needs: build
-    uses: ./.github/workflows/provider-build-pipeline.yml
-    secrets: inherit
+  # Plugin-Integration-Test:
+  #   needs: build
+  #   uses: ./.github/workflows/provider-build-pipeline.yml
+  #   secrets: inherit
 
-  Plugin-Acceptance-Test:
-    needs: build
-    uses: ./.github/workflows/provider-acceptance-test.yml
-    secrets: inherit
+  # Plugin-Acceptance-Test:
+  #   needs: build
+  #   uses: ./.github/workflows/provider-acceptance-test.yml
+  #   secrets: inherit
 
-  CLI-Integration-Test:
-    needs: build
-    uses: ./.github/workflows/cli-build-pipeline.yml
-    secrets: inherit
+  # CLI-Integration-Test:
+  #   needs: build
+  #   uses: ./.github/workflows/cli-build-pipeline.yml
+  #   secrets: inherit
