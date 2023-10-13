@@ -60,7 +60,7 @@ jobs:
           ~/go/bin/terraform-provider-solacebroker help
 
       - name: Run Whitesource Action
-        uses: mercari/Whitesource-Scan-Action@v1.0.0
+        uses: SolaceDev/Mend-Scan-GHA@v1.0.0
         with:
           wssURL: https://saas.whitesourcesoftware.com/agent
           apiKey: ${{ secrets.WSS_API_KEY }}
