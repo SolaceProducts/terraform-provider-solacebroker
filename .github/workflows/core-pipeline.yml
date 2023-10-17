@@ -55,9 +55,14 @@ jobs:
       - name: Build provider
         run: |
           go mod tidy
+          go fmt -s
           go install .
           ~/go/bin/terraform-provider-solacebroker version
           ~/go/bin/terraform-provider-solacebroker help
+
+      - name: Generate third party licenses list
+        run: |
+          make generate-license
 
       - name: Run Whitesource Action
         uses: SolaceDev/Mend-Scan-GHA@v1.0.0
