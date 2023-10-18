@@ -49,11 +49,6 @@ jobs:
           SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
           popd
 
-      - name: Test Provider and generate documentations
-        run: |
-          make test-coverage
-          make generate-docs
-
       - name: Build provider
         run: |
           go mod tidy
@@ -62,18 +57,10 @@ jobs:
           ~/go/bin/terraform-provider-solacebroker version
           ~/go/bin/terraform-provider-solacebroker help
 
-      - name: Generate third party licenses list
+      - name: Test Provider and generate documentations
         run: |
-          make generate-license
-
-      - name: Run Whitesource Action
-        uses: SolaceDev/Mend-Scan-GHA@v1.0.0
-        with:
-          wssURL: https://saas.whitesourcesoftware.com/agent
-          apiKey: ${{ secrets.WSS_API_KEY }}
-          productName: 'terraform-provider-solacebroker'
-          projectName: 'terraform-provider-solacebroker'
-          configFile: 'ci/whitesource/whitesource-agent.config'
+          make test-coverage
+          make generate-docs
 
       - name: Check changed files
         uses: tj-actions/verify-changed-files@v14
@@ -87,7 +74,6 @@ jobs:
         if: steps.check-changed-files.outputs.files_changed == 'true'
         run: |
           echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
-
 
       - name: Commit back any updated source code
         if: steps.check-changed-files.outputs.files_changed == 'true'
@@ -107,18 +93,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+  Plugin-Integration-Test:
+    needs: build
+    uses: ./.github/workflows/provider-test-pipeline.yml
+    secrets: inherit
 
-  # Plugin-Integration-Test:
-  #   needs: build
-  #   uses: ./.github/workflows/provider-build-pipeline.yml
-  #   secrets: inherit
+  Plugin-Acceptance-Test:
+    needs: build
+    uses: ./.github/workflows/provider-acceptance-test.yml
+    secrets: inherit
 
-  # Plugin-Acceptance-Test:
-  #   needs: build
-  #   uses: ./.github/workflows/provider-acceptance-test.yml
-  #   secrets: inherit
-
-  # CLI-Integration-Test:
-  #   needs: build
-  #   uses: ./.github/workflows/cli-build-pipeline.yml
-  #   secrets: inherit
+  CLI-Integration-Test:
+    needs: build
+    uses: ./.github/workflows/cli-test-pipeline.yml
+    secrets: inherit

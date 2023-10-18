@@ -1,7 +1,6 @@
-name: Terraform Provider Pipeline
+name: Provider Test Pipeline
 
 on: workflow_call
-
 
 jobs:
   test:

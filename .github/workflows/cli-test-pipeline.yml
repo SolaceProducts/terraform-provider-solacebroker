@@ -1,4 +1,4 @@
-name: CLI Build Pipeline
+name: CLI Test Pipeline
 
 on: workflow_call
 
