@@ -85,13 +85,13 @@ jobs:
           add: 'internal/broker/generated/*.go'
           new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
 
-      - name: Create pull request
-        if: steps.check-changed-files.outputs.files_changed == 'true'
-        run: |
-          CURRENT_BRANCH=${GITHUB_REF_NAME}
-          gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Create pull request
+      #   if: steps.check-changed-files.outputs.files_changed == 'true'
+      #   run: |
+      #     CURRENT_BRANCH=${GITHUB_REF_NAME}
+      #     gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   Plugin-Integration-Test:
     needs: build
