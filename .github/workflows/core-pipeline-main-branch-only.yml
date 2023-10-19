@@ -33,7 +33,7 @@ jobs:
 
   Plugin-Integration-Test:
     needs: build
-    uses: ./.github/workflows/provider-build-pipeline.yml
+    uses: ./.github/workflows/provider-test-pipeline.yml
     secrets: inherit
 
   Plugin-Acceptance-Test:
@@ -43,5 +43,5 @@ jobs:
 
   CLI-Integration-Test:
     needs: build
-    uses: ./.github/workflows/cli-build-pipeline.yml
+    uses: ./.github/workflows/cli-test-pipeline.yml
     secrets: inherit
