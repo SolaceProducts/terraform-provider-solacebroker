@@ -1,4 +1,7 @@
 # Terraform Provider for Solace PubSub+ Software Event Broker
+[![Actions Status](https://github.com/SolaceProducts/terraform-provider-solacebroker/actions/workflows/core-pipeline.yml/badge.svg?branch=main)](https://github.com/SolaceProducts/terraform-provider-solacebroker/actions?query=workflow:%22Test+Provider%22+branch:main)
+[![Go Report Card](https://goreportcard.com/badge/github.com/solaceproducts/terraform-provider-solacebroker)](https://goreportcard.com/report/github.com/solaceproducts/terraform-provider-solacebroker)
+
 
 This provider, maintained by Solace, is a plugin for Terraform that enables you to configure PubSub+ Software Event Brokers.
 

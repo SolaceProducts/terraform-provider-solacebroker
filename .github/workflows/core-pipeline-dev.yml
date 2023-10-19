@@ -1,7 +1,9 @@
-name: Build Terraform Provider
+name: Build Terraform Provider in Development phase
 
 on:
   push:
+    branches-ignore:
+      - main
 
 jobs:
   build:
@@ -47,19 +49,19 @@ jobs:
           SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
           popd
 
+      - name: Build provider
+        run: |
+          go mod tidy
+          go fmt
+          go install .
+          ~/go/bin/terraform-provider-solacebroker version
+          ~/go/bin/terraform-provider-solacebroker help
+
       - name: Test Provider and generate documentations
         run: |
           make test-coverage
           make generate-docs
 
-      - name: Build provider
-        run: |
-          go mod tidy
-          go install .
-          ~/go/bin/terraform-provider-solacebroker version
-          ~/go/bin/terraform-provider-solacebroker help
-
-          
       - name: Check changed files
         uses: tj-actions/verify-changed-files@v14
         id: check-changed-files
@@ -73,15 +75,15 @@ jobs:
         run: |
           echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
 
-      # - name: Commit back any updated source code
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   uses: EndBug/add-and-commit@v9
-      #   with:
-      #     committer_name: GitHub Actions
-      #     committer_email: actions@github.com
-      #     message: 'Updating generated source [skip ci]'
-      #     add: 'internal/broker/generated/*.go'
-      #     new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
+      - name: Commit back any updated source code
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: 'Updating generated source [skip ci]'
+          add: 'internal/broker/generated/*.go'
+          new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
 
       # - name: Create pull request
       #   if: steps.check-changed-files.outputs.files_changed == 'true'
@@ -91,10 +93,9 @@ jobs:
       #   env:
       #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
   Plugin-Integration-Test:
     needs: build
-    uses: ./.github/workflows/provider-build-pipeline.yml
+    uses: ./.github/workflows/provider-test-pipeline.yml
     secrets: inherit
 
   Plugin-Acceptance-Test:
@@ -104,5 +105,5 @@ jobs:
 
   CLI-Integration-Test:
     needs: build
-    uses: ./.github/workflows/cli-build-pipeline.yml
+    uses: ./.github/workflows/cli-test-pipeline.yml
     secrets: inherit
