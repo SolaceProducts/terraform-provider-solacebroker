@@ -14,11 +14,11 @@ The minimum required PubSub+ Software Event Broker version is 10.4.
 1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
 2. Install the [Terraform CLI](https://www.terraform.io/downloads)
 3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust the `url`, and the management credential parameters `username` and `password` to your broker's setup.
-4. From this directory run `terraform plan`, then `terraform apply`.
+4. From this directory run `terraform plan`, then `terraform apply` (if prompted, `terraform init` may also be required).
 5. Open the `url` link in your browser to access the broker's web management UI. The credentials are the same as used in the Terraform config. Observe the new objects created: a new Message VPN and a messaging queue under that Message VPN.
 6. Run `terraform destroy` from your command line and observe that the Message VPN is deleted.
    
-Note that the provider also offers the unique ability to generate a config file from an already configured broker. For more information, refer to the full documentation.
+Note that the provider also offers the unique ability to generate a config file from an already configured broker. For more information, refer to the [full documentation](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs).
 
 ## Documentation
 
