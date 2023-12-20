@@ -41,6 +41,10 @@ var (
 )
 
 func main() {
+	if broker.SempDetail.Platform != expectedPlatform {
+		fmt.Println(fmt.Sprintf("Provider error: wrong platform SEMP API spec \"%s\" used, expected \"%s\"", broker.SempDetail.Platform, expectedPlatform))
+		os.Exit(1)
+	}
 	broker.ProviderVersion = version
 	if len(os.Args) > 1 && (os.Args[1] == "generate" || os.Args[1] == "help" || os.Args[1] == "--help" || os.Args[1] == "-h" || os.Args[1] == "version") {
 		err := cmd.Execute()

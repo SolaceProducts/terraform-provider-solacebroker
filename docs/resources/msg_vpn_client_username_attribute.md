@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_client_username_attribute Resource - solacebro
 subcategory: ""
 description: |-
   A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  attributename|x|||
-  attributevalue|x|||
-  clientusername|x|||
-  msgvpn_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  attributename|x
+  attributevalue|x
+  clientusername|x
+  msgvpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
 ---
@@ -19,12 +19,12 @@ description: |-
 A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-attribute_name|x|||
-attribute_value|x|||
-client_username|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+attribute_name|x
+attribute_value|x
+client_username|x
+msg_vpn_name|x
 
 
 
@@ -43,7 +43,3 @@ This has been available since SEMP API version 2.27.
 - `attribute_value` (String) The value of the Attribute.
 - `client_username` (String) The name of the Client Username.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

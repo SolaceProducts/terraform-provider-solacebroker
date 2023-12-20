@@ -19,3 +19,4 @@ package main
 const providerNamespace = "solaceproducts"
 const providerSimpleType = "solacebroker"
 const providerType = providerSimpleType
+const expectedPlatform = "VMR"

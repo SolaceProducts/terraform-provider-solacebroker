@@ -4,11 +4,11 @@ page_title: "solacebroker_dmr_cluster_link Data Source - solacebroker"
 subcategory: ""
 description: |-
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authenticationbasicpassword||x||x
-  dmrclustername|x|||
-  remotenodename|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  authenticationbasicpassword||x|x
+  dmrclustername|x||
+  remotenodename|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_basic_password||x||x
-dmr_cluster_name|x|||
-remote_node_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+authentication_basic_password||x|x
+dmr_cluster_name|x||
+remote_node_name|x||
 
 
 
@@ -57,7 +57,7 @@ This has been available since SEMP API version 2.11.
 - `client_profile_queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
 - `client_profile_queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `client_profile_queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
 - `client_profile_queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
+- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-1) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
 - `client_profile_tcp_congestion_window_size` (Number) The TCP initial congestion window size, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.
 - `client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to be carried out before declaring that the remote end is not available. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
 - `client_profile_tcp_keepalive_idle_time` (Number) The amount of time a connection must remain idle before TCP begins sending keepalive probes, in seconds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
@@ -66,7 +66,6 @@ This has been available since SEMP API version 2.11.
 - `client_profile_tcp_max_window_size` (Number) The TCP maximum window size, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `256`.
 - `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be sent over the Link before acknowledgment is received by the sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
 - `enabled` (Boolean) Enable or disable the Link. When disabled, subscription sets of this and the remote node are not kept up-to-date, and messages are not exchanged with the remote node. Published guaranteed messages will be queued up for future delivery based on current subscription sets. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `id` (String) Identifier attribute, for internal use only.
 - `initiator` (String) The initiator of the Link's TCP connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"lexical"`. The allowed values and their meaning are:
 
 <pre>

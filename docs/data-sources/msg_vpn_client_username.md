@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_client_username Data Source - solacebroker"
 subcategory: ""
 description: |-
   A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientusername|x|||
-  msgvpn_name|x|||
-  password||x||x
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  clientusername|x||
+  msgvpn_name|x||
+  password||x|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -18,11 +18,11 @@ description: |-
 A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_username|x|||
-msg_vpn_name|x|||
-password||x||x
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+client_username|x||
+msg_vpn_name|x||
+password||x|x
 
 
 
@@ -46,5 +46,4 @@ This has been available since SEMP API version 2.0.
 - `client_profile_name` (String) The Client Profile of the Client Username. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `enabled` (Boolean) Enable or disable the Client Username. When disabled, all clients currently connected as the Client Username are disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `guaranteed_endpoint_permission_override_enabled` (Boolean) Enable or disable guaranteed endpoint permission override for the Client Username. When enabled all guaranteed endpoints may be accessed, modified or deleted with the same permission as the owner. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `id` (String) Identifier attribute, for internal use only.
 - `subscription_manager_enabled` (Boolean) Enable or disable the subscription management capability of the Client Username. This is the ability to manage subscriptions on behalf of other Client Usernames. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

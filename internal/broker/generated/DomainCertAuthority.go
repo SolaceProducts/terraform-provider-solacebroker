@@ -28,20 +28,11 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "domain_cert_authority",
-		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ncert_authority_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.19.",
+		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\nAttribute|Identifying\n:---|:---:\ncert_authority_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.19.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/domainCertAuthorities/{certAuthorityName}",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.String,
 				SempName:            "certAuthorityName",

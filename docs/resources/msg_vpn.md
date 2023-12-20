@@ -55,7 +55,9 @@ This has been available since SEMP API version 2.0.
 
 - `alias` (String) The name of another Message VPN which this Message VPN is an alias for. When this Message VPN is enabled, the alias has no effect. When this Message VPN is disabled, Clients (but not Bridges and routing Links) logging into this Message VPN are automatically logged in to the other Message VPN, and authentication and authorization take place in the context of the other Message VPN.
 
-Aliases may form a non-circular chain, cascading one to the next. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.14.
+Aliases may form a non-circular chain, cascading one to the next.
+
+Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.14.
 - `authentication_basic_enabled` (Boolean) Enable or disable basic authentication for clients connecting to the Message VPN. Basic authentication is authentication that involves the use of a username and password to prove identity. If a user provides credentials for a different authentication scheme, this setting is not applicable. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `authentication_basic_profile_name` (String) The name of the RADIUS or LDAP Profile to use for basic authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `authentication_basic_radius_domain` (String) The RADIUS domain to use for basic authentication. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
@@ -145,6 +147,7 @@ Aliases may form a non-circular chain, cascading one to the next. Changes to thi
 - `max_egress_flow_count` (Number) The maximum number of transmit flows that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_endpoint_count` (Number) The maximum number of Queues and Topic Endpoints that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_ingress_flow_count` (Number) The maximum number of receive flows that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
+- `max_kafka_broker_connection_count` (Number) The maximum number of simultaneous Kafka broker connections of the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since SEMP API version 2.39.
 - `max_msg_spool_usage` (Number) The maximum message spool usage by the Message VPN, in megabytes. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `max_subscription_count` (Number) The maximum number of local client subscriptions that can be added to the Message VPN. This limit is not enforced when a subscription is added using a management interface, such as CLI or SEMP. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.
 - `max_transacted_session_count` (Number) The maximum number of transacted sessions that can be created in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.
@@ -227,7 +230,7 @@ Aliases may form a non-circular chain, cascading one to the next. Changes to thi
 "when-enabled-in-message-vpn" - Only ask for a client-certificate if client certificate authentication is enabled under "message-vpn >  authentication > client-certificate > shutdown".
 </pre>
  Available since SEMP API version 2.21.
-- `service_rest_incoming_authorization_header_handling` (String) The handling of Authorization headers for incoming REST connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"drop"`. The allowed values and their meaning are:
+- `service_rest_incoming_authorization_header_handling` (String) The handling of Authorization headers for incoming REST connections. Authorization header handling settings apply only when the Message VPN is in gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"drop"`. The allowed values and their meaning are:
 
 <pre>
 "drop" - Do not attach the Authorization header to the message as a user property. This configuration is most secure.
@@ -263,10 +266,6 @@ Aliases may form a non-circular chain, cascading one to the next. Changes to thi
 - `service_web_plain_text_enabled` (Boolean) Enable or disable the plain-text Web Transport service in the Message VPN. Disabling causes clients currently connected to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `service_web_tls_enabled` (Boolean) Enable or disable the use of TLS for the Web Transport service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `tls_allow_downgrade_to_plain_text_enabled` (Boolean) Enable or disable the allowing of TLS SMF clients to downgrade their connections to plain-text connections. Changing this will not affect existing connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--event_connection_count_threshold"></a>
 ### Nested Schema for `event_connection_count_threshold`

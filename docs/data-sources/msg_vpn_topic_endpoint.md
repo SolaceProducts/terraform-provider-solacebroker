@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_topic_endpoint Data Source - solacebroker"
 subcategory: ""
 description: |-
   A Topic Endpoint attracts messages published to a topic for which the Topic Endpoint has a matching topic subscription. The topic subscription for the Topic Endpoint is specified in the client request to bind a Flow to that Topic Endpoint. Queues are significantly more flexible than Topic Endpoints and are the recommended approach for most applications. The use of Topic Endpoints should be restricted to JMS applications.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  topicendpointname|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  topicendpointname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -17,10 +17,10 @@ description: |-
 A Topic Endpoint attracts messages published to a topic for which the Topic Endpoint has a matching topic subscription. The topic subscription for the Topic Endpoint is specified in the client request to bind a Flow to that Topic Endpoint. Queues are significantly more flexible than Topic Endpoints and are the recommended approach for most applications. The use of Topic Endpoints should be restricted to JMS applications.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-topic_endpoint_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+topic_endpoint_name|x
 
 
 
@@ -55,7 +55,6 @@ This has been available since SEMP API version 2.1.
 - `event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_bind_count_threshold))
 - `event_reject_low_priority_msg_limit_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_reject_low_priority_msg_limit_threshold))
 - `event_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_spool_usage_threshold))
-- `id` (String) Identifier attribute, for internal use only.
 - `ingress_enabled` (Boolean) Enable or disable the reception of messages to the Topic Endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_bind_count` (Number) The maximum number of consumer flows that can bind to the Topic Endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`. Available since SEMP API version 2.4.
 - `max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Topic Endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`.

@@ -4,12 +4,12 @@ page_title: "solacebroker_dmr_cluster_link_attribute Data Source - solacebroker"
 subcategory: ""
 description: |-
   A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  attributename|x|||
-  attributevalue|x|||
-  dmrclustername|x|||
-  remotenodename|x|||
+  Attribute|Identifying
+  :---|:---:
+  attributename|x
+  attributevalue|x
+  dmrclustername|x
+  remotenodename|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---
@@ -19,12 +19,12 @@ description: |-
 A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-attribute_name|x|||
-attribute_value|x|||
-dmr_cluster_name|x|||
-remote_node_name|x|||
+Attribute|Identifying
+:---|:---:
+attribute_name|x
+attribute_value|x
+dmr_cluster_name|x
+remote_node_name|x
 
 
 
@@ -43,7 +43,3 @@ This has been available since SEMP API version 2.28.
 - `attribute_value` (String) The value of the Attribute.
 - `dmr_cluster_name` (String) The name of the Cluster.
 - `remote_node_name` (String) The name of the node at the remote end of the Link.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

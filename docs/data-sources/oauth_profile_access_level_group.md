@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_access_level_group Data Source - solaceb
 subcategory: ""
 description: |-
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  groupname|x|||
-  oauthprofile_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  groupname|x
+  oauthprofile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-group_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+group_name|x
+oauth_profile_name|x
 
 
 
@@ -49,7 +49,6 @@ This has been available since SEMP API version 2.24.
 "read-write" - User has read-write access to most global data.
 "admin" - User has read-write access to all global data.
 </pre>
-- `id` (String) Identifier attribute, for internal use only.
 - `msg_vpn_access_level` (String) The default message VPN access level for this group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>

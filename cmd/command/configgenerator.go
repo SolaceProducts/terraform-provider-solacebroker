@@ -31,15 +31,10 @@ import (
 
 type BrokerObjectType string
 
-type IdentifyingAttribute struct {
-	key, value string
-}
-
 type GeneratorTerraformOutput struct {
 	TerraformOutput  map[string]ResourceConfig
 	SEMPDataResponse map[string]map[string]any
 }
-type BrokerObjectAttributes []IdentifyingAttribute
 
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
 
@@ -129,58 +124,52 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 		}
 	}
 	var path string
-	var err error
 
 	if len(parentResult) > 0 {
-		path, err = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
-		if err != nil {
-			LogCLIError("Error calling Broker Endpoint")
-			os.Exit(1)
-		}
+		path, _ = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
 	} else {
-		path, err = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
+		path, _ = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
+	}
+
+	if len(path) > 0 {
+
+		sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
 		if err != nil {
-			LogCLIError("Error calling Broker Endpoint")
-			os.Exit(1)
-		}
-	}
-
-	sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
-	if err != nil {
-		if err == semp.ErrResourceNotFound {
-			// continue if error is resource not found
-			if len(parentResult) > 0 {
-				print("..")
+			if err == semp.ErrResourceNotFound {
+				// continue if error is resource not found
+				if len(parentResult) > 0 {
+					print("..")
+				}
+				sempData = []map[string]any{}
+			} else if errors.Is(err, semp.ErrBadRequest) {
+				// continue if error is also bad request
+				if len(parentResult) > 0 {
+					print("..")
+				}
+				sempData = []map[string]any{}
+			} else {
+				LogCLIError("SEMP call failed. " + err.Error() + " on path " + path)
+				os.Exit(1)
 			}
-			sempData = []map[string]any{}
-		} else if errors.Is(err, semp.ErrBadRequest) {
-			// continue if error is also bad request
-			if len(parentResult) > 0 {
-				print("..")
+		}
+
+		resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
+
+		resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
+
+		//check resource names used and deduplicate to avoid collision
+		for i := range resourceValues {
+			totalOccurrence := 1
+			objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
+			count, objectNameExists := ObjectNamesCount[objectName]
+			if objectNameExists {
+				totalOccurrence = count + 1
 			}
-			sempData = []map[string]any{}
-		} else {
-			LogCLIError("SEMP call failed. " + err.Error() + " on path " + path)
-			os.Exit(1)
+			ObjectNamesCount[objectName] = totalOccurrence
+			objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
+			tfObject[objectName] = resourceValues[i]
+			tfObjectSempDataResponse[objectName] = sempData[i]
 		}
-	}
-
-	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
-
-	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
-
-	//check resource names used and deduplicate to avoid collision
-	for i := range resourceValues {
-		totalOccurrence := 1
-		objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
-		count, objectNameExists := ObjectNamesCount[objectName]
-		if objectNameExists {
-			totalOccurrence = count + 1
-		}
-		ObjectNamesCount[objectName] = totalOccurrence
-		objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
-		tfObject[objectName] = resourceValues[i]
-		tfObjectSempDataResponse[objectName] = sempData[i]
 	}
 	return GeneratorTerraformOutput{
 		TerraformOutput:  tfObject,

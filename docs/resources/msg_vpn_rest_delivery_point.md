@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point Resource - solacebroker"
 subcategory: ""
 description: |-
   A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  restdeliverypoint_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  restdeliverypoint_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -17,10 +17,10 @@ description: |-
 A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+rest_delivery_point_name|x
 
 
 
@@ -44,7 +44,3 @@ This has been available since SEMP API version 2.0.
 - `enabled` (Boolean) Enable or disable the REST Delivery Point. When disabled, no connections are initiated or messages delivered to any of the contained REST Consumers. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service` (String) The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
 - `vendor` (String) The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

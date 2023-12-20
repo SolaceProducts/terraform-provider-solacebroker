@@ -23,13 +23,20 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var (
+	BrokerPlatformName = map[string]string{
+		"VMR":       "Software Event Broker",
+		"Appliance": "Appliance",
+	}
+)
+
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Provides version information about the current binary",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(fmt.Sprintf("Provider version: %s, based on Semp version %s", broker.ProviderVersion, generated.SempVersion))
+		fmt.Println(fmt.Sprintf("Terraform Provider for Solace PubSub+ %s platform, version: %s, based on Semp version %s", BrokerPlatformName[generated.Platform], broker.ProviderVersion, generated.SempVersion))
 	},
 }
 

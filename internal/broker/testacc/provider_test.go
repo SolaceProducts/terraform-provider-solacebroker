@@ -29,76 +29,81 @@ import (
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
-    _ "terraform-provider-solacebroker/internal/broker/generated"
-
+	"terraform-provider-solacebroker/internal/broker/generated"
 )
 
 var ProviderConfig string
 
 var (
-    // testAccProtoV6ProviderFactories are used to instantiate a provider during
-    // acceptance testing. The factory function will be invoked for every Terraform
-    // CLI command executed to create a provider server to which the CLI can
-    // reattach.
-    testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
-        "solacebroker": providerserver.NewProtocol6WithError(broker.New("test")()),
-    }
+	// testAccProtoV6ProviderFactories are used to instantiate a provider during
+	// acceptance testing. The factory function will be invoked for every Terraform
+	// CLI command executed to create a provider server to which the CLI can
+	// reattach.
+	testAccProtoV6ProviderFactories = map[string]func() (tfprotov6.ProviderServer, error){
+		"solacebroker": providerserver.NewProtocol6WithError(broker.New("test")()),
+	}
 )
 
 func init() {
-    // start docker test broker
-    ctx := context.Background()
-    req := testcontainers.ContainerRequest{
-        Image:        "solace/solace-pubsub-standard:latest",
-        ExposedPorts: []string{"8080/tcp"},
-        Env: map[string]string{
-            "username_admin_globalaccesslevel":  "admin",
-            "username_admin_password":           "admin",
-            "system_scaling_maxconnectioncount": "100",
-        },
-        Mounts: testcontainers.ContainerMounts{
-            {
-                Source: testcontainers.GenericVolumeMountSource{
-                    Name: "test-volume",
-                },
-                Target: "/var/lib/solace",
-            },
-        },
-        ShmSize:    1000000000,
-        WaitingFor: wait.ForHTTP("/").WithPort("8080/tcp"),
-    }
-    solaceC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
-        ContainerRequest: req,
-        Started:          true,
-    })
-    if err != nil {
-        panic(err)
-    }
-    endpoint, err := solaceC.Endpoint(ctx, "")
-    if err != nil {
-        panic(err)
-    }
-    ProviderConfig = `
+	// start docker test broker
+	ctx := context.Background()
+	req := testcontainers.ContainerRequest{
+		Image:        "solace/solace-pubsub-standard:latest",
+		ExposedPorts: []string{"8080/tcp"},
+		Env: map[string]string{
+			"username_admin_globalaccesslevel":  "admin",
+			"username_admin_password":           "admin",
+			"system_scaling_maxconnectioncount": "100",
+		},
+		Mounts: testcontainers.ContainerMounts{
+			{
+				Source: testcontainers.GenericVolumeMountSource{
+					Name: "test-volume",
+				},
+				Target: "/var/lib/solace",
+			},
+		},
+		ShmSize:    1000000000,
+		WaitingFor: wait.ForHTTP("/").WithPort("8080/tcp"),
+	}
+	solaceC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+		ContainerRequest: req,
+		Started:          true,
+	})
+	if err != nil {
+		panic(err)
+	}
+	endpoint, err := solaceC.Endpoint(ctx, "")
+	if err != nil {
+		panic(err)
+	}
+	ProviderConfig = `
 provider "solacebroker" {
 username = "admin"
 password = "admin"
 url      = "http://` + endpoint + `"
 }
 `
-    const user = "admin"
-    const password = "admin"
+	const user = "admin"
+	const password = "admin"
 
-    if err = os.Setenv("SOLACEBROKER_URL", "http://" + endpoint); err != nil {
-        panic(err)
-    }
+	if err = os.Setenv("SOLACEBROKER_URL", "http://"+endpoint); err != nil {
+		panic(err)
+	}
 
-    if err = os.Setenv("SOLACEBROKER_USERNAME", password); err != nil {
-        panic(err)
-    }
+	if err = os.Setenv("SOLACEBROKER_USERNAME", user); err != nil {
+		panic(err)
+	}
 
-    if err = os.Setenv("SOLACEBROKER_PASSWORD", password); err != nil {
-        panic(err)
-    }
+	if err = os.Setenv("SOLACEBROKER_PASSWORD", password); err != nil {
+		panic(err)
+	}
+
+	if generated.Platform == "Appliance" {
+		if err = os.Setenv("SOLACEBROKER_SKIP_API_CHECK", "true"); err != nil {
+			panic(err)
+		}
+	}
 }
 
 func testAccPreCheck(t *testing.T) {

@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_authentication_oauth_profile Data Source - sol
 subcategory: ""
 description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientsecret||x||x
-  msgvpnname|x|||
-  oauthprofile_name|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  clientsecret||x|x
+  msgvpnname|x||
+  oauthprofile_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.25.
 ---
@@ -18,11 +18,11 @@ description: |-
 OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_secret||x||x
-msg_vpn_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+client_secret||x|x
+msg_vpn_name|x||
+oauth_profile_name|x||
 
 
 
@@ -63,7 +63,6 @@ This has been available since SEMP API version 2.25.
 - `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
 - `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
-- `id` (String) Identifier attribute, for internal use only.
 - `issuer` (String) The Issuer Identifier for the OAuth provider. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `mqtt_username_validate_enabled` (Boolean) Enable or disable whether the API provided MQTT client username will be validated against the username calculated from the token(s). When enabled, connection attempts by MQTT clients are rejected if they differ. Note that this value only applies to MQTT clients; SMF client usernames will not be validated. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `oauth_role` (String) The OAuth role of the broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"client"`. The allowed values and their meaning are:

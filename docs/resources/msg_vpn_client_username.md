@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_client_username Resource - solacebroker"
 subcategory: ""
 description: |-
   A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientusername|x|||
-  msgvpn_name|x|||
-  password||x||x
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  clientusername|x||
+  msgvpn_name|x||
+  password||x|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -18,11 +18,11 @@ description: |-
 A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_username|x|||
-msg_vpn_name|x|||
-password||x||x
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+client_username|x||
+msg_vpn_name|x||
+password||x|x
 
 
 
@@ -48,7 +48,3 @@ This has been available since SEMP API version 2.0.
 - `guaranteed_endpoint_permission_override_enabled` (Boolean) Enable or disable guaranteed endpoint permission override for the Client Username. When enabled all guaranteed endpoints may be accessed, modified or deleted with the same permission as the owner. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `password` (String, Sensitive) The password for the Client Username. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `subscription_manager_enabled` (Boolean) Enable or disable the subscription management capability of the Client Username. This is the ability to manage subscriptions on behalf of other Client Usernames. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

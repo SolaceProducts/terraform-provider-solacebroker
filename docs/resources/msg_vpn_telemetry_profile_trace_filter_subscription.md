@@ -4,13 +4,13 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription Re
 subcategory: ""
 description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  subscription|x|||
-  subscriptionsyntax|x|||
-  telemetryprofilename|x|||
-  tracefilter_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  subscription|x
+  subscriptionsyntax|x
+  telemetryprofilename|x
+  tracefilter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---
@@ -20,13 +20,13 @@ description: |-
 Trace filter subscriptions control which messages will be attracted by the tracing filter.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-subscription|x|||
-subscription_syntax|x|||
-telemetry_profile_name|x|||
-trace_filter_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+subscription|x
+subscription_syntax|x
+telemetry_profile_name|x
+trace_filter_name|x
 
 
 
@@ -51,7 +51,3 @@ This has been available since SEMP API version 2.31.
 </pre>
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
 - `trace_filter_name` (String) A name used to identify the trace filter. Consider a name that describes the subscriptions contained within the filter, such as the name of the application and/or the scenario in which the trace filter might be enabled, such as "appNameDebug".
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

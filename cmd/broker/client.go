@@ -16,7 +16,6 @@
 package broker
 
 import (
-	"net/http/cookiejar"
 	"os"
 	"strings"
 	"terraform-provider-solacebroker/cmd/command"
@@ -59,11 +58,10 @@ func CliClient(url string) *semp.Client {
 		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
 		os.Exit(1)
 	}
-	jar, _ := cookiejar.New(nil)
 	client := semp.NewClient(
 		getFullSempAPIURL(url),
 		insecure_skip_verify,
-		jar,
+		false, // this is a client for the generator
 		semp.BasicAuth(username, password),
 		semp.BearerToken(bearerToken),
 		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),

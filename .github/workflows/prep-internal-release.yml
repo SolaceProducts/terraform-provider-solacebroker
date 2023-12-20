@@ -1,0 +1,129 @@
+# Launched manually
+on:
+  workflow_dispatch:
+    inputs:
+      release_branch_name:
+        description: 'Release branch name, must start with v'
+        required: true
+        default: 'v0.1.0-rc.1'
+
+
+jobs:
+  build:
+    name: Prep release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: "1.21"
+
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Check release version and set next version
+        run: |
+          if ! echo "${{ github.event.inputs.release_branch_name }}" | grep ^v ; then
+            echo "Incorrect release branch name ${{ github.event.inputs.release_branch_name }}, must start with 'v'" ; exit 1
+          fi
+          if echo "${{ github.ref_name }}" | grep ^dev ; then
+            # set next dev version GH env, otherwise set it empty
+            echo "NEXT_DEV_VERSION=$(echo ${{ github.ref_name }} | awk -F. -v OFS=. '{$NF += 1 ; print}')" >> $GITHUB_ENV
+          fi
+
+      - name: Code format, dependencies, checks
+        run: |
+          make fmt
+          make dep
+          make vet
+
+      - name: Check code builds and pass acceptance test
+        run: |
+          make install
+          make testacc
+
+      - name: Ensure all docs have been generated
+        run: make generate-docs
+
+      - name: Ensure version reflects release candidate version
+        run: |
+          VERSION=$(echo "${{ github.event.inputs.release_branch_name }}" | cut -d'v' -f2)
+          sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
+
+      - name: Check changed files
+        uses: tj-actions/verify-changed-files@v14
+        id: check-changed-files
+
+      - name: Run step only when any of the files change
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
+
+      - name: Commit back updates when any of the files change
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        uses: EndBug/add-and-commit@v9
+        with:
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
+          message: 'Updating release candidate [skip ci]'
+          new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
+
+      - name: Create pull request if needed, then break here because manual approval of the changes is required
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT_BRANCH=${GITHUB_REF_NAME}
+          gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into release candidate ${CURRENT_BRANCH}" --body 'Created by Github action'
+          echo Review and approve PR before release can continue
+          exit 1 // force actions stop here
+
+      - name: Prep product release for Whitesource
+        run: |
+          VERSION=$(cat version.go | grep version | cut -d'=' -f2 | xargs)
+          sed -i "s/productVersion=.*$/productVersion=v${VERSION}/g" ci/whitesource/whitesource-agent.config
+          sed -i "s/productName=.*$/productName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
+          sed -i "s/projectName=.*$/projectName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
+          cat ci/whitesource/whitesource-agent.config | grep productVersion
+
+      - name: Run Whitesource Action to update licenses
+        uses: SolaceDev/Mend-Scan-GHA@v1.0.0
+        with:
+          wssURL: https://saas.whitesourcesoftware.com/agent
+          apiKey: ${{ secrets.WSS_API_KEY }}
+          productName: ${{ github.event.repository.name }}
+          projectName: ${{ github.event.repository.name }}
+          configFile: 'ci/whitesource/whitesource-agent.config'
+
+      - name: Create the release branch
+        uses: peterjgrainger/action-create-branch@v2.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: "${{ github.event.inputs.release_branch_name }}"
+
+      # - name: Create next dev branch
+      #   if: env.NEXT_DEV_VERSION != ''
+      #   uses: peterjgrainger/action-create-branch@v2.4.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     branch: ${{ env.NEXT_DEV_VERSION }}
+
+      - name: Create next dev branch
+        if: env.NEXT_DEV_VERSION != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git checkout -b ${{ env.NEXT_DEV_VERSION }}
+          VERSION=$(echo "${{ env.NEXT_DEV_VERSION }}" | cut -d'v' -f2)
+          sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
+          git commit -a -m "Uprev'd version to ${VERSION}"
+          git push --set-upstream origin ${{ env.NEXT_DEV_VERSION }}
+
+      - name: Delete last dev branch
+        if: env.NEXT_DEV_VERSION != ''
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{github.token}}
+          branches: "${{ github.ref_name }}"

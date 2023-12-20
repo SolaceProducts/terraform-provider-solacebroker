@@ -25,6 +25,5 @@ This has been available since SEMP API version 2.2.
 
 ### Read-Only
 
-- `id` (String) Identifier attribute, for internal use only.
 - `platform` (String) The platform running the SEMP API.
 - `semp_version` (String) The version of the SEMP API.

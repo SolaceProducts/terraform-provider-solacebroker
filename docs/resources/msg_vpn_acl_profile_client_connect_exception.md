@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_acl_profile_client_connect_exception Resource 
 subcategory: ""
 description: |-
   A Client Connect Exception is an exception to the default action to take when a client using the ACL Profile connects to the Message VPN. Exceptions must be expressed as an IP address/netmask in CIDR form.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  aclprofilename|x|||
-  clientconnectexceptionaddress|x|||
-  msgvpn_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  aclprofilename|x
+  clientconnectexceptionaddress|x
+  msgvpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Client Connect Exception is an exception to the default action to take when a client using the ACL Profile connects to the Message VPN. Exceptions must be expressed as an IP address/netmask in CIDR form.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-acl_profile_name|x|||
-client_connect_exception_address|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+acl_profile_name|x
+client_connect_exception_address|x
+msg_vpn_name|x
 
 
 
@@ -40,7 +40,3 @@ This has been available since SEMP API version 2.0.
 - `acl_profile_name` (String) The name of the ACL Profile.
 - `client_connect_exception_address` (String) The IP address/netmask of the client connect exception in canonical CIDR form.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

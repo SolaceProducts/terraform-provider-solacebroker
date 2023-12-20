@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_client_required_claim Resource - solaceb
 subcategory: ""
 description: |-
   Additional claims to be verified in the ID token.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientrequiredclaimname|x|||
-  oauthprofile_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  clientrequiredclaimname|x
+  oauthprofile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 Additional claims to be verified in the ID token.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_required_claim_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+client_required_claim_name|x
+oauth_profile_name|x
 
 
 
@@ -38,7 +38,3 @@ This has been available since SEMP API version 2.24.
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
 - `client_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
 - `oauth_profile_name` (String) The name of the OAuth profile.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

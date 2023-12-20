@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_authentication_oauth_profile_resource_server_r
 subcategory: ""
 description: |-
   Additional claims to be verified in the access token.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  oauthprofilename|x|||
-  resourceserverrequiredclaimname|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  oauthprofilename|x
+  resourceserverrequiredclaimname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.25.
 ---
@@ -18,11 +18,11 @@ description: |-
 Additional claims to be verified in the access token.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-oauth_profile_name|x|||
-resource_server_required_claim_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+oauth_profile_name|x
+resource_server_required_claim_name|x
 
 
 
@@ -41,7 +41,3 @@ This has been available since SEMP API version 2.25.
 - `oauth_profile_name` (String) The name of the OAuth profile.
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
 - `resource_server_required_claim_value` (String) The required claim value.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

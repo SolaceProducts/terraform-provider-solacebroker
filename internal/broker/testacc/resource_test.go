@@ -17,8 +17,12 @@
 package acctest
 
 import (
+	"context"
 	"testing"
 
+	"terraform-provider-solacebroker/internal/broker"
+
+	fwresource "github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 )
 
@@ -34,6 +38,9 @@ resource "solacebroker_msg_vpn" "test" {
 		msg_vpn_name = "test"
 		enabled      = true
 		max_msg_spool_usage = 5
+		max_egress_flow_count = 997
+		max_endpoint_count = 998
+		max_ingress_flow_count = 999
 }
 `,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -48,6 +55,9 @@ resource "solacebroker_msg_vpn" "test" {
 		msg_vpn_name = "test"
 		enabled      = true
 		max_msg_spool_usage = 10
+		max_egress_flow_count = 997
+		max_endpoint_count = 998
+		max_ingress_flow_count = 999
 }
 `,
 				Check: resource.ComposeAggregateTestCheckFunc(
@@ -57,12 +67,15 @@ resource "solacebroker_msg_vpn" "test" {
 			},
 			// ImportState testing
 			{
-				ResourceName:      "solacebroker_msg_vpn.test",
-				ImportState:       true,
-				ImportStateVerify: true,
+				ResourceName:                         "solacebroker_msg_vpn.test",
+				ImportState:                          true,
+				ImportStateId:                        "test",
+				ImportStateVerifyIdentifierAttribute: "msg_vpn_name",
+				ImportStateVerify:                    true,
 				ImportStateVerifyIgnore: []string{
 					// These attributes need to be ignored from the test as they have broker-defaults and cannot be imported so that state will be null
 					"max_connection_count",
+					"max_kafka_broker_connection_count",
 					"max_subscription_count",
 					"max_transacted_session_count",
 					"max_transaction_count",
@@ -78,4 +91,28 @@ resource "solacebroker_msg_vpn" "test" {
 			// Delete testing automatically occurs in TestCase
 		},
 	})
+}
+
+func TestAllResourceSchemas(t *testing.T) {
+	t.Parallel()
+
+	for _, resource := range broker.Resources {
+		ctx := context.Background()
+		schemaRequest := fwresource.SchemaRequest{}
+		schemaResponse := &fwresource.SchemaResponse{}
+
+		// Instantiate the resource.Resource and call its Schema method
+		resource().Schema(ctx, schemaRequest, schemaResponse)
+
+		if schemaResponse.Diagnostics.HasError() {
+			t.Fatalf("Schema method diagnostics: %+v", schemaResponse.Diagnostics)
+		}
+
+		// Validate the schema
+		diagnostics := schemaResponse.Schema.ValidateImplementation(ctx)
+
+		if diagnostics.HasError() {
+			t.Fatalf("Schema validation diagnostics: %+v", diagnostics)
+		}
+	}
 }

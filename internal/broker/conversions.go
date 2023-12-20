@@ -136,9 +136,6 @@ func (c *ObjectConverter) FromTerraform(v tftypes.Value) (any, error) {
 		return nil, err
 	}
 	for _, attr := range c.attributes {
-		if attr.TerraformName == "id" {
-			continue
-		}
 		v, ok := tfAttributes[attr.TerraformName]
 		if ok && v.IsKnown() && !v.IsNull() {
 			v, err := attr.Converter.FromTerraform(v)

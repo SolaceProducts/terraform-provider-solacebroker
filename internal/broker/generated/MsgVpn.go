@@ -37,19 +37,10 @@ func init() {
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
 			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
-			{
 				BaseType:            broker.String,
 				SempName:            "alias",
 				TerraformName:       "alias",
-				MarkdownDescription: "The name of another Message VPN which this Message VPN is an alias for. When this Message VPN is enabled, the alias has no effect. When this Message VPN is disabled, Clients (but not Bridges and routing Links) logging into this Message VPN are automatically logged in to the other Message VPN, and authentication and authorization take place in the context of the other Message VPN.\n\nAliases may form a non-circular chain, cascading one to the next. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.14.",
+				MarkdownDescription: "The name of another Message VPN which this Message VPN is an alias for. When this Message VPN is enabled, the alias has no effect. When this Message VPN is disabled, Clients (but not Bridges and routing Links) logging into this Message VPN are automatically logged in to the other Message VPN, and authentication and authorization take place in the context of the other Message VPN.\n\nAliases may form a non-circular chain, cascading one to the next.\n\nChanges to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.14.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -1812,6 +1803,18 @@ func init() {
 			},
 			{
 				BaseType:            broker.Int64,
+				SempName:            "maxKafkaBrokerConnectionCount",
+				TerraformName:       "max_kafka_broker_connection_count",
+				MarkdownDescription: "The maximum number of simultaneous Kafka broker connections of the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since SEMP API version 2.39.",
+				Type:                types.Int64Type,
+				TerraformType:       tftypes.Number,
+				Converter:           broker.IntegerConverter{},
+				Int64Validators: []validator.Int64{
+					int64validator.Between(0, 10000),
+				},
+			},
+			{
+				BaseType:            broker.Int64,
 				SempName:            "maxMsgSpoolUsage",
 				TerraformName:       "max_msg_spool_usage",
 				MarkdownDescription: "The maximum message spool usage by the Message VPN, in megabytes. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
@@ -2404,7 +2407,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "serviceRestIncomingAuthorizationHeaderHandling",
 				TerraformName:       "service_rest_incoming_authorization_header_handling",
-				MarkdownDescription: "The handling of Authorization headers for incoming REST connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"drop\"`. The allowed values and their meaning are:\n\n<pre>\n\"drop\" - Do not attach the Authorization header to the message as a user property. This configuration is most secure.\n\"forward\" - Forward the Authorization header, attaching it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n\"legacy\" - If the Authorization header was used for authentication to the broker, do not attach it to the message. If the Authorization header was not used for authentication to the broker, attach it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n</pre>\n Available since SEMP API version 2.19.",
+				MarkdownDescription: "The handling of Authorization headers for incoming REST connections. Authorization header handling settings apply only when the Message VPN is in gateway mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"drop\"`. The allowed values and their meaning are:\n\n<pre>\n\"drop\" - Do not attach the Authorization header to the message as a user property. This configuration is most secure.\n\"forward\" - Forward the Authorization header, attaching it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n\"legacy\" - If the Authorization header was used for authentication to the broker, do not attach it to the message. If the Authorization header was not used for authentication to the broker, attach it to the message as a user property in the same way as other headers. For best security, use the drop setting.\n</pre>\n Available since SEMP API version 2.19.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

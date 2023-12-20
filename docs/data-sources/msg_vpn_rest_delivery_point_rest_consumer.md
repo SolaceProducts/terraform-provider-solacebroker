@@ -4,18 +4,18 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer Data Source 
 subcategory: ""
 description: |-
   REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authenticationawssecretaccesskey||x||x
-  authenticationclientcertcontent||x||x
-  authenticationclientcertpassword||x||
-  authenticationhttpbasicpassword||x||x
-  authenticationhttpheadervalue||x||x
-  authenticationoauthclientsecret||x||x
-  authenticationoauthjwtsecretkey||x||x
-  msgvpnname|x|||
-  restconsumername|x|||
-  restdeliverypointname|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  authenticationawssecretaccesskey||x|x
+  authenticationclientcertcontent||x|x
+  authenticationclientcertpassword||x|
+  authenticationhttpbasicpassword||x|x
+  authenticationhttpheadervalue||x|x
+  authenticationoauthclientsecret||x|x
+  authenticationoauthjwtsecretkey||x|x
+  msgvpnname|x||
+  restconsumername|x||
+  restdeliverypointname|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -25,18 +25,18 @@ description: |-
 REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_aws_secret_access_key||x||x
-authentication_client_cert_content||x||x
-authentication_client_cert_password||x||
-authentication_http_basic_password||x||x
-authentication_http_header_value||x||x
-authentication_oauth_client_secret||x||x
-authentication_oauth_jwt_secret_key||x||x
-msg_vpn_name|x|||
-rest_consumer_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+authentication_aws_secret_access_key||x|x
+authentication_client_cert_content||x|x
+authentication_client_cert_password||x|
+authentication_http_basic_password||x|x
+authentication_http_header_value||x|x
+authentication_oauth_client_secret||x|x
+authentication_oauth_jwt_secret_key||x|x
+msg_vpn_name|x||
+rest_consumer_name|x||
+rest_delivery_point_name|x||
 
 
 
@@ -88,7 +88,6 @@ This has been available since SEMP API version 2.0.
 "put" - Use the PUT HTTP method.
 </pre>
  Available since SEMP API version 2.17.
-- `id` (String) Identifier attribute, for internal use only.
 - `local_interface` (String) The interface that will be used for all outgoing connections associated with the REST Consumer. When unspecified, an interface is automatically chosen. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `max_post_wait_time` (Number) The maximum amount of time (in seconds) to wait for an HTTP POST response from the REST Consumer. Once this time is exceeded, the TCP connection is reset. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`.
 - `outgoing_connection_count` (Number) The number of concurrent TCP connections open to the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.

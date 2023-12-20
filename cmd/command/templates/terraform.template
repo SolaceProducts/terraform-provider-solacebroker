@@ -7,7 +7,7 @@ terraform {
   }
 }
 
-provider solacebroker {
+provider "solacebroker" {
   # username       = "admin"                 # This is a placeholder.
   # password       = "admin"                 # This is a placeholder.
   url            = "{{.BrokerURL}}"
@@ -16,7 +16,8 @@ provider solacebroker {
 {{range  .BrokerResources}}
 
 {{range $k, $v := . -}}
-resource {{$k}} {
+{{$kslice :=  splitHCLResourceName $k}}
+resource "{{readHCLResourceName $kslice 0 }}" "{{readHCLResourceName $kslice 1}}" {
 {{$v}}
 }
 {{end -}}

@@ -25,9 +25,10 @@ import (
 	"net/url"
 	"path/filepath"
 	"strings"
+	"sync"
 
+	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/diag"
-	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -36,13 +37,33 @@ import (
 	"terraform-provider-solacebroker/internal/semp"
 )
 
+type brokerResource brokerEntity[schema.Schema]
+
 const (
-	defaults = "defaults"
-	defaultObjectName = "default"
+	defaults                        = "defaults"
+	defaultObjectName               = "default"
+	minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
 )
 
 var (
-	ErrDeleteSingletonOrDefaultsNotAllowed = errors.New("Deleting singleton or default objects are not allowed from the broker")
+	ErrDeleteSingletonOrDefaultsNotAllowed = errors.New("deleting singleton or default objects are not allowed from the broker")
+	BrokerPlatformName                     = map[string]string{
+		"VMR":       "Software Event Broker",
+		"Appliance": "Appliance",
+	}
+)
+
+var (
+	_ resource.ResourceWithConfigure        = &brokerResource{}
+	_ resource.ResourceWithConfigValidators = &brokerResource{}
+	_ resource.ResourceWithImportState      = &brokerResource{}
+	_ resource.ResourceWithUpgradeState     = &brokerResource{}
+)
+
+var (
+	skipApiCheck      = false
+	apiAlreadyChecked = false
+	lock              sync.Mutex
 )
 
 func newBrokerResource(inputs EntityInputs) brokerEntity[schema.Schema] {
@@ -60,14 +81,39 @@ func newBrokerResourceClosure(templateEntity brokerEntity[schema.Schema]) func()
 	}
 }
 
-var (
-	_ resource.ResourceWithConfigure        = &brokerResource{}
-	_ resource.ResourceWithConfigValidators = &brokerResource{}
-	_ resource.ResourceWithImportState      = &brokerResource{}
-	_ resource.ResourceWithUpgradeState     = &brokerResource{}
-)
+func forceBrokerRequirementsCheck() {
+	apiAlreadyChecked = false
+}
 
-type brokerResource brokerEntity[schema.Schema]
+func checkBrokerRequirements(ctx context.Context, client *semp.Client) error {
+	if !skipApiCheck && !apiAlreadyChecked {
+		lock.Lock()
+		defer lock.Unlock()
+		if apiAlreadyChecked {
+			return nil
+		}
+		path := "/about/api"
+		result, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
+		if err != nil {
+			return err
+		}
+		// To support broker developer versions ignore "+" in the returned version
+		brokerSempVersion, err := version.NewVersion(strings.Replace(result["sempVersion"].(string), "+", "", -1))
+		if err != nil {
+			return err
+		}
+		minSempVersion, _ := version.NewVersion(minRequiredBrokerSempApiVersion)
+		if brokerSempVersion.LessThan(minSempVersion) {
+			return fmt.Errorf("broker SEMP API version %s does not meet provider required minimum SEMP API version: %s", brokerSempVersion, minSempVersion)
+		}
+		brokerPlatform := result["platform"].(string)
+		if brokerPlatform != SempDetail.Platform {
+			return fmt.Errorf("broker platform \"%s\" does not match provider supported platform: %s", BrokerPlatformName[brokerPlatform], BrokerPlatformName[SempDetail.Platform])
+		}
+		apiAlreadyChecked = true
+	}
+	return nil
+}
 
 // Compares the value with the attribute default value. Must take care of type conversions.
 func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, brokerDefault tftypes.Value) (bool, error) {
@@ -100,7 +146,6 @@ func isValueEqualsAttrDefault(attr *AttributeInfo, response tftypes.Value, broke
 }
 
 func toId(path string) string {
-	// the generated id will only be used for testing
 	return filepath.Base(path)
 }
 
@@ -216,22 +261,22 @@ func (r *brokerResource) Configure(_ context.Context, request resource.Configure
 	if request.ProviderData == nil {
 		return
 	}
-	config, ok := request.ProviderData.(*providerData)
+	client, ok := request.ProviderData.(*semp.Client)
 	if !ok {
-		d := diag.NewErrorDiagnostic("Unexpected resource configuration", fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, config))
-		response.Diagnostics.Append(d)
+		response.Diagnostics.AddError(
+			"Unexpected datasource configuration",
+			fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, client),
+		)
 		return
 	}
-	r.providerData = config
+	r.client = client
 }
 
 func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequest, response *resource.CreateResponse) {
-	client, d := client(r.providerData)
-	if d != nil {
-		response.Diagnostics.Append(d)
-		if response.Diagnostics.HasError() {
-			return
-		}
+	client := r.client
+	if err := checkBrokerRequirements(ctx, client); err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Broker check failed", err)
+		return
 	}
 
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
@@ -241,17 +286,12 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 	}
 
 	var sempPath string
-	var id string
 	method := http.MethodPut
 	if r.postPathTemplate != "" {
 		method = http.MethodPost
 		sempPath, err = resolveSempPath(r.postPathTemplate, r.identifyingAttributes, request.Plan.Raw)
-		var idPath string
-		idPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
-		id = toId(idPath)
 	} else {
 		sempPath, err = resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
-		id = toId(sempPath)
 	}
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
@@ -287,16 +327,13 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 	response.Private.SetKey(ctx, defaults, privatData)
 	// Set the response
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), id)
 }
 
 func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest, response *resource.ReadResponse) {
-	client, d := client(r.providerData)
-	if d != nil {
-		response.Diagnostics.Append(d)
-		if response.Diagnostics.HasError() {
-			return
-		}
+	client := r.client
+	if err := checkBrokerRequirements(ctx, client); err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Broker check failed", err)
+		return
 	}
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.State.Raw)
 	if err != nil {
@@ -308,14 +345,11 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 		if errors.Is(err, semp.ErrResourceNotFound) {
 			tflog.Info(ctx, fmt.Sprintf("Detected missing resource %v, removing from state", sempPath))
 			response.State.RemoveResource(ctx)
-		} else if err == semp.ErrAPIUnreachable {
-			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", sempPath), err)
 		} else {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		}
 		return
 	}
-	sempData["id"] = toId(sempPath)
 	responseData, err := r.converter.ToTerraform(sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP response conversion failed", err)
@@ -350,12 +384,10 @@ func (r *brokerResource) Read(ctx context.Context, request resource.ReadRequest,
 }
 
 func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequest, response *resource.UpdateResponse) {
-	client, d := client(r.providerData)
-	if d != nil {
-		response.Diagnostics.Append(d)
-		if response.Diagnostics.HasError() {
-			return
-		}
+	client := r.client
+	if err := checkBrokerRequirements(ctx, client); err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Broker check failed", err)
+		return
 	}
 	sempData, err := r.converter.FromTerraform(request.Plan.Raw)
 	if err != nil {
@@ -363,7 +395,6 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 		return
 	}
 	sempPath, err := resolveSempPath(r.pathTemplate, r.identifyingAttributes, request.Plan.Raw)
-	id := toId(sempPath)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "Error generating SEMP path", err)
 		return
@@ -398,10 +429,14 @@ func (r *brokerResource) Update(ctx context.Context, request resource.UpdateRequ
 	response.Private.SetKey(ctx, defaults, privatData)
 	// Set the response
 	response.State.Raw = request.Plan.Raw
-	response.State.SetAttribute(ctx, path.Root("id"), id)
 }
 
 func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequest, response *resource.DeleteResponse) {
+	client := r.client
+	if err := checkBrokerRequirements(ctx, client); err != nil {
+		addErrorToDiagnostics(&response.Diagnostics, "Broker check failed", err)
+		return
+	}
 	// don't actually do anything if the object is a singleton
 	if r.objectType == SingletonObject {
 		addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but singleton object %s cannot be deleted", r.terraformName), ErrDeleteSingletonOrDefaultsNotAllowed)
@@ -413,31 +448,21 @@ func (r *brokerResource) Delete(ctx context.Context, request resource.DeleteRequ
 		return
 	}
 	// don't actually do anything if the object is a default object
-  if toId(path) == defaultObjectName {
+	if toId(path) == defaultObjectName {
 		switch r.terraformName {
-			case
-				"msg_vpn",
-				"msg_vpn_client_profile",
-				"msg_vpn_acl_profile",
-				"msg_vpn_client_username":
-				addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but default object %s, \"%s\" cannot be deleted", r.terraformName, toId(path)), ErrDeleteSingletonOrDefaultsNotAllowed)
-				return
-		}
-	}
-  // request delete
-	client, d := client(r.providerData)
-	if d != nil {
-		response.Diagnostics.Append(d)
-		if response.Diagnostics.HasError() {
+		case
+			"msg_vpn",
+			"msg_vpn_client_profile",
+			"msg_vpn_acl_profile",
+			"msg_vpn_client_username":
+			addWarningToDiagnostics(&response.Diagnostics, fmt.Sprintf("Associated state will be removed but default object %s, \"%s\" cannot be deleted", r.terraformName, toId(path)), ErrDeleteSingletonOrDefaultsNotAllowed)
 			return
 		}
 	}
+	// request delete
 	_, err = client.RequestWithoutBody(ctx, http.MethodDelete, path)
 	if err != nil {
-		if err == semp.ErrAPIUnreachable {
-			addErrorToDiagnostics(&response.Diagnostics, fmt.Sprintf("SEMP call failed. HOST not reachable. %v", path), err)
-			return
-		} else if !errors.Is(err, semp.ErrResourceNotFound) {
+		if !errors.Is(err, semp.ErrResourceNotFound) {
 			addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 			return
 		}

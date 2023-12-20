@@ -30,20 +30,11 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_client_profile",
-		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nallow_cut_through_forwarding_enabled|||x|\napi_queue_management_copy_from_on_create_name|||x|\napi_topic_endpoint_management_copy_from_on_create_name|||x|\nclient_profile_name|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nallow_cut_through_forwarding_enabled||x\napi_queue_management_copy_from_on_create_name||x\napi_topic_endpoint_management_copy_from_on_create_name||x\nclient_profile_name|x|\nmsg_vpn_name|x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/clientProfiles/{clientProfileName}",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.Bool,
 				SempName:            "allowBridgeConnectionsEnabled",
@@ -1334,7 +1325,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "queueGuaranteed1MinMsgBurst",
 				TerraformName:       "queue_guaranteed1_min_msg_burst",
-				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-3) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.",
+				MarkdownDescription: "The number of messages that are always allowed entry into the \"Guaranteed 1\" (G-1) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},

@@ -4,13 +4,13 @@ page_title: "solacebroker_msg_vpn_client_profile Data Source - solacebroker"
 subcategory: ""
 description: |-
   Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  allowcutthroughforwardingenabled|||x|
-  apiqueuemanagementcopyfromoncreatename|||x|
-  apitopicendpointmanagementcopyfromoncreatename|||x|
-  clientprofilename|x|||
-  msgvpn_name|x|||
+  Attribute|Identifying|Deprecated
+  :---|:---:|:---:
+  allowcutthroughforwardingenabled||x
+  apiqueuemanagementcopyfromoncreatename||x
+  apitopicendpointmanagementcopyfromoncreatename||x
+  clientprofilename|x|
+  msgvpn_name|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -20,13 +20,13 @@ description: |-
 Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-allow_cut_through_forwarding_enabled|||x|
-api_queue_management_copy_from_on_create_name|||x|
-api_topic_endpoint_management_copy_from_on_create_name|||x|
-client_profile_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying|Deprecated
+:---|:---:|:---:
+allow_cut_through_forwarding_enabled||x
+api_queue_management_copy_from_on_create_name||x
+api_topic_endpoint_management_copy_from_on_create_name||x
+client_profile_name|x|
+msg_vpn_name|x|
 
 
 
@@ -76,7 +76,6 @@ This has been available since SEMP API version 2.0.
 - `event_subscription_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_subscription_count_threshold))
 - `event_transacted_session_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transacted_session_count_threshold))
 - `event_transaction_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transaction_count_threshold))
-- `id` (String) Identifier attribute, for internal use only.
 - `max_connection_count_per_client_username` (Number) The maximum number of client connections per Client Username using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `max_egress_flow_count` (Number) The maximum number of transmit flows that can be created by one client using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_endpoint_count_per_client_username` (Number) The maximum number of queues and topic endpoints that can be created by clients with the same Client Username using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
@@ -94,7 +93,7 @@ This has been available since SEMP API version 2.0.
 - `queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
 - `queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
 - `queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20000`.
-- `queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-3) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
+- `queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-1) priority queue, regardless of the `queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
 - `reject_msg_to_sender_on_no_subscription_match_enabled` (Boolean) Enable or disable the sending of a negative acknowledgment (NACK) to a client using the Client Profile when discarding a guaranteed message due to no matching subscription found. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.2.
 - `replication_allow_client_connect_when_standby_enabled` (Boolean) Enable or disable allowing clients using the Client Profile to connect to the Message VPN when its replication state is standby. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_min_keepalive_timeout` (Number) The minimum client keepalive timeout which will be enforced for client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`. Available since SEMP API version 2.19.

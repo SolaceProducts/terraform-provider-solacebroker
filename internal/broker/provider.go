@@ -18,12 +18,8 @@ package broker
 
 import (
 	"context"
-	"fmt"
-	"net/http"
-	"net/http/cookiejar"
 	"strings"
 
-	"github.com/hashicorp/go-version"
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
@@ -32,12 +28,8 @@ import (
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
-const minRequiredBrokerSempApiVersion = "2.33" // Shipped with broker version 10.3
-
 var _ provider.Provider = &BrokerProvider{}
 var ProviderVersion string
-
-var Cookiejar, _ = cookiejar.New(nil)
 
 type BrokerProvider struct {
 	Version string
@@ -52,7 +44,7 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 	response.Schema = schema.Schema{
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
-				MarkdownDescription: "The base URL of the event broker, for example `https://mybroker.example.org:1943/`. The trailing / can be omitted.",
+				MarkdownDescription: "The base URL of the event broker, for example `https://mybroker.example.org:<semp-service-port>/`. The trailing / can be omitted.",
 				Required:            true,
 			},
 			"username": schema.StringAttribute{
@@ -93,6 +85,10 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 				MarkdownDescription: "Disable validation of server SSL certificates, accept/ignore self-signed. The default value is false.",
 				Optional:            true,
 			},
+			"skip_api_check": schema.BoolAttribute{
+				MarkdownDescription: "Disable validation of the broker SEMP API for supported platform and minimum version. The default value is false.",
+				Optional:            true,
+			},
 		},
 		MarkdownDescription: "",
 	}
@@ -106,11 +102,9 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
-
 	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
 	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
-	tflog.Debug(ctx, "Configuring solacebroker provider client")
-
+	tflog.Debug(ctx, "Creating SEMP client")
 	client, d := client(&config)
 	if d != nil {
 		resp.Diagnostics.Append(d)
@@ -118,29 +112,10 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 			return
 		}
 	}
-
-	path := "/about/api"
-	result, err := client.RequestWithoutBody(ctx, http.MethodGet, path)
-	if err != nil {
-		addErrorToDiagnostics(&resp.Diagnostics, "SEMP call failed", err)
-		return
-	}
-	brokerSempVersion, err := version.NewVersion(result["sempVersion"].(string))
-	if err != nil {
-		addErrorToDiagnostics(&resp.Diagnostics, "unable to parse SEMP version returned from \"/about/api\"", err)
-		return
-	}
-	minSempVersion, _ := version.NewVersion(minRequiredBrokerSempApiVersion)
-	if brokerSempVersion.LessThan(minSempVersion) {
-		err := fmt.Errorf("BrokerSempVersion %s is less than required %s", brokerSempVersion, minSempVersion)
-		addErrorToDiagnostics(&resp.Diagnostics, "Broker does not meet minimum SEMP API version", err)
-		return
-	}
-
 	tflog.Info(ctx, "Solacebroker provider client config success")
-
-	resp.ResourceData = &config
-	resp.DataSourceData = &config
+	resp.ResourceData = client
+	resp.DataSourceData = client
+	forceBrokerRequirementsCheck()
 }
 
 func (p *BrokerProvider) Resources(_ context.Context) []func() resource.Resource {
@@ -162,6 +137,7 @@ type providerData struct {
 	RequestTimeoutDuration types.String `tfsdk:"request_timeout_duration"`
 	RequestMinInterval     types.String `tfsdk:"request_min_interval"`
 	InsecureSkipVerify     types.Bool   `tfsdk:"insecure_skip_verify"`
+	SkipApiCheck           types.Bool   `tfsdk:"skip_api_check"`
 }
 
 func New(version string) func() provider.Provider {

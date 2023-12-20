@@ -16,18 +16,20 @@ You can run the provider binary directly with the `generate` command to generate
 
 - `<binary>` is the broker provider binary.
 - `<broker URL>` is the broker address, for example `https://mybroker.example.org:1943/`.
-- `<provider-specific identifier>` are the similar to the Terraform Import command. This is the resource name and possible values to find a specific resource.
+- `<provider-specific identifier>` is similar to the Terraform Import command. This is the resource name and possible values to find a specific resource.
 - `<filename>` is the desirable name of the generated filename.
 - There are also supported options, which mirror the configuration options for the provider object. These can be found [here](#supported-options).
 
+This generator supports configuring software event brokers and will fail if applied against an appliance. This check may be overridden by setting the `SOLACEBROKER_SKIP_API_CHECK=true` environment variable.
+
 ## Important notes
 
-The generated configuration shoud be reviewed for followings:
+You should review the generated configuration for the following:
 
-* Provider configuration values (url, username, etc.) may need to be updated.
-* Write-only attributes, such as passwords, are omitted from the config as they cannot be read from the broker configuration. They need to be added manually.
-* Default resources may be present that may be omitted.
-* The generator uses a naming scheme for the resources. This may be updated by manually replacing the generated names.
+* You may need to update provider configuration values (URL, username, etc.)
+* Write-only attributes, such as passwords, are omitted from the config as they cannot be read from the broker configuration. You need to add them manually.
+* Default resources may be present that you can omit.
+* The generator uses a naming scheme for the resources. You can update this by manually replacing the generated names.
 
 ## Usage
 
@@ -43,9 +45,8 @@ help        Help about any command
 version     Provides version information about the current binary
 ```
 
-To `generate` the configuration, make sure all ENVIRONMENT VARIABLES, which mirrors the configuration options for the
-provider object are set. The list of variables
-are listed [here](#supported-options).
+To `generate` the configuration, make sure all ENVIRONMENT VARIABLES, which mirror the configuration options for the
+provider object are set. You can find the list of variables [here](#supported-options).
 
 For example:
 `SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf`
@@ -63,22 +64,23 @@ Message VPN, `default`, assuming a msg_vpn_queue resource called `test` exists f
 
 ### Supported Options
 
-The following parameters can be set as ENVIRONMENT VARIABLES. When used as environment variables
-each parameter must be preceded with _SOLACEBROKER__. For example for a PubSub+ broker using username and password
+The following parameters can be set as ENVIRONMENT VARIABLES. When used as an environment variable,
+each parameter must be preceded with _SOLACEBROKER__. An example for a PubSub+ broker using username and password
 _**admin/password**_
 would be:
 
 `SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=password`
 
-- `bearer_token`, (String, Sensitive, Mandatory if `password` will not be provided)
-- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed.
-- `password` (String, Sensitive, Mandatory is `bearer_token` will not be provided)
-- `request_min_interval` (String)
-- `request_timeout_duration` (String)
-- `retries` (Number)
-- `retry_max_interval` (String)
-- `retry_min_interval` (String)
-- `username` (String, Mandatory) The username for the broker request.
+- `SOLACEBROKER_BEARER_TOKEN` (String, Sensitive, Mandatory if `password` not provided)
+- `SOLACEBROKER_INSECURE_SKIP_VERIFY` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed.
+- `SOLACEBROKER_PASSWORD` (String, Sensitive, Mandatory if `bearer_token` not provided)
+- `SOLACEBROKER_REQUEST_MIN_INTERVAL` (String)
+- `SOLACEBROKER_REQUEST_TIMEOUT_DURATION` (String)
+- `SOLACEBROKER_RETRIES` (Number)
+- `SOLACEBROKER_RETRY_MAX_INTERVAL` (String)
+- `SOLACEBROKER_RETRY_MIN_INTERVAL` (String)
+- `SOLACEBROKER_SKIP_API_CHECK` (String) Disable validation of the broker SEMP API for supported platform and minimum version.
+- `SOLACEBROKER_USERNAME` (String, Mandatory) The username for the broker request.
 
 ## Troubleshooting
 
@@ -86,8 +88,8 @@ The following issues may arise while using the generator.
 
 | Error           | SEMP call failed. unexpected status 401 (401 Unauthorized)                 |
 |-----------------|----------------------------------------------------------------------------|
-| Explanation     | Configurations to connect to the PubSub+ Broker not accurate.              |
-| Possible Action | Check and confirm, configuration details to PubSub+ Broker are accurate.   |
+| Explanation     | Configurations to connect to the PubSub+ broker not accurate.              |
+| Possible Action | Check and confirm, configuration details to PubSub+ broker are accurate.   |
 
 | Error           | SOLACEBROKER_xxx is mandatory but not available                                    |
 |-----------------|------------------------------------------------------------------------------------|
@@ -108,3 +110,8 @@ The following issues may arise while using the generator.
 |-----------------|------------------------------------------------------------------------------------------------------------|
 | Explanation     | This indicates the resource by name _xxx_ is not recognized by the generator.                              |
 | Possible Action | Ensure the resource name used is available as a Terraform resource for the version of the provider in use. |
+
+| Error           | Error: Broker check failed                                                                                  |
+|-----------------|-------------------------------------------------------------------------------------------------------------|
+| Explanation     | This indicates that broker platform does not match provider supported platform                              |
+| Possible Action | Ensure that an appliance provider is used against a software broker platform and not an appliance platform. |

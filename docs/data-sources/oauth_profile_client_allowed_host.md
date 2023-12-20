@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_client_allowed_host Data Source - solace
 subcategory: ""
 description: |-
   A valid hostname for this broker in OAuth redirects.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  allowedhost|x|||
-  oauthprofile_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  allowedhost|x
+  oauthprofile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 A valid hostname for this broker in OAuth redirects.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-allowed_host|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+allowed_host|x
+oauth_profile_name|x
 
 
 
@@ -37,7 +37,3 @@ This has been available since SEMP API version 2.24.
 
 - `allowed_host` (String) An allowed value for the Host header.
 - `oauth_profile_name` (String) The name of the OAuth profile.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

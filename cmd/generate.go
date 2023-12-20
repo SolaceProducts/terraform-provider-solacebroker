@@ -23,9 +23,9 @@ import (
 	"strings"
 	"terraform-provider-solacebroker/cmd/broker"
 	command "terraform-provider-solacebroker/cmd/command"
+	"terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 
-	"github.com/hashicorp/go-version"
 	"github.com/spf13/cobra"
 	"golang.org/x/exp/maps"
 )
@@ -33,20 +33,21 @@ import (
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
 	Use:   "generate --url=<terraform resource address> <provider-specific identifier> <filename>",
-	Short: "Generates a Terraform configuration file for a specified PubSubPlus Broker object and all child objects known to the provider",
+	Short: "Generates a Terraform configuration file for a specified PubSub+ event broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSubPlus event broker.
+This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
 
  <binary> generate <terraform resource address> <provider-specific identifier> <filename>
 
  where;
-	<binary> is the broker provider binary,
-	<terraform resource address> is the terraform resource address, for example http://localhost:8080,
-	<provider-specific identifier> are the similar to the Terraform Import command,this is the resource name and possible values to find a specific resource,
-	<filename> is the desirable name of the generated filename.
+	<binary> is the broker provider binary
+	<terraform resource address> is the broker SEMP API address, for example http://<host>:<semp-service-port>
+	<provider-specific identifier> is similar to the Terraform Import command. This is the resource name and possible values to find a specific resource
+	<filename> is the desirable name of the generated filename
 
-For example:
-  terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf
+Example:
+  SOLACEBROKER_USERNAME=adminuser SOLACEBROKER_PASSWORD=pass \
+	terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf
 
 This command would create a file my-messagevpn.tf that contains a resource definition for the default message VPN and any child objects, assuming the appropriate broker credentials were set in environment variables.`,
 
@@ -85,6 +86,11 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			fileName = fileName + ".tf"
 		}
 
+		skipApiCheck, err := command.BooleanWithDefaultFromEnv("skip_api_check", false, false)
+		if err != nil {
+			command.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
+			os.Exit(1)
+		}
 		//Confirm SEMP version and connection via client
 		aboutPath := "/about/api"
 		result, err := client.RequestWithoutBody(cmd.Context(), http.MethodGet, aboutPath)
@@ -92,15 +98,16 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			command.LogCLIError("SEMP call failed. " + err.Error())
 			os.Exit(1)
 		}
-		brokerSempVersion, err := version.NewVersion(result["sempVersion"].(string))
-		if err != nil {
-			command.LogCLIError("Unable to parse SEMP version from API")
+		brokerSempVersion := result["sempVersion"].(string)
+		brokerPlatform := result["platform"].(string)
+		if !skipApiCheck && brokerPlatform != generated.Platform {
+			command.LogCLIError(fmt.Sprintf("Broker platform \"%s\" does not match generator supported platform: %s", BrokerPlatformName[brokerPlatform], BrokerPlatformName[generated.Platform]))
 			os.Exit(1)
 		}
-		command.LogCLIInfo("Connection successful")
-		command.LogCLIInfo("Broker SEMP version is " + brokerSempVersion.String())
+		command.LogCLIInfo("Connection successful.")
+		command.LogCLIInfo(fmt.Sprintf("Broker SEMP version is %s, Generator SEMP version is %s", brokerSempVersion, generated.SempVersion))
 
-		command.LogCLIInfo("Attempt generation for broker object: " + brokerObjectType + " of " + providerSpecificIdentifier + " in file " + fileName)
+		command.LogCLIInfo("Attempting config generation for object and its child-objects: " + brokerObjectType + ", identifier: " + providerSpecificIdentifier + ", destination file: " + fileName)
 
 		object := &command.ObjectInfo{}
 
@@ -132,7 +139,7 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 			maps.Copy(generatedResource, generatedResourceChildren)
 		}
 
-		fmt.Println("\nReplacing hardcoded names of inter-object dependencies by references where required ...")
+		command.LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
 		fixInterObjectDependencies(brokerResources)
 
 		// Format the results
@@ -153,9 +160,9 @@ This command would create a file my-messagevpn.tf that contains a resource defin
 		}
 		object.FileName = fileName
 
-		command.LogCLIInfo("Found all resources. Generation started for file " + fileName)
+		command.LogCLIInfo("Found all resources. Writing file " + fileName)
 		_ = command.GenerateTerraformFile(object)
-		command.LogCLIInfo(fileName + " created successfully.")
+		command.LogCLIInfo(fileName + " created successfully.\n")
 		os.Exit(0)
 	},
 }

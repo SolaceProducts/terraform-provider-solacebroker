@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_authorization_group Resource - solacebroker"
 subcategory: ""
 description: |-
   To use client authorization groups configured on an external server to provide client authorizations, Authorization Group objects must be created on the Message VPN that match the authorization groups provisioned on the external server. These objects must be configured with the client profiles and ACL profiles that will be assigned to the clients that belong to those authorization groups. A newly created group is placed at the end of the group list which is the lowest priority.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authorizationgroupname|x|||
-  msgvpnname|x|||
-  orderafterauthorizationgroupname||x||
-  orderbeforeauthorizationgroupname||x||
+  Attribute|Identifying|Write-Only
+  :---|:---:|:---:
+  authorizationgroupname|x|
+  msgvpnname|x|
+  orderafterauthorizationgroupname||x
+  orderbeforeauthorizationgroupname||x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -19,12 +19,12 @@ description: |-
 To use client authorization groups configured on an external server to provide client authorizations, Authorization Group objects must be created on the Message VPN that match the authorization groups provisioned on the external server. These objects must be configured with the client profiles and ACL profiles that will be assigned to the clients that belong to those authorization groups. A newly created group is placed at the end of the group list which is the lowest priority.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authorization_group_name|x|||
-msg_vpn_name|x|||
-order_after_authorization_group_name||x||
-order_before_authorization_group_name||x||
+Attribute|Identifying|Write-Only
+:---|:---:|:---:
+authorization_group_name|x|
+msg_vpn_name|x|
+order_after_authorization_group_name||x
+order_before_authorization_group_name||x
 
 
 
@@ -49,7 +49,3 @@ This has been available since SEMP API version 2.0.
 - `enabled` (Boolean) Enable or disable the Authorization Group in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `order_after_authorization_group_name` (String, Sensitive) Lower the priority to be less than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.
 - `order_before_authorization_group_name` (String, Sensitive) Raise the priority to be greater than this group. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is not applicable.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

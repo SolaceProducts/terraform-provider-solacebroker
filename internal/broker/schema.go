@@ -47,10 +47,11 @@ func RegisterResource(inputs EntityInputs) {
 
 var SempDetail SempVersionDetail
 
-func RegisterSempVersionDetails(sempAPIBasePath string, sempVersion string) {
+func RegisterSempVersionDetails(sempAPIBasePath string, sempVersion string, platform string) {
 	SempDetail = SempVersionDetail{
-		BasePath: sempAPIBasePath,
-		SempVersion:  sempVersion,
+		BasePath:    sempAPIBasePath,
+		SempVersion: sempVersion,
+		Platform:    platform,
 	}
 }
 
@@ -74,24 +75,6 @@ func modifiers[T any](requiresReplace bool, f func() T) []T {
 func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, requiresReplace bool) map[string]schema.Attribute {
 	tfAttributes := map[string]schema.Attribute{}
 	for _, attr := range attributes {
-		if attr.TerraformName == "id" {
-			// Handle the id attribute for each object, required by the acceptance test framework
-			if isResource {
-				tfAttributes["id"] = schema.StringAttribute{
-					Description: "Identifier attribute, for internal use only.",
-					Computed:    true,
-					}
-			} else {
-				tfAttributes["id"] = schema.StringAttribute{
-					Description: "Identifier attribute, for internal use only.",
-					Computed:    true,
-					PlanModifiers:       []planmodifier.String{
-						stringplanmodifier.UseStateForUnknown(),
-					},
-				}
-			}
-			continue
-		}
 		if attr.Sensitive && !isResource {
 			// write-only attributes can't be retrieved so we don't expose them in the datasource
 			continue
