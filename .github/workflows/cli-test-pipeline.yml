@@ -10,10 +10,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: "1.20"
+          go-version: "1.21"
 
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Terraform latest
         uses: hashicorp/setup-terraform@v2
@@ -21,8 +21,8 @@ jobs:
       - name: Setup Test broker
         run: |
           mkdir -p $HOME/solace; chmod 777 $HOME/solace
-          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
+            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:"10.6.1.52"
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Use local provider
@@ -35,36 +35,10 @@ jobs:
             direct {}
           }" > ~/.terraformrc
 
-      - name: Checkout generator
-        uses: actions/checkout@v3
-        with:
-          repository: SolaceDev/broker-terraform-provider-generator
-          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
-          path: broker-terraform-provider-generator
-          ref: "v0.1.0"
-
-      - name: Build and install generator
-        run: |
-          pushd broker-terraform-provider-generator
-          go mod tidy
-          go install .
-          ls ~/go/bin
-          popd
-
-      - name: Generate provider code
-        run: |
-          SWAGGER_SPEC_NAME=`ls ci/swagger_spec`
-          echo "Generating code using spec $SWAGGER_SPEC_NAME"
-          BASE=`pwd`
-          pushd internal/broker/generated
-          rm ./*
-          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
-          popd
-
       - name: Build provider
         run: |
-          go mod tidy
-          go install .
+          make test-coverage
+          make install
           ls ~/go/bin
           terraform-provider-solacebroker -h
 
@@ -136,7 +110,7 @@ jobs:
         run: |
           SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.qn another messageVpn.tf
           cat messageVpn.tf
-          grep -o 'solacebroker_msg_vpn_queue ' messageVpn.tf | wc -l |  grep 21
+          grep -o 'solacebroker_msg_vpn_queue" ' messageVpn.tf | wc -l |  grep 21
 
       - name: Create custom messageVPN with large config
         run: |

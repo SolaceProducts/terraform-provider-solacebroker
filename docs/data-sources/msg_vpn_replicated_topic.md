@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_replicated_topic Data Source - solacebroker"
 subcategory: ""
 description: |-
   To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  replicated_topic|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  replicated_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -17,10 +17,10 @@ description: |-
 To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-replicated_topic|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+replicated_topic|x
 
 
 
@@ -40,7 +40,6 @@ This has been available since SEMP API version 2.1.
 
 ### Read-Only
 
-- `id` (String) Identifier attribute, for internal use only.
 - `replication_mode` (String) The replication mode for the Replicated Topic. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"async"`. The allowed values and their meaning are:
 
 <pre>

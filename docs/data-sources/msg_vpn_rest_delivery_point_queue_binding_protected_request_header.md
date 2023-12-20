@@ -4,13 +4,13 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding_protected_re
 subcategory: ""
 description: |-
   A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  headername|x|||
-  headervalue||x||x
-  msgvpnname|x|||
-  queuebindingname|x|||
-  restdeliverypoint_name|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  headername|x||
+  headervalue||x|x
+  msgvpnname|x||
+  queuebindingname|x||
+  restdeliverypoint_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.30.
 ---
@@ -20,13 +20,13 @@ description: |-
 A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-header_name|x|||
-header_value||x||x
-msg_vpn_name|x|||
-queue_binding_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+header_name|x||
+header_value||x|x
+msg_vpn_name|x||
+queue_binding_name|x||
+rest_delivery_point_name|x||
 
 
 
@@ -45,7 +45,3 @@ This has been available since SEMP API version 2.30.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `queue_binding_name` (String) The name of a queue in the Message VPN.
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

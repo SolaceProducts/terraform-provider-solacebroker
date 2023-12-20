@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_dmr_bridge Resource - solacebroker"
 subcategory: ""
 description: |-
   A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  remotenodename|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  remotenodename|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -17,10 +17,10 @@ description: |-
 A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-remote_node_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+remote_node_name|x
 
 
 
@@ -41,7 +41,3 @@ This has been available since SEMP API version 2.11.
 ### Optional
 
 - `remote_msg_vpn_name` (String) The remote Message VPN of the DMR Bridge. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

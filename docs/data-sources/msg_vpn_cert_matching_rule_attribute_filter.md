@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule_attribute_filter Data Sourc
 subcategory: ""
 description: |-
   A Cert Matching Rule Attribute Filter compares a username attribute to a string.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  filtername|x|||
-  msgvpnname|x|||
-  rulename|x|||
+  Attribute|Identifying
+  :---|:---:
+  filtername|x
+  msgvpnname|x
+  rulename|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Cert Matching Rule Attribute Filter compares a username attribute to a string.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-filter_name|x|||
-msg_vpn_name|x|||
-rule_name|x|||
+Attribute|Identifying
+:---|:---:
+filter_name|x
+msg_vpn_name|x
+rule_name|x
 
 
 
@@ -45,4 +45,3 @@ This has been available since SEMP API version 2.28.
 
 - `attribute_name` (String) Client Username Attribute to be tested. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `id` (String) Identifier attribute, for internal use only.

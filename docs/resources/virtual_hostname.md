@@ -6,9 +6,9 @@ description: |-
   A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.
   Clients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.
   This mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  virtual_hostname|x|||
+  Attribute|Identifying
+  :---|:---:
+  virtual_hostname|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.17.
 ---
@@ -22,9 +22,9 @@ Clients which connect to a global (as opposed to per Message VPN) port and provi
 This mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-virtual_hostname|x|||
+Attribute|Identifying
+:---|:---:
+virtual_hostname|x
 
 
 
@@ -45,7 +45,3 @@ This has been available since SEMP API version 2.17.
 
 - `enabled` (Boolean) Enable or disable Virtual Hostname to Message VPN mapping. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `msg_vpn_name` (String) The message VPN to which this virtual hostname is mapped. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

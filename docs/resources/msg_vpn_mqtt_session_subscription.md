@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_mqtt_session_subscription Resource - solacebro
 subcategory: ""
 description: |-
   An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  mqttsessionclientid|x|||
-  mqttsessionvirtualrouter|x|||
-  msgvpnname|x|||
-  subscription_topic|x|||
+  Attribute|Identifying
+  :---|:---:
+  mqttsessionclientid|x
+  mqttsessionvirtualrouter|x
+  msgvpnname|x
+  subscription_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -19,12 +19,12 @@ description: |-
 An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-mqtt_session_client_id|x|||
-mqtt_session_virtual_router|x|||
-msg_vpn_name|x|||
-subscription_topic|x|||
+Attribute|Identifying
+:---|:---:
+mqtt_session_client_id|x
+mqtt_session_virtual_router|x
+msg_vpn_name|x
+subscription_topic|x
 
 
 
@@ -53,7 +53,3 @@ This has been available since SEMP API version 2.1.
 ### Optional
 
 - `subscription_qos` (Number) The quality of service (QoS) for the subscription as either 0 (deliver at most once) or 1 (deliver at least once). QoS 2 is not supported, but QoS 2 messages attracted by QoS 0 or QoS 1 subscriptions are accepted and delivered accordingly. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

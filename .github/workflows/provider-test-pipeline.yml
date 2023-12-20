@@ -10,10 +10,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
-          go-version: "1.20"
+          go-version: "1.21"
 
       - name: Check out code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up Terraform latest
         uses: hashicorp/setup-terraform@v2
@@ -21,8 +21,8 @@ jobs:
       - name: Setup test broker
         run: |
           mkdir -p $HOME/solace; chmod 777 $HOME/solace
-          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:"10.6.1.52"
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Use local provider
@@ -35,36 +35,10 @@ jobs:
             direct {}
           }" > ~/.terraformrc
 
-      - name: Checkout generator
-        uses: actions/checkout@v3
-        with:
-          repository: SolaceDev/broker-terraform-provider-generator
-          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
-          path: broker-terraform-provider-generator
-          ref: "v0.1.0"
-
-      - name: Build and install generator
-        run: |
-          pushd broker-terraform-provider-generator
-          go mod tidy
-          go install .
-          ls ~/go/bin
-          popd
-
-      - name: Generate provider code
-        run: |
-          SWAGGER_SPEC_NAME=`ls ci/swagger_spec`
-          echo "Generating code using spec $SWAGGER_SPEC_NAME"
-          BASE=`pwd`
-          pushd internal/broker/generated
-          rm ./*
-          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
-          popd
-
       - name: Build provider
         run: |
           go mod tidy
-          go install .
+          make install
           ls ~/go/bin
 
       - name: Check provider available
@@ -95,33 +69,10 @@ jobs:
           rm terraform.tfstate*
           terraform import solacebroker_msg_vpn.newone new
           popd
-
-      # - name: Check changed files
-      #   uses: tj-actions/verify-changed-files@v14
-      #   id: check-changed-files
-      #   with:
-      #     files: |
-      #       internal/broker/generated
-
-      # - name: Run step only when any of the above files change.
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   run: |
-      #     echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
-
-      # - name: Commit back any updated source code
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   uses: EndBug/add-and-commit@v9
-      #   with:
-      #     committer_name: GitHub Actions
-      #     committer_email: actions@github.com
-      #     message: 'Updating generated source [skip ci]'
-      #     add: 'internal/broker/generated/*.go'
-      #     new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
-
-      # - name: Create pull request
-      #   if: steps.check-changed-files.outputs.files_changed == 'true'
-      #   run: |
-      #     CURRENT_BRANCH=${GITHUB_REF_NAME}
-      #     gh pr create -B ${CURRENT_BRANCH} -H "GeneratedSourceUpdates-${CURRENT_BRANCH}" --title "Merge generated source updates into ${CURRENT_BRANCH}" --body 'Created by Github action'
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # larger config
+          pushd ci/bigtest
+          terraform plan
+          terraform apply -auto-approve
+          terraform plan
+          terraform destroy -auto-approve
+          popd

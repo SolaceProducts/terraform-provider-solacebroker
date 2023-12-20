@@ -28,20 +28,11 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_access_level_group_msg_vpn_access_level_exception",
-		MarkdownDescription: "Message VPN access-level exceptions for members of this group.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\ngroup_name|x|||\nmsg_vpn_name|x|||\noauth_profile_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "Message VPN access-level exceptions for members of this group.\n\n\nAttribute|Identifying\n:---|:---:\ngroup_name|x\nmsg_vpn_name|x\noauth_profile_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/accessLevelGroups/{groupName}/msgVpnAccessLevelExceptions/{msgVpnName}",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.String,
 				SempName:            "accessLevel",

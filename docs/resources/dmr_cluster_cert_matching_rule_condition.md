@@ -4,11 +4,11 @@ page_title: "solacebroker_dmr_cluster_cert_matching_rule_condition Resource - so
 subcategory: ""
 description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  dmrclustername|x|||
-  rule_name|x|||
-  source|x|||
+  Attribute|Identifying
+  :---|:---:
+  dmrclustername|x
+  rule_name|x
+  source|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-dmr_cluster_name|x|||
-rule_name|x|||
-source|x|||
+Attribute|Identifying
+:---|:---:
+dmr_cluster_name|x
+rule_name|x
+source|x
 
 
 
@@ -61,7 +61,3 @@ This has been available since SEMP API version 2.28.
 
 - `attribute` (String) Link Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
 - `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

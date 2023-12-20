@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster Resource - solacebro
 subcategory: ""
 description: |-
   A Cache Cluster is a collection of one or more Cache Instances that subscribe to exactly the same topics. Cache Instances are grouped together in a Cache Cluster for the purpose of fault tolerance and load balancing. As published messages are received, the message broker message bus sends these live data messages to the Cache Instances in the Cache Cluster. This enables client cache requests to be served by any of Cache Instances in the Cache Cluster.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  cachename|x|||
-  clustername|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  cachename|x
+  clustername|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Cache Cluster is a collection of one or more Cache Instances that subscribe to exactly the same topics. Cache Instances are grouped together in a Cache Cluster for the purpose of fault tolerance and load balancing. As published messages are received, the message broker message bus sends these live data messages to the Cache Instances in the Cache Cluster. This enables client cache requests to be served by any of Cache Instances in the Cache Cluster.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-cache_name|x|||
-cluster_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+cache_name|x
+cluster_name|x
+msg_vpn_name|x
 
 
 
@@ -61,10 +61,6 @@ This has been available since SEMP API version 2.11.
 - `max_topic_count` (Number) The maximum number of topics for each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000000`.
 - `msg_lifetime` (Number) The message lifetime, in seconds. If a message remains cached for the duration of its lifetime, the Cache Instance will remove the message. A lifetime of 0 results in the message being retained indefinitely. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `new_topic_advertisement_enabled` (Boolean) Enable or disable the advertising, onto the message bus, of new topics learned by each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--event_data_byte_rate_threshold"></a>
 ### Nested Schema for `event_data_byte_rate_threshold`

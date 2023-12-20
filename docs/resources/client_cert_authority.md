@@ -4,9 +4,9 @@ page_title: "solacebroker_client_cert_authority Resource - solacebroker"
 subcategory: ""
 description: |-
   Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  certauthorityname|x|||
+  Attribute|Identifying
+  :---|:---:
+  certauthorityname|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
 ---
@@ -16,9 +16,9 @@ description: |-
 Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-cert_authority_name|x|||
+Attribute|Identifying
+:---|:---:
+cert_authority_name|x
 
 
 
@@ -45,7 +45,3 @@ This has been available since SEMP API version 2.19.
 - `ocsp_override_url` (String) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `ocsp_timeout` (Number) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
 - `revocation_check_enabled` (Boolean) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

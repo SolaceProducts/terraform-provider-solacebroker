@@ -261,11 +261,94 @@ func TestSanitizeHclIdentifierName(t *testing.T) {
 			args{name: "#"},
 			"gn__",
 		},
+		{
+			"SanitizeTextOnlySpecialCharacterTwo",
+			args{name: "\\"},
+			"gn__",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := SanitizeHclIdentifierName(tt.args.name); got != tt.want {
 				t.Errorf("SanitizeHclIdentifierName() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+func TestSanitizeHclValue(t *testing.T) {
+	type args struct {
+		name string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			"SanitizeValueStartingWithNumber",
+			args{name: "1testing"},
+			"1testing",
+		},
+		{
+			"SanitizeValueContainingSpecialCharacters",
+			args{name: "*testing*"},
+			"*testing*",
+		},
+		{
+			"SanitizeJSONValue",
+			args{name: "{\"as\":\"ds\"}"},
+			"{\\\"as\\\":\\\"ds\\\"}",
+		},
+		{
+			"SanitizeOnlySpecialCharacterValue",
+			args{name: "\\"},
+			"\\\\",
+		},
+		{
+			"SanitizeOnlySpecialCharacterValueTwo",
+			args{name: "*"},
+			"*",
+		},
+		{
+			"SanitizeOnlySpecialCharacterValueThree",
+			args{name: "\""},
+			"\\\"",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "time/${now()}"},
+			"time/$${now()}",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "time/%{now()}"},
+			"time/%%{now()}",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "time/$/test"},
+			"time/$/test",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "time/%/test"},
+			"time/%/test",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "${"},
+			"$${",
+		},
+		{
+			"SanitizeSubstituitionExpression",
+			args{name: "${utcDate(\"/\")}/${utcTime(\"/\")}/${BASE32(randomBytes(15))}"},
+			"$${utcDate(\\\"/\\\")}/$${utcTime(\\\"/\\\")}/$${BASE32(randomBytes(15))}",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := SanitizeHclStringValue(tt.args.name); got != tt.want {
+				t.Errorf("SanitizeHclStringValue() = %v, want %v", got, tt.want)
 			}
 		})
 	}

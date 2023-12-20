@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_topic Data Source - 
 subcategory: ""
 description: |-
   The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  cachename|x|||
-  clustername|x|||
-  msgvpnname|x|||
-  topic|x|||
+  Attribute|Identifying
+  :---|:---:
+  cachename|x
+  clustername|x
+  msgvpnname|x
+  topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -19,12 +19,12 @@ description: |-
 The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-cache_name|x|||
-cluster_name|x|||
-msg_vpn_name|x|||
-topic|x|||
+Attribute|Identifying
+:---|:---:
+cache_name|x
+cluster_name|x
+msg_vpn_name|x
+topic|x
 
 
 
@@ -43,7 +43,3 @@ This has been available since SEMP API version 2.11.
 - `cluster_name` (String) The name of the Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `topic` (String) The value of the Topic in the form a/b/c.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

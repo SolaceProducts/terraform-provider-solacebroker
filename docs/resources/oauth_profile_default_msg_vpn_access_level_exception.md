@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_default_msg_vpn_access_level_exception R
 subcategory: ""
 description: |-
   Default message VPN access-level exceptions.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  oauthprofilename|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  oauthprofilename|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 Default message VPN access-level exceptions.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+oauth_profile_name|x
 
 
 
@@ -47,7 +47,3 @@ This has been available since SEMP API version 2.24.
 "read-only" - User has read-only access to a Message VPN.
 "read-write" - User has read-write access to most Message VPN settings.
 </pre>
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

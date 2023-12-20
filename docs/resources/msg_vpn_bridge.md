@@ -4,14 +4,14 @@ page_title: "solacebroker_msg_vpn_bridge Resource - solacebroker"
 subcategory: ""
 description: |-
   Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  bridgename|x|||
-  bridgevirtualrouter|x|||
-  msgvpnname|x|||
-  remoteauthenticationbasicpassword||x||x
-  remoteauthenticationclientcertcontent||x||x
-  remoteauthenticationclientcertpassword||x||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  bridgename|x||
+  bridgevirtualrouter|x||
+  msgvpnname|x||
+  remoteauthenticationbasicpassword||x|x
+  remoteauthenticationclientcertcontent||x|x
+  remoteauthenticationclientcertpassword||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -21,14 +21,14 @@ description: |-
 Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-bridge_name|x|||
-bridge_virtual_router|x|||
-msg_vpn_name|x|||
-remote_authentication_basic_password||x||x
-remote_authentication_client_cert_content||x||x
-remote_authentication_client_cert_password||x||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+bridge_name|x||
+bridge_virtual_router|x||
+msg_vpn_name|x||
+remote_authentication_basic_password||x|x
+remote_authentication_client_cert_content||x|x
+remote_authentication_client_cert_password||x|
 
 
 
@@ -79,7 +79,3 @@ This has been available since SEMP API version 2.0.
 "da" - Ignore priority and deliver always.
 </pre>
 - `tls_cipher_suite_list` (String) The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN. The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

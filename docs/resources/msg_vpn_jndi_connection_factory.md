@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_jndi_connection_factory Resource - solacebroke
 subcategory: ""
 description: |-
   The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  connectionfactoryname|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  connectionfactoryname|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.2.
 ---
@@ -17,10 +17,10 @@ description: |-
 The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-connection_factory_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+connection_factory_name|x
+msg_vpn_name|x
 
 
 
@@ -84,7 +84,3 @@ This has been available since SEMP API version 2.2.
 - `transport_send_buffer_size` (Number) The size of the send socket buffer, in bytes. It corresponds to the SO_SNDBUF socket option. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `65536`.
 - `transport_tcp_no_delay_enabled` (Boolean) Enable or disable the TCP_NODELAY option. When enabled, Nagle's algorithm for TCP/IP congestion control (RFC 896) is disabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `xa_enabled` (Boolean) Enable or disable this as an XA Connection Factory. When enabled, the Connection Factory can be cast to "XAConnectionFactory", "XAQueueConnectionFactory" or "XATopicConnectionFactory". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

@@ -4,9 +4,9 @@ page_title: "solacebroker_domain_cert_authority Data Source - solacebroker"
 subcategory: ""
 description: |-
   Certificate Authorities trusted for domain verification.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  certauthorityname|x|||
+  Attribute|Identifying
+  :---|:---:
+  certauthorityname|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
 ---
@@ -16,9 +16,9 @@ description: |-
 Certificate Authorities trusted for domain verification.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-cert_authority_name|x|||
+Attribute|Identifying
+:---|:---:
+cert_authority_name|x
 
 
 
@@ -38,4 +38,3 @@ This has been available since SEMP API version 2.19.
 ### Read-Only
 
 - `cert_content` (String) The PEM formatted content for the trusted root certificate of a domain Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `id` (String) Identifier attribute, for internal use only.

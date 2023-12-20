@@ -28,21 +28,12 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_acl_profile_client_connect_exception",
-		MarkdownDescription: "A Client Connect Exception is an exception to the default action to take when a client using the ACL Profile connects to the Message VPN. Exceptions must be expressed as an IP address/netmask in CIDR form.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nacl_profile_name|x|||\nclient_connect_exception_address|x|||\nmsg_vpn_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "A Client Connect Exception is an exception to the default action to take when a client using the ACL Profile connects to the Message VPN. Exceptions must be expressed as an IP address/netmask in CIDR form.\n\n\nAttribute|Identifying\n:---|:---:\nacl_profile_name|x\nclient_connect_exception_address|x\nmsg_vpn_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/aclProfiles/{aclProfileName}/clientConnectExceptions/{clientConnectExceptionAddress}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/aclProfiles/{aclProfileName}/clientConnectExceptions",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.String,
 				SempName:            "aclProfileName",

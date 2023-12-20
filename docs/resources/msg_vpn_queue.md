@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_queue Resource - solacebroker"
 subcategory: ""
 description: |-
   A Queue acts as both a destination that clients can publish messages to, and as an endpoint that clients can bind consumers to and consume messages from.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  queue_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -17,10 +17,10 @@ description: |-
 A Queue acts as both a destination that clients can publish messages to, and as an endpoint that clients can bind consumers to and consume messages from.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-queue_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+queue_name|x
 
 
 
@@ -91,10 +91,6 @@ This has been available since SEMP API version 2.0.
  Available since SEMP API version 2.1.
 - `respect_msg_priority_enabled` (Boolean) Enable or disable the respecting of message priority. When enabled, messages contained in the Queue are delivered in priority order, from 9 (highest) to 0 (lowest). Regardless of this setting, message priority is not respected when browsing the queue, when the queue is used by a bridge, or if the queue is partitioned. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as egress_enabled and ingress_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.8.
 - `respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages in the Queue. When enabled, expired messages are discarded or moved to the DMQ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--event_bind_count_threshold"></a>
 ### Nested Schema for `event_bind_count_threshold`

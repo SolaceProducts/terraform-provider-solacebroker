@@ -24,14 +24,14 @@ Note that the provider also offers the unique ability to generate a config file 
 
 Full documentation is available on the [Terraform Providers Registry website](https://registry.terraform.io/providers/solaceproducts/solacebroker/latest/docs).
 
-It is recommended to familiarize yourself with Solace technology and broker management, refer to the [Resources section](#resources).
+We recommended that you familiarize yourself with Solace technology and broker management. For more information, refer to the [Resources section](#resources).
 
 ## Development
 
 ### Requirements
 
 * [Terraform](https://www.terraform.io/downloads) (>= 1.0)
-* [Go](https://go.dev/doc/install) (1.20)
+* [Go](https://go.dev/doc/install) (1.21)
 * [Make](https://www.gnu.org/software/make/)
 
 ### Building

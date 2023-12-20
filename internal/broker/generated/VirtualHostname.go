@@ -28,20 +28,11 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "virtual_hostname",
-		MarkdownDescription: "A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.\n\nClients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.\n\nThis mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nvirtual_hostname|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.17.",
+		MarkdownDescription: "A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.\n\nClients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.\n\nThis mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.\n\n\nAttribute|Identifying\n:---|:---:\nvirtual_hostname|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.17.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/virtualHostnames/{virtualHostname}",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.Bool,
 				SempName:            "enabled",

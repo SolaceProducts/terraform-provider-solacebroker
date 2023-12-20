@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_topic_endpoint_template Data Source - solacebr
 subcategory: ""
 description: |-
   A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  topicendpointtemplate_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  topicendpointtemplate_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
 ---
@@ -17,10 +17,10 @@ description: |-
 A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-topic_endpoint_template_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+topic_endpoint_template_name|x
 
 
 
@@ -52,7 +52,6 @@ This has been available since SEMP API version 2.14.
 - `event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_bind_count_threshold))
 - `event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_msg_spool_usage_threshold))
 - `event_reject_low_priority_msg_limit_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_reject_low_priority_msg_limit_threshold))
-- `id` (String) Identifier attribute, for internal use only.
 - `max_bind_count` (Number) The maximum number of consumer flows that can bind. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
 - `max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`.
 - `max_msg_size` (Number) The maximum message size allowed, in bytes (B). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000000`.

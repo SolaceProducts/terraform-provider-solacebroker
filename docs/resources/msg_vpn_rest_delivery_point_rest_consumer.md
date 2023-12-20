@@ -4,18 +4,18 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer Resource - s
 subcategory: ""
 description: |-
   REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authenticationawssecretaccesskey||x||x
-  authenticationclientcertcontent||x||x
-  authenticationclientcertpassword||x||
-  authenticationhttpbasicpassword||x||x
-  authenticationhttpheadervalue||x||x
-  authenticationoauthclientsecret||x||x
-  authenticationoauthjwtsecretkey||x||x
-  msgvpnname|x|||
-  restconsumername|x|||
-  restdeliverypointname|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  authenticationawssecretaccesskey||x|x
+  authenticationclientcertcontent||x|x
+  authenticationclientcertpassword||x|
+  authenticationhttpbasicpassword||x|x
+  authenticationhttpheadervalue||x|x
+  authenticationoauthclientsecret||x|x
+  authenticationoauthjwtsecretkey||x|x
+  msgvpnname|x||
+  restconsumername|x||
+  restdeliverypointname|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -25,18 +25,18 @@ description: |-
 REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_aws_secret_access_key||x||x
-authentication_client_cert_content||x||x
-authentication_client_cert_password||x||
-authentication_http_basic_password||x||x
-authentication_http_header_value||x||x
-authentication_oauth_client_secret||x||x
-authentication_oauth_jwt_secret_key||x||x
-msg_vpn_name|x|||
-rest_consumer_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+authentication_aws_secret_access_key||x|x
+authentication_client_cert_content||x|x
+authentication_client_cert_password||x|
+authentication_http_basic_password||x|x
+authentication_http_header_value||x|x
+authentication_oauth_client_secret||x|x
+authentication_oauth_jwt_secret_key||x|x
+msg_vpn_name|x||
+rest_consumer_name|x||
+rest_delivery_point_name|x||
 
 
 
@@ -104,7 +104,3 @@ This has been available since SEMP API version 2.0.
 - `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
 - `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

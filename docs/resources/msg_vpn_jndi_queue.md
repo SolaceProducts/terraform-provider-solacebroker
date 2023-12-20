@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_jndi_queue Resource - solacebroker"
 subcategory: ""
 description: |-
   The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  queue_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.2.
 ---
@@ -17,10 +17,10 @@ description: |-
 The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-queue_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+queue_name|x
 
 
 
@@ -41,7 +41,3 @@ This has been available since SEMP API version 2.2.
 ### Optional
 
 - `physical_name` (String) The physical name of the JMS Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

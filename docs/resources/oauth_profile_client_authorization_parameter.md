@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_client_authorization_parameter Resource 
 subcategory: ""
 description: |-
   Additional parameters to be passed to the OAuth authorization endpoint.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authorizationparametername|x|||
-  oauthprofilename|x|||
+  Attribute|Identifying
+  :---|:---:
+  authorizationparametername|x
+  oauthprofilename|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 Additional parameters to be passed to the OAuth authorization endpoint.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authorization_parameter_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+authorization_parameter_name|x
+oauth_profile_name|x
 
 
 
@@ -41,7 +41,3 @@ This has been available since SEMP API version 2.24.
 ### Optional
 
 - `authorization_parameter_value` (String) The authorization parameter value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

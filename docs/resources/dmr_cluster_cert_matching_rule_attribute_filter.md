@@ -4,11 +4,11 @@ page_title: "solacebroker_dmr_cluster_cert_matching_rule_attribute_filter Resour
 subcategory: ""
 description: |-
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  dmrclustername|x|||
-  filtername|x|||
-  rulename|x|||
+  Attribute|Identifying
+  :---|:---:
+  dmrclustername|x
+  filtername|x
+  rulename|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Cert Matching Rule Attribute Filter compares a link attribute to a string.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-dmr_cluster_name|x|||
-filter_name|x|||
-rule_name|x|||
+Attribute|Identifying
+:---|:---:
+dmr_cluster_name|x
+filter_name|x
+rule_name|x
 
 
 
@@ -45,7 +45,3 @@ This has been available since SEMP API version 2.28.
 
 - `attribute_name` (String) Link Attribute to be tested. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

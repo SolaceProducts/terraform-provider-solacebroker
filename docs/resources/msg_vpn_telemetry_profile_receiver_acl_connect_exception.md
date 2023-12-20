@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_receiver_acl_connect_excepti
 subcategory: ""
 description: |-
   A Receiver ACL Connect Exception is an exception to the default action to take when a receiver connects to the broker. Exceptions must be expressed as an IP address/netmask in CIDR form.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  receiveraclconnectexceptionaddress|x|||
-  telemetryprofilename|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  receiveraclconnectexceptionaddress|x
+  telemetryprofilename|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Receiver ACL Connect Exception is an exception to the default action to take when a receiver connects to the broker. Exceptions must be expressed as an IP address/netmask in CIDR form.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-receiver_acl_connect_exception_address|x|||
-telemetry_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+receiver_acl_connect_exception_address|x
+telemetry_profile_name|x
 
 
 
@@ -40,7 +40,3 @@ This has been available since SEMP API version 2.31.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `receiver_acl_connect_exception_address` (String) The IP address/netmask of the receiver connect exception in CIDR form.
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

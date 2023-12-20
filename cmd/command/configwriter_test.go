@@ -34,7 +34,7 @@ func TestGenerateTerraformFile(t *testing.T) {
 				Username:        "admin",
 				Password:        "admin",
 				BearerToken:     "",
-				FileName:        "somefile.tf",
+				FileName:        "/tmp/somefile.tf",
 				BrokerResources: []map[string]string{}},
 			},
 			false,

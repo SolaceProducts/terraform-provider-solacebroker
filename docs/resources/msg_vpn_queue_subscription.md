@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_queue_subscription Resource - solacebroker"
 subcategory: ""
 description: |-
   One or more Queue Subscriptions can be added to a durable queue so that Guaranteed messages published to matching topics are also delivered to and spooled by the queue.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  queuename|x|||
-  subscriptiontopic|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  queuename|x
+  subscriptiontopic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -18,11 +18,11 @@ description: |-
 One or more Queue Subscriptions can be added to a durable queue so that Guaranteed messages published to matching topics are also delivered to and spooled by the queue.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-queue_name|x|||
-subscription_topic|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+queue_name|x
+subscription_topic|x
 
 
 
@@ -40,7 +40,3 @@ This has been available since SEMP API version 2.0.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `queue_name` (String) The name of the Queue.
 - `subscription_topic` (String) The topic of the Subscription.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

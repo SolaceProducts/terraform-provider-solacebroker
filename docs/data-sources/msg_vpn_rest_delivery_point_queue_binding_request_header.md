@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding_request_head
 subcategory: ""
 description: |-
   A request header to be added to the HTTP request.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  headername|x|||
-  msgvpnname|x|||
-  queuebindingname|x|||
-  restdeliverypointname|x|||
+  Attribute|Identifying
+  :---|:---:
+  headername|x
+  msgvpnname|x
+  queuebindingname|x
+  restdeliverypointname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.23.
 ---
@@ -19,12 +19,12 @@ description: |-
 A request header to be added to the HTTP request.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-header_name|x|||
-msg_vpn_name|x|||
-queue_binding_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying
+:---|:---:
+header_name|x
+msg_vpn_name|x
+queue_binding_name|x
+rest_delivery_point_name|x
 
 
 
@@ -47,4 +47,3 @@ This has been available since SEMP API version 2.23.
 ### Read-Only
 
 - `header_value` (String) A substitution expression for the value of the HTTP request header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `id` (String) Identifier attribute, for internal use only.

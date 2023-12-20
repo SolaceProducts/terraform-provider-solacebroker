@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_replay_log Data Source - solacebroker"
 subcategory: ""
 description: |-
   When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  replaylogname|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  replaylogname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.10.
 ---
@@ -17,10 +17,10 @@ description: |-
 When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-replay_log_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+replay_log_name|x
 
 
 
@@ -41,7 +41,6 @@ This has been available since SEMP API version 2.10.
 ### Read-Only
 
 - `egress_enabled` (Boolean) Enable or disable the transmission of messages from the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `id` (String) Identifier attribute, for internal use only.
 - `ingress_enabled` (Boolean) Enable or disable the reception of messages to the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_spool_usage` (Number) The maximum spool usage allowed by the Replay Log, in megabytes (MB). If this limit is exceeded, old messages will be trimmed. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `topic_filter_enabled` (Boolean) Enable or disable topic filtering for the Replay Log. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.27.

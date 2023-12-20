@@ -18,9 +18,11 @@ package broker
 
 import (
 	"fmt"
+	"reflect"
+	"terraform-provider-solacebroker/internal/semp"
+
 	dschema "github.com/hashicorp/terraform-plugin-framework/datasource/schema"
 	rschema "github.com/hashicorp/terraform-plugin-framework/resource/schema"
-	"reflect"
 )
 
 var resourceToDataSourceTypes = map[reflect.Type]reflect.Type{
@@ -43,7 +45,7 @@ type brokerEntityBase struct {
 	identifyingAttributes []*AttributeInfo
 	attributes            []*AttributeInfo
 	converter             *ObjectConverter
-	providerData          *providerData
+	client                *semp.Client
 }
 
 func copyMatchingFields(prefix string, in reflect.Value, out reflect.Value) {

@@ -4,16 +4,15 @@ page_title: "solacebroker_msg_vpn_kafka_sender Resource - solacebroker"
 subcategory: ""
 description: |-
   A Kafka Sender sends messages to a Kafka Cluster.
-  WARNING: This feature is in BETA with limited scalability and no production support. Configuration may change or be eliminated by future upgrades.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authenticationbasicpassword||x||x
-  authenticationclientcertcontent||x||x
-  authenticationclientcertpassword||x||
-  authenticationoauthclientsecret||x||x
-  authenticationscrampassword||x||x
-  kafkasendername|x|||
-  msgvpn_name|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  authenticationbasicpassword||x|x
+  authenticationclientcertcontent||x|x
+  authenticationclientcertpassword||x|
+  authenticationoauthclientsecret||x|x
+  authenticationscrampassword||x|x
+  kafkasendername|x||
+  msgvpn_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
 ---
@@ -22,18 +21,16 @@ description: |-
 
 A Kafka Sender sends messages to a Kafka Cluster.
 
-WARNING: This feature is in BETA with limited scalability and no production support. Configuration may change or be eliminated by future upgrades.
 
-
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_basic_password||x||x
-authentication_client_cert_content||x||x
-authentication_client_cert_password||x||
-authentication_oauth_client_secret||x||x
-authentication_scram_password||x||x
-kafka_sender_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+authentication_basic_password||x|x
+authentication_client_cert_content||x|x
+authentication_client_cert_password||x|
+authentication_oauth_client_secret||x|x
+authentication_scram_password||x|x
+kafka_sender_name|x||
+msg_vpn_name|x||
 
 
 
@@ -53,40 +50,64 @@ This has been available since SEMP API version 2.36.
 
 ### Optional
 
-- `authentication_basic_password` (String, Sensitive) The password for the Username. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_basic_username` (String) The username the Kafka Sender uses to login to the remote Kafka broker. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_client_cert_content` (String, Sensitive) The PEM formatted content for the client certificate used by the Kafka Sender to login to the remote Kafka broker. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
-- `authentication_client_cert_password` (String, Sensitive) The password for the client certificate. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
-- `authentication_oauth_client_id` (String) The OAuth client ID. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_oauth_client_scope` (String) The OAuth scope. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_oauth_client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_oauth_client_token_endpoint` (String) The OAuth token endpoint URL that the Kafka Sender will use to request a token for login to the Kafka broker. Must begin with "https". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_scheme` (String) The authentication scheme for the Kafka Sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `authentication_basic_password` (String, Sensitive) The password for the Username. To be used when authentication_scheme is "basic". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_basic_username` (String) The username the Kafka Sender uses to login to the remote Kafka broker. To be used when authentication_scheme is "basic". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_client_cert_content` (String, Sensitive) The PEM formatted content for the client certificate used by the Kafka Sender to login to the remote Kafka broker. To be used when authentication_scheme is "client-certificate". Alternatively this will be used for other values of authentication_scheme when the Kafka broker has an `ssl.client.auth` setting of "requested" or "required" and KIP-684 (mTLS) is supported by the Kafka broker. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
+- `authentication_client_cert_password` (String, Sensitive) The password for the client certificate. To be used when authentication_scheme is "client-certificate". Alternatively this will be used for other values of authentication_scheme when the Kafka broker has an `ssl.client.auth` setting of "requested" or "required" and KIP-684 (mTLS) is supported by the Kafka broker. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
+- `authentication_oauth_client_id` (String) The OAuth client ID. To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_oauth_client_scope` (String) The OAuth scope. To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_oauth_client_secret` (String, Sensitive) The OAuth client secret. To be used when authentication_scheme is "oauth-client". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_oauth_client_token_endpoint` (String) The OAuth token endpoint URL that the Kafka Sender will use to request a token for login to the Kafka broker. Must begin with "https". To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_scheme` (String) The authentication scheme for the Kafka Sender. The bootstrap addresses must resolve to an appropriately configured and compatible listener port on the Kafka broker for the given scheme. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
-"none" - Anonymous Authentication.
-"basic" - Basic Authentication.
-"scram" - Salted Challenge Response Authentication.
-"client-certificate" - Client Certificate Authentication.
-"oauth-client" - Oauth Authentication.
+"none" - Anonymous Authentication. Used with Kafka broker PLAINTEXT listener ports.
+"basic" - Basic Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.
+"scram" - Salted Challenge Response Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.
+"client-certificate" - Client Certificate Authentication. Used with Kafka broker SSL listener ports.
+"oauth-client" - Oauth Authentication. Used with Kafka broker SASL_SSL listener ports.
 </pre>
-- `authentication_scram_hash` (String) The hash used for SCRAM authentication. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sha-512"`. The allowed values and their meaning are:
+- `authentication_scram_hash` (String) The hash used for SCRAM authentication. To be used when authentication_scheme is "scram". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sha-512"`. The allowed values and their meaning are:
 
 <pre>
 "sha-256" - SHA-2 256 bits.
 "sha-512" - SHA-2 512 bits.
 </pre>
-- `authentication_scram_password` (String, Sensitive) The password for the Username. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_scram_username` (String) The username the Kafka Sender uses to login to the remote Kafka broker. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `batch_delay` (Number) Delay (in ms) to wait to accumulate a batch of messages to send. Batching is done for all Senders on a per-partition basis. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5`.
+- `authentication_scram_password` (String, Sensitive) The password for the Username. To be used when authentication_scheme is "scram". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_scram_username` (String) The username the Kafka Sender uses to login to the remote Kafka broker. To be used when authentication_scheme is "scram". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `batch_delay` (Number) Delay (in ms) to wait to accumulate a batch of messages to send. Batching is done for all Senders on a per-partition basis.
+
+This corresponds to the Kafka producer API `linger.ms` configuration setting.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5`.
 - `batch_max_msg_count` (Number) Maximum number of messages sent in a single batch. Batching is done for all Senders on a per-partition basis. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`.
-- `batch_max_size` (Number) Maximum size of a message batch, in bytes (B). Batching is done for all Senders on a per-partition basis. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000000`.
-- `bootstrap_address_list` (String) Comma separated list of addresses (and optional ports) of brokers in the Kafka Cluster from which the state of the entire Kafka Cluster can be learned. If a port is not provided with an address it will default to 9092. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `batch_max_size` (Number) Maximum size of a message batch, in bytes (B). Batching is done for all Senders on a per-partition basis.
+
+This corresponds to the Kafka producer API `batch.size` configuration setting, and should not exceed either the Kafka broker `message.max.bytes` configuration setting, or the per-Topic override of `max.message.bytes`.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000000`.
+- `bootstrap_address_list` (String) Comma separated list of addresses (and optional ports) of brokers in the Kafka Cluster from which the state of the entire Kafka Cluster can be learned. If a port is not provided with an address it will default to 9092.
+
+This corresponds to the Kafka producer API `bootstrap.servers` configuration setting.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `enabled` (Boolean) Enable or disable the Kafka Sender. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `idempotence_enabled` (Boolean) Enable or disable idempotence for the Kafka Sender. Idempotence guarantees in order at-least-once message delivery to the remote Kafka Topic, at the expense of performance. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `idempotence_enabled` (Boolean) Enable or disable idempotence for the Kafka Sender. Idempotence guarantees in order at-least-once message delivery to the remote Kafka Topic, at the expense of performance. When idempotence is enabled the Queue Bindings of the Kafka Sender must have ack_mode of "all" to be operational.
+
+This corresponds to the Kafka producer API `enable.idempotence` configuration setting.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `transport_compression_enabled` (Boolean) Enable or disable compression for the Kafka Sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `transport_compression_level` (Number) Compression level. The valid range is dependent on the compression type. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`.
-- `transport_compression_type` (String) Compression type. Only relevant if compression is enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"gzip"`. The allowed values and their meaning are:
+- `transport_compression_level` (Number) Compression level. The valid range is dependent on the compression type.
+
+This corresponds to the Kafka producer API `compression.level` configuration setting.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`.
+- `transport_compression_type` (String) Compression type. Only relevant if compression is enabled.
+
+This corresponds to the Kafka producer API `compression.type` configuration setting.
+
+Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"gzip"`. The allowed values and their meaning are:
 
 <pre>
 "gzip" - GZIP Compression.
@@ -94,8 +115,4 @@ This has been available since SEMP API version 2.36.
 "lz4" - LZ4 Compression.
 "zstd" - Zstandard Compression.
 </pre>
-- `transport_tls_enabled` (Boolean) Enable or disable encryption (TLS) for the Kafka Sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
+- `transport_tls_enabled` (Boolean) Enable or disable encryption (TLS) for the Kafka Sender. The bootstrap addresses must resolve to PLAINTEXT or SASL_PLAINTEXT listener ports when disabled, and SSL or SASL_SSL listener ports when enabled. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

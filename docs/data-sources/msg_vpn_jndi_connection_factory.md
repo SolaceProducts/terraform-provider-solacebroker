@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_jndi_connection_factory Data Source - solacebr
 subcategory: ""
 description: |-
   The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  connectionfactoryname|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  connectionfactoryname|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.2.
 ---
@@ -17,10 +17,10 @@ description: |-
 The message broker provides an internal JNDI store for provisioned Connection Factory objects that clients can access through JNDI lookups.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-connection_factory_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+connection_factory_name|x
+msg_vpn_name|x
 
 
 
@@ -56,7 +56,6 @@ This has been available since SEMP API version 2.2.
 - `guaranteed_receive_window_size_ack_threshold` (Number) The threshold for sending the acknowledgment (ACK) for guaranteed messages received by the Subscriber (Consumer) as a percentage of `guaranteed_receive_window_size`. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
 - `guaranteed_send_ack_timeout` (Number) The timeout for receiving the acknowledgment (ACK) for guaranteed messages sent by the Publisher (Producer), in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000`.
 - `guaranteed_send_window_size` (Number) The size of the window for non-persistent guaranteed messages sent by the Publisher (Producer), in messages. For persistent messages the window size is fixed at 1. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
-- `id` (String) Identifier attribute, for internal use only.
 - `messaging_default_delivery_mode` (String) The default delivery mode for messages sent by the Publisher (Producer). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"persistent"`. The allowed values and their meaning are:
 
 <pre>

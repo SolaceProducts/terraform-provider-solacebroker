@@ -172,15 +172,19 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	insecure_skip_verify, err := booleanWithDefaultFromEnv(providerData.InsecureSkipVerify, "insecure_skip_verify", false)
+	insecureSkipVerify, err := booleanWithDefaultFromEnv(providerData.InsecureSkipVerify, "insecure_skip_verify", false)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
 	url = getFullSempAPIURL(url)
+	skipApiCheck, err = booleanWithDefaultFromEnv(providerData.SkipApiCheck, "skip_api_check", false) // This variable is used in resource
+	if err != nil {
+		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
+	}
 	client := semp.NewClient(
 		url,
-		insecure_skip_verify,
-		Cookiejar,
+		insecureSkipVerify,
+		true, // this is a client for the provider
 		semp.BasicAuth(username, password),
 		semp.BearerToken(bearerToken),
 		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),

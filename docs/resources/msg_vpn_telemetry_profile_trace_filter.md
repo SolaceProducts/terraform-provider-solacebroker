@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter Resource - sola
 subcategory: ""
 description: |-
   A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  telemetryprofilename|x|||
-  tracefiltername|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  telemetryprofilename|x
+  tracefiltername|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-telemetry_profile_name|x|||
-trace_filter_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+telemetry_profile_name|x
+trace_filter_name|x
 
 
 
@@ -44,7 +44,3 @@ This has been available since SEMP API version 2.31.
 ### Optional
 
 - `enabled` (Boolean) Enable or disable the trace filter. When the filter is disabled, the filter's subscriptions will not trigger a message to be traced. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

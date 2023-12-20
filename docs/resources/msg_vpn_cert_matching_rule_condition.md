@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule_condition Resource - solace
 subcategory: ""
 description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  rule_name|x|||
-  source|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  rule_name|x
+  source|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
 ---
@@ -18,11 +18,11 @@ description: |-
 A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-rule_name|x|||
-source|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+rule_name|x
+source|x
 
 
 
@@ -61,7 +61,3 @@ This has been available since SEMP API version 2.27.
 
 - `attribute` (String) Client Username Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
 - `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile Data Source - solacebroker"
 subcategory: ""
 description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientsecret||x||x
-  oauthprofile_name|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  clientsecret||x|x
+  oauthprofile_name|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_secret||x||x
-oauth_profile_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+client_secret||x|x
+oauth_profile_name|x||
 
 
 
@@ -80,7 +80,6 @@ This has been available since SEMP API version 2.24.
 - `endpoint_token_timeout` (Number) The maximum time in seconds a token request is allowed to take. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
 - `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
-- `id` (String) Identifier attribute, for internal use only.
 - `interactive_enabled` (Boolean) Enable or disable interactive logins via this OAuth provider. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `interactive_prompt_for_expired_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session has expired. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `interactive_prompt_for_new_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session is new or the user has explicitly logged out. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"select_account"`.

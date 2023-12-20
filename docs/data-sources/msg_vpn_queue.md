@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_queue Data Source - solacebroker"
 subcategory: ""
 description: |-
   A Queue acts as both a destination that clients can publish messages to, and as an endpoint that clients can bind consumers to and consume messages from.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  queue_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -17,10 +17,10 @@ description: |-
 A Queue acts as both a destination that clients can publish messages to, and as an endpoint that clients can bind consumers to and consume messages from.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-queue_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+queue_name|x
 
 
 
@@ -54,7 +54,6 @@ This has been available since SEMP API version 2.0.
 - `event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_bind_count_threshold))
 - `event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_msg_spool_usage_threshold))
 - `event_reject_low_priority_msg_limit_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_reject_low_priority_msg_limit_threshold))
-- `id` (String) Identifier attribute, for internal use only.
 - `ingress_enabled` (Boolean) Enable or disable the reception of messages to the Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_bind_count` (Number) The maximum number of consumer flows that can bind to the Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`.

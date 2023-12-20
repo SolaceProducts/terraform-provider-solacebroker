@@ -28,21 +28,12 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_sequenced_topic",
-		MarkdownDescription: "A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nsequenced_topic|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\nsequenced_topic|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/sequencedTopics/{sequencedTopic}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/sequencedTopics",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",

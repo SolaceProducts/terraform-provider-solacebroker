@@ -21,6 +21,7 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"net/url"
 	"os"
 	"reflect"
 	"regexp"
@@ -131,7 +132,9 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 
 	for i := range identifiersValues {
 		if i < len(out) {
-			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], identifiersValues[i])
+			//encode all, if param is url friendly this does nothing.
+			value := url.QueryEscape(fmt.Sprint(identifiersValues[i]))
+			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], value)
 		}
 	}
 	if len(out) > len(identifiersValues) {
@@ -141,10 +144,20 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 		}
 	}
 
+	//special conditions
+	//for /url/{param1},{param2},{param3}.. valid semp query to fetch all items when all parameters are empty
+	//for /url1/{param1},{param2},{param3}/url2.. invalid when all parameters are empty as it becomes /url1/url2
+	if strings.Contains(generatedPath, "/,,/") || strings.Contains(generatedPath, "/,/") {
+		return "", errors.New("not all parameters found. SEMP call will be invalid")
+	}
+
 	path := strings.ReplaceAll(generatedPath, "/,,", "")
 	path = strings.ReplaceAll(path, "/,", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
+	}
+	if strings.Contains(path, "//") {
+		return "", errors.New("not all parameters found. SEMP call will be invalid")
 	}
 	return path, nil
 }
@@ -163,6 +176,8 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 		value, found := parentValues[key]
 
 		if found {
+			//url encode, if param is url friendly this does nothing.
+			value = url.QueryEscape(fmt.Sprint(value))
 			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], fmt.Sprint(value))
 		}
 	}
@@ -171,11 +186,20 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 	for i := range out {
 		generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
 	}
+	//special conditions
+	//for /url/{param1},{param2},{param3}.. valid semp query to fetch all items when all parameters are empty
+	//for /url1/{param1},{param2},{param3}/url2.. invalid when all parameters are empty as it becomes /url1/url2
+	if strings.Contains(generatedPath, "/,,/") || strings.Contains(generatedPath, "/,/") {
+		return "", errors.New("not all parameters found. SEMP call will be invalid")
+	}
 
 	path := strings.ReplaceAll(generatedPath, "/,,", "")
 	path = strings.ReplaceAll(path, "/,", "")
 	if strings.HasSuffix(path, "/") {
 		path = strings.TrimSuffix(path, "/")
+	}
+	if strings.Contains(path, "//") {
+		return "", errors.New("not all parameters found. SEMP call will be invalid")
 	}
 	return path, nil
 }
@@ -227,7 +251,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
 					continue
 				}
-				if attr.Identifying && strings.Contains(valuesRes.(string), "#") {
+				if attr.Identifying && valuesRes.(string)[0] == '#' && valuesRes.(string) != "#DEAD_MESSAGE_QUEUE" {
 					systemProvisioned = true
 				}
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
@@ -237,17 +261,10 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 						attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 						continue
 					} else {
-						fmt.Println("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
+						LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
 					}
 				}
-
-				/// => value in val
-
-				val := "\"" + valuesRes.(string) + "\""
-				if strings.Contains(valuesRes.(string), "{") {
-					valueOutput := strings.ReplaceAll(valuesRes.(string), "\"", "\\\"")
-					val = "\"" + valueOutput + "\""
-				}
+				val := "\"" + SanitizeHclStringValue(valuesRes.(string)) + "\""
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Int64:
 				if valuesRes == nil {
@@ -257,7 +274,6 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(intValue) {
 					//attributes with default values will be skipped
 					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
-
 					continue
 				}
 				val := fmt.Sprintf("%v", intValue)
@@ -401,10 +417,21 @@ func hclFormatResource(resourceConfig ResourceConfig) string {
 }
 
 func SanitizeHclIdentifierName(name string) string {
-	name = regexp.MustCompile(`[^a-zA-Z0-9 ]+`).ReplaceAllString(strings.TrimSpace(name), "_")
+	name = regexp.MustCompile(`[^a-zA-Z0-9 ]+`).ReplaceAllString(strings.ReplaceAll(name, " ", ""), "_")
 	if len(name) == 0 || (name[0] >= '0' && name[0] <= '9') || (len(name) == 1 && name[0] == '_') {
 		//just prepend static string to avoid checking all characters
 		name = "gn_" + name
 	}
 	return name
+}
+
+func SanitizeHclStringValue(value string) string {
+	b, err := json.Marshal(value)
+	if err != nil {
+	}
+	s := string(b)
+	output := s[1 : len(s)-1]
+	output = strings.ReplaceAll(output, "${", "$${")
+	output = strings.ReplaceAll(output, "%{", "%%{")
+	return output
 }

@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_mqtt_session Resource - solacebroker"
 subcategory: ""
 description: |-
   An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  mqttsessionclientid|x|||
-  mqttsessionvirtualrouter|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  mqttsessionclientid|x
+  mqttsessionvirtualrouter|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -18,11 +18,11 @@ description: |-
 An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-mqtt_session_client_id|x|||
-mqtt_session_virtual_router|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+mqtt_session_client_id|x
+mqtt_session_virtual_router|x
+msg_vpn_name|x
 
 
 
@@ -73,10 +73,6 @@ This has been available since SEMP API version 2.1.
 </pre>
  Available since SEMP API version 2.14.
 - `queue_respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages in the MQTT Session Queue. When enabled, expired messages are discarded or moved to the DMQ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.14.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--queue_event_bind_count_threshold"></a>
 ### Nested Schema for `queue_event_bind_count_threshold`

@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile_access_level_group Resource - solacebrok
 subcategory: ""
 description: |-
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  groupname|x|||
-  oauthprofile_name|x|||
+  Attribute|Identifying
+  :---|:---:
+  groupname|x
+  oauthprofile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-group_name|x|||
-oauth_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+group_name|x
+oauth_profile_name|x
 
 
 
@@ -56,7 +56,3 @@ This has been available since SEMP API version 2.24.
 "read-only" - User has read-only access to a Message VPN.
 "read-write" - User has read-write access to most Message VPN settings.
 </pre>
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

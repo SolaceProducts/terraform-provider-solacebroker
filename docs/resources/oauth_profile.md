@@ -4,10 +4,10 @@ page_title: "solacebroker_oauth_profile Resource - solacebroker"
 subcategory: ""
 description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  clientsecret||x||x
-  oauthprofile_name|x|||
+  Attribute|Identifying|Write-Only|Opaque
+  :---|:---:|:---:|:---:
+  clientsecret||x|x
+  oauthprofile_name|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -17,10 +17,10 @@ description: |-
 OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-client_secret||x||x
-oauth_profile_name|x|||
+Attribute|Identifying|Write-Only|Opaque
+:---|:---:|:---:|:---:
+client_secret||x|x
+oauth_profile_name|x||
 
 
 
@@ -102,7 +102,3 @@ This has been available since SEMP API version 2.24.
 - `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `semp_enabled` (Boolean) Enable or disable authentication of SEMP requests with OAuth tokens. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `username_claim_name` (String) The name of the username claim. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"sub"`.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

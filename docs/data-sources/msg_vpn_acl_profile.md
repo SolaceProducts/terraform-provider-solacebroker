@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_acl_profile Data Source - solacebroker"
 subcategory: ""
 description: |-
   An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  aclprofilename|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  aclprofilename|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -17,10 +17,10 @@ description: |-
 An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-acl_profile_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+acl_profile_name|x
+msg_vpn_name|x
 
 
 
@@ -46,7 +46,6 @@ This has been available since SEMP API version 2.0.
 "allow" - Allow client connection unless an exception is found for it.
 "disallow" - Disallow client connection unless an exception is found for it.
 </pre>
-- `id` (String) Identifier attribute, for internal use only.
 - `publish_topic_default_action` (String) The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>

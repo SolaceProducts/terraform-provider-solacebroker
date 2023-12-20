@@ -4,11 +4,11 @@ page_title: "solacebroker_msg_vpn_replay_log_topic_filter_subscription Resource 
 subcategory: ""
 description: |-
   One or more Subscriptions can be added to a replay-log so that only guaranteed messages published to matching topics are stored in the Replay Log.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  replaylogname|x|||
-  topicfiltersubscription|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  replaylogname|x
+  topicfiltersubscription|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
 ---
@@ -18,11 +18,11 @@ description: |-
 One or more Subscriptions can be added to a replay-log so that only guaranteed messages published to matching topics are stored in the Replay Log.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-replay_log_name|x|||
-topic_filter_subscription|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+replay_log_name|x
+topic_filter_subscription|x
 
 
 
@@ -40,7 +40,3 @@ This has been available since SEMP API version 2.27.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `replay_log_name` (String) The name of the Replay Log.
 - `topic_filter_subscription` (String) The topic of the Subscription.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

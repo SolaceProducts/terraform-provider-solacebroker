@@ -61,7 +61,3 @@ This has been available since SEMP API version 2.11.
 - `tls_server_cert_max_chain_depth` (Number) The maximum allowed depth of a certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
 - `tls_server_cert_validate_date_enabled` (Boolean) Enable or disable the validation of the "Not Before" and "Not After" validity dates in the certificate. When disabled, the certificate is accepted even if the certificate is not valid based on these dates. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `tls_server_cert_validate_name_enabled` (Boolean) Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the bridge. If enabled, the name used to connect to the bridge is checked against the names specified in the certificate returned by the remote broker. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.18.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

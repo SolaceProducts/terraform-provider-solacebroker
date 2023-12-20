@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_telemetry_profile Resource - solacebroker"
 subcategory: ""
 description: |-
   Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  telemetryprofilename|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  telemetryprofilename|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---
@@ -17,10 +17,10 @@ description: |-
 Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-telemetry_profile_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+telemetry_profile_name|x
 
 
 
@@ -61,10 +61,6 @@ This has been available since SEMP API version 2.31.
 - `receiver_tcp_max_window_size` (Number) The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.
 - `trace_enabled` (Boolean) Enable or disable generation of all trace span data messages. When enabled, the state of configured trace filters control which messages get traced. When disabled, trace span data messages are never generated, regardless of the state of trace filters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `trace_send_span_generation_enabled` (Boolean) Enable or disable generation of send spans. For the most complete view of broker message processing, this should be enabled. If the information provided by send spans are not needed, send spans can be disabled to reduce the performance impact of tracing. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.36.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.
 
 <a id="nestedatt--queue_event_bind_count_threshold"></a>
 ### Nested Schema for `queue_event_bind_count_threshold`

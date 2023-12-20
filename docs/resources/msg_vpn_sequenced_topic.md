@@ -4,10 +4,10 @@ page_title: "solacebroker_msg_vpn_sequenced_topic Resource - solacebroker"
 subcategory: ""
 description: |-
   A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  sequenced_topic|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  sequenced_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -17,10 +17,10 @@ description: |-
 A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-sequenced_topic|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+sequenced_topic|x
 
 
 
@@ -37,7 +37,3 @@ This has been available since SEMP API version 2.0.
 
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `sequenced_topic` (String) Topic for applying sequence numbers.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

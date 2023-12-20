@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_bridge_remote_subscription Resource - solacebr
 subcategory: ""
 description: |-
   A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  bridgename|x|||
-  bridgevirtualrouter|x|||
-  msgvpnname|x|||
-  remotesubscription_topic|x|||
+  Attribute|Identifying
+  :---|:---:
+  bridgename|x
+  bridgevirtualrouter|x
+  msgvpnname|x
+  remotesubscription_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -19,12 +19,12 @@ description: |-
 A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-bridge_name|x|||
-bridge_virtual_router|x|||
-msg_vpn_name|x|||
-remote_subscription_topic|x|||
+Attribute|Identifying
+:---|:---:
+bridge_name|x
+bridge_virtual_router|x
+msg_vpn_name|x
+remote_subscription_topic|x
 
 
 
@@ -50,7 +50,3 @@ This has been available since SEMP API version 2.0.
 - `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `remote_subscription_topic` (String) The topic of the Bridge remote subscription.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_
 subcategory: ""
 description: |-
   A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  cachename|x|||
-  clustername|x|||
-  homeclustername|x|||
-  msgvpnname|x|||
+  Attribute|Identifying
+  :---|:---:
+  cachename|x
+  clustername|x
+  homeclustername|x
+  msgvpnname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -19,12 +19,12 @@ description: |-
 A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-cache_name|x|||
-cluster_name|x|||
-home_cluster_name|x|||
-msg_vpn_name|x|||
+Attribute|Identifying
+:---|:---:
+cache_name|x
+cluster_name|x
+home_cluster_name|x
+msg_vpn_name|x
 
 
 
@@ -43,7 +43,3 @@ This has been available since SEMP API version 2.11.
 - `cluster_name` (String) The name of the Cache Cluster.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
-
-### Read-Only
-
-- `id` (String) Identifier attribute, for internal use only.

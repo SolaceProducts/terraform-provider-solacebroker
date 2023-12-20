@@ -4,12 +4,12 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_cl
 subcategory: ""
 description: |-
   A Claim is added to the JWT sent to the OAuth token request endpoint.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  msgvpnname|x|||
-  oauthjwtclaimname|x|||
-  restconsumername|x|||
-  restdeliverypointname|x|||
+  Attribute|Identifying
+  :---|:---:
+  msgvpnname|x
+  oauthjwtclaimname|x
+  restconsumername|x
+  restdeliverypointname|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.21.
 ---
@@ -19,12 +19,12 @@ description: |-
 A Claim is added to the JWT sent to the OAuth token request endpoint.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-msg_vpn_name|x|||
-oauth_jwt_claim_name|x|||
-rest_consumer_name|x|||
-rest_delivery_point_name|x|||
+Attribute|Identifying
+:---|:---:
+msg_vpn_name|x
+oauth_jwt_claim_name|x
+rest_consumer_name|x
+rest_delivery_point_name|x
 
 
 
@@ -46,5 +46,4 @@ This has been available since SEMP API version 2.21.
 
 ### Read-Only
 
-- `id` (String) Identifier attribute, for internal use only.
 - `oauth_jwt_claim_value` (String) The value of the additional claim, which must be a string containing a valid JSON value.

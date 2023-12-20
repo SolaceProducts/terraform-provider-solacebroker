@@ -65,7 +65,7 @@ resource "solacebroker_msg_vpn_queue" "q" {
 
 ### Required
 
-- `url` (String) The base URL of the event broker, for example `https://mybroker.example.org:1943/`. The trailing / can be omitted.
+- `url` (String) The base URL of the event broker, for example `https://mybroker.example.org:<semp-service-port>/`. The trailing / can be omitted.
 
 ### Optional
 
@@ -77,11 +77,12 @@ resource "solacebroker_msg_vpn_queue" "q" {
 - `retries` (Number) The number of retries for a SEMP call. The default value is 10.
 - `retry_max_interval` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the maximum retry interval. The default value is 30s.
 - `retry_min_interval` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating how long to wait after an initial failed request before the first retry.  Exponential backoff is used, up to the limit set by retry_max_interval. The default value is 3s.
+- `skip_api_check` (Boolean) Disable validation of the broker SEMP API for supported platform and minimum version. The default value is false.
 - `username` (String) The username to connect to the broker with.  Requires password and conflicts with bearer_token.
 
--> All provider configuration values can also be set as environment variables with the same name but uppercase and with the `SOLACEBROKER_` prefix.
+-> All provider configuration values can also be set as environment variables with the same name, but uppercase and with the `SOLACEBROKER_` prefix.
 For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
 
 # Release Notes and History
 
-For detailed Release Notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebroker/releases).
+For detailed release notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebrokerappliance/releases).

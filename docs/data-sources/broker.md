@@ -4,11 +4,11 @@ page_title: "solacebroker_broker Data Source - solacebroker"
 subcategory: ""
 description: |-
   This object contains global configuration for the message broker.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  tlsservercertcontent||x||x
-  tlsservercertpassword||x||
-  A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation. Requests which include the following attributes require greater access scope/level:
+  Attribute|Write-Only|Opaque
+  :---|:---:|:---:
+  tlsservercertcontent|x|x
+  tlsservercertpassword|x|
+  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
   :---|:---:
   authclientcertrevocationcheckmode|global/read-only
@@ -128,12 +128,7 @@ description: |-
   tlsciphersuitesecureshelllist|global/read-only
   tlscrimeexploitprotectionenabled|global/read-only
   tlsservercertcontent|global/read-only
-  tlsstandarddomaincertificateauthoritiesenabled|vpn/read-only
-  tlsticketlifetime|global/read-only
-  webmanagerallowunencryptedwizardsenabled|vpn/read-only
-  webmanagercustomization|vpn/read-only
-  webmanagerredirecthttpenabled|vpn/read-only
-  webmanagerredirecthttpoverridetls_port|vpn/read-only
+  tlsticket_lifetime|global/read-only
   This has been available since SEMP API version 2.13.
 ---
 
@@ -142,14 +137,14 @@ description: |-
 This object contains global configuration for the message broker.
 
 
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-tls_server_cert_content||x||x
-tls_server_cert_password||x||
+Attribute|Write-Only|Opaque
+:---|:---:|:---:
+tls_server_cert_content|x|x
+tls_server_cert_password|x|
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation. Requests which include the following attributes require greater access scope/level:
+A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
 
 
 Attribute|Access Scope/Level
@@ -271,12 +266,7 @@ tls_cipher_suite_msg_backbone_list|global/read-only
 tls_cipher_suite_secure_shell_list|global/read-only
 tls_crime_exploit_protection_enabled|global/read-only
 tls_server_cert_content|global/read-only
-tls_standard_domain_certificate_authorities_enabled|vpn/read-only
 tls_ticket_lifetime|global/read-only
-web_manager_allow_unencrypted_wizards_enabled|vpn/read-only
-web_manager_customization|vpn/read-only
-web_manager_redirect_http_enabled|vpn/read-only
-web_manager_redirect_http_override_tls_port|vpn/read-only
 
 
 
@@ -339,7 +329,6 @@ This has been available since SEMP API version 2.13.
 "transacted" - All transactions originated by clients are replicated to the standby site using transactions.
 </pre>
  Available since SEMP API version 2.18.
-- `id` (String) Identifier attribute, for internal use only.
 - `oauth_profile_default` (String) The default OAuth profile for OAuth authenticated SEMP requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.24.
 - `service_amqp_enabled` (Boolean) Enable or disable the AMQP service. When disabled new AMQP Clients may not connect through the global or per-VPN AMQP listen-ports, and all currently connected AMQP Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.17.

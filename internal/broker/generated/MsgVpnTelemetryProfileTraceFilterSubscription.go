@@ -28,21 +28,12 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_telemetry_profile_trace_filter_subscription",
-		MarkdownDescription: "Trace filter subscriptions control which messages will be attracted by the tracing filter.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nmsg_vpn_name|x|||\nsubscription|x|||\nsubscription_syntax|x|||\ntelemetry_profile_name|x|||\ntrace_filter_name|x|||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.31.",
+		MarkdownDescription: "Trace filter subscriptions control which messages will be attracted by the tracing filter.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\nsubscription|x\nsubscription_syntax|x\ntelemetry_profile_name|x\ntrace_filter_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.31.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/telemetryProfiles/{telemetryProfileName}/traceFilters/{traceFilterName}/subscriptions/{subscription},{subscriptionSyntax}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/telemetryProfiles/{telemetryProfileName}/traceFilters/{traceFilterName}/subscriptions",
 		Version:             0,
 		Attributes: []*broker.AttributeInfo{
-			{
-				BaseType:      broker.String,
-				SempName:      "id",
-				TerraformName: "id",
-				Type:          types.StringType,
-				TerraformType: tftypes.String,
-				Converter:     broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				Default:       "",
-			},
 			{
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",

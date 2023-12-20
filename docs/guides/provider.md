@@ -6,7 +6,9 @@ page_title: "Solacebroker Provider Guide"
 
 The `solacebroker` provider supports Terraform CLI operations including basic CRUD (create, read, update, and delete) and import.
 
-The provider leverages the [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) REST API to configure the PubSub+ event broker. The API reference is available from the [Solace PubSub+ Documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html).
+The provider leverages the [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) REST API to configure the PubSub+ event broker. The API reference is available from the [Solace PubSub+ documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/appliance/config/index.html).
+
+This provider supports configuring software event brokers and will fail if applied against an appliance. This check may be overridden by specifying the `skip_api_check = true` configuration argument.
 
 ## Mapping of SEMP API and Provider Names
 
@@ -34,7 +36,7 @@ A given version of the provider is built to support a specific version of the SE
 
 ## Object Relationships
 
-Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "Identifying" attributes that give a hint to required already configured objects.
+Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "Identifying" attributes that give a hint to required pre-existing objects.
 For example:
 
 ```terraform
@@ -70,9 +72,7 @@ Some attributes don't have a default value. In this case their value will be det
 
 ## Importing Resources
 
-When [importing resources to Terraform](https://developer.hashicorp.com/terraform/language/import#syntax) an `id` is required. Note that this `id` is not the same as the internal `id` attribute of resources.
-
-The `id` to be used shall be constructed as a path from the highest parent object down to the resource.
+When [importing resources to Terraform](https://developer.hashicorp.com/terraform/language/import#syntax) an `id` is required. This `id` shall be constructed as a path from the highest parent object down to the resource.
 
 For example, when importing a `solacebroker_msg_vpn_queue_subscription`, the parent relationship is `msg_vpn` > `msg_vpn_queue` > `msg_vpn_queue_subscription`. To construct the `id`, concatenate the identifications of parents and the particular resource identification, separated by `/` (slash). Also note that elements containing `/` must be URL-encoded.
 
