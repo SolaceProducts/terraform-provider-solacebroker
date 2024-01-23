@@ -17,15 +17,14 @@
 package generated
 
 import (
-	"regexp"
-	"terraform-provider-solacebroker/internal/broker"
-
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
 	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+	"regexp"
+	"terraform-provider-solacebroker/internal/broker"
 )
 
 func init() {
