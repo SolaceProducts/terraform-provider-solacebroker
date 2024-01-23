@@ -1,6 +1,6 @@
 // terraform-provider-solacebroker
 //
-// Copyright 2023 Solace Corporation. All rights reserved.
+// Copyright 2024 Solace Corporation. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,8 +18,9 @@ package broker
 
 import (
 	"fmt"
-	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"math/big"
+
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 )
 
 type Converter interface {
