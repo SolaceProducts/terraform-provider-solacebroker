@@ -264,7 +264,7 @@ func (r *brokerResource) Configure(_ context.Context, request resource.Configure
 	client, ok := request.ProviderData.(*semp.Client)
 	if !ok {
 		response.Diagnostics.AddError(
-			"Unexpected datasource configuration",
+			"Unexpected resource configuration",
 			fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, client),
 		)
 		return
