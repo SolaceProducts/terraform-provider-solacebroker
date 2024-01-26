@@ -51,7 +51,7 @@ jobs:
           sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
 
       - name: Check changed files
-        uses: tj-actions/verify-changed-files@v14
+        uses: tj-actions/verify-changed-files@v17
         id: check-changed-files
 
       - name: Run step only when any of the files change

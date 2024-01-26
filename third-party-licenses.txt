@@ -48,12 +48,12 @@ Copyright 2017
 Copyright 2017 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/go-hcLog@v1.5.0
 
-github.com/hashicorp/go-plugin-v1.5.1
+github.com/hashicorp/go-plugin-v1.6.0
 -------------------------------------
 Licensed under Mozilla 2.0
 Copyright 2016
 Copyright 2016 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/go-plugin@v1.5.1
+Home page: https://pkg.go.dev/github.com/hashicorp/go-plugin@v1.6.0
 
 github.com/hashicorp/go-retryablehttp-v0.7.5
 --------------------------------------------
@@ -83,12 +83,12 @@ Copyright 2022
 Copyright 2022 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-framework-validators@v0.12.0
 
-github.com/hashicorp/terraform-plugin-go-v0.19.0
+github.com/hashicorp/terraform-plugin-go-v0.20.0
 ------------------------------------------------
 Licensed under Mozilla 2.0
 Copyright 2020
 Copyright 2020 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-go@v0.19.0
+Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-go@v0.20.0
 
 github.com/hashicorp/terraform-plugin-log-v0.9.0
 ------------------------------------------------
@@ -97,12 +97,12 @@ Copyright 2021
 Copyright 2021 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-log@v0.9.0
 
-github.com/hashicorp/terraform-registry-address-v0.2.2
+github.com/hashicorp/terraform-registry-address-v0.2.3
 ------------------------------------------------------
 Licensed under Mozilla 2.0
 Copyright 2021
 Copyright 2021 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/terraform-registry-address@v0.2.2
+Home page: https://pkg.go.dev/github.com/hashicorp/terraform-registry-address@v0.2.3
 
 github.com/hashicorp/terraform-svchost-v0.1.1
 ---------------------------------------------
@@ -111,11 +111,10 @@ Copyright 2019
 Copyright 2019 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/terraform-svchost@v0.1.1
 
-github.com/hashicorp/yamux-v0.0.0-20181012175058-2f1d1f20f75d
--------------------------------------------------------------
+github.com/hashicorp/yamux-v0.1.1
+---------------------------------
 Licensed under Mozilla 2.0
-Copyright 2014 HashiCorp, Inc.
-Home page: https://pkg.go.dev/github.com/hashicorp/yamux@v0.0.0-20181012175058-2f1d1f20f75d
+Home page: https://pkg.go.dev/github.com/hashicorp/yamux@v0.1.1
 
 github.com/mattn/go-coLorabLe-v0.1.13
 -------------------------------------
@@ -156,12 +155,12 @@ Copyright 2012 The Go Authors2012
 Copyright 2012 Alex Ogier
 Home page: https://pkg.go.dev/github.com/spf13/pflag@v1.0.5
 
-github.com/vmihAilenco/msgpack/v5-v5.3.5
+github.com/vmihailenco/msgpack/v5-v5.4.1
 ----------------------------------------
 Licensed under BSD 2
 Copyright 2013
 Copyright 2013 The github.com/vmihailenco/msgpack Authors
-Home page: https://pkg.go.dev/github.com/vmihAilenco/msgpack/v5@v5.3.5
+Home page: https://pkg.go.dev/github.com/vmihailenco/msgpack/v5@v5.4.1
 
 github.com/vmihailenco/tagparser/v2-v2.0.0
 ------------------------------------------
@@ -184,32 +183,31 @@ Copyright 2009
 Copyright 2009 The Go Authors
 Home page: https://pkg.go.dev/golang.org/x/net@v0.17.0
 
-golang.org/x/sys-v0.13.0
+golang.org/x/sys-v0.15.0
 ------------------------
 Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/sys@v0.13.0
+Home page: https://pkg.go.dev/golang.org/x/sys@v0.15.0
 
-golang.org/x/text-v0.13.0
+golang.org/x/text-v0.14.0
 -------------------------
 Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/text@v0.13.0
+Home page: https://pkg.go.dev/golang.org/x/text@v0.14.0
 
-google.golang.org/genproto/googleapis/rpc-v0.0.0-20230525234030-28d5490b6b19
+google.golang.org/genproto/googleapis/rpc-v0.0.0-20231002182017-d307bd883b97
 ----------------------------------------------------------------------------
 Licensed under Apache 2.0
-No copyright.
-Home page: https://pkg.go.dev/google.golang.org/genproto/googleapis/rpc@v0.0.0-20230525234030-28d5490b6b19
+Home page: https://pkg.go.dev/google.golang.org/genproto/googleapis/rpc@v0.0.0-20231002182017-d307bd883b97
 
-google.golang.org/grpc-v1.57.1
+google.golang.org/grpc-v1.60.0
 ------------------------------
 Licensed under Apache 2.0
 Copyright 2014
 Copyright 2014 gRPC authors
-Home page: https://pkg.go.dev/google.golang.org/grpc@v1.57.1
+Home page: https://pkg.go.dev/google.golang.org/grpc@v1.60.0
 
 google.golang.org/protobuf-v1.31.0
 ----------------------------------

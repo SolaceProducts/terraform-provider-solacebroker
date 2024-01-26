@@ -1,6 +1,6 @@
 // terraform-provider-solacebroker
 //
-// Copyright 2023 Solace Corporation. All rights reserved.
+// Copyright 2024 Solace Corporation. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -264,7 +264,7 @@ func (r *brokerResource) Configure(_ context.Context, request resource.Configure
 	client, ok := request.ProviderData.(*semp.Client)
 	if !ok {
 		response.Diagnostics.AddError(
-			"Unexpected datasource configuration",
+			"Unexpected resource configuration",
 			fmt.Sprintf("Unexpected type %T for provider data; expected %T.", request.ProviderData, client),
 		)
 		return
