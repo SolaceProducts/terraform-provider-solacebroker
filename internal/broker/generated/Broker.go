@@ -278,7 +278,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventCacheUsageThreshold",
 				TerraformName:       "guaranteed_msging_event_cache_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the cache usage event at system level, relative to `guaranteed_msging_max_cache_usage`. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -372,7 +372,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventDeliveredUnackedThreshold",
 				TerraformName:       "guaranteed_msging_event_delivered_unacked_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the number of delivered but unacknowledged messages event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -414,7 +414,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventDiskUsageThreshold",
 				TerraformName:       "guaranteed_msging_event_disk_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the active disk partition usage event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -456,7 +456,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventEgressFlowCountThreshold",
 				TerraformName:       "guaranteed_msging_event_egress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transmit flow count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -550,7 +550,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventEndpointCountThreshold",
 				TerraformName:       "guaranteed_msging_event_endpoint_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the endpoints count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -644,7 +644,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventIngressFlowCountThreshold",
 				TerraformName:       "guaranteed_msging_event_ingress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the receive flow count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -738,7 +738,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventMsgCountThreshold",
 				TerraformName:       "guaranteed_msging_event_msg_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the spool message count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -780,7 +780,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventMsgSpoolFileCountThreshold",
 				TerraformName:       "guaranteed_msging_event_msg_spool_file_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the spool file count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -822,7 +822,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventMsgSpoolUsageThreshold",
 				TerraformName:       "guaranteed_msging_event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the spool usage event at system level, relative to `max_spool_usage`. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -916,7 +916,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventTransactedSessionCountThreshold",
 				TerraformName:       "guaranteed_msging_event_transacted_session_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transacted sessions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1010,7 +1010,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventTransactedSessionResourceCountThreshold",
 				TerraformName:       "guaranteed_msging_event_transacted_session_resource_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transacted session resources at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1052,7 +1052,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "guaranteedMsgingEventTransactionCountThreshold",
 				TerraformName:       "guaranteed_msging_event_transaction_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transactions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1248,7 +1248,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "serviceEventConnectionCountThreshold",
 				TerraformName:       "service_event_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the connection count event. Available since SEMP API version 2.17.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1454,7 +1454,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "serviceRestEventOutgoingConnectionCountThreshold",
 				TerraformName:       "service_rest_event_outgoing_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the REST outgoing connection count event. Available since SEMP API version 2.17.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1657,7 +1657,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "serviceSmfEventConnectionCountThreshold",
 				TerraformName:       "service_smf_event_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the SMF connection count event. Available since SEMP API version 2.17.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1790,7 +1790,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "serviceTlsEventConnectionCountThreshold",
 				TerraformName:       "service_tls_event_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the incoming and outgoing TLS connection count event of the broker. Available since SEMP API version 2.17.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

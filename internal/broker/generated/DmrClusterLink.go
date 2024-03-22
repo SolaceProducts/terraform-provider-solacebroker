@@ -340,7 +340,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventSpoolUsageThreshold",
 				TerraformName:       "queue_event_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the message spool usage event of the Queue, relative to `queue_max_msg_spool_usage`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

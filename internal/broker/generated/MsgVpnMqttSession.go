@@ -133,7 +133,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventBindCountThreshold",
 				TerraformName:       "queue_event_bind_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "Thresholds for the high number of the MQTT Session Queue Consumers Event, relative to `queue_max_bind_count`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -227,7 +227,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventMsgSpoolUsageThreshold",
 				TerraformName:       "queue_event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The threshold for the Message Spool usage event of the MQTT Session Queue, relative to `queue_max_msg_spool_usage`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -321,7 +321,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventRejectLowPriorityMsgLimitThreshold",
 				TerraformName:       "queue_event_reject_low_priority_msg_limit_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The threshold for the maximum allowed number of any priority messages queued in the MQTT Session Queue, relative to `queue_reject_low_priority_msg_limit`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

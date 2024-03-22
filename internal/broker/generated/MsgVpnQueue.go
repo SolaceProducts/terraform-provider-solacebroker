@@ -109,7 +109,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventBindCountThreshold",
 				TerraformName:       "event_bind_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Queue consumer flows event, relative to `max_bind_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -203,7 +203,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventMsgSpoolUsageThreshold",
 				TerraformName:       "event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the message spool usage event of the Queue, relative to `max_msg_spool_usage`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -297,7 +297,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventRejectLowPriorityMsgLimitThreshold",
 				TerraformName:       "event_reject_low_priority_msg_limit_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the maximum allowed number of any priority messages queued in the Queue event, relative to `reject_low_priority_msg_limit`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

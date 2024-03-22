@@ -202,7 +202,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventClientProvisionedEndpointSpoolUsageThreshold",
 				TerraformName:       "event_client_provisioned_endpoint_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the message spool usage event of Queues and Topic Endpoints provisioned by clients, relative to `max_msg_spool_usage` for these Queues and Topic Endpoints. Changing these values during operation does not affect existing sessions. For provisioned durable Queues and Topic Endpoints, this value applies when initially provisioned, but can then be changed afterwards by configuring the Queue or Topic Endpoint.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -244,7 +244,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventConnectionCountPerClientUsernameThreshold",
 				TerraformName:       "event_connection_count_per_client_username_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Client Username connection count event of the Client Profile, relative to `max_connection_count_per_client_username`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -338,7 +338,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventEgressFlowCountThreshold",
 				TerraformName:       "event_egress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transmit flow count event of the Client Profile, relative to `max_egress_flow_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -432,7 +432,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventEndpointCountPerClientUsernameThreshold",
 				TerraformName:       "event_endpoint_count_per_client_username_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Client Username endpoint count event of the Client Profile, relative to `max_endpoint_count_per_client_username`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -526,7 +526,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventIngressFlowCountThreshold",
 				TerraformName:       "event_ingress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the receive flow count event of the Client Profile, relative to `max_ingress_flow_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -620,7 +620,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceSmfConnectionCountPerClientUsernameThreshold",
 				TerraformName:       "event_service_smf_connection_count_per_client_username_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the client username SMF connection count event of the Client Profile, relative to `service_smf_max_connection_count_per_client_username`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -714,7 +714,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceWebConnectionCountPerClientUsernameThreshold",
 				TerraformName:       "event_service_web_connection_count_per_client_username_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Client Username Web Transport connection count event of the Client Profile, relative to `service_web_max_connection_count_per_client_username`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -808,7 +808,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventSubscriptionCountThreshold",
 				TerraformName:       "event_subscription_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the subscription count event of the Client Profile, relative to `max_subscription_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -902,7 +902,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventTransactedSessionCountThreshold",
 				TerraformName:       "event_transacted_session_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transacted session count event of the Client Profile, relative to `max_transacted_session_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -996,7 +996,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventTransactionCountThreshold",
 				TerraformName:       "event_transaction_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transaction count event of the Client Profile, relative to `max_transaction_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

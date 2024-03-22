@@ -337,7 +337,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventConnectionCountThreshold",
 				TerraformName:       "event_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the client connection count event of the Message VPN, relative to `max_connection_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -431,7 +431,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventEgressFlowCountThreshold",
 				TerraformName:       "event_egress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the egress flow count event of the Message VPN, relative to `max_egress_flow_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -525,7 +525,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventEgressMsgRateThreshold",
 				TerraformName:       "event_egress_msg_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the egress message rate event of the Message VPN.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -567,7 +567,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventEndpointCountThreshold",
 				TerraformName:       "event_endpoint_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Queues and Topic Endpoints count event of the Message VPN, relative to `max_endpoint_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -661,7 +661,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventIngressFlowCountThreshold",
 				TerraformName:       "event_ingress_flow_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the receive flow count event of the Message VPN, relative to `max_ingress_flow_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -755,7 +755,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventIngressMsgRateThreshold",
 				TerraformName:       "event_ingress_msg_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the receive message rate event of the Message VPN.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -823,7 +823,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventMsgSpoolUsageThreshold",
 				TerraformName:       "event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the message spool usage event of the Message VPN, relative to `max_msg_spool_usage`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -982,7 +982,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceAmqpConnectionCountThreshold",
 				TerraformName:       "event_service_amqp_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the AMQP client connection count event of the Message VPN, relative to `service_amqp_max_connection_count`. Available since SEMP API version 2.7.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1076,7 +1076,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceMqttConnectionCountThreshold",
 				TerraformName:       "event_service_mqtt_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the MQTT client connection count event of the Message VPN, relative to `service_mqtt_max_connection_count`. Available since SEMP API version 2.1.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1170,7 +1170,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceRestIncomingConnectionCountThreshold",
 				TerraformName:       "event_service_rest_incoming_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the incoming REST client connection count event of the Message VPN, relative to `service_rest_incoming_max_connection_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1264,7 +1264,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceSmfConnectionCountThreshold",
 				TerraformName:       "event_service_smf_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the SMF client connection count event of the Message VPN, relative to `service_smf_max_connection_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1358,7 +1358,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventServiceWebConnectionCountThreshold",
 				TerraformName:       "event_service_web_connection_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Web Transport client connection count event of the Message VPN, relative to `service_web_max_connection_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1452,7 +1452,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventSubscriptionCountThreshold",
 				TerraformName:       "event_subscription_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the subscription count event of the Message VPN, relative to `max_subscription_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1546,7 +1546,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventTransactedSessionCountThreshold",
 				TerraformName:       "event_transacted_session_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transacted session count event of the Message VPN, relative to `max_transacted_session_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -1640,7 +1640,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventTransactionCountThreshold",
 				TerraformName:       "event_transaction_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the transaction count event of the Message VPN, relative to `max_transaction_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,

@@ -92,7 +92,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventDataByteRateThreshold",
 				TerraformName:       "event_data_byte_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the cached data incoming byte rate event, in bytes per second.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -134,7 +134,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventDataMsgRateThreshold",
 				TerraformName:       "event_data_msg_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the cached data incoming message rate event, in messages per second.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -176,7 +176,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventMaxMemoryThreshold",
 				TerraformName:       "event_max_memory_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the memory usage per instance event, relative to `max_memory`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -218,7 +218,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventMaxTopicsThreshold",
 				TerraformName:       "event_max_topics_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the topics per instance event, relative to `max_topic_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -260,7 +260,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventRequestQueueDepthThreshold",
 				TerraformName:       "event_request_queue_depth_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the request queue depth event, relative to `max_request_queue_depth`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -302,7 +302,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventRequestRateThreshold",
 				TerraformName:       "event_request_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the cache request message rate event, in messages per second.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
@@ -344,7 +344,7 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventResponseRateThreshold",
 				TerraformName:       "event_response_rate_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the cache response message rate event, in messages per second.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
