@@ -55,9 +55,9 @@ This has been available since SEMP API version 2.14.
 "none" - The durability of the endpoint will be as requested on create.
 "non-durable" - The durability of the created queue will be non-durable, regardless of what was requested.
 </pre>
-- `event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_bind_count_threshold))
-- `event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_msg_spool_usage_threshold))
-- `event_reject_low_priority_msg_limit_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_reject_low_priority_msg_limit_threshold))
+- `event_bind_count_threshold` (Attributes) The thresholds for the Queue consumer flows event, relative to `max_bind_count`. (see [below for nested schema](#nestedatt--event_bind_count_threshold))
+- `event_msg_spool_usage_threshold` (Attributes) The thresholds for the message spool usage event of the Queue, relative to `max_msg_spool_usage`. (see [below for nested schema](#nestedatt--event_msg_spool_usage_threshold))
+- `event_reject_low_priority_msg_limit_threshold` (Attributes) The thresholds for the maximum allowed number of any priority messages queued in the Queue event, relative to `reject_low_priority_msg_limit`. (see [below for nested schema](#nestedatt--event_reject_low_priority_msg_limit_threshold))
 - `max_bind_count` (Number) The maximum number of consumer flows that can bind. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`.
 - `max_msg_size` (Number) The maximum message size allowed, in bytes (B). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000000`.
