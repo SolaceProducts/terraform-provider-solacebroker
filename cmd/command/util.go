@@ -133,7 +133,8 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 	for i := range identifiersValues {
 		if i < len(out) {
 			//encode all, if param is url friendly this does nothing.
-			value := url.QueryEscape(fmt.Sprint(identifiersValues[i]))
+			decodedPathVar, _ := url.PathUnescape(fmt.Sprint(identifiersValues[i]))
+			value := url.PathEscape(decodedPathVar)
 			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], value)
 		}
 	}
