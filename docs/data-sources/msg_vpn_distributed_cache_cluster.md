@@ -45,13 +45,13 @@ This has been available since SEMP API version 2.11.
 
 - `deliver_to_one_override_enabled` (Boolean) Enable or disable deliver-to-one override for the Cache Cluster. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `enabled` (Boolean) Enable or disable the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `event_data_byte_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_data_byte_rate_threshold))
-- `event_data_msg_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_data_msg_rate_threshold))
-- `event_max_memory_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_max_memory_threshold))
-- `event_max_topics_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_max_topics_threshold))
-- `event_request_queue_depth_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_request_queue_depth_threshold))
-- `event_request_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_request_rate_threshold))
-- `event_response_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_response_rate_threshold))
+- `event_data_byte_rate_threshold` (Attributes) The thresholds for the cached data incoming byte rate event, in bytes per second. (see [below for nested schema](#nestedatt--event_data_byte_rate_threshold))
+- `event_data_msg_rate_threshold` (Attributes) The thresholds for the cached data incoming message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_data_msg_rate_threshold))
+- `event_max_memory_threshold` (Attributes) The thresholds for the memory usage per instance event, relative to `max_memory`. (see [below for nested schema](#nestedatt--event_max_memory_threshold))
+- `event_max_topics_threshold` (Attributes) The thresholds for the topics per instance event, relative to `max_topic_count`. (see [below for nested schema](#nestedatt--event_max_topics_threshold))
+- `event_request_queue_depth_threshold` (Attributes) The thresholds for the request queue depth event, relative to `max_request_queue_depth`. (see [below for nested schema](#nestedatt--event_request_queue_depth_threshold))
+- `event_request_rate_threshold` (Attributes) The thresholds for the cache request message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_request_rate_threshold))
+- `event_response_rate_threshold` (Attributes) The thresholds for the cache response message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_response_rate_threshold))
 - `global_caching_enabled` (Boolean) Enable or disable global caching for the Cache Cluster. When enabled, the Cache Instances will fetch topics from remote Home Cache Clusters when requested, and subscribe to those topics to cache them locally. When disabled, the Cache Instances will remove all subscriptions and cached messages for topics from remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `global_caching_heartbeat` (Number) The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
 - `global_caching_topic_lifetime` (Number) The topic lifetime, in seconds. If no client requests are received for a given global topic over the duration of the topic lifetime, then the Cache Instance will remove the subscription and cached messages for that topic. A value of 0 disables aging. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3600`.
