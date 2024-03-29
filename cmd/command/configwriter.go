@@ -49,8 +49,7 @@ func GenerateTerraformFile(terraformObjectInfo *ObjectInfo) error {
 	var codeStream bytes.Buffer
 	err := terraformTemplate.Execute(&codeStream, terraformObjectInfo)
 	if err != nil {
-		LogCLIError("\nError: Templating error : " + err.Error() + "\n\n")
-		os.Exit(1)
+		ExitWithError("\nError: Templating error : " + err.Error() + "\n\n")
 	}
 	return os.WriteFile(terraformObjectInfo.FileName, codeStream.Bytes(), 0664)
 }

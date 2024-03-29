@@ -31,6 +31,7 @@ import (
 	"terraform-provider-solacebroker/internal/broker"
 	"text/tabwriter"
 	"time"
+	"unicode"
 )
 
 type Color string
@@ -41,6 +42,30 @@ const (
 )
 
 var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+var idStartYes = []*unicode.RangeTable{
+  unicode.L,
+  unicode.Nl,
+  unicode.Other_ID_Start,
+}
+
+// This code defines the idContinueYes slice, which contains Unicode range tables for valid continuation characters in an identifier.
+// The idContinueYes slice includes categories such as letter, number, mark, punctuation, and other valid continuation characters.
+var idContinueYes = []*unicode.RangeTable{
+	unicode.L,
+	unicode.Nl,
+	unicode.Other_ID_Start,
+	unicode.Mn,
+	unicode.Mc,
+	unicode.Nd,
+	unicode.Pc,
+	unicode.Other_ID_Continue,
+}
+
+var idNo = []*unicode.RangeTable{
+  unicode.Pattern_Syntax,
+  unicode.Pattern_White_Space,
+}
 
 type ResourceAttributeInfo struct {
 	AttributeValue string
@@ -64,8 +89,7 @@ type ObjectInfo struct {
 func StringWithDefaultFromEnv(name string, isMandatory bool, fallback string) string {
 	envValue := os.Getenv("SOLACEBROKER_" + strings.ToUpper(name))
 	if isMandatory && len(envValue) == 0 {
-		LogCLIError("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
-		os.Exit(1)
+		ExitWithError("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
 	} else if len(envValue) == 0 {
 		return fallback //default to fallback
 	}
@@ -126,8 +150,7 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 	out := rex.FindAllStringSubmatch(pathTemplate, -1)
 	generatedPath := pathTemplate
 	if len(out) < len(identifiersValues) {
-		LogCLIError("\nError: Too many provider specific identifiers. Required identifiers: " + fmt.Sprint(out))
-		os.Exit(1)
+		ExitWithError("\nError: Too many provider specific identifiers. Required identifiers: " + fmt.Sprint(out))
 	}
 
 	for i := range identifiersValues {
@@ -351,6 +374,11 @@ func LogCLIInfo(info string) {
 	_, _ = fmt.Fprintf(os.Stdout, "\n%s %s %s", Reset, info, Reset)
 }
 
+func ExitWithError(err string) {
+	LogCLIError(err)
+	os.Exit(1)
+}
+
 func GetParentResourceAttributes(parentObjectName string, brokerParentResource map[string]ResourceConfig) map[string]string {
 	parentResourceAttributes := map[string]string{}
 	parentResourceName := strings.ReplaceAll(parentObjectName, " ", ".")
@@ -436,3 +464,48 @@ func SanitizeHclStringValue(value string) string {
 	output = strings.ReplaceAll(output, "%{", "%%{")
 	return output
 }
+
+
+
+func isStartRune(r rune) bool {
+  return unicode.In(r, idStartYes...) && !unicode.In(r, idNo...)
+}
+
+func isContinueRune(r rune) bool {
+  return r == '-' || unicode.In(r, idContinueYes...) && !unicode.In(r, idNo...)
+}
+
+// A valid Terraform identifier must satisfy the following conditions:
+// - It must not be an empty string.
+// - The first character must be a valid starting character for an identifier.
+// - All subsequent characters must be valid continuation characters for an identifier.
+func IsValidTerraformIdentifier(s string) bool {
+  if s == "" {
+    return false
+  }
+  runes := []rune(s)
+  if !isStartRune(runes[0]) {
+    return false
+  }
+  for _, r := range runes[1:] {
+    if !isContinueRune(r) {
+      return false
+    }
+  }
+  return true
+}
+
+// makeValidForTerraformIdentifier replaces invalid characters in a string with hyphens ('-').
+// It takes a string as input and iterates over each rune in the string.
+// If the rune is not a valid continuation character or is in the idNo slice, it is replaced with a hyphen.
+// The function returns the modified string with hyphens replacing the invalid characters.
+func MakeValidForTerraformIdentifier(s string) string {
+	runes := []rune(s)
+	for i, r := range runes {
+		if !unicode.In(r, idContinueYes...) || unicode.In(r, idNo...) {
+			runes[i] = '-'
+		}
+	}
+	return string(runes)
+}
+

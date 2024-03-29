@@ -16,7 +16,6 @@
 package broker
 
 import (
-	"os"
 	"strings"
 	terraform "terraform-provider-solacebroker/cmd/command"
 	"terraform-provider-solacebroker/internal/broker"
@@ -30,33 +29,27 @@ func CliClient(url string) *semp.Client {
 	bearerToken := terraform.StringWithDefaultFromEnv("bearer_token", false, "")
 	retries, err := terraform.Int64WithDefaultFromEnv("retries", false, 10)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	retryMinInterval, err := terraform.DurationWithDefaultFromEnv("retry_min_interval", false, 3*time.Second)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	retryMaxInterval, err := terraform.DurationWithDefaultFromEnv("retry_max_interval", false, 30*time.Second)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	requestTimeoutDuration, err := terraform.DurationWithDefaultFromEnv("request_timeout_duration", false, time.Minute)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	requestMinInterval, err := terraform.DurationWithDefaultFromEnv("request_min_interval", false, 100*time.Millisecond)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	insecure_skip_verify, err := terraform.BooleanWithDefaultFromEnv("insecure_skip_verify", false, false)
 	if err != nil {
-		terraform.LogCLIError("\nError: Unable to parse provider attribute. " + err.Error())
-		os.Exit(1)
+		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	client := semp.NewClient(
 		getFullSempAPIURL(url),

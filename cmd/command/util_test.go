@@ -49,6 +49,15 @@ func TestResolveSempPath(t *testing.T) {
 			"/msgVpns/Test/Mock",
 			false,
 		},
+		{
+			"QueueSubParsing",
+			args{
+				pathTemplate: "/msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}",
+				v:            "new2/aperfectly%2F%24%2Fvalid%2F%24topic%2F%24%24/foo%2Fbarr",
+			},
+			"/msgVpns/new2/queues/aperfectly%2F$%2Fvalid%2F$topic%2F$$/subscriptions/foo%2Fbarr",
+			false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

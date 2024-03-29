@@ -20,7 +20,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"os"
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
@@ -149,8 +148,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 				}
 				sempData = []map[string]any{}
 			} else {
-				LogCLIError("SEMP call failed. " + err.Error() + " on path " + path)
-				os.Exit(1)
+				ExitWithError("SEMP call failed. " + err.Error() + " on path " + path)
 			}
 		}
 
@@ -179,6 +177,8 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 }
 
 func GetNameForResource(resourceTerraformName string, attributeResourceTerraform ResourceConfig) string {
+
+	// TODO: this should be optimized
 
 	resourceName := GenerateRandomString(6) //use generated if not able to identify
 
