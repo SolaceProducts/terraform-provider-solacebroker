@@ -20,13 +20,12 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"path"
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
 	"terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
-
-	"golang.org/x/exp/slices"
 )
 
 type BrokerObjectType string
@@ -47,67 +46,29 @@ var ObjectNamesCount = map[string]int{}
 
 func CreateBrokerObjectRelationships() {
 
-	//loop through entities
-	terraformNamePathMap := map[string]BrokerRelationParameterPath{}
-	for _, ds := range internalbroker.Entities {
-		rex := regexp.MustCompile(`{[^{}]*}`)
-		matches := rex.FindAllStringSubmatch(ds.PathTemplate, -1)
-
+	// Loop through entities and build database
+	resourcesPathSignatureMap := map[string]string{}
+	e := internalbroker.Entities
+	for _, ds := range e {
+		// Create new entry for each resource
 		BrokerObjectRelationship[BrokerObjectType(ds.TerraformName)] = []BrokerObjectType{}
-
-		for i := range matches {
-
-			if i == 0 || len(matches) <= 1 {
-				var firstParameter string
-				firstParameter = strings.TrimPrefix(matches[0][0], "{")
-				firstParameter = strings.TrimSuffix(firstParameter, "}")
-
-				_, ok := terraformNamePathMap[firstParameter]
-				if !ok {
-					terraformNamePathMap[firstParameter] = BrokerRelationParameterPath{
-						ds.PathTemplate,
-						ds.TerraformName,
-					}
-				}
-			} else {
-				firstParameter := strings.TrimPrefix(matches[0][0], "{")
-				firstParameter = strings.TrimSuffix(firstParameter, "}")
-
-				//check if parent path is part of child path before we add
-				firstParameterRelationship, firstParameterRelationshipExist := terraformNamePathMap[firstParameter]
-				if firstParameterRelationshipExist && strings.Contains(ds.PathTemplate, firstParameterRelationship.path) {
-
-					children, ok := BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)]
-					if !ok {
-						BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)] = []BrokerObjectType{}
-						children = []BrokerObjectType{}
-					} else {
-						if !slices.Contains(children, BrokerObjectType(ds.TerraformName)) && ds.TerraformName != firstParameterRelationship.terraformName {
-							children = append(children, BrokerObjectType(ds.TerraformName))
-						}
-						//confirm if this should be child of child
-						for k := range children {
-							childrenOfChild, childrenOfChildExists := BrokerObjectRelationship[children[k]]
-							if childrenOfChildExists {
-								if !slices.Contains(childrenOfChild, BrokerObjectType(ds.TerraformName)) &&
-									strings.Contains(ds.TerraformName, string(children[k])) && ds.TerraformName != string(children[k]) {
-									childrenOfChild = append(childrenOfChild, BrokerObjectType(ds.TerraformName))
-								}
-							}
-							BrokerObjectRelationship[children[k]] = childrenOfChild
-						}
-					}
-
-					BrokerObjectRelationship[BrokerObjectType(firstParameterRelationship.terraformName)] = children
-				} else {
-
-					terraformNamePathMap[firstParameter] = BrokerRelationParameterPath{
-						ds.PathTemplate,
-						ds.TerraformName,
-					}
-
-				}
-			}
+		// Build a signature for each resource
+		rex := regexp.MustCompile(`{[^\/]*}`)
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1),"/") // Find all parameters in path template enclosed in {} including multiple ones
+		if signature != "" {
+			resourcesPathSignatureMap[signature] = ds.TerraformName
+		}
+	}
+	// Loop through entities again and add children to parents
+	for _, ds := range e {
+		// Parent signature for each resource and add
+		rex := regexp.MustCompile(`{[^\/]*}`)
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1),"/")
+		// get parentSignature by removing the part of signature after the last /
+		parentSignature := path.Dir(signature)
+		if parentSignature != "." && parentSignature != "/" {
+			parentResource := resourcesPathSignatureMap[parentSignature]
+			BrokerObjectRelationship[BrokerObjectType(parentResource)] = append(BrokerObjectRelationship[BrokerObjectType(parentResource)], BrokerObjectType(ds.TerraformName))	
 		}
 	}
 }
@@ -117,6 +78,7 @@ func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName 
 	tfObject := map[string]ResourceConfig{}
 	tfObjectSempDataResponse := map[string]map[string]any{}
 	entityToRead := internalbroker.EntityInputs{}
+	// TODO: potentially expensive
 	for _, ds := range internalbroker.Entities {
 		if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
 			entityToRead = ds
@@ -186,6 +148,7 @@ func GetNameForResource(resourceTerraformName string, attributeResourceTerraform
 	resourceTerraformName = strings.ReplaceAll(strings.ToLower(resourceTerraformName), "solacebroker_", "")
 
 	//Get identifying attribute name to differentiate from multiples
+	// TODO: potentially expensive
 	for _, ds := range internalbroker.Entities {
 		if ds.TerraformName == resourceTerraformName {
 			for _, attr := range ds.Attributes {
