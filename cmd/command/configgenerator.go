@@ -36,6 +36,7 @@ type GeneratorTerraformOutput struct {
 }
 
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
+var DSLookup = map[BrokerObjectType]int{}
 
 type BrokerRelationParameterPath struct {
 	path          string
@@ -49,9 +50,11 @@ func CreateBrokerObjectRelationships() {
 	// Loop through entities and build database
 	resourcesPathSignatureMap := map[string]string{}
 	e := internalbroker.Entities
-	for _, ds := range e {
+	for i, ds := range e {
 		// Create new entry for each resource
 		BrokerObjectRelationship[BrokerObjectType(ds.TerraformName)] = []BrokerObjectType{}
+		DSLookup[BrokerObjectType(ds.TerraformName)] = i
+		//// path := e[DSLookup[BrokerObjectType(ds.TerraformName)]].PathTemplate
 		// Build a signature for each resource
 		rex := regexp.MustCompile(`{[^\/]*}`)
 		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1),"/") // Find all parameters in path template enclosed in {} including multiple ones

@@ -18,6 +18,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"maps"
 	"net/http"
 	"os"
 	"strings"
@@ -28,7 +29,7 @@ import (
 	"terraform-provider-solacebroker/internal/semp"
 
 	"github.com/spf13/cobra"
-	"golang.org/x/exp/maps"
+	// "golang.org/x/exp/maps"
 )
 
 // generateCmd represents the generate command
@@ -126,6 +127,11 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		}
 		generatedResource := make(map[string]command.GeneratorTerraformOutput)
 		var brokerResources []map[string]command.ResourceConfig
+
+		// This will iterate all resources and genarete config for each
+		
+		// TODO: evaluate returning error from this function
+		generateConfigForObjectInstances(cmd.Context(), *client, command.BrokerObjectType(brokerResourceTerraformName), providerSpecificIdentifier, nil)
 
 		// get all resources to be generated for
 		var resourcesToGenerate []command.BrokerObjectType
