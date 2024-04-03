@@ -19,6 +19,8 @@ type IdentifyingAttribute struct {
 
 type BrokerObjectAttributes []IdentifyingAttribute // Described as a set of identifying attributes
 
+var cachedResources = make(map[string]map[string]interface{})
+
 // Only used in this demo, for real broker instances the name is obtrained from the broker
 func getInstanceName(brokerObjectAttributes BrokerObjectAttributes) string {
 	instanceNamePrefix := ""
@@ -44,17 +46,17 @@ func generateConfig(brokerObjectType terraform.BrokerObjectType, brokerObjectAtt
 	fmt.Printf("  ## Generated config for %s instance:\n  resource \"solacebroker_%s\" \"%s\"  {}\n\n", instanceName, brokerObjectType, instanceName)
 }
 
-func getAllInstancesPathTemplate(brokerObjectType terraform.BrokerObjectType) (string, []string, error) {
+// Returns the path template for all instances of a broker object type, additionally the identifier attributes and the path template for a single instance
+func getAllInstancesPathTemplate(brokerObjectType terraform.BrokerObjectType) (string, []string, string, error) {
 	pathTemplate, err := getInstancePathTemplate(brokerObjectType)
 	if err != nil {
-		return "", nil, err
+		return "", nil, "", err
 	}
 	// Example path template: /msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}
 	// Example all instances path template: /msgVpns/{msgVpnName}/queues/{queueName}/subscriptions
-	// Example all instances path: /msgVpns/myvpn/queues/myqueue/subscriptions
 	sections := strings.Split(pathTemplate, "/")
 	if len(sections) < 2 || !strings.Contains(sections[len(sections)-1], "{") || !strings.Contains(sections[len(sections)-1], "}") {
-		return "", nil, fmt.Errorf("cannot create all resources query from path template: %s", pathTemplate)
+		return "", nil, "", fmt.Errorf("cannot create all resources query from path template: %s", pathTemplate)
 	}
 	allInstancesPathTemplate := strings.Join(sections[:len(sections)-1], "/")
 	rex := regexp.MustCompile(`{[^{}]*}`)
@@ -64,7 +66,7 @@ func getAllInstancesPathTemplate(brokerObjectType terraform.BrokerObjectType) (s
 	for _, match := range matches {
 		identifierAttributes = append(identifierAttributes, strings.TrimSuffix(strings.TrimPrefix(match[0], "{"), "}"))
 	}
-	return allInstancesPathTemplate, identifierAttributes, nil
+	return allInstancesPathTemplate, identifierAttributes, pathTemplate, nil
 }
 
 func getInstancePathTemplate(brokerObjectType terraform.BrokerObjectType) (string, error) {
@@ -152,7 +154,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		instances = append(instances, instanceIdentifyingAttributes)
 	} else {
 		// Query broker for all instances that match the parentIdentifyingAttributes
-		allResourcesPathTemplate, childIdentifierAttributes, err := getAllInstancesPathTemplate(brokerObjectType)
+		allResourcesPathTemplate, childIdentifierAttributes, resourceInstancePathTemplate, err := getAllInstancesPathTemplate(brokerObjectType)
 		if err != nil {
 			return nil, err
 		}
@@ -178,6 +180,9 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 			}
 			if !skipAppendInstance {
 				instances = append(instances, foundChildIndentifyingAttributes)
+				// also cache the results for later use
+				path, _ := getRequestPath(resourceInstancePathTemplate, foundChildIndentifyingAttributes)
+				cachedResources[path] = result
 			}
 		}
 

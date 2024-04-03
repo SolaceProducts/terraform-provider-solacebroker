@@ -12,8 +12,9 @@ require (
 	github.com/hashicorp/terraform-plugin-testing v1.5.1
 	github.com/spf13/cobra v1.8.0
 	github.com/testcontainers/testcontainers-go v0.26.0
-	golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81
 )
+
+require golang.org/x/exp v0.0.0-20240318143956-a85f2c67cd81 // indirect
 
 require (
 	dario.cat/mergo v1.0.0 // indirect
