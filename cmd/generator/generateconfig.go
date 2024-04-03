@@ -1,4 +1,4 @@
-package cmd
+package generator
 
 import (
 	"context"
@@ -7,7 +7,6 @@ import (
 	"net/url"
 	"regexp"
 	"strings"
-	"terraform-provider-solacebroker/cmd/generator"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
 	"terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
@@ -40,14 +39,14 @@ func getInstanceName(brokerObjectAttributes BrokerObjectAttributes) string {
 //     Replace msgVpnName, queueName in the TF config by expressions derived from the parent
 //
 // This will generate the config for a particular object
-func generateConfig(brokerObjectType generator.BrokerObjectType, brokerObjectAttributes BrokerObjectAttributes) {
+func generateConfig(brokerObjectType BrokerObjectType, brokerObjectAttributes BrokerObjectAttributes) {
 	// Query object attributes from broker using SEMP GET
 	instanceName := getInstanceName(brokerObjectAttributes) // only used in this demo
 	fmt.Printf("  ## Generated config for %s instance:\n  resource \"solacebroker_%s\" \"%s\"  {}\n\n", instanceName, brokerObjectType, instanceName)
 }
 
 // Returns the path template for all instances of a broker object type, additionally the identifier attributes and the path template for a single instance
-func getAllInstancesPathTemplate(brokerObjectType generator.BrokerObjectType) (string, []string, string, error) {
+func getAllInstancesPathTemplate(brokerObjectType BrokerObjectType) (string, []string, string, error) {
 	pathTemplate, err := getInstancePathTemplate(brokerObjectType)
 	if err != nil {
 		return "", nil, "", err
@@ -69,8 +68,8 @@ func getAllInstancesPathTemplate(brokerObjectType generator.BrokerObjectType) (s
 	return allInstancesPathTemplate, identifierAttributes, pathTemplate, nil
 }
 
-func getInstancePathTemplate(brokerObjectType generator.BrokerObjectType) (string, error) {
-	i, ok := generator.DSLookup[brokerObjectType]
+func getInstancePathTemplate(brokerObjectType BrokerObjectType) (string, error) {
+	i, ok := DSLookup[brokerObjectType]
 	if !ok {
 		return "", fmt.Errorf("invalid broker object type")
 	}
@@ -91,7 +90,7 @@ func getRequestPath(pathTemplate string, attributes BrokerObjectAttributes) (str
 	return pathTemplate, nil
 }
 
-func identifierToBrokerObjectAttributes(brokerObjectType generator.BrokerObjectType, identifier string) (BrokerObjectAttributes, error) {
+func identifierToBrokerObjectAttributes(brokerObjectType BrokerObjectType, identifier string) (BrokerObjectAttributes, error) {
 	pathTemplate, err := getInstancePathTemplate(brokerObjectType)
 	if err != nil {
 		return nil, err
@@ -129,7 +128,7 @@ func identifierToBrokerObjectAttributes(brokerObjectType generator.BrokerObjectT
 //   - Consider using filters: e.g: "List of all MsgVpn names" at https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html
 //
 // Returns one instance of the brokerObjectType if identifier has been provided, otherwise all instances that match the parentIdentifyingAttributes
-func getInstances(context context.Context, client semp.Client, brokerObjectType generator.BrokerObjectType, identifier string, parentIdentifyingAttributes BrokerObjectAttributes) ([]BrokerObjectAttributes, error) {
+func getInstances(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, identifier string, parentIdentifyingAttributes BrokerObjectAttributes) ([]BrokerObjectAttributes, error) {
 	var instances []BrokerObjectAttributes
 
 	if identifier != "" {
@@ -195,7 +194,7 @@ func isSystemProvisionedAttribute(attribute string) bool {
 }
 
 // Iterates all instances of a child object
-func generateConfigForObjectInstances(context context.Context, client semp.Client, brokerObjectType generator.BrokerObjectType, identifier string, parentIdentifyingAttributes BrokerObjectAttributes) error {
+func GenerateConfigForObjectInstances(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, identifier string, parentIdentifyingAttributes BrokerObjectAttributes) error {
 	// brokerObjectType is the current object type
 	// instances is the list of instances of the current object type
 	instances, err := getInstances(context, client, brokerObjectType, identifier, parentIdentifyingAttributes)
@@ -204,10 +203,10 @@ func generateConfigForObjectInstances(context context.Context, client semp.Clien
 	}
 	for i := 0; i < len(instances); i++ {
 		generateConfig(brokerObjectType, instances[i])
-		for _, subType := range generator.BrokerObjectRelationship[brokerObjectType] {
+		for _, subType := range BrokerObjectRelationship[brokerObjectType] {
 			fmt.Printf("  Now processing subtype %s\n\n", subType)
 			// Will need to pass additional params like the parent name etc. so to construct the appropriate names
-			err := generateConfigForObjectInstances(context, client, subType, "", instances[i])
+			err := GenerateConfigForObjectInstances(context, client, subType, "", instances[i])
 			if err != nil {
 				return fmt.Errorf("aborting, run into issues")
 			}

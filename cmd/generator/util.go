@@ -177,9 +177,7 @@ func ResolveSempPath(pathTemplate string, v string) (string, error) {
 
 	path := strings.ReplaceAll(generatedPath, "/,,", "")
 	path = strings.ReplaceAll(path, "/,", "")
-	if strings.HasSuffix(path, "/") {
-		path = strings.TrimSuffix(path, "/")
-	}
+	path = strings.TrimSuffix(path, "/")
 	if strings.Contains(path, "//") {
 		return "", errors.New("not all parameters found. SEMP call will be invalid")
 	}
@@ -219,9 +217,7 @@ func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any)
 
 	path := strings.ReplaceAll(generatedPath, "/,,", "")
 	path = strings.ReplaceAll(path, "/,", "")
-	if strings.HasSuffix(path, "/") {
-		path = strings.TrimSuffix(path, "/")
-	}
+	path = strings.TrimSuffix(path, "/")
 	if strings.Contains(path, "//") {
 		return "", errors.New("not all parameters found. SEMP call will be invalid")
 	}
