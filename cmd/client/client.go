@@ -13,43 +13,43 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package broker
+package client
 
 import (
 	"strings"
-	terraform "terraform-provider-solacebroker/cmd/command"
+	"terraform-provider-solacebroker/cmd/generator"
 	"terraform-provider-solacebroker/internal/broker"
 	"terraform-provider-solacebroker/internal/semp"
 	"time"
 )
 
 func CliClient(url string) *semp.Client {
-	username := terraform.StringWithDefaultFromEnv("username", true, "")
-	password := terraform.StringWithDefaultFromEnv("password", false, "")
-	bearerToken := terraform.StringWithDefaultFromEnv("bearer_token", false, "")
-	retries, err := terraform.Int64WithDefaultFromEnv("retries", false, 10)
+	username := generator.StringWithDefaultFromEnv("username", true, "")
+	password := generator.StringWithDefaultFromEnv("password", false, "")
+	bearerToken := generator.StringWithDefaultFromEnv("bearer_token", false, "")
+	retries, err := generator.Int64WithDefaultFromEnv("retries", false, 10)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
-	retryMinInterval, err := terraform.DurationWithDefaultFromEnv("retry_min_interval", false, 3*time.Second)
+	retryMinInterval, err := generator.DurationWithDefaultFromEnv("retry_min_interval", false, 3*time.Second)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
-	retryMaxInterval, err := terraform.DurationWithDefaultFromEnv("retry_max_interval", false, 30*time.Second)
+	retryMaxInterval, err := generator.DurationWithDefaultFromEnv("retry_max_interval", false, 30*time.Second)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
-	requestTimeoutDuration, err := terraform.DurationWithDefaultFromEnv("request_timeout_duration", false, time.Minute)
+	requestTimeoutDuration, err := generator.DurationWithDefaultFromEnv("request_timeout_duration", false, time.Minute)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
-	requestMinInterval, err := terraform.DurationWithDefaultFromEnv("request_min_interval", false, 100*time.Millisecond)
+	requestMinInterval, err := generator.DurationWithDefaultFromEnv("request_min_interval", false, 100*time.Millisecond)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
-	insecure_skip_verify, err := terraform.BooleanWithDefaultFromEnv("insecure_skip_verify", false, false)
+	insecure_skip_verify, err := generator.BooleanWithDefaultFromEnv("insecure_skip_verify", false, false)
 	if err != nil {
-		terraform.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 	}
 	client := semp.NewClient(
 		getFullSempAPIURL(url),

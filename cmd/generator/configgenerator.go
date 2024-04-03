@@ -13,7 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package terraform
+package generator
 
 import (
 	"context"
@@ -57,7 +57,7 @@ func CreateBrokerObjectRelationships() {
 		//// path := e[DSLookup[BrokerObjectType(ds.TerraformName)]].PathTemplate
 		// Build a signature for each resource
 		rex := regexp.MustCompile(`{[^\/]*}`)
-		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1),"/") // Find all parameters in path template enclosed in {} including multiple ones
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/") // Find all parameters in path template enclosed in {} including multiple ones
 		if signature != "" {
 			resourcesPathSignatureMap[signature] = ds.TerraformName
 		}
@@ -66,12 +66,12 @@ func CreateBrokerObjectRelationships() {
 	for _, ds := range e {
 		// Parent signature for each resource and add
 		rex := regexp.MustCompile(`{[^\/]*}`)
-		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1),"/")
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/")
 		// get parentSignature by removing the part of signature after the last /
 		parentSignature := path.Dir(signature)
 		if parentSignature != "." && parentSignature != "/" {
 			parentResource := resourcesPathSignatureMap[parentSignature]
-			BrokerObjectRelationship[BrokerObjectType(parentResource)] = append(BrokerObjectRelationship[BrokerObjectType(parentResource)], BrokerObjectType(ds.TerraformName))	
+			BrokerObjectRelationship[BrokerObjectType(parentResource)] = append(BrokerObjectRelationship[BrokerObjectType(parentResource)], BrokerObjectType(ds.TerraformName))
 		}
 	}
 }

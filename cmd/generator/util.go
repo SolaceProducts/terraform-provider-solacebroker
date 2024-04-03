@@ -13,7 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package terraform
+package generator
 
 import (
 	"bytes"
@@ -44,9 +44,9 @@ const (
 var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
 
 var idStartYes = []*unicode.RangeTable{
-  unicode.L,
-  unicode.Nl,
-  unicode.Other_ID_Start,
+	unicode.L,
+	unicode.Nl,
+	unicode.Other_ID_Start,
 }
 
 // This code defines the idContinueYes slice, which contains Unicode range tables for valid continuation characters in an identifier.
@@ -63,8 +63,8 @@ var idContinueYes = []*unicode.RangeTable{
 }
 
 var idNo = []*unicode.RangeTable{
-  unicode.Pattern_Syntax,
-  unicode.Pattern_White_Space,
+	unicode.Pattern_Syntax,
+	unicode.Pattern_White_Space,
 }
 
 type ResourceAttributeInfo struct {
@@ -465,14 +465,12 @@ func SanitizeHclStringValue(value string) string {
 	return output
 }
 
-
-
 func isStartRune(r rune) bool {
-  return unicode.In(r, idStartYes...) && !unicode.In(r, idNo...)
+	return unicode.In(r, idStartYes...) && !unicode.In(r, idNo...)
 }
 
 func isContinueRune(r rune) bool {
-  return r == '-' || unicode.In(r, idContinueYes...) && !unicode.In(r, idNo...)
+	return r == '-' || unicode.In(r, idContinueYes...) && !unicode.In(r, idNo...)
 }
 
 // A valid Terraform identifier must satisfy the following conditions:
@@ -480,19 +478,19 @@ func isContinueRune(r rune) bool {
 // - The first character must be a valid starting character for an identifier.
 // - All subsequent characters must be valid continuation characters for an identifier.
 func IsValidTerraformIdentifier(s string) bool {
-  if s == "" {
-    return false
-  }
-  runes := []rune(s)
-  if !isStartRune(runes[0]) {
-    return false
-  }
-  for _, r := range runes[1:] {
-    if !isContinueRune(r) {
-      return false
-    }
-  }
-  return true
+	if s == "" {
+		return false
+	}
+	runes := []rune(s)
+	if !isStartRune(runes[0]) {
+		return false
+	}
+	for _, r := range runes[1:] {
+		if !isContinueRune(r) {
+			return false
+		}
+	}
+	return true
 }
 
 // makeValidForTerraformIdentifier replaces invalid characters in a string with hyphens ('-').
@@ -508,4 +506,3 @@ func MakeValidForTerraformIdentifier(s string) string {
 	}
 	return string(runes)
 }
-

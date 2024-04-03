@@ -17,7 +17,7 @@
 package cmd
 
 import (
-	terraform "terraform-provider-solacebroker/cmd/command"
+	"terraform-provider-solacebroker/cmd/generator"
 
 	"github.com/spf13/cobra"
 )
@@ -31,7 +31,7 @@ The rest of this help describes the command-line use.`,
 }
 
 func Execute() error {
-	terraform.CreateBrokerObjectRelationships()
+	generator.CreateBrokerObjectRelationships()
 	err := rootCmd.Execute()
 	if err != nil {
 		return err

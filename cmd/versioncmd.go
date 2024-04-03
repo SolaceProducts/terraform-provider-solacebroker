@@ -36,7 +36,7 @@ var versionCmd = &cobra.Command{
 	Short: "Provides version information about the current binary",
 	Long:  "",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println(fmt.Sprintf("Terraform Provider for Solace PubSub+ %s platform, version: %s, based on Semp version %s", BrokerPlatformName[generated.Platform], broker.ProviderVersion, generated.SempVersion))
+		fmt.Printf("Terraform Provider for Solace PubSub+ %s platform, version: %s, based on Semp version %s\n", BrokerPlatformName[generated.Platform], broker.ProviderVersion, generated.SempVersion)
 	},
 }
 

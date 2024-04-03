@@ -22,14 +22,12 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"terraform-provider-solacebroker/cmd/broker"
-	command "terraform-provider-solacebroker/cmd/command"
-	terraform "terraform-provider-solacebroker/cmd/command"
+	"terraform-provider-solacebroker/cmd/client"
+	"terraform-provider-solacebroker/cmd/generator"
 	"terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 
 	"github.com/spf13/cobra"
-	// "golang.org/x/exp/maps"
 )
 
 // generateCmd represents the generate command
@@ -37,7 +35,7 @@ var generateCmd = &cobra.Command{
 	Use:   "generate [options] <terraform resource address> <provider-specific identifier> <filename>",
 	Short: "Generates a Terraform configuration file for a specified PubSub+ event broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform command. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
+This is not a Terraform generator. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
 
   <binary> generate [options] <terraform resource address> <provider-specific identifier> <filename>
 
@@ -45,7 +43,7 @@ This is not a Terraform command. One can download the provider binary and can ex
 		<binary> is the broker provider binary
 		[options] are the supported options, which mirror the configuration options for the provider object (for example -url=https://f93.soltestlab.ca:1943 and -retry_wait_max=90s) and can be set via environment variables in the same way.
 		<terraform resource address> addresses a specific resource instance in the form of <resource_type>.<resource_name>
-		<provider-specific identifier> the identifier of the broker object, the same as for the Terraform Import command.
+		<provider-specific identifier> the identifier of the broker object, the same as for the Terraform Import generator.
 		<filename> is the name of the generated file
 
 Example:
@@ -56,30 +54,30 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 
 	Run: func(cmd *cobra.Command, args []string) {
 		brokerURL, _ := cmd.Flags().GetString("url")
-		command.LogCLIInfo("Connecting to Broker : " + brokerURL)
+		generator.LogCLIInfo("Connecting to Broker : " + brokerURL)
 
-		client := broker.CliClient(brokerURL)
-		if client == nil {
-			command.ExitWithError("Error creating SEMP Client")
+		cliClient := client.CliClient(brokerURL)
+		if cliClient == nil {
+			generator.ExitWithError("Error creating SEMP Client")
 		}
 
 		brokerObjectType := cmd.Flags().Arg(0)
 
 		if len(brokerObjectType) == 0 {
-			command.LogCLIError("Terraform resource name not provided")
+			generator.LogCLIError("Terraform resource name not provided")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
 		providerSpecificIdentifier := cmd.Flags().Arg(1)
 		if len(providerSpecificIdentifier) == 0 {
-			command.LogCLIError("Broker object not provided")
+			generator.LogCLIError("Broker object not provided")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
 
 		fileName := cmd.Flags().Arg(2)
 		if len(fileName) == 0 {
-			command.LogCLIError("\nError: Terraform file name not specified.\n\n")
+			generator.LogCLIError("\nError: Terraform file name not specified.\n\n")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
@@ -88,66 +86,66 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 			fileName = fileName + ".tf"
 		}
 
-		skipApiCheck, err := command.BooleanWithDefaultFromEnv("skip_api_check", false, false)
+		skipApiCheck, err := generator.BooleanWithDefaultFromEnv("skip_api_check", false, false)
 		if err != nil {
-			command.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
+			generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
 		}
 		//Confirm SEMP version and connection via client
 		aboutPath := "/about/api"
-		result, err := client.RequestWithoutBody(cmd.Context(), http.MethodGet, aboutPath)
+		result, err := cliClient.RequestWithoutBody(cmd.Context(), http.MethodGet, aboutPath)
 		if err != nil {
-			command.ExitWithError("SEMP call failed. " + err.Error())
+			generator.ExitWithError("SEMP call failed. " + err.Error())
 		}
 		brokerSempVersion := result["sempVersion"].(string)
 		brokerPlatform := result["platform"].(string)
 		if !skipApiCheck && brokerPlatform != generated.Platform {
-			command.ExitWithError(fmt.Sprintf("Broker platform \"%s\" does not match generator supported platform: %s", BrokerPlatformName[brokerPlatform], BrokerPlatformName[generated.Platform]))
+			generator.ExitWithError(fmt.Sprintf("Broker platform \"%s\" does not match generator supported platform: %s", BrokerPlatformName[brokerPlatform], BrokerPlatformName[generated.Platform]))
 		}
-		command.LogCLIInfo("Connection successful.")
-		command.LogCLIInfo(fmt.Sprintf("Broker SEMP version is %s, Generator SEMP version is %s", brokerSempVersion, generated.SempVersion))
+		generator.LogCLIInfo("Connection successful.")
+		generator.LogCLIInfo(fmt.Sprintf("Broker SEMP version is %s, Generator SEMP version is %s", brokerSempVersion, generated.SempVersion))
 
-		command.LogCLIInfo("Attempting config generation for object and its child-objects: " + brokerObjectType + ", identifier: " + providerSpecificIdentifier + ", destination file: " + fileName)
+		generator.LogCLIInfo("Attempting config generation for object and its child-objects: " + brokerObjectType + ", identifier: " + providerSpecificIdentifier + ", destination file: " + fileName)
 
-		object := &command.ObjectInfo{}
+		object := &generator.ObjectInfo{}
 		// Extract and verify parameters
 		if strings.Count(brokerObjectType, ".") != 1 {
-			command.ExitWithError("\nError: Terraform resource address is not in correct format. Should be in the format <resource_type>.<resource_name>\n\n")
+			generator.ExitWithError("\nError: Terraform resource address is not in correct format. Should be in the format <resource_type>.<resource_name>\n\n")
 		}
 		brokerResourceType := strings.Split(brokerObjectType, ".")[0]
 		brokerResourceName := strings.Split(brokerObjectType, ".")[1]
-		if !terraform.IsValidTerraformIdentifier(brokerResourceName) {
-			command.ExitWithError(fmt.Sprintf("\nError: Resource name %s in the Terraform resource address is not a valid Terraform identifier\n\n", brokerResourceName))
+		if !generator.IsValidTerraformIdentifier(brokerResourceName) {
+			generator.ExitWithError(fmt.Sprintf("\nError: Resource name %s in the Terraform resource address is not a valid Terraform identifier\n\n", brokerResourceName))
 		}
 
 		brokerResourceTerraformName := strings.ReplaceAll(brokerResourceType, "solacebroker_", "")
 
-		_, found := command.BrokerObjectRelationship[command.BrokerObjectType(brokerResourceTerraformName)]
+		_, found := generator.BrokerObjectRelationship[generator.BrokerObjectType(brokerResourceTerraformName)]
 		if !found {
-			command.ExitWithError("\nError: Broker resource not found by terraform name : " + brokerResourceTerraformName + "\n\n")
+			generator.ExitWithError("\nError: Broker resource not found by terraform name : " + brokerResourceTerraformName + "\n\n")
 		}
-		generatedResource := make(map[string]command.GeneratorTerraformOutput)
-		var brokerResources []map[string]command.ResourceConfig
+		generatedResource := make(map[string]generator.GeneratorTerraformOutput)
+		var brokerResources []map[string]generator.ResourceConfig
 
 		// This will iterate all resources and genarete config for each
-		
+
 		// TODO: evaluate returning error from this function
-		generateConfigForObjectInstances(cmd.Context(), *client, command.BrokerObjectType(brokerResourceTerraformName), providerSpecificIdentifier, nil)
+		generateConfigForObjectInstances(cmd.Context(), *cliClient, generator.BrokerObjectType(brokerResourceTerraformName), providerSpecificIdentifier, nil)
 
 		// get all resources to be generated for
-		var resourcesToGenerate []command.BrokerObjectType
-		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectType(brokerResourceTerraformName))
-		resourcesToGenerate = append(resourcesToGenerate, command.BrokerObjectRelationship[command.BrokerObjectType(brokerResourceTerraformName)]...)
+		var resourcesToGenerate []generator.BrokerObjectType
+		resourcesToGenerate = append(resourcesToGenerate, generator.BrokerObjectType(brokerResourceTerraformName))
+		resourcesToGenerate = append(resourcesToGenerate, generator.BrokerObjectRelationship[generator.BrokerObjectType(brokerResourceTerraformName)]...)
 		for _, resource := range resourcesToGenerate {
-			generatedResults, generatedResourceChildren := generateForParentAndChildren(cmd.Context(), *client, string(resource), brokerResourceName, providerSpecificIdentifier, generatedResource)
+			generatedResults, generatedResourceChildren := generateForParentAndChildren(cmd.Context(), *cliClient, string(resource), brokerResourceName, providerSpecificIdentifier, generatedResource)
 			brokerResources = append(brokerResources, generatedResults...)
 			maps.Copy(generatedResource, generatedResourceChildren)
 		}
 
-		command.LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
+		generator.LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
 		fixInterObjectDependencies(brokerResources)
 
 		// Format the results
-		object.BrokerResources = command.ToFormattedHCL(brokerResources)
+		object.BrokerResources = generator.ToFormattedHCL(brokerResources)
 
 		registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
 		if !ok {
@@ -155,33 +153,33 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		}
 		object.Registry = registry
 		object.BrokerURL = brokerURL
-		object.Username = command.StringWithDefaultFromEnv("username", true, "")
-		object.Password = command.StringWithDefaultFromEnv("password", false, "")
+		object.Username = generator.StringWithDefaultFromEnv("username", true, "")
+		object.Password = generator.StringWithDefaultFromEnv("password", false, "")
 		if len(object.Password) == 0 {
-			object.BearerToken = command.StringWithDefaultFromEnv("bearer_token", true, "")
+			object.BearerToken = generator.StringWithDefaultFromEnv("bearer_token", true, "")
 		} else {
-			object.BearerToken = command.StringWithDefaultFromEnv("bearer_token", false, "")
+			object.BearerToken = generator.StringWithDefaultFromEnv("bearer_token", false, "")
 		}
 		object.FileName = fileName
 
-		command.LogCLIInfo("Found all resources. Writing file " + fileName)
-		_ = command.GenerateTerraformFile(object)
-		command.LogCLIInfo(fileName + " created successfully.\n")
+		generator.LogCLIInfo("Found all resources. Writing file " + fileName)
+		_ = generator.GenerateTerraformFile(object)
+		generator.LogCLIInfo(fileName + " created successfully.\n")
 		os.Exit(0)
 	},
 }
 
-func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]command.GeneratorTerraformOutput) ([]map[string]command.ResourceConfig, map[string]command.GeneratorTerraformOutput) {
-	var brokerResources []map[string]command.ResourceConfig
-	var generatorTerraformOutputForParent command.GeneratorTerraformOutput
+func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]generator.GeneratorTerraformOutput) ([]map[string]generator.ResourceConfig, map[string]generator.GeneratorTerraformOutput) {
+	var brokerResources []map[string]generator.ResourceConfig
+	var generatorTerraformOutputForParent generator.GeneratorTerraformOutput
 
 	//get for parent
 	_, alreadyGenerated := generatedResources[parentTerraformName]
 
 	if !alreadyGenerated {
-		generatorTerraformOutputForParent = command.ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, map[string]string{}, map[string]any{})
+		generatorTerraformOutputForParent = generator.ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, map[string]string{}, map[string]any{})
 		if len(generatorTerraformOutputForParent.TerraformOutput) > 0 {
-			command.LogCLIInfo("Generating terraform config for " + parentTerraformName)
+			generator.LogCLIInfo("Generating terraform config for " + parentTerraformName)
 			resource := generatorTerraformOutputForParent.TerraformOutput
 			brokerResources = append(brokerResources, resource)
 			generatedResources[parentTerraformName] = generatorTerraformOutputForParent
@@ -191,7 +189,7 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 		generatorTerraformOutputForParent = generatedResources[parentTerraformName]
 	}
 
-	childBrokerObjects := command.BrokerObjectRelationship[command.BrokerObjectType(parentTerraformName)]
+	childBrokerObjects := generator.BrokerObjectRelationship[generator.BrokerObjectType(parentTerraformName)]
 	//get all children resources
 
 	for _, childBrokerObject := range childBrokerObjects {
@@ -200,21 +198,21 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 
 		if !alreadyGeneratedChild {
 
-			command.LogCLIInfo("Generating terraform config for " + string(childBrokerObject) + " as related to " + parentTerraformName)
+			generator.LogCLIInfo("Generating terraform config for " + string(childBrokerObject) + " as related to " + parentTerraformName)
 
 			for key, parentBrokerResource := range generatorTerraformOutputForParent.TerraformOutput {
 
-				parentResourceAttributes := map[string]command.ResourceConfig{}
+				parentResourceAttributes := map[string]generator.ResourceConfig{}
 
 				//use object name to build relationship
 				parentResourceAttributes[key] = parentBrokerResource
 
-				parentBrokerResourceAttributeRelationship := command.GetParentResourceAttributes(key, parentResourceAttributes)
+				parentBrokerResourceAttributeRelationship := generator.GetParentResourceAttributes(key, parentResourceAttributes)
 
-				brokerResourcesToAppend := map[string]command.ResourceConfig{}
+				brokerResourcesToAppend := map[string]generator.ResourceConfig{}
 
 				//use parent semp response data to build semp request for children
-				generatorTerraformOutputForChild := command.ParseTerraformObject(context, client, brokerObjectInstanceName,
+				generatorTerraformOutputForChild := generator.ParseTerraformObject(context, client, brokerObjectInstanceName,
 					string(childBrokerObject),
 					providerSpecificIdentifier,
 					parentBrokerResourceAttributeRelationship,
@@ -239,7 +237,7 @@ func generateForParentAndChildren(context context.Context, client semp.Client, p
 	return brokerResources, generatedResources
 }
 
-func fixInterObjectDependencies(brokerResources []map[string]command.ResourceConfig) {
+func fixInterObjectDependencies(brokerResources []map[string]generator.ResourceConfig) {
 	// this will modify the passed brokerResources object
 
 	//temporal hard coding dependency graph fix not available in SEMP API
@@ -255,10 +253,10 @@ func fixInterObjectDependencies(brokerResources []map[string]command.ResourceCon
 
 	// Post-process brokerResources for dependencies
 
-	// For ech resource check if there is any dependency
+	// For each resource check if there is any dependency
 	for _, resources := range brokerResources {
 		var resourceType string
-		// var resourceConfig command.ResourceConfig
+		// var resourceConfig generator.ResourceConfig
 		for resourceKey := range resources {
 			resourceType = strings.Split(resourceKey, " ")[0]
 			resourceDependencies, exists := InterObjectDependencies[resourceType]
@@ -285,7 +283,7 @@ func fixInterObjectDependencies(brokerResources []map[string]command.ResourceCon
 							if strings.Trim(r[k].ResourceAttributes[nameAttribute].AttributeValue, "\"") == dependencyName {
 								// fmt.Println("         Found " + k + " as suitable dependency")
 								// Replace hardcoded name by reference
-								newInfo := command.ResourceAttributeInfo{
+								newInfo := generator.ResourceAttributeInfo{
 									AttributeValue: strings.Replace(k, " ", ".", -1) + "." + nameAttribute,
 									Comment:        resources[resourceKey].ResourceAttributes[nameAttribute].Comment,
 								}
