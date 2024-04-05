@@ -19,7 +19,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"maps"
+	// "maps"
 	"net/http"
 	"os"
 	"path"
@@ -48,23 +48,23 @@ type BrokerRelationParameterPath struct {
 var ObjectNamesCount = map[string]int{}
 
 func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
-	generatedResource := make(map[string]GeneratorTerraformOutput)
+	// generatedResource := make(map[string]GeneratorTerraformOutput)
 
 	// This will iterate all resources and genarete config for each
 
 	// TODO: evaluate returning error from this function
-	// brokerResources, _ := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
-	fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	brokerResources, _ := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	// fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
 
-	// get all resources to be generated for
-	var resourcesToGenerate []BrokerObjectType
-	resourcesToGenerate = append(resourcesToGenerate, BrokerObjectType(brokerResourceTerraformName))
-	resourcesToGenerate = append(resourcesToGenerate, BrokerObjectRelationship[BrokerObjectType(brokerResourceTerraformName)]...)
-	for _, resource := range resourcesToGenerate {
-		generatedResults, generatedResourceChildren := generateForParentAndChildren(context, *cliClient, string(resource), brokerResourceName, providerSpecificIdentifier, generatedResource)
-		brokerResources = append(brokerResources, generatedResults...)
-		maps.Copy(generatedResource, generatedResourceChildren)
-	}
+	// // get all resources to be generated for
+	// var resourcesToGenerate []BrokerObjectType
+	// resourcesToGenerate = append(resourcesToGenerate, BrokerObjectType(brokerResourceTerraformName))
+	// resourcesToGenerate = append(resourcesToGenerate, BrokerObjectRelationship[BrokerObjectType(brokerResourceTerraformName)]...)
+	// for _, resource := range resourcesToGenerate {
+	// 	generatedResults, generatedResourceChildren := generateForParentAndChildren(context, *cliClient, string(resource), brokerResourceName, providerSpecificIdentifier, generatedResource)
+	// 	brokerResources = append(brokerResources, generatedResults...)
+	// 	maps.Copy(generatedResource, generatedResourceChildren)
+	// }
 
 	LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
 	fixInterObjectDependencies(brokerResources)
