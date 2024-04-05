@@ -19,7 +19,7 @@ type IdentifyingAttribute struct {
 type IdentifyingAttributes []IdentifyingAttribute // Described as a set of identifying attributes
 
 type BrokerObjectInstanceInfo struct {
-	resourceTypeAndName string
+	resourceTypeAndName   string
 	identifyingAttributes IdentifyingAttributes
 }
 
@@ -27,7 +27,6 @@ var rootBrokerObjectPathTemplate string
 var rootBrokerObjectResourceName string
 var cachedResources map[string]map[string]interface{}
 var brokerResources []map[string]ResourceConfig
-
 
 func buildResourceTypeAndName(brokerObjectType BrokerObjectType, resourceInstancePathTemplate string, foundChildIndentifyingAttributes IdentifyingAttributes) (string, error) {
 	var resourceTypeAndName string
@@ -62,7 +61,6 @@ func buildResourceTypeAndName(brokerObjectType BrokerObjectType, resourceInstanc
 	resourceTypeAndName = "solacebroker_" + resourceTypeAndName
 	return resourceTypeAndName, nil
 }
-
 
 // Only used in this demo, for real broker instances the name is obtrained from the broker
 func getInstanceName(brokerObjectAttributes IdentifyingAttributes) string {
@@ -196,8 +194,8 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		element[resourceTypeAndName] = resourceValues[0]
 		brokerResources = append(brokerResources, element)
 		instances = append(instances, BrokerObjectInstanceInfo{
-			resourceTypeAndName: resourceTypeAndName,
-			identifyingAttributes:          instanceIdentifyingAttributes,
+			resourceTypeAndName:   resourceTypeAndName,
+			identifyingAttributes: instanceIdentifyingAttributes,
 		})
 
 	} else {
@@ -243,8 +241,8 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 				element[resourceTypeAndName] = resourceValues[0]
 				brokerResources = append(brokerResources, element)
 				instances = append(instances, BrokerObjectInstanceInfo{
-					resourceTypeAndName: resourceTypeAndName,
-					identifyingAttributes:          foundChildIndentifyingAttributes,
+					resourceTypeAndName:   resourceTypeAndName,
+					identifyingAttributes: foundChildIndentifyingAttributes,
 				})
 			}
 		}
