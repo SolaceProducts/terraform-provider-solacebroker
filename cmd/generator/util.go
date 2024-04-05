@@ -238,7 +238,7 @@ func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) Resou
 	}
 }
 
-func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string, brokerObjectTerraformName string) ([]ResourceConfig, error) {
+func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, error) {
 	var tfBrokerObjects []ResourceConfig
 	var attributesWithDefaultValue = []string{} // list of attributes, collected but not used
 	for k := range values {
@@ -247,7 +247,7 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 		}
 		systemProvisioned := false
 		for _, attr := range attributes {
-			attributeParentNameAndValue, attributeExistInParent := parentBrokerResourceAttributes[attr.TerraformName]
+			// attributeParentNameAndValue, attributeExistInParent := parentBrokerResourceAttributes[attr.TerraformName]
 			if attr.Sensitive {
 				// write-only attributes can't be retrieved, so we don't expose them
 				continue
@@ -257,14 +257,29 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				continue
 			}
 			valuesRes := values[k][attr.SempName]
-			if attr.Identifying && attributeExistInParent {
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
-				continue
-			} else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
-				//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
-				continue
+			if attr.Identifying {
+				// iterate parentInfo.identifyingAttributes
+				if parentInfo.identifyingAttributes != nil {
+					foundReference := false
+					for _, identifyingAttribute := range parentInfo.identifyingAttributes {
+						if identifyingAttribute.key == attr.SempName {
+							reference := strings.ReplaceAll(parentInfo.resourceTypeAndName, " ", ".") + "." + attr.TerraformName
+							resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(reference)
+							foundReference = true
+							break
+						}
+					}
+					if foundReference {
+						continue
+					}
+				}
 			}
+			// TODO: revisit, likely not needed
+			// } else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
+			// 	//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
+			// 	resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
+			// 	continue
+			// }
 
 			switch attr.BaseType {
 			case broker.String:

@@ -101,7 +101,7 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		generator.LogCLIInfo("Connection successful.")
 		generator.LogCLIInfo(fmt.Sprintf("Broker SEMP version is %s, Generator SEMP version is %s", brokerSempVersion, generated.SempVersion))
 
-		generator.LogCLIInfo("Attempting config generation for object and its child-objects: " + brokerObjectType + ", identifier: " + providerSpecificIdentifier + ", destination file: " + fileName)
+		generator.LogCLIInfo(fmt.Sprintf("Attempting config generation for object and its child-objects: %s, identifier: %s, destination file: %s\n", brokerObjectType, providerSpecificIdentifier, fileName))
 
 		// Extract and verify parameters
 		if strings.Count(brokerObjectType, ".") != 1 {

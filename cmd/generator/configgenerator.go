@@ -17,16 +17,16 @@ package generator
 
 import (
 	"context"
-	"errors"
-	"fmt"
+	// "errors"
+	// "fmt"
 	// "maps"
-	"net/http"
+	// "net/http"
 	"os"
 	"path"
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
-	"terraform-provider-solacebroker/internal/broker/generated"
+	// "terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 )
 
@@ -258,68 +258,69 @@ func CreateBrokerObjectRelationships() {
 }
 
 func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributesRelationship map[string]string, parentResult map[string]any) GeneratorTerraformOutput {
-	var objectName string
-	tfObject := map[string]ResourceConfig{}
-	tfObjectSempDataResponse := map[string]map[string]any{}
-	entityToRead := internalbroker.EntityInputs{}
-	// TODO: potentially expensive
-	for _, ds := range internalbroker.Entities {
-		if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
-			entityToRead = ds
-			break
-		}
-	}
-	var path string
+	// var objectName string
+	// tfObject := map[string]ResourceConfig{}
+	// tfObjectSempDataResponse := map[string]map[string]any{}
+	// entityToRead := internalbroker.EntityInputs{}
+	// // TODO: potentially expensive
+	// for _, ds := range internalbroker.Entities {
+	// 	if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
+	// 		entityToRead = ds
+	// 		break
+	// 	}
+	// }
+	// var path string
 
-	if len(parentResult) > 0 {
-		path, _ = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
-	} else {
-		path, _ = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
-	}
+	// if len(parentResult) > 0 {
+	// 	path, _ = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
+	// } else {
+	// 	path, _ = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
+	// }
 
-	if len(path) > 0 {
+	// if len(path) > 0 {
 
-		sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
-		if err != nil {
-			if err == semp.ErrResourceNotFound {
-				// continue if error is resource not found
-				if len(parentResult) > 0 {
-					print("..")
-				}
-				sempData = []map[string]any{}
-			} else if errors.Is(err, semp.ErrBadRequest) {
-				// continue if error is also bad request
-				if len(parentResult) > 0 {
-					print("..")
-				}
-				sempData = []map[string]any{}
-			} else {
-				ExitWithError("SEMP call failed. " + err.Error() + " on path " + path)
-			}
-		}
+	// 	sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
+	// 	if err != nil {
+	// 		if err == semp.ErrResourceNotFound {
+	// 			// continue if error is resource not found
+	// 			if len(parentResult) > 0 {
+	// 				print("..")
+	// 			}
+	// 			sempData = []map[string]any{}
+	// 		} else if errors.Is(err, semp.ErrBadRequest) {
+	// 			// continue if error is also bad request
+	// 			if len(parentResult) > 0 {
+	// 				print("..")
+	// 			}
+	// 			sempData = []map[string]any{}
+	// 		} else {
+	// 			ExitWithError("SEMP call failed. " + err.Error() + " on path " + path)
+	// 		}
+	// 	}
 
-		resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
+	// 	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
 
-		resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
+	// 	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
 
-		//check resource names used and deduplicate to avoid collision
-		for i := range resourceValues {
-			totalOccurrence := 1
-			objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
-			count, objectNameExists := ObjectNamesCount[objectName]
-			if objectNameExists {
-				totalOccurrence = count + 1
-			}
-			ObjectNamesCount[objectName] = totalOccurrence
-			objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
-			tfObject[objectName] = resourceValues[i]
-			tfObjectSempDataResponse[objectName] = sempData[i]
-		}
-	}
-	return GeneratorTerraformOutput{
-		TerraformOutput:  tfObject,
-		SEMPDataResponse: tfObjectSempDataResponse,
-	}
+	// 	//check resource names used and deduplicate to avoid collision
+	// 	for i := range resourceValues {
+	// 		totalOccurrence := 1
+	// 		objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
+	// 		count, objectNameExists := ObjectNamesCount[objectName]
+	// 		if objectNameExists {
+	// 			totalOccurrence = count + 1
+	// 		}
+	// 		ObjectNamesCount[objectName] = totalOccurrence
+	// 		objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
+	// 		tfObject[objectName] = resourceValues[i]
+	// 		tfObjectSempDataResponse[objectName] = sempData[i]
+	// 	}
+	// }
+	// return GeneratorTerraformOutput{
+	// 	TerraformOutput:  tfObject,
+	// 	SEMPDataResponse: tfObjectSempDataResponse,
+	// }
+	return GeneratorTerraformOutput{}
 }
 
 func GetNameForResource(resourceTerraformName string, attributeResourceTerraform ResourceConfig) string {
