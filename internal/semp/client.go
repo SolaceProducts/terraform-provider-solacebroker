@@ -251,12 +251,13 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 		rawData, ok = data["meta"]
 		if ok {
 			data, _ = rawData.(map[string]any)
-			responseData = append(responseData, data)
-			errorCode, errorCodeExist := data["responseCode"]
-			if errorCodeExist && fmt.Sprint(errorCode) == "400" {
-				return responseData, ErrBadRequest
+			description := data["error"].(map[string]interface{})["description"].(string)
+			status := data["error"].(map[string]interface{})["status"].(string)
+			if status == "NOT_FOUND" {
+				// resource not found is a special type we want to return
+				return nil, fmt.Errorf("%v, %v, %w", description, status, ErrResourceNotFound)
 			}
-			return responseData, ErrResourceNotFound
+			return nil, fmt.Errorf("%v, %v, %w", description, status, ErrBadRequest)
 		}
 	}
 	return nil, nil

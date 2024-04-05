@@ -120,7 +120,7 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 			generator.ExitWithError("\nError: Broker resource not found by terraform name : " + brokerResourceTerraformName + "\n\n")
 		}
 
-		generator.GenerateAllConfig(brokerURL, cmd.Context(), cliClient, brokerResourceTerraformName, brokerResourceName, providerSpecificIdentifier, fileName)
+		generator.GenerateAll(brokerURL, cmd.Context(), cliClient, brokerResourceTerraformName, brokerResourceName, providerSpecificIdentifier, fileName)
 
 		os.Exit(0)
 	},

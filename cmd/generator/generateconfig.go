@@ -18,7 +18,46 @@ type IdentifyingAttribute struct {
 
 type BrokerObjectAttributes []IdentifyingAttribute // Described as a set of identifying attributes
 
-var cachedResources = make(map[string]map[string]interface{})
+var rootBrokerObjectPathTemplate string
+var rootBrokerObjectResourceName string
+var cachedResources map[string]map[string]interface{}
+var brokerResources []map[string]ResourceConfig
+
+
+func buildResourceTypeAndName(brokerObjectType BrokerObjectType, resourceInstancePathTemplate string, foundChildIndentifyingAttributes BrokerObjectAttributes) (string, error) {
+	var resourceTypeAndName string
+	// Replace rootBrokerObjectPathTemplate part with rootBrokerObjectResourceName
+	convertedPath := strings.Replace(resourceInstancePathTemplate, rootBrokerObjectPathTemplate, rootBrokerObjectResourceName, 1)
+	// Split path by /
+	sections := strings.Split(convertedPath, "/")
+	resourceTypeAndName = sections[0]
+	for i := 1; i < len(sections); i++ {
+		if strings.HasPrefix(sections[i], "{") && strings.HasSuffix(sections[i], "}") {
+			// in case of multiple attributes replace all },{ with }_{
+			adjustedSection := strings.Replace(sections[i], "},{", "}_{", -1)
+			resourceTypeAndName += adjustedSection
+		} else {
+			resourceTypeAndName += "_"
+		}
+	}
+	var err error
+	resourceTypeAndName, err = substituteVariables(resourceTypeAndName, foundChildIndentifyingAttributes, false)
+	if err != nil {
+		return "", err
+	}
+	resourceTypeAndName = string(brokerObjectType) + " " + makeValidForTerraformIdentifier(resourceTypeAndName)
+	// Loop while cachedResources has an entry with this key. Change the key appending __number until it is unique
+	i := 2
+	modifiedResourceTypeAndName := resourceTypeAndName
+	for cachedResources[modifiedResourceTypeAndName] != nil {
+		modifiedResourceTypeAndName = resourceTypeAndName + "__" + fmt.Sprint(i)
+		i++
+	}
+	resourceTypeAndName = modifiedResourceTypeAndName
+	resourceTypeAndName = "solacebroker_" + resourceTypeAndName
+	return resourceTypeAndName, nil
+}
+
 
 // Only used in this demo, for real broker instances the name is obtrained from the broker
 func getInstanceName(brokerObjectAttributes BrokerObjectAttributes) string {
@@ -29,16 +68,6 @@ func getInstanceName(brokerObjectAttributes BrokerObjectAttributes) string {
 	return instanceNamePrefix + brokerObjectAttributes[len(brokerObjectAttributes)-1].value
 }
 
-// TODO: Use the real broker object attributes to generate the TF config
-//   - Query object attribute settings from broker
-//   - Remove attribute for which the value is set to default
-//   - Replace value for attributes that are identifying.
-//     Example:
-//     For a subscriptionTopic object defined as
-//     /msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}
-//     Replace msgVpnName, queueName in the TF config by expressions derived from the parent
-//
-// This will generate the config for a particular object
 func generateConfig(brokerObjectType BrokerObjectType, brokerObjectAttributes BrokerObjectAttributes) {
 	// Query object attributes from broker using SEMP GET
 	instanceName := getInstanceName(brokerObjectAttributes) // only used in this demo
@@ -77,17 +106,24 @@ func getInstancePathTemplate(brokerObjectType BrokerObjectType) (string, error) 
 	return dsEntity.PathTemplate, nil
 }
 
-func getRequestPath(pathTemplate string, attributes BrokerObjectAttributes) (string, error) {
-	// Example path template: /msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}
+// This function substitutes variables in a template string with values from the attributes, optionally escaping the values
+func substituteVariables(template string, attributes BrokerObjectAttributes, doEscape bool) (string, error) {
+	// Example template: /msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}
 	// Example brokerObjectAttributes: [IdentifyingAttribute{key: "msgVpnName", value: "myvpn"}, IdentifyingAttribute{key: "queueName", value: "myqueue"}, IdentifyingAttribute{key: "subscriptionTopic", value: "mysubscription"}]
-	// Example path: /msgVpns/myvpn/queues/myqueue/subscriptions/mysubscription
+	// Example results: /msgVpns/myvpn/queues/myqueue/subscriptions/mysubscription
 	for _, attr := range attributes {
-		pathTemplate = strings.Replace(pathTemplate, "{"+attr.key+"}", url.PathEscape(attr.value), -1)
+		var value string
+		if doEscape {
+			value = url.PathEscape(attr.value)
+		} else {
+			value = attr.value
+		}
+		template = strings.Replace(template, "{"+attr.key+"}", value, -1)
 	}
-	if strings.Contains(pathTemplate, "{") || strings.Contains(pathTemplate, "}") {
-		return "", fmt.Errorf("missing attributes from path template %s", pathTemplate)
+	if strings.Contains(template, "{") || strings.Contains(template, "}") {
+		return "", fmt.Errorf("missing attributes from path template %s", template)
 	}
-	return pathTemplate, nil
+	return template, nil
 }
 
 func identifierToBrokerObjectAttributes(brokerObjectType BrokerObjectType, identifier string) (BrokerObjectAttributes, error) {
@@ -132,6 +168,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 	var instances []BrokerObjectAttributes
 
 	if identifier != "" {
+		// Return a single instance of the brokerObjectType that matches the identifier
 		// Determine the identifying attributes for the instance
 		instanceIdentifyingAttributes, err := identifierToBrokerObjectAttributes(brokerObjectType, identifier)
 		if err != nil {
@@ -142,29 +179,41 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		if err != nil {
 			return nil, err
 		}
-		requestPath, err := getRequestPath(resourcePathTemplate, instanceIdentifyingAttributes)
+		requestPath, err := substituteVariables(resourcePathTemplate, instanceIdentifyingAttributes, true)
 		if err != nil {
 			return nil, err
 		}
-		_, err = client.RequestWithoutBodyForGenerator(context, generated.BasePath, http.MethodGet, requestPath, []map[string]any{})
+		results, err := client.RequestWithoutBodyForGenerator(context, generated.BasePath, http.MethodGet, requestPath, []map[string]any{})
 		if err != nil {
 			return nil, err
 		}
 		instances = append(instances, instanceIdentifyingAttributes)
+		resourceTypeAndName, err := buildResourceTypeAndName(brokerObjectType, resourcePathTemplate, instanceIdentifyingAttributes)
+		if err != nil {
+			return nil, err
+		}
+		// create a resource config from results[0]
+		resourceValues, err := GenerateTerraformString(internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes, results, map[string]string{}, string(brokerObjectType))
+		fmt.Printf("  ## Generated config for %s instance:\n  resource \"solacebroker_%s\" \"%s\"  %s\n\n", identifier, brokerObjectType, identifier, resourceValues)
+		element := make(map[string]ResourceConfig)
+		element[resourceTypeAndName] = resourceValues[0]
+		brokerResources = append(brokerResources, element)
+
 	} else {
 		// Query broker for all instances that match the parentIdentifyingAttributes
 		allResourcesPathTemplate, childIdentifierAttributes, resourceInstancePathTemplate, err := getAllInstancesPathTemplate(brokerObjectType)
 		if err != nil {
 			return nil, err
 		}
-		requestPath, err := getRequestPath(allResourcesPathTemplate, parentIdentifyingAttributes)
+		requestPath, err := substituteVariables(allResourcesPathTemplate, parentIdentifyingAttributes, true)
 		if err != nil {
 			return nil, err
 		}
 		results, err := client.RequestWithoutBodyForGenerator(context, generated.BasePath, http.MethodGet, requestPath, []map[string]any{})
 		if err != nil {
-			// return nil, err
-			return instances, nil
+			// TODO: revisit
+			return nil, err
+			// return instances, nil
 		}
 		for _, result := range results {
 			// Extract the identifying attributes from the result
@@ -180,8 +229,19 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 			if !skipAppendInstance {
 				instances = append(instances, foundChildIndentifyingAttributes)
 				// also cache the results for later use
-				path, _ := getRequestPath(resourceInstancePathTemplate, foundChildIndentifyingAttributes)
-				cachedResources[path] = result
+				resourceTypeAndName, err := buildResourceTypeAndName(brokerObjectType, resourceInstancePathTemplate, foundChildIndentifyingAttributes)
+				if err != nil {
+					return nil, err
+				}
+				cachedResources[resourceTypeAndName] = result
+				// create a resource config from result
+				var elems []map[string]interface{}
+				elems = append(elems, result)
+				resourceValues, err := GenerateTerraformString(internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes, elems, map[string]string{}, string(brokerObjectType))
+				fmt.Printf("  ## Generated config for %s instance:\n  resource \"solacebroker_%s\" \"%s\"  %s\n\n", identifier, brokerObjectType, identifier, resourceValues)
+				element := make(map[string]ResourceConfig)
+				element[resourceTypeAndName] = resourceValues[0]
+				brokerResources = append(brokerResources, element)
 			}
 		}
 
@@ -191,6 +251,23 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 
 func isSystemProvisionedAttribute(attribute string) bool {
 	return strings.HasPrefix(attribute, "#") && attribute != "#DEAD_MESSAGE_QUEUE"
+}
+
+// Main entry point to generate the config for a broker object
+func fetchBrokerConfig(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, brokerResourceName string, identifier string) ([]map[string]ResourceConfig, error) {
+	var err error
+	parentIdentifyingAttributes := BrokerObjectAttributes{}
+	cachedResources = make(map[string]map[string]interface{})
+	rootBrokerObjectResourceName = brokerResourceName
+	rootBrokerObjectPathTemplate, err = getInstancePathTemplate(brokerObjectType)
+	if err != nil {
+		return nil, err
+	}
+	err = GenerateConfigForObjectInstances(context, client, brokerObjectType, identifier, parentIdentifyingAttributes)
+	if err != nil {
+		return nil, err
+	}
+	return brokerResources, nil
 }
 
 // Iterates all instances of a child object
@@ -208,7 +285,7 @@ func GenerateConfigForObjectInstances(context context.Context, client semp.Clien
 			// Will need to pass additional params like the parent name etc. so to construct the appropriate names
 			err := GenerateConfigForObjectInstances(context, client, subType, "", instances[i])
 			if err != nil {
-				return fmt.Errorf("aborting, run into issues")
+				return fmt.Errorf("aborting, run into %w", err)
 			}
 		}
 	}

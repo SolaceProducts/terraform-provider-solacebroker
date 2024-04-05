@@ -493,7 +493,7 @@ func IsValidTerraformIdentifier(s string) bool {
 // It takes a string as input and iterates over each rune in the string.
 // If the rune is not a valid continuation character or is in the idNo slice, it is replaced with a hyphen.
 // The function returns the modified string with hyphens replacing the invalid characters.
-func MakeValidForTerraformIdentifier(s string) string {
+func makeValidForTerraformIdentifier(s string) string {
 	runes := []rune(s)
 	for i, r := range runes {
 		if !unicode.In(r, idContinueYes...) || unicode.In(r, idNo...) {

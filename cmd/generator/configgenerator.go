@@ -47,14 +47,14 @@ type BrokerRelationParameterPath struct {
 
 var ObjectNamesCount = map[string]int{}
 
-func GenerateAllConfig(brokerURL string, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
+func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
 	generatedResource := make(map[string]GeneratorTerraformOutput)
-	var brokerResources []map[string]ResourceConfig
 
 	// This will iterate all resources and genarete config for each
 
 	// TODO: evaluate returning error from this function
-	GenerateConfigForObjectInstances(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), providerSpecificIdentifier, nil)
+	// brokerResources, _ := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
 
 	// get all resources to be generated for
 	var resourcesToGenerate []BrokerObjectType
