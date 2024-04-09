@@ -52,8 +52,10 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 
 	// This will iterate all resources and genarete config for each
 
-	// TODO: evaluate returning error from this function
-	brokerResources, _ := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	brokerResources, err := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	if err != nil {
+		ExitWithError("Failed to fetch broker config, " + err.Error())
+	}
 	// fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
 
 	// // get all resources to be generated for
@@ -91,74 +93,6 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 	LogCLIInfo("Found all resources. Writing file " + fileName)
 	_ = GenerateTerraformFile(object)
 	LogCLIInfo(fileName + " created successfully.\n")
-}
-
-func generateForParentAndChildren(context context.Context, client semp.Client, parentTerraformName string, brokerObjectInstanceName string, providerSpecificIdentifier string, generatedResources map[string]GeneratorTerraformOutput) ([]map[string]ResourceConfig, map[string]GeneratorTerraformOutput) {
-	var brokerResources []map[string]ResourceConfig
-	var generatorTerraformOutputForParent GeneratorTerraformOutput
-
-	//get for parent
-	_, alreadyGenerated := generatedResources[parentTerraformName]
-
-	if !alreadyGenerated {
-		generatorTerraformOutputForParent = ParseTerraformObject(context, client, brokerObjectInstanceName, parentTerraformName, providerSpecificIdentifier, map[string]string{}, map[string]any{})
-		if len(generatorTerraformOutputForParent.TerraformOutput) > 0 {
-			LogCLIInfo("Generating terraform config for " + parentTerraformName)
-			resource := generatorTerraformOutputForParent.TerraformOutput
-			brokerResources = append(brokerResources, resource)
-			generatedResources[parentTerraformName] = generatorTerraformOutputForParent
-		}
-	} else {
-		//pick output for generated data
-		generatorTerraformOutputForParent = generatedResources[parentTerraformName]
-	}
-
-	childBrokerObjects := BrokerObjectRelationship[BrokerObjectType(parentTerraformName)]
-	//get all children resources
-
-	for _, childBrokerObject := range childBrokerObjects {
-
-		_, alreadyGeneratedChild := generatedResources[string(childBrokerObject)]
-
-		if !alreadyGeneratedChild {
-
-			LogCLIInfo("Generating terraform config for " + string(childBrokerObject) + " as related to " + parentTerraformName)
-
-			for key, parentBrokerResource := range generatorTerraformOutputForParent.TerraformOutput {
-
-				parentResourceAttributes := map[string]ResourceConfig{}
-
-				//use object name to build relationship
-				parentResourceAttributes[key] = parentBrokerResource
-
-				parentBrokerResourceAttributeRelationship := GetParentResourceAttributes(key, parentResourceAttributes)
-
-				brokerResourcesToAppend := map[string]ResourceConfig{}
-
-				//use parent semp response data to build semp request for children
-				generatorTerraformOutputForChild := ParseTerraformObject(context, client, brokerObjectInstanceName,
-					string(childBrokerObject),
-					providerSpecificIdentifier,
-					parentBrokerResourceAttributeRelationship,
-					generatorTerraformOutputForParent.SEMPDataResponse[key])
-
-				if len(generatorTerraformOutputForChild.TerraformOutput) > 0 {
-					generatedResources[string(childBrokerObject)] = generatorTerraformOutputForChild
-					for childBrokerResourceKey, childBrokerResourceValue := range generatorTerraformOutputForChild.TerraformOutput {
-						if len(generatorTerraformOutputForChild.SEMPDataResponse[childBrokerResourceKey]) > 0 {
-							//remove blanks
-							if generatorTerraformOutputForChild.TerraformOutput[childBrokerResourceKey].ResourceAttributes != nil {
-								brokerResourcesToAppend[childBrokerResourceKey] = childBrokerResourceValue
-							}
-						}
-					}
-					print("..")
-					brokerResources = append(brokerResources, brokerResourcesToAppend)
-				}
-			}
-		}
-	}
-	return brokerResources, generatedResources
 }
 
 func fixInterObjectDependencies(brokerResources []map[string]ResourceConfig) {

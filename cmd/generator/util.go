@@ -76,6 +76,12 @@ type ResourceConfig struct {
 	ResourceAttributes map[string]ResourceAttributeInfo // indexed by resource attribute name
 }
 
+type VariableConfig struct {
+	Type      string
+	Default   string
+	Sensitive bool
+}
+
 type ObjectInfo struct {
 	Registry        string
 	BrokerURL       string
@@ -238,18 +244,26 @@ func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) Resou
 	}
 }
 
-func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[string]interface{}, parentBrokerResourceAttributes map[string]string, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, error) {
+func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.AttributeInfo, values []map[string]interface{}, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, error) {
 	var tfBrokerObjects []ResourceConfig
-	var attributesWithDefaultValue = []string{} // list of attributes, collected but not used
+	var tfVariables = map[string]VariableConfig{}
+	var attributeLookup = map[string]int{}
 	for k := range values {
 		resourceConfig := ResourceConfig{
 			ResourceAttributes: map[string]ResourceAttributeInfo{},
 		}
 		systemProvisioned := false
-		for _, attr := range attributes {
-			// attributeParentNameAndValue, attributeExistInParent := parentBrokerResourceAttributes[attr.TerraformName]
+		attributesWithDefaultValue := map[string]*string{} // list of attributes with default values
+		linkedAttributes := map[string][]string{}
+
+		for i, attr := range attributes {
+			attributeLookup[attr.TerraformName] = i
+			if len(attr.Requires) > 0 {
+				linkedAttributes[attr.TerraformName] = append(linkedAttributes[attr.TerraformName], attr.Requires...)
+			}
 			if attr.Sensitive {
 				// write-only attributes can't be retrieved, so we don't expose them
+				attributesWithDefaultValue[attr.TerraformName] = nil
 				continue
 			}
 			if !attr.Identifying && attr.ReadOnly {
@@ -283,56 +297,54 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 
 			switch attr.BaseType {
 			case broker.String:
-				if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
+				// TODO: this looks like wrong to continue if valuesRes is empty
+				// if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
+				if reflect.TypeOf(valuesRes) == nil {
 					continue
 				}
-				if attr.Identifying && valuesRes.(string)[0] == '#' && valuesRes.(string) != "#DEAD_MESSAGE_QUEUE" {
+				// TODO: review if this covers all cases
+				if attr.Identifying && len(valuesRes.(string)) > 0 && valuesRes.(string)[0] == '#' && valuesRes.(string) != "#DEAD_MESSAGE_QUEUE" {
 					systemProvisioned = true
 				}
+				val := "\"" + SanitizeHclStringValue(valuesRes.(string)) + "\""
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
 					//attributes with default values will be skipped
 					// WORKAROUND: Except if attribute is "authentication_basic_type" in "msg_vpn"
 					if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
-						attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+						attributesWithDefaultValue[attr.TerraformName] = &val
 						continue
 					} else {
 						LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
 					}
 				}
-				val := "\"" + SanitizeHclStringValue(valuesRes.(string)) + "\""
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Int64:
 				if valuesRes == nil {
 					continue
 				}
 				intValue := valuesRes
+				val := fmt.Sprintf("%v", intValue)
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(intValue) {
 					//attributes with default values will be skipped
-					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					attributesWithDefaultValue[attr.TerraformName] = &val
 					continue
 				}
-				val := fmt.Sprintf("%v", intValue)
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Bool:
 				if valuesRes == nil {
 					continue
 				}
 				boolValue := valuesRes.(bool)
+				val := strconv.FormatBool(boolValue)
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(boolValue) {
 					//attributes with default values will be skipped
-					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
+					attributesWithDefaultValue[attr.TerraformName] = &val
 					continue
 				}
-				val := strconv.FormatBool(boolValue)
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Struct:
 				valueJson, err := json.Marshal(valuesRes)
 				if err != nil {
-					continue
-				}
-				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
-					//attributes with default values will be skipped
-					attributesWithDefaultValue = append(attributesWithDefaultValue, attr.TerraformName)
 					continue
 				}
 				output := strings.ReplaceAll(string(valueJson), "clearPercent", "clear_percent")
@@ -340,6 +352,11 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 				output = strings.ReplaceAll(output, "clearValue", "clear_value")
 				output = strings.ReplaceAll(output, "setValue", "set_value")
 				val := output
+				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
+					//attributes with default values will be skipped
+					attributesWithDefaultValue[attr.TerraformName] = &val
+					continue
+				}
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			}
 			if attr.Deprecated && systemProvisioned {
@@ -353,6 +370,55 @@ func GenerateTerraformString(attributes []*broker.AttributeInfo, values []map[st
 					" # Note: This attribute may be system provisioned.")
 			}
 		}
+		// Iterate linkedAttributes
+		// for each attribute check if there is an entry in resourceConfig
+		// if so, iterate all strings as attributes and add them to resourceConfig if not already there, with value from attributesWithDefaultValue
+		for attrName := range linkedAttributes {
+			if _, ok := resourceConfig.ResourceAttributes[attrName]; ok {
+				sensitive := false
+				for _, linkedAttrName := range linkedAttributes[attrName] {
+					if _, ok := resourceConfig.ResourceAttributes[linkedAttrName]; !ok {
+						if val, ok := attributesWithDefaultValue[linkedAttrName]; ok {
+							if val == nil {
+								sensitive = true
+								break
+							}
+							resourceConfig.ResourceAttributes[linkedAttrName] = newAttributeInfo(*val)
+						}
+					}
+				}
+				if sensitive {
+					resourceName := strings.Split(resourceTypeAndName, " ")[1]
+					// if any linked attribute is sensitive, use variables
+					// first add the current attribute to variables
+					variableName := resourceName + "_" + attrName
+					newVariable := VariableConfig{
+						Type:      "",  // TODO: fix this
+						Default:   "",  // TODO: fix this
+						Sensitive: false,   // cannot be sensitive since this was a defined attribute	
+					}
+					tfVariables[variableName] = newVariable
+					resourceConfig.ResourceAttributes[attrName] = newAttributeInfo("var." + variableName)
+					for _, linkedAttrName := range linkedAttributes[attrName] {
+						// then add the linked attributes to variables
+						attrInfo := attributes[attributeLookup[linkedAttrName]]
+						attrSensitive := attrInfo.Sensitive
+						// attrDefault := attrInfo.Default
+						// attrType := attrInfo.BaseType
+						variableName := resourceName + "_" + linkedAttrName
+						newVariable := VariableConfig{
+							Type:      "",  // TODO: fix this
+							Default:   "",  // TODO: fix this
+							Sensitive: attrSensitive,
+						}
+						tfVariables[variableName] = newVariable
+						resourceConfig.ResourceAttributes[linkedAttrName] = newAttributeInfo("var." + variableName)
+					}
+				}
+			}
+		}
+
+		// TODO: can this be removed?
 		if !systemProvisioned {
 			tfBrokerObjects = append(tfBrokerObjects, resourceConfig)
 		} else {
