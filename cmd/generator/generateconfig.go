@@ -27,6 +27,7 @@ var rootBrokerObjectPathTemplate string
 var rootBrokerObjectResourceName string
 var cachedResources map[string]interface{}
 var brokerResources []map[string]ResourceConfig
+var variables map[string]VariableConfig
 
 func buildResourceTypeAndName(brokerObjectType BrokerObjectType, resourceInstancePathTemplate string, foundChildIndentifyingAttributes IdentifyingAttributes) (string, error) {
 	var resourceTypeAndName string
@@ -183,13 +184,16 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		}
 		// create a resource config from results[0]
 		attributes := internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes
-		resourceValues, err := GenerateTerraformString(resourceTypeAndName, attributes, results, string(brokerObjectType), BrokerObjectInstanceInfo{})
+		resourceValues, tfVariables, err := GenerateTerraformString(resourceTypeAndName, attributes, results, string(brokerObjectType), BrokerObjectInstanceInfo{})
 		if err != nil {
 			return nil, err
 		}
 		element := make(map[string]ResourceConfig)
 		element[resourceTypeAndName] = resourceValues[0]
 		brokerResources = append(brokerResources, element)
+		for key, value := range tfVariables {
+			variables[key] = value
+		}
 		instances = append(instances, BrokerObjectInstanceInfo{
 			resourceTypeAndName:   resourceTypeAndName,
 			identifyingAttributes: instanceIdentifyingAttributes,
@@ -229,18 +233,21 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 				if err != nil {
 					return nil, err
 				}
-				cachedResources[resourceTypeAndName] = ""  // using cachedResources as a set
+				cachedResources[resourceTypeAndName] = "" // using cachedResources as a set
 				// create a resource config from result
 				var elems []map[string]interface{}
 				elems = append(elems, result)
 				attributes := internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes
-				resourceValues, err := GenerateTerraformString(resourceTypeAndName, attributes, elems, string(brokerObjectType), parent)
+				resourceValues, tfVariables, err := GenerateTerraformString(resourceTypeAndName, attributes, elems, string(brokerObjectType), parent)
 				if err != nil {
 					return nil, err
 				}
 				element := make(map[string]ResourceConfig)
 				element[resourceTypeAndName] = resourceValues[0]
 				brokerResources = append(brokerResources, element)
+				for key, value := range tfVariables {
+					variables[key] = value
+				}
 				instances = append(instances, BrokerObjectInstanceInfo{
 					resourceTypeAndName:   resourceTypeAndName,
 					identifyingAttributes: foundChildIndentifyingAttributes,
@@ -257,19 +264,21 @@ func isSystemProvisionedAttribute(attribute string) bool {
 }
 
 // Main entry point to generate the config for a broker object
-func fetchBrokerConfig(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, brokerResourceName string, identifier string) ([]map[string]ResourceConfig, error) {
+
+func fetchBrokerConfig(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, brokerResourceName string, identifier string) ([]map[string]ResourceConfig, map[string]VariableConfig, error) {
 	var err error
 	cachedResources = make(map[string]interface{})
+	variables = map[string]VariableConfig{}
 	rootBrokerObjectResourceName = brokerResourceName
 	rootBrokerObjectPathTemplate, err = getInstancePathTemplate(brokerObjectType)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	err = GenerateConfigForObjectInstances(context, client, brokerObjectType, identifier, BrokerObjectInstanceInfo{})
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	return brokerResources, nil
+	return brokerResources, variables, nil
 }
 
 // Iterates all instances of a child object

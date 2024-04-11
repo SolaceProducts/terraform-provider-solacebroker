@@ -90,6 +90,7 @@ type ObjectInfo struct {
 	BearerToken     string
 	FileName        string
 	BrokerResources []map[string]string
+	Variables       map[string]VariableConfig
 }
 
 func StringWithDefaultFromEnv(name string, isMandatory bool, fallback string) string {
@@ -244,7 +245,7 @@ func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) Resou
 	}
 }
 
-func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.AttributeInfo, values []map[string]interface{}, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, error) {
+func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.AttributeInfo, values []map[string]interface{}, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, map[string]VariableConfig, error) {
 	var tfBrokerObjects []ResourceConfig
 	var tfVariables = map[string]VariableConfig{}
 	var attributeLookup = map[string]int{}
@@ -279,6 +280,7 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 						if identifyingAttribute.key == attr.SempName {
 							reference := strings.ReplaceAll(parentInfo.resourceTypeAndName, " ", ".") + "." + attr.TerraformName
 							resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(reference)
+							// this means that the attribute value is a reference to a parent attribute, no need to process further
 							foundReference = true
 							break
 						}
@@ -297,12 +299,14 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 
 			switch attr.BaseType {
 			case broker.String:
-				// TODO: this looks like wrong to continue if valuesRes is empty
-				// if reflect.TypeOf(valuesRes) == nil || valuesRes == "" {
 				if reflect.TypeOf(valuesRes) == nil {
 					continue
 				}
-				// TODO: review if this covers all cases
+				if !attr.Identifying && valuesRes == "" {
+					// non-identifying attributes with empty values will be skipped
+					continue
+				}
+				// TODO: review if this covers all cases of system provisioned attributes
 				if attr.Identifying && len(valuesRes.(string)) > 0 && valuesRes.(string)[0] == '#' && valuesRes.(string) != "#DEAD_MESSAGE_QUEUE" {
 					systemProvisioned = true
 				}
@@ -310,12 +314,14 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
 					//attributes with default values will be skipped
 					// WORKAROUND: Except if attribute is "authentication_basic_type" in "msg_vpn"
-					if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
-						attributesWithDefaultValue[attr.TerraformName] = &val
-						continue
-					} else {
-						LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
-					}
+					// TODO: review if this is still needed
+					// if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
+					// 	attributesWithDefaultValue[attr.TerraformName] = &val
+					// 	continue
+					// } else {
+					// 	LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
+					// }
+					attributesWithDefaultValue[attr.TerraformName] = &val
 				}
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Int64:
@@ -392,10 +398,13 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 					// if any linked attribute is sensitive, use variables
 					// first add the current attribute to variables
 					variableName := resourceName + "_" + attrName
+					attrInfo := attributes[attributeLookup[attrName]]
+					attrSensitive := attrInfo.Sensitive
+					attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
 					newVariable := VariableConfig{
-						Type:      "",  // TODO: fix this
-						Default:   "",  // TODO: fix this
-						Sensitive: false,   // cannot be sensitive since this was a defined attribute	
+						Type:      attrType,
+						Default:   attrDefault,
+						Sensitive: attrSensitive, // note: expecting not sensitive since this was a defined attribute
 					}
 					tfVariables[variableName] = newVariable
 					resourceConfig.ResourceAttributes[attrName] = newAttributeInfo("var." + variableName)
@@ -403,12 +412,11 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 						// then add the linked attributes to variables
 						attrInfo := attributes[attributeLookup[linkedAttrName]]
 						attrSensitive := attrInfo.Sensitive
-						// attrDefault := attrInfo.Default
-						// attrType := attrInfo.BaseType
+						attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
 						variableName := resourceName + "_" + linkedAttrName
 						newVariable := VariableConfig{
-							Type:      "",  // TODO: fix this
-							Default:   "",  // TODO: fix this
+							Type:      attrType,
+							Default:   attrDefault,
 							Sensitive: attrSensitive,
 						}
 						tfVariables[variableName] = newVariable
@@ -428,7 +436,27 @@ func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.At
 			})
 		}
 	}
-	return tfBrokerObjects, nil
+	return tfBrokerObjects, tfVariables, nil
+}
+
+func GetBaseTypeAndDefault(attrInfo *broker.AttributeInfo) (string, string, error) {
+	defaultValue := ""
+	switch attrInfo.BaseType {
+	case broker.String:
+		defaultValue = "\"" + SanitizeHclStringValue(fmt.Sprint(attrInfo.Default)) + "\""
+		return "string", defaultValue, nil
+	case broker.Int64:
+		defaultValue = fmt.Sprint(attrInfo.Default)
+		return "number", defaultValue, nil
+	case broker.Bool:
+		defaultValue = strconv.FormatBool(attrInfo.Default.(bool))
+		return "bool", defaultValue, nil
+	case broker.Struct:
+		// TODO: implement this
+		return "object", "", nil
+	default:
+		return "", "", errors.New("unknown base type")
+	}
 }
 
 func randStr(n int) string {
@@ -489,7 +517,7 @@ func IndexOf(elm BrokerObjectType, data []BrokerObjectType) int {
 	return -1
 }
 
-func ToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]string {
+func resourcesToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]string {
 	var formattedResult []map[string]string
 	for _, resources := range brokerResources {
 		resourceCollection := make(map[string]string)

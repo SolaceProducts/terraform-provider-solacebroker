@@ -17,6 +17,7 @@ package generator
 
 import (
 	"context"
+
 	// "errors"
 	// "fmt"
 	// "maps"
@@ -26,6 +27,7 @@ import (
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
+
 	// "terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 )
@@ -52,7 +54,8 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 
 	// This will iterate all resources and genarete config for each
 
-	brokerResources, err := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+	brokerResources, variables, err := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
+
 	if err != nil {
 		ExitWithError("Failed to fetch broker config, " + err.Error())
 	}
@@ -71,9 +74,9 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 	LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
 	fixInterObjectDependencies(brokerResources)
 
-	// Format the results
 	object := &ObjectInfo{}
-	object.BrokerResources = ToFormattedHCL(brokerResources)
+	object.BrokerResources = resourcesToFormattedHCL(brokerResources)
+	object.Variables = variables
 
 	registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
 	if !ok {

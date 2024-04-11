@@ -13,13 +13,23 @@ provider "solacebroker" {
   url            = "{{.BrokerURL}}"
 }
 
-{{range  .BrokerResources}}
+{{range $key,$value:= .Variables -}}
+variable "{{ $key }}" {
+  type = {{ $value.Type }}
+  {{ if $value.Sensitive -}}
+  sensitive = true
+{{else -}}
+  # default = {{ $value.Default }}
+{{end -}}
+}
 
+{{end -}}
+
+{{range  .BrokerResources -}}
 {{range $k, $v := . -}}
 {{$kslice :=  splitHCLResourceName $k}}
 resource "{{readHCLResourceName $kslice 0 }}" "{{readHCLResourceName $kslice 1}}" {
 {{$v}}
 }
 {{end -}}
-
-{{end}}
+{{end -}}
