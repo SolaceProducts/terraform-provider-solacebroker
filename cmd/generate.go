@@ -114,12 +114,6 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		}
 
 		brokerResourceTerraformName := strings.ReplaceAll(brokerResourceType, "solacebroker_", "")
-
-		_, found := generator.BrokerObjectRelationship[generator.BrokerObjectType(brokerResourceTerraformName)]
-		if !found {
-			generator.ExitWithError("\nError: Broker resource not found by terraform name : " + brokerResourceTerraformName + "\n\n")
-		}
-
 		generator.GenerateAll(brokerURL, cmd.Context(), cliClient, brokerResourceTerraformName, brokerResourceName, providerSpecificIdentifier, fileName)
 
 		os.Exit(0)

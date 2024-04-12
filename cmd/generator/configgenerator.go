@@ -17,67 +17,71 @@ package generator
 
 import (
 	"context"
-
-	// "errors"
-	// "fmt"
-	// "maps"
-	// "net/http"
 	"os"
 	"path"
 	"regexp"
 	"strings"
 	internalbroker "terraform-provider-solacebroker/internal/broker"
-
-	// "terraform-provider-solacebroker/internal/broker/generated"
 	"terraform-provider-solacebroker/internal/semp"
 )
 
 type BrokerObjectType string
 
-type GeneratorTerraformOutput struct {
-	TerraformOutput  map[string]ResourceConfig
-	SEMPDataResponse map[string]map[string]any
+type ResourceAttributeInfo struct {
+	AttributeValue string
+	Comment        string
+}
+
+type ResourceConfig struct {
+	ResourceAttributes map[string]ResourceAttributeInfo // indexed by resource attribute name
+}
+
+type VariableConfig struct {
+	Type      string
+	Default   string
+	Sensitive bool
+}
+
+type ObjectInfo struct {
+	Registry        string
+	BrokerURL       string
+	Username        string
+	Password        string
+	BearerToken     string
+	FileName        string
+	BrokerResources []map[string]string
+	Variables       map[string]VariableConfig
 }
 
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
-var DSLookup = map[BrokerObjectType]int{}
-
-type BrokerRelationParameterPath struct {
-	path          string
-	terraformName string
-}
+var DSLookup = map[BrokerObjectType]int{} // Helper to easily lookup an entity in internalbroker.Entities by name
 
 var ObjectNamesCount = map[string]int{}
 
 func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
-	// generatedResource := make(map[string]GeneratorTerraformOutput)
+	// First build the parent-child relationship between broker objects
+	CreateBrokerObjectRelationships()
 
-	// This will iterate all resources and genarete config for each
+	// Check if the broker resource is supported
+	_, found := BrokerObjectRelationship[BrokerObjectType(brokerResourceTerraformName)]
+	if !found {
+		ExitWithError("\nError: Broker resource not found by terraform name : " + brokerResourceTerraformName + "\n\n")
+	}
 
+	// This will iterate all resources starting at brokerResourceTerraformName and genarete brokerResources and variables config for that and children
 	brokerResources, variables, err := fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
-
 	if err != nil {
 		ExitWithError("Failed to fetch broker config, " + err.Error())
 	}
-	// fetchBrokerConfig(context, *cliClient, BrokerObjectType(brokerResourceTerraformName), brokerResourceName, providerSpecificIdentifier)
 
-	// // get all resources to be generated for
-	// var resourcesToGenerate []BrokerObjectType
-	// resourcesToGenerate = append(resourcesToGenerate, BrokerObjectType(brokerResourceTerraformName))
-	// resourcesToGenerate = append(resourcesToGenerate, BrokerObjectRelationship[BrokerObjectType(brokerResourceTerraformName)]...)
-	// for _, resource := range resourcesToGenerate {
-	// 	generatedResults, generatedResourceChildren := generateForParentAndChildren(context, *cliClient, string(resource), brokerResourceName, providerSpecificIdentifier, generatedResource)
-	// 	brokerResources = append(brokerResources, generatedResults...)
-	// 	maps.Copy(generatedResource, generatedResourceChildren)
-	// }
-
+	// Postprocess brokerResources for dependencies
 	LogCLIInfo("Replacing hardcoded names of inter-object dependencies by references where required")
 	fixInterObjectDependencies(brokerResources)
 
+	// Prep to generate the Terraform file
 	object := &ObjectInfo{}
 	object.BrokerResources = resourcesToFormattedHCL(brokerResources)
 	object.Variables = variables
-
 	registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
 	if !ok {
 		registry = "registry.terraform.io"
@@ -92,10 +96,44 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 		object.BearerToken = StringWithDefaultFromEnv("bearer_token", false, "")
 	}
 	object.FileName = fileName
-
 	LogCLIInfo("Found all resources. Writing file " + fileName)
-	_ = GenerateTerraformFile(object)
+
+	// Generate the Terraform file
+	err = GenerateTerraformFile(object)
+	if err != nil {
+		ExitWithError("Failed to write file, " + err.Error())
+	}
 	LogCLIInfo(fileName + " created successfully.\n")
+}
+
+func CreateBrokerObjectRelationships() {
+	// Loop through entities and build database
+	resourcesPathSignatureMap := map[string]string{}
+	e := internalbroker.Entities
+	for i, ds := range e {
+		// Create new entry for each resource
+		BrokerObjectRelationship[BrokerObjectType(ds.TerraformName)] = []BrokerObjectType{}
+		DSLookup[BrokerObjectType(ds.TerraformName)] = i
+		// Build a signature for each resource
+		rex := regexp.MustCompile(`{[^\/]*}`)
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/") // Find all parameters in path template enclosed in {} including multiple ones
+		if signature != "" {
+			resourcesPathSignatureMap[signature] = ds.TerraformName
+		}
+	}
+
+	// Loop through entities again and add children to parents
+	for _, ds := range e {
+		// Parent signature for each resource and add
+		rex := regexp.MustCompile(`{[^\/]*}`)
+		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/")
+		// get parentSignature by removing the part of signature after the last /
+		parentSignature := path.Dir(signature)
+		if parentSignature != "." && parentSignature != "/" {
+			parentResource := resourcesPathSignatureMap[parentSignature]
+			BrokerObjectRelationship[BrokerObjectType(parentResource)] = append(BrokerObjectRelationship[BrokerObjectType(parentResource)], BrokerObjectType(ds.TerraformName))
+		}
+	}
 }
 
 func fixInterObjectDependencies(brokerResources []map[string]ResourceConfig) {
@@ -161,135 +199,4 @@ func fixInterObjectDependencies(brokerResources []map[string]ResourceConfig) {
 			}
 		}
 	}
-}
-
-func CreateBrokerObjectRelationships() {
-
-	// Loop through entities and build database
-	resourcesPathSignatureMap := map[string]string{}
-	e := internalbroker.Entities
-	for i, ds := range e {
-		// Create new entry for each resource
-		BrokerObjectRelationship[BrokerObjectType(ds.TerraformName)] = []BrokerObjectType{}
-		DSLookup[BrokerObjectType(ds.TerraformName)] = i
-		//// path := e[DSLookup[BrokerObjectType(ds.TerraformName)]].PathTemplate
-		// Build a signature for each resource
-		rex := regexp.MustCompile(`{[^\/]*}`)
-		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/") // Find all parameters in path template enclosed in {} including multiple ones
-		if signature != "" {
-			resourcesPathSignatureMap[signature] = ds.TerraformName
-		}
-	}
-	// Loop through entities again and add children to parents
-	for _, ds := range e {
-		// Parent signature for each resource and add
-		rex := regexp.MustCompile(`{[^\/]*}`)
-		signature := strings.TrimSuffix(strings.Replace(rex.ReplaceAllString(ds.PathTemplate, ""), "//", "/", -1), "/")
-		// get parentSignature by removing the part of signature after the last /
-		parentSignature := path.Dir(signature)
-		if parentSignature != "." && parentSignature != "/" {
-			parentResource := resourcesPathSignatureMap[parentSignature]
-			BrokerObjectRelationship[BrokerObjectType(parentResource)] = append(BrokerObjectRelationship[BrokerObjectType(parentResource)], BrokerObjectType(ds.TerraformName))
-		}
-	}
-}
-
-func ParseTerraformObject(ctx context.Context, client semp.Client, resourceName string, brokerObjectTerraformName string, providerSpecificIdentifier string, parentBrokerResourceAttributesRelationship map[string]string, parentResult map[string]any) GeneratorTerraformOutput {
-	// var objectName string
-	// tfObject := map[string]ResourceConfig{}
-	// tfObjectSempDataResponse := map[string]map[string]any{}
-	// entityToRead := internalbroker.EntityInputs{}
-	// // TODO: potentially expensive
-	// for _, ds := range internalbroker.Entities {
-	// 	if strings.ToLower(ds.TerraformName) == strings.ToLower(brokerObjectTerraformName) {
-	// 		entityToRead = ds
-	// 		break
-	// 	}
-	// }
-	// var path string
-
-	// if len(parentResult) > 0 {
-	// 	path, _ = ResolveSempPathWithParent(entityToRead.PathTemplate, parentResult)
-	// } else {
-	// 	path, _ = ResolveSempPath(entityToRead.PathTemplate, providerSpecificIdentifier)
-	// }
-
-	// if len(path) > 0 {
-
-	// 	sempData, err := client.RequestWithoutBodyForGenerator(ctx, generated.BasePath, http.MethodGet, path, []map[string]any{})
-	// 	if err != nil {
-	// 		if err == semp.ErrResourceNotFound {
-	// 			// continue if error is resource not found
-	// 			if len(parentResult) > 0 {
-	// 				print("..")
-	// 			}
-	// 			sempData = []map[string]any{}
-	// 		} else if errors.Is(err, semp.ErrBadRequest) {
-	// 			// continue if error is also bad request
-	// 			if len(parentResult) > 0 {
-	// 				print("..")
-	// 			}
-	// 			sempData = []map[string]any{}
-	// 		} else {
-	// 			ExitWithError("SEMP call failed. " + err.Error() + " on path " + path)
-	// 		}
-	// 	}
-
-	// 	resourceKey := "solacebroker_" + brokerObjectTerraformName + " " + resourceName
-
-	// 	resourceValues, err := GenerateTerraformString(entityToRead.Attributes, sempData, parentBrokerResourceAttributesRelationship, brokerObjectTerraformName)
-
-	// 	//check resource names used and deduplicate to avoid collision
-	// 	for i := range resourceValues {
-	// 		totalOccurrence := 1
-	// 		objectName = strings.ToLower(resourceKey) + GetNameForResource(strings.ToLower(resourceKey), resourceValues[i])
-	// 		count, objectNameExists := ObjectNamesCount[objectName]
-	// 		if objectNameExists {
-	// 			totalOccurrence = count + 1
-	// 		}
-	// 		ObjectNamesCount[objectName] = totalOccurrence
-	// 		objectName = objectName + "_" + fmt.Sprint(totalOccurrence)
-	// 		tfObject[objectName] = resourceValues[i]
-	// 		tfObjectSempDataResponse[objectName] = sempData[i]
-	// 	}
-	// }
-	// return GeneratorTerraformOutput{
-	// 	TerraformOutput:  tfObject,
-	// 	SEMPDataResponse: tfObjectSempDataResponse,
-	// }
-	return GeneratorTerraformOutput{}
-}
-
-func GetNameForResource(resourceTerraformName string, attributeResourceTerraform ResourceConfig) string {
-
-	// TODO: this should be optimized
-
-	resourceName := GenerateRandomString(6) //use generated if not able to identify
-
-	resourceTerraformName = strings.Split(resourceTerraformName, " ")[0]
-	resourceTerraformName = strings.ReplaceAll(strings.ToLower(resourceTerraformName), "solacebroker_", "")
-
-	//Get identifying attribute name to differentiate from multiples
-	// TODO: potentially expensive
-	for _, ds := range internalbroker.Entities {
-		if ds.TerraformName == resourceTerraformName {
-			for _, attr := range ds.Attributes {
-				if attr.Identifying &&
-					(strings.Contains(strings.ToLower(attr.TerraformName), "name") ||
-						strings.Contains(strings.ToLower(attr.TerraformName), "topic")) {
-					// intentionally continue looping till we get the best name
-					attr, found := attributeResourceTerraform.ResourceAttributes[attr.TerraformName]
-					value := attr.AttributeValue
-					if strings.Contains(value, ".") {
-						continue
-					}
-					if found {
-						//sanitize name
-						resourceName = "_" + value
-					}
-				}
-			}
-		}
-	}
-	return SanitizeHclIdentifierName(resourceName)
 }

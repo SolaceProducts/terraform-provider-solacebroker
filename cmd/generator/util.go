@@ -20,15 +20,10 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"math/rand"
-	"net/url"
 	"os"
-	"reflect"
-	"regexp"
 	"sort"
 	"strconv"
 	"strings"
-	"terraform-provider-solacebroker/internal/broker"
 	"text/tabwriter"
 	"time"
 	"unicode"
@@ -41,11 +36,9 @@ const (
 	Red   Color = "\033[31m"
 )
 
-var charset = []byte("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
-
 var idStartYes = []*unicode.RangeTable{
 	unicode.L,
-	unicode.Nl,
+	// unicode.Nl, // not included as it is not a valid starting character for an identifier
 	unicode.Other_ID_Start,
 }
 
@@ -65,32 +58,6 @@ var idContinueYes = []*unicode.RangeTable{
 var idNo = []*unicode.RangeTable{
 	unicode.Pattern_Syntax,
 	unicode.Pattern_White_Space,
-}
-
-type ResourceAttributeInfo struct {
-	AttributeValue string
-	Comment        string
-}
-
-type ResourceConfig struct {
-	ResourceAttributes map[string]ResourceAttributeInfo // indexed by resource attribute name
-}
-
-type VariableConfig struct {
-	Type      string
-	Default   string
-	Sensitive bool
-}
-
-type ObjectInfo struct {
-	Registry        string
-	BrokerURL       string
-	Username        string
-	Password        string
-	BearerToken     string
-	FileName        string
-	BrokerResources []map[string]string
-	Variables       map[string]VariableConfig
 }
 
 func StringWithDefaultFromEnv(name string, isMandatory bool, fallback string) string {
@@ -140,335 +107,9 @@ func DurationWithDefaultFromEnv(name string, isMandatory bool, fallback time.Dur
 	return d, nil
 }
 
-func ResolveSempPath(pathTemplate string, v string) (string, error) {
-	identifiersValues := map[int]string{}
-	if strings.Contains(v, "/") {
-		identifier := strings.Split(v, "/")
-		for i, val := range identifier {
-			identifiersValues[i] = val
-		}
-	} else {
-		identifiersValues[0] = v
-	}
-	if !strings.Contains(pathTemplate, "{") {
-		return pathTemplate, nil
-	}
-	rex := regexp.MustCompile(`{[^{}]*}`)
-	out := rex.FindAllStringSubmatch(pathTemplate, -1)
-	generatedPath := pathTemplate
-	if len(out) < len(identifiersValues) {
-		ExitWithError("\nError: Too many provider specific identifiers. Required identifiers: " + fmt.Sprint(out))
-	}
-
-	for i := range identifiersValues {
-		if i < len(out) {
-			//encode all, if param is url friendly this does nothing.
-			decodedPathVar, _ := url.PathUnescape(fmt.Sprint(identifiersValues[i]))
-			value := url.PathEscape(decodedPathVar)
-			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], value)
-		}
-	}
-	if len(out) > len(identifiersValues) {
-		//remove unused vars
-		for i := range out {
-			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
-		}
-	}
-
-	//special conditions
-	//for /url/{param1},{param2},{param3}.. valid semp query to fetch all items when all parameters are empty
-	//for /url1/{param1},{param2},{param3}/url2.. invalid when all parameters are empty as it becomes /url1/url2
-	if strings.Contains(generatedPath, "/,,/") || strings.Contains(generatedPath, "/,/") {
-		return "", errors.New("not all parameters found. SEMP call will be invalid")
-	}
-
-	path := strings.ReplaceAll(generatedPath, "/,,", "")
-	path = strings.ReplaceAll(path, "/,", "")
-	path = strings.TrimSuffix(path, "/")
-	if strings.Contains(path, "//") {
-		return "", errors.New("not all parameters found. SEMP call will be invalid")
-	}
-	return path, nil
-}
-func ResolveSempPathWithParent(pathTemplate string, parentValues map[string]any) (string, error) {
-
-	if !strings.Contains(pathTemplate, "{") {
-		return pathTemplate, nil
-	}
-	rex := regexp.MustCompile(`{[^{}]*}`)
-	out := rex.FindAllStringSubmatch(pathTemplate, -1)
-	generatedPath := pathTemplate
-
-	for i := range out {
-		key := strings.TrimPrefix(out[i][0], "{")
-		key = strings.TrimSuffix(key, "}")
-		value, found := parentValues[key]
-
-		if found {
-			//url encode, if param is url friendly this does nothing.
-			value = url.QueryEscape(fmt.Sprint(value))
-			generatedPath = strings.ReplaceAll(generatedPath, out[i][0], fmt.Sprint(value))
-		}
-	}
-
-	//remove unused vars
-	for i := range out {
-		generatedPath = strings.ReplaceAll(generatedPath, out[i][0], "")
-	}
-	//special conditions
-	//for /url/{param1},{param2},{param3}.. valid semp query to fetch all items when all parameters are empty
-	//for /url1/{param1},{param2},{param3}/url2.. invalid when all parameters are empty as it becomes /url1/url2
-	if strings.Contains(generatedPath, "/,,/") || strings.Contains(generatedPath, "/,/") {
-		return "", errors.New("not all parameters found. SEMP call will be invalid")
-	}
-
-	path := strings.ReplaceAll(generatedPath, "/,,", "")
-	path = strings.ReplaceAll(path, "/,", "")
-	path = strings.TrimSuffix(path, "/")
-	if strings.Contains(path, "//") {
-		return "", errors.New("not all parameters found. SEMP call will be invalid")
-	}
-	return path, nil
-}
-
-func newAttributeInfo(value string) ResourceAttributeInfo {
-	return ResourceAttributeInfo{
-		AttributeValue: value,
-		Comment:        "",
-	}
-}
-
-func addCommentToAttributeInfo(info ResourceAttributeInfo, comment string) ResourceAttributeInfo {
-	return ResourceAttributeInfo{
-		AttributeValue: info.AttributeValue,
-		Comment:        comment,
-	}
-}
-
-func GenerateTerraformString(resourceTypeAndName string, attributes []*broker.AttributeInfo, values []map[string]interface{}, brokerObjectTerraformName string, parentInfo BrokerObjectInstanceInfo) ([]ResourceConfig, map[string]VariableConfig, error) {
-	var tfBrokerObjects []ResourceConfig
-	var tfVariables = map[string]VariableConfig{}
-	var attributeLookup = map[string]int{}
-	for k := range values {
-		resourceConfig := ResourceConfig{
-			ResourceAttributes: map[string]ResourceAttributeInfo{},
-		}
-		systemProvisioned := false
-		attributesWithDefaultValue := map[string]*string{} // list of attributes with default values
-		linkedAttributes := map[string][]string{}
-
-		for i, attr := range attributes {
-			attributeLookup[attr.TerraformName] = i
-			if len(attr.Requires) > 0 {
-				linkedAttributes[attr.TerraformName] = append(linkedAttributes[attr.TerraformName], attr.Requires...)
-			}
-			if attr.Sensitive {
-				// write-only attributes can't be retrieved, so we don't expose them
-				attributesWithDefaultValue[attr.TerraformName] = nil
-				continue
-			}
-			if !attr.Identifying && attr.ReadOnly {
-				// read-only attributes should only be in the datasource
-				continue
-			}
-			valuesRes := values[k][attr.SempName]
-			if attr.Identifying {
-				// iterate parentInfo.identifyingAttributes
-				if parentInfo.identifyingAttributes != nil {
-					foundReference := false
-					for _, identifyingAttribute := range parentInfo.identifyingAttributes {
-						if identifyingAttribute.key == attr.SempName {
-							reference := strings.ReplaceAll(parentInfo.resourceTypeAndName, " ", ".") + "." + attr.TerraformName
-							resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(reference)
-							// this means that the attribute value is a reference to a parent attribute, no need to process further
-							foundReference = true
-							break
-						}
-					}
-					if foundReference {
-						continue
-					}
-				}
-			}
-			// TODO: revisit, likely not needed
-			// } else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
-			// 	//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
-			// 	resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
-			// 	continue
-			// }
-
-			switch attr.BaseType {
-			case broker.String:
-				if reflect.TypeOf(valuesRes) == nil {
-					continue
-				}
-				if !attr.Identifying && valuesRes == "" {
-					// non-identifying attributes with empty values will be skipped
-					continue
-				}
-				// TODO: review if this covers all cases of system provisioned attributes
-				if attr.Identifying && len(valuesRes.(string)) > 0 && valuesRes.(string)[0] == '#' && valuesRes.(string) != "#DEAD_MESSAGE_QUEUE" {
-					systemProvisioned = true
-				}
-				val := "\"" + SanitizeHclStringValue(valuesRes.(string)) + "\""
-				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
-					//attributes with default values will be skipped
-					// WORKAROUND: Except if attribute is "authentication_basic_type" in "msg_vpn"
-					// TODO: review if this is still needed
-					// if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
-					// 	attributesWithDefaultValue[attr.TerraformName] = &val
-					// 	continue
-					// } else {
-					// 	LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
-					// }
-					attributesWithDefaultValue[attr.TerraformName] = &val
-				}
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
-			case broker.Int64:
-				if valuesRes == nil {
-					continue
-				}
-				intValue := valuesRes
-				val := fmt.Sprintf("%v", intValue)
-				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(intValue) {
-					//attributes with default values will be skipped
-					attributesWithDefaultValue[attr.TerraformName] = &val
-					continue
-				}
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
-			case broker.Bool:
-				if valuesRes == nil {
-					continue
-				}
-				boolValue := valuesRes.(bool)
-				val := strconv.FormatBool(boolValue)
-				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(boolValue) {
-					//attributes with default values will be skipped
-					attributesWithDefaultValue[attr.TerraformName] = &val
-					continue
-				}
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
-			case broker.Struct:
-				valueJson, err := json.Marshal(valuesRes)
-				if err != nil {
-					continue
-				}
-				output := strings.ReplaceAll(string(valueJson), "clearPercent", "clear_percent")
-				output = strings.ReplaceAll(output, "setPercent", "set_percent")
-				output = strings.ReplaceAll(output, "clearValue", "clear_value")
-				output = strings.ReplaceAll(output, "setValue", "set_value")
-				val := output
-				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
-					//attributes with default values will be skipped
-					attributesWithDefaultValue[attr.TerraformName] = &val
-					continue
-				}
-				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
-			}
-			if attr.Deprecated && systemProvisioned {
-				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
-					" # Note: This attribute is deprecated and may also be system provisioned.")
-			} else if attr.Deprecated && !systemProvisioned {
-				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
-					" # Note: This attribute is deprecated.")
-			} else if !attr.Deprecated && systemProvisioned {
-				addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
-					" # Note: This attribute may be system provisioned.")
-			}
-		}
-		// Iterate linkedAttributes
-		// for each attribute check if there is an entry in resourceConfig
-		// if so, iterate all strings as attributes and add them to resourceConfig if not already there, with value from attributesWithDefaultValue
-		for attrName := range linkedAttributes {
-			if _, ok := resourceConfig.ResourceAttributes[attrName]; ok {
-				sensitive := false
-				for _, linkedAttrName := range linkedAttributes[attrName] {
-					if _, ok := resourceConfig.ResourceAttributes[linkedAttrName]; !ok {
-						if val, ok := attributesWithDefaultValue[linkedAttrName]; ok {
-							if val == nil {
-								sensitive = true
-								break
-							}
-							resourceConfig.ResourceAttributes[linkedAttrName] = newAttributeInfo(*val)
-						}
-					}
-				}
-				if sensitive {
-					resourceName := strings.Split(resourceTypeAndName, " ")[1]
-					// if any linked attribute is sensitive, use variables
-					// first add the current attribute to variables
-					variableName := resourceName + "_" + attrName
-					attrInfo := attributes[attributeLookup[attrName]]
-					attrSensitive := attrInfo.Sensitive
-					attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
-					newVariable := VariableConfig{
-						Type:      attrType,
-						Default:   attrDefault,
-						Sensitive: attrSensitive, // note: expecting not sensitive since this was a defined attribute
-					}
-					tfVariables[variableName] = newVariable
-					resourceConfig.ResourceAttributes[attrName] = newAttributeInfo("var." + variableName)
-					for _, linkedAttrName := range linkedAttributes[attrName] {
-						// then add the linked attributes to variables
-						attrInfo := attributes[attributeLookup[linkedAttrName]]
-						attrSensitive := attrInfo.Sensitive
-						attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
-						variableName := resourceName + "_" + linkedAttrName
-						newVariable := VariableConfig{
-							Type:      attrType,
-							Default:   attrDefault,
-							Sensitive: attrSensitive,
-						}
-						tfVariables[variableName] = newVariable
-						resourceConfig.ResourceAttributes[linkedAttrName] = newAttributeInfo("var." + variableName)
-					}
-				}
-			}
-		}
-
-		// TODO: can this be removed?
-		if !systemProvisioned {
-			tfBrokerObjects = append(tfBrokerObjects, resourceConfig)
-		} else {
-			//add to maintain index, it will not be included in generation
-			tfBrokerObjects = append(tfBrokerObjects, ResourceConfig{
-				ResourceAttributes: nil,
-			})
-		}
-	}
-	return tfBrokerObjects, tfVariables, nil
-}
-
-func GetBaseTypeAndDefault(attrInfo *broker.AttributeInfo) (string, string, error) {
-	defaultValue := ""
-	switch attrInfo.BaseType {
-	case broker.String:
-		defaultValue = "\"" + SanitizeHclStringValue(fmt.Sprint(attrInfo.Default)) + "\""
-		return "string", defaultValue, nil
-	case broker.Int64:
-		defaultValue = fmt.Sprint(attrInfo.Default)
-		return "number", defaultValue, nil
-	case broker.Bool:
-		defaultValue = strconv.FormatBool(attrInfo.Default.(bool))
-		return "bool", defaultValue, nil
-	case broker.Struct:
-		// TODO: implement this
-		return "object", "", nil
-	default:
-		return "", "", errors.New("unknown base type")
-	}
-}
-
-func randStr(n int) string {
-	b := make([]byte, n)
-	for i := range b {
-		b[i] = charset[rand.Intn(len(charset))]
-	}
-	return string(b)
-}
-
-func GenerateRandomString(n int) string {
-	return "_" + randStr(n)
+// TODO: find better filter for system provisioned attributes
+func isSystemProvisionedAttribute(attribute string) bool {
+	return strings.HasPrefix(attribute, "#") && attribute != "#DEAD_MESSAGE_QUEUE"
 }
 
 func LogCLIError(err string) {
@@ -484,18 +125,6 @@ func ExitWithError(err string) {
 	os.Exit(1)
 }
 
-func GetParentResourceAttributes(parentObjectName string, brokerParentResource map[string]ResourceConfig) map[string]string {
-	parentResourceAttributes := map[string]string{}
-	parentResourceName := strings.ReplaceAll(parentObjectName, " ", ".")
-	for parentResourceObject := range brokerParentResource {
-		resourceAttributes := brokerParentResource[parentResourceObject].ResourceAttributes
-		for resourceAttributeName := range resourceAttributes {
-			parentResourceAttributes[resourceAttributeName] = parentResourceName + "." + resourceAttributeName
-		}
-	}
-	return parentResourceAttributes
-}
-
 func ConvertAttributeTextToMap(attribute string) map[string]string {
 	attributeMap := map[string]string{}
 	attributeSlice := strings.Split(attribute, "\n")
@@ -506,15 +135,6 @@ func ConvertAttributeTextToMap(attribute string) map[string]string {
 		}
 	}
 	return attributeMap
-}
-
-func IndexOf(elm BrokerObjectType, data []BrokerObjectType) int {
-	for k, v := range data {
-		if elm == v {
-			return k
-		}
-	}
-	return -1
 }
 
 func resourcesToFormattedHCL(brokerResources []map[string]ResourceConfig) []map[string]string {
@@ -550,19 +170,8 @@ func hclFormatResource(resourceConfig ResourceConfig) string {
 	return config
 }
 
-func SanitizeHclIdentifierName(name string) string {
-	name = regexp.MustCompile(`[^a-zA-Z0-9 ]+`).ReplaceAllString(strings.ReplaceAll(name, " ", ""), "_")
-	if len(name) == 0 || (name[0] >= '0' && name[0] <= '9') || (len(name) == 1 && name[0] == '_') {
-		//just prepend static string to avoid checking all characters
-		name = "gn_" + name
-	}
-	return name
-}
-
 func SanitizeHclStringValue(value string) string {
-	b, err := json.Marshal(value)
-	if err != nil {
-	}
+	b, _ := json.Marshal(value)
 	s := string(b)
 	output := s[1 : len(s)-1]
 	output = strings.ReplaceAll(output, "${", "$${")
@@ -605,8 +214,12 @@ func IsValidTerraformIdentifier(s string) bool {
 func makeValidForTerraformIdentifier(s string) string {
 	runes := []rune(s)
 	for i, r := range runes {
-		if !unicode.In(r, idContinueYes...) || unicode.In(r, idNo...) {
+		if i == 0 && !unicode.In(r, idStartYes...) || unicode.In(r, idNo...) {
 			runes[i] = '-'
+		} else {
+			if !unicode.In(r, idContinueYes...) || unicode.In(r, idNo...) {
+				runes[i] = '-'
+			}
 		}
 	}
 	return string(runes)

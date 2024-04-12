@@ -1,3 +1,18 @@
+// terraform-provider-solacebroker
+//
+// Copyright 2024 Solace Corporation. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//	http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 package generator
 
 import (
@@ -148,13 +163,9 @@ func identifierToBrokerObjectAttributes(brokerObjectType BrokerObjectType, ident
 	return brokerObjectAttributes, nil
 }
 
-// Return the list of instances
-//
-// TODO:
-//   - Query all instances of a BrokerObjectType from the broker
-//   - Consider using filters: e.g: "List of all MsgVpn names" at https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.html
-//
 // Returns one instance of the brokerObjectType if identifier has been provided, otherwise all instances that match the parentIdentifyingAttributes
+// Communicates with the broker via the SEMP client to fetch the instances
+// As a side effect, it will also construct an identifier for an object instance, prep the attributes and cache the results for later use
 func getInstances(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, identifier string, parent BrokerObjectInstanceInfo) ([]BrokerObjectInstanceInfo, error) {
 	var instances []BrokerObjectInstanceInfo
 
@@ -184,7 +195,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		}
 		// create a resource config from results[0]
 		attributes := internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes
-		resourceValues, tfVariables, err := GenerateTerraformString(resourceTypeAndName, attributes, results, string(brokerObjectType), BrokerObjectInstanceInfo{})
+		resourceValues, tfVariables, err := processSempResults(resourceTypeAndName, attributes, results, BrokerObjectInstanceInfo{})
 		if err != nil {
 			return nil, err
 		}
@@ -211,17 +222,15 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		}
 		results, err := client.RequestWithoutBodyForGenerator(context, generated.BasePath, http.MethodGet, requestPath, []map[string]any{})
 		if err != nil {
-			// TODO: revisit
 			return nil, err
-			// return instances, nil
 		}
 		for _, result := range results {
 			// Extract the identifying attributes from the result
 			foundChildIndentifyingAttributes := parent.identifyingAttributes
 			skipAppendInstance := false
 			for _, childIdentifierAttribute := range childIdentifierAttributes {
+				// Skip system provisioned objects
 				if isSystemProvisionedAttribute(result[childIdentifierAttribute].(string)) {
-					// TODO: find better fiter for system provisioned attributes
 					skipAppendInstance = true
 					break
 				}
@@ -238,7 +247,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 				var elems []map[string]interface{}
 				elems = append(elems, result)
 				attributes := internalbroker.Entities[DSLookup[BrokerObjectType(brokerObjectType)]].Attributes
-				resourceValues, tfVariables, err := GenerateTerraformString(resourceTypeAndName, attributes, elems, string(brokerObjectType), parent)
+				resourceValues, tfVariables, err := processSempResults(resourceTypeAndName, attributes, elems, parent)
 				if err != nil {
 					return nil, err
 				}
@@ -259,12 +268,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 	return instances, nil
 }
 
-func isSystemProvisionedAttribute(attribute string) bool {
-	return strings.HasPrefix(attribute, "#") && attribute != "#DEAD_MESSAGE_QUEUE"
-}
-
 // Main entry point to generate the config for a broker object
-
 func fetchBrokerConfig(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, brokerResourceName string, identifier string) ([]map[string]ResourceConfig, map[string]VariableConfig, error) {
 	var err error
 	cachedResources = make(map[string]interface{})
@@ -281,7 +285,9 @@ func fetchBrokerConfig(context context.Context, client semp.Client, brokerObject
 	return brokerResources, variables, nil
 }
 
-// Iterates all instances of a child object
+// This is a recursive function that generates the config for a broker object and its children
+// The entry point is the parent object with the identifier. For child objects the identifier is empty
+// It will call itself for each child object instance
 func GenerateConfigForObjectInstances(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, identifier string, parentInstanceInfo BrokerObjectInstanceInfo) error {
 	// brokerObjectType is the current object type
 	// instances is the list of instances of the current object type

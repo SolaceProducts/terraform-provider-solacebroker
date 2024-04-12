@@ -20,112 +20,6 @@ import (
 	"testing"
 )
 
-func TestResolveSempPath(t *testing.T) {
-	type args struct {
-		pathTemplate string
-		v            string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    string
-		wantErr bool
-	}{
-		{
-			"MSGVPNParsing",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}",
-				v:            "Test",
-			},
-			"/msgVpns/Test",
-			false,
-		},
-		{
-			"MSGVPNParsing",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}/{anotherMock}",
-				v:            "Test/Mock",
-			},
-			"/msgVpns/Test/Mock",
-			false,
-		},
-		{
-			"QueueSubParsing",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}/queues/{queueName}/subscriptions/{subscriptionTopic}",
-				v:            "new2/aperfectly%2F%24%2Fvalid%2F%24topic%2F%24%24/foo%2Fbarr",
-			},
-			"/msgVpns/new2/queues/aperfectly%2F$%2Fvalid%2F$topic%2F$$/subscriptions/foo%2Fbarr",
-			false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := ResolveSempPath(tt.args.pathTemplate, tt.args.v)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ResolveSempPath() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("ResolveSempPath() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestResolveSempPathWithParent(t *testing.T) {
-	type args struct {
-		pathTemplate string
-		parentValues map[string]any
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    string
-		wantErr bool
-	}{
-		{
-			"MSGVPNParsing",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}",
-				parentValues: map[string]any{"msgVpnName": "Test"},
-			},
-			"/msgVpns/Test",
-			false,
-		},
-		{
-			"Parsing where all values not available",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}",
-				parentValues: map[string]any{"msgVpnName": "Test"},
-			},
-			"/msgVpns/Test/bridges",
-			false,
-		},
-		{
-			"Parsing with commas",
-			args{
-				pathTemplate: "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}",
-				parentValues: map[string]any{"msgVpnName": "Test", "bridgeName": "TestBridge", "bridgeVirtualRouter": "TestingBridgeRouter"},
-			},
-			"/msgVpns/Test/bridges/TestBridge,TestingBridgeRouter",
-			false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := ResolveSempPathWithParent(tt.args.pathTemplate, tt.args.parentValues)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("ResolveSempPathWithParent() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("ResolveSempPathWithParent() got = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestStringWithDefaultFromEnv(t *testing.T) {
 	type args struct {
 		name        string
@@ -151,39 +45,6 @@ func TestStringWithDefaultFromEnv(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := StringWithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback); got != tt.want {
 				t.Errorf("StringWithDefaultFromEnv() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func Test_addCommentToAttributeInfo(t *testing.T) {
-	type args struct {
-		info    ResourceAttributeInfo
-		comment string
-	}
-	tests := []struct {
-		name string
-		args args
-		want ResourceAttributeInfo
-	}{
-		{
-			"TestCommentAdd",
-			args{
-				info: ResourceAttributeInfo{
-					"test",
-					"",
-				},
-			},
-			ResourceAttributeInfo{
-				AttributeValue: "test",
-				Comment:        "",
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := addCommentToAttributeInfo(tt.args.info, tt.args.comment); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("addCommentToAttributeInfo() = %v, want %v", got, tt.want)
 			}
 		})
 	}
@@ -216,7 +77,7 @@ func Test_newAttributeInfo(t *testing.T) {
 	}
 }
 
-func TestSanitizeHclIdentifierName(t *testing.T) {
+func TestMakeValidForTerraformIdentifier(t *testing.T) {
 	type args struct {
 		name string
 	}
@@ -228,58 +89,58 @@ func TestSanitizeHclIdentifierName(t *testing.T) {
 		{
 			"SanitizeTextStartingWithNumber",
 			args{name: "1testing"},
-			"gn_1testing",
+			"-testing",
 		},
 		{
 			"SanitizeTextContainingSpecialCharacters",
 			args{name: "*testing*"},
-			"_testing_",
+			"-testing-",
 		},
 		{
 			"SanitizeTextContainingSpecialCharactersTwo",
 			args{name: "#testing/"},
-			"_testing_",
+			"-testing-",
 		},
 		{
 			"SanitizeTextContainingSpecialCharactersThree",
 			args{name: "$testing\""},
-			"_testing_",
+			"-testing-",
 		},
 		{
 			"SanitizeTextContainingSpecialCharactersFour",
 			args{name: "%testing^"},
-			"_testing_",
+			"-testing-",
 		},
 		{
 			"SanitizeTextContainingSpecialCharactersFive",
 			args{name: "%testing^"},
-			"_testing_",
+			"-testing-",
 		},
 		{
 			"SanitizeTextEmpty",
 			args{name: ""},
-			"gn_",
+			"",
 		},
 		{
 			"SanitizeTextContainingEmpty",
 			args{name: " "},
-			"gn_",
+			"-",
 		},
 		{
 			"SanitizeTextOnlySpecialCharacter",
 			args{name: "#"},
-			"gn__",
+			"-",
 		},
 		{
 			"SanitizeTextOnlySpecialCharacterTwo",
 			args{name: "\\"},
-			"gn__",
+			"-",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := SanitizeHclIdentifierName(tt.args.name); got != tt.want {
-				t.Errorf("SanitizeHclIdentifierName() = %v, want %v", got, tt.want)
+			if got := makeValidForTerraformIdentifier(tt.args.name); got != tt.want {
+				t.Errorf("makeValidForTerraformIdentifier() = %v, want %v", got, tt.want)
 			}
 		})
 	}
