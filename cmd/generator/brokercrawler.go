@@ -152,8 +152,8 @@ func identifierToBrokerObjectAttributes(brokerObjectType BrokerObjectType, ident
 	}
 	rex := regexp.MustCompile(`{[^{}]*}`)
 	matches := rex.FindAllStringSubmatch(pathTemplate, -1)
-	if len(matches) < len(identifierValues) {
-		return nil, fmt.Errorf("error: too many provider specific identifiers. Required identifiers: " + fmt.Sprint(matches))
+	if len(matches) != len(identifierValues) {
+		return nil, fmt.Errorf("incorrect identifier: \"" + identifier + "\". Following required identifier elements are expected: " + fmt.Sprint(matches))
 	}
 	for i := range identifierValues {
 		decodedPathVar, _ := url.PathUnescape(fmt.Sprint(identifierValues[i]))
