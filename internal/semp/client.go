@@ -37,6 +37,7 @@ import (
 var (
 	ErrResourceNotFound = errors.New("Resource not found")
 	ErrBadRequest       = errors.New("Bad request")
+	ErrInvalidPath      = errors.New("Invalid path")
 )
 
 var cookieJar, _ = cookiejar.New(nil)
@@ -256,6 +257,10 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 			if status == "NOT_FOUND" {
 				// resource not found is a special type we want to return
 				return nil, fmt.Errorf("%v, %v, %w", description, status, ErrResourceNotFound)
+			}
+			if status == "INVALID_PATH" {
+				// resource not found is a special type we want to return
+				return nil, fmt.Errorf("%v, %v, %w", description, status, ErrInvalidPath)
 			}
 			return nil, fmt.Errorf("%v, %v, %w", description, status, ErrBadRequest)
 		}

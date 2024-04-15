@@ -17,6 +17,7 @@ package generator
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -222,7 +223,12 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 		}
 		results, err := client.RequestWithoutBodyForGenerator(context, generated.BasePath, http.MethodGet, requestPath, []map[string]any{})
 		if err != nil {
-			return nil, err
+			// Fail except if the path is invalid - this means the generator SEMP schema is trying
+			// to fetch a resource that doesn't exist in an older broker
+			if !errors.Is(err, semp.ErrInvalidPath) {
+				return nil, err
+			}
+			LogCLIInfo(fmt.Sprintf("     Resource %s unknown on broker, check broker and generator SEMP versions\n", brokerObjectType))
 		}
 		for _, result := range results {
 			// Extract the identifying attributes from the result
@@ -291,11 +297,11 @@ func fetchBrokerConfig(context context.Context, client semp.Client, brokerObject
 func GenerateConfigForObjectInstances(context context.Context, client semp.Client, brokerObjectType BrokerObjectType, identifier string, parentInstanceInfo BrokerObjectInstanceInfo) error {
 	// brokerObjectType is the current object type
 	// instances is the list of instances of the current object type
+	LogCLIInfo(fmt.Sprintf("  ## Fetching config for resource %s\n", brokerObjectType))
 	instances, err := getInstances(context, client, brokerObjectType, identifier, parentInstanceInfo)
 	if err != nil {
 		return err
 	}
-	LogCLIInfo(fmt.Sprintf("  ## Fetched config for resource %s\n", brokerObjectType))
 	for i := 0; i < len(instances); i++ {
 		for _, subType := range BrokerObjectRelationship[brokerObjectType] {
 			// Will need to pass additional params like the parent name etc. so to construct the appropriate names
