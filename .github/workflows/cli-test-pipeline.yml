@@ -78,10 +78,14 @@ jobs:
           fi
           exit 1
 
-      - name: Generate sample Terraform for message vpn client
+      - name: Failure to Generate sample Terraform due to invalid provider specific identifiers2
         run: |
           SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn_rest_delivery_point.my-rdp default messageVpn.tf
-          cat messageVpn.tf
+          if [ $error_code -eq 1 ]; then
+            echo "\nExpected failure accurate"
+            exit 0
+          fi
+          exit 1
 
       - name: Generate sample Terraform for message vpn
         run: |
