@@ -243,7 +243,6 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 			if hasPaging {
 				nextPage := fmt.Sprint(pageData.(map[string]any)["nextPageUri"])
 				nextPageUrl := strings.Split(nextPage, basePath)
-				print("..")
 				return c.RequestWithoutBodyForGenerator(ctx, basePath, method, nextPageUrl[1], appendToResult)
 			}
 		}
