@@ -182,6 +182,10 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					attrInfo := attributes[attributeLookup[attrName]]
 					attrSensitive := attrInfo.Sensitive
 					attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
+					val, ok := resourceConfig.ResourceAttributes[attrName]
+					if ok && val.AttributeValue != "" {
+						attrDefault = val.AttributeValue
+					}
 					newVariable := VariableConfig{
 						Type:      attrType,
 						Default:   attrDefault,
@@ -194,6 +198,10 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 						attrInfo := attributes[attributeLookup[linkedAttrName]]
 						attrSensitive := attrInfo.Sensitive
 						attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
+						val, ok := resourceConfig.ResourceAttributes[linkedAttrName]
+						if ok && val.AttributeValue != "" {
+							attrDefault = val.AttributeValue
+						}
 						variableName := resourceName + "_" + linkedAttrName
 						newVariable := VariableConfig{
 							Type:      attrType,
