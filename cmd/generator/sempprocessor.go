@@ -102,6 +102,7 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					// 	LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
 					// }
 					attributesWithDefaultValue[attr.TerraformName] = &val
+					continue
 				}
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			case broker.Int64:
