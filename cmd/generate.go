@@ -50,7 +50,14 @@ Example:
 This command will create a file my-messagevpn.tf that contains a resource definition for the default message VPN and any child objects, assuming the appropriate broker credentials were set in environment variables.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
-		brokerURL, _ := cmd.Flags().GetString("url")
+		if len(args) < 3 {
+			// Print the help message if the required arguments are not provided
+			_ = cmd.Help()
+			os.Exit(1)
+		}
+
+		flags := cmd.Flags()
+		brokerURL, _ := flags.GetString("url")
 		generator.LogCLIInfo("Connecting to Broker : " + brokerURL)
 
 		cliClient := client.CliClient(brokerURL)
@@ -58,21 +65,21 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 			generator.ExitWithError("Error creating SEMP Client")
 		}
 
-		brokerObjectType := cmd.Flags().Arg(0)
+		brokerObjectType := flags.Arg(0)
 
 		if len(brokerObjectType) == 0 {
 			generator.LogCLIError("Terraform resource name not provided")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
-		providerSpecificIdentifier := cmd.Flags().Arg(1)
+		providerSpecificIdentifier := flags.Arg(1)
 		if len(providerSpecificIdentifier) == 0 {
 			generator.LogCLIError("Broker object not provided")
 			_ = cmd.Help()
 			os.Exit(1)
 		}
 
-		fileName := cmd.Flags().Arg(2)
+		fileName := flags.Arg(2)
 		if len(fileName) == 0 {
 			generator.LogCLIError("\nError: Terraform file name not specified.\n\n")
 			_ = cmd.Help()
