@@ -109,7 +109,8 @@ func DurationWithDefaultFromEnv(name string, isMandatory bool, fallback time.Dur
 
 // TODO: find better filter for system provisioned attributes
 func isSystemProvisionedAttribute(attribute string) bool {
-	return strings.HasPrefix(attribute, "#") && attribute != "#DEAD_MESSAGE_QUEUE"
+	systemProvisioned := strings.HasPrefix(attribute, "#") && attribute != "#DEAD_MSG_QUEUE"
+	return systemProvisioned
 }
 
 func LogCLIError(err string) {
