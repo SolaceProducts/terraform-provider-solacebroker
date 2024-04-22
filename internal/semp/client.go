@@ -35,12 +35,10 @@ import (
 )
 
 var (
-	ErrResourceNotFound = errors.New("Resource not found")
-	ErrBadRequest       = errors.New("Bad request")
-	ErrInvalidPath      = errors.New("Invalid path")
+	ErrResourceNotFound = errors.New("resource not found")
+	ErrBadRequest       = errors.New("bad request")
+	ErrInvalidPath      = errors.New("invalid path")
 )
-
-var cookieJar, _ = cookiejar.New(nil)
 
 var firstRequest = true
 
@@ -138,14 +136,14 @@ func (c *Client) RequestWithBody(ctx context.Context, method, url string, body a
 		return nil, err
 	}
 	dumpData(ctx, fmt.Sprintf("%v to %v", request.Method, request.URL), data)
-	rawBody, err := c.doRequest(ctx, request)
+	rawBody, err := c.doRequest(request)
 	if err != nil {
 		return nil, err
 	}
 	return parseResponseAsObject(ctx, request, rawBody)
 }
 
-func (c *Client) doRequest(ctx context.Context, request *http.Request) ([]byte, error) {
+func (c *Client) doRequest(request *http.Request) ([]byte, error) {
 	if !firstRequest {
 		// the value doesn't matter, it is waiting for the value that matters
 		<-c.rateLimiter
@@ -226,14 +224,14 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 	dumpData(ctx, "response", dataResponse)
 	rawData, ok := data["data"]
 	if ok {
-		switch rawData.(type) {
+		switch rawData := rawData.(type) {
 		case []interface{}:
-			responseDataRaw, _ := rawData.([]interface{})
+			responseDataRaw := rawData
 			for _, t := range responseDataRaw {
 				responseData = append(responseData, t.(map[string]any))
 			}
 		case map[string]interface{}:
-			responseDataRaw, _ := rawData.(map[string]any)
+			responseDataRaw := rawData
 			responseData = append(responseData, responseDataRaw)
 		}
 		metaData, hasMeta := data["meta"]
@@ -273,7 +271,7 @@ func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (ma
 		return nil, err
 	}
 	tflog.Debug(ctx, fmt.Sprintf("===== %v to %v =====", request.Method, request.URL))
-	rawBody, err := c.doRequest(ctx, request)
+	rawBody, err := c.doRequest(request)
 	if err != nil {
 		return nil, err
 	}
@@ -285,7 +283,7 @@ func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, basePath st
 	if err != nil {
 		return nil, err
 	}
-	rawBody, err := c.doRequest(ctx, request)
+	rawBody, err := c.doRequest(request)
 	if err != nil {
 		return nil, err
 	}
@@ -293,8 +291,10 @@ func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, basePath st
 }
 
 func dumpData(ctx context.Context, tag string, data []byte) {
+	// Replacing to no-op to avoid logging sensitive data
 	var in any
 	_ = json.Unmarshal(data, &in)
-	out, _ := json.MarshalIndent(in, "", "\t")
-	tflog.Debug(ctx, fmt.Sprintf("===== %v =====\n%s\n", tag, out))
+	// out, _ := json.MarshalIndent(in, "", "\t")
+	tflog.Debug(ctx, "")
+	// tflog.Debug(ctx, fmt.Sprintf("===== %v =====\n%s\n", tag, out))
 }

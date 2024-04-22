@@ -155,7 +155,7 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					" # Note: This attribute is deprecated.")
 			} else if !attr.Deprecated && systemProvisioned {
 				resourceConfig.ResourceAttributes[attr.TerraformName] = addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
-					" # Note: This attribute may be system provisioned and a dependency may be required to the parent object to ensure proper order of creation")
+					" # Note: This attribute may be system provisioned and a \"depends_on\" meta-argument may be required to the parent object of this attribute to ensure proper order of creation")
 			}
 		}
 		// Iterate linkedAttributes
