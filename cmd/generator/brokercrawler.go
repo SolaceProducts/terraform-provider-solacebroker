@@ -158,8 +158,7 @@ func identifierToBrokerObjectAttributes(brokerObjectType BrokerObjectType, ident
 	}
 	for i := range identifierValues {
 		decodedPathVar, _ := url.PathUnescape(fmt.Sprint(identifierValues[i]))
-		value := url.PathEscape(decodedPathVar)
-		brokerObjectAttributes = append(brokerObjectAttributes, IdentifyingAttribute{key: strings.TrimSuffix(strings.TrimPrefix(matches[i][0], "{"), "}"), value: value})
+		brokerObjectAttributes = append(brokerObjectAttributes, IdentifyingAttribute{key: strings.TrimSuffix(strings.TrimPrefix(matches[i][0], "{"), "}"), value: decodedPathVar})
 	}
 	return brokerObjectAttributes, nil
 }

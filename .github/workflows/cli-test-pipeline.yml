@@ -101,7 +101,7 @@ jobs:
           terraform apply -auto-approve
           sleep 1
 
-      - name: Create custom messageVPN with 21 messageVpn queues (Paging Test)
+      - name: Create custom messageVPN with 22 messageVpn queues (Paging Test)
         run: |
           pushd ci/broker_vpn_q3
           # Create
@@ -110,11 +110,16 @@ jobs:
           sleep 1
           popd
 
-      - name: Confirm all 21 queues are present with paging (Paging Test)
+      - name: Confirm all 22 queues are present with paging (Paging Test)
         run: |
           SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.qn another messageVpn.tf
           cat messageVpn.tf
-          grep -o 'solacebroker_msg_vpn_queue" ' messageVpn.tf | wc -l |  grep 21
+          grep -o 'solacebroker_msg_vpn_queue" ' messageVpn.tf | wc -l |  grep 22
+
+      - name: Test escape characters in resources
+        run: |
+          SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn_queue_subscription.test new2/aperfectly%2F%24%2Fvalid%2F%24topic%2F%24%24/foo%2Fbarr messageVpn.tf
+          cat messageVpn.tf
 
       - name: Create custom messageVPN with large config
         run: |
