@@ -236,8 +236,10 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 			for _, childIdentifierAttribute := range childIdentifierAttributes {
 				// Skip system provisioned objects
 				if isSystemProvisionedAttribute(result[childIdentifierAttribute].(string)) {
-					skipAppendInstance = true
-					break
+					if string(brokerObjectType) == "msg_vpn_acl_profile" || string(brokerObjectType) == "msg_vpn_client_profile" || string(brokerObjectType) == "msg_vpn_client_username" {
+						skipAppendInstance = true
+						break
+					}
 				}
 				foundChildIndentifyingAttributes = append(foundChildIndentifyingAttributes, IdentifyingAttribute{key: childIdentifierAttribute, value: result[childIdentifierAttribute].(string)})
 			}
