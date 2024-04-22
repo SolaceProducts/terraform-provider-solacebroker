@@ -135,7 +135,7 @@ func (c *Client) RequestWithBody(ctx context.Context, method, url string, body a
 	if err != nil {
 		return nil, err
 	}
-	dumpData(ctx, fmt.Sprintf("%v to %v", request.Method, request.URL), data)
+	tflog.Debug(ctx, fmt.Sprintf("===== %v to %v =====", request.Method, request.URL))
 	rawBody, err := c.doRequest(request)
 	if err != nil {
 		return nil, err
@@ -186,7 +186,6 @@ func parseResponseAsObject(ctx context.Context, request *http.Request, dataRespo
 	if err != nil {
 		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 	}
-	dumpData(ctx, "response", dataResponse)
 	rawData, ok := data["data"]
 	if ok {
 		// Valid data
@@ -221,7 +220,6 @@ func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, 
 		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 	}
 	responseData := []map[string]any{}
-	dumpData(ctx, "response", dataResponse)
 	rawData, ok := data["data"]
 	if ok {
 		switch rawData := rawData.(type) {
@@ -288,13 +286,4 @@ func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, basePath st
 		return nil, err
 	}
 	return parseResponseForGenerator(c, ctx, basePath, method, request, rawBody, appendToResult)
-}
-
-func dumpData(ctx context.Context, tag string, data []byte) {
-	// Replacing to no-op to avoid logging sensitive data
-	var in any
-	_ = json.Unmarshal(data, &in)
-	// out, _ := json.MarshalIndent(in, "", "\t")
-	tflog.Debug(ctx, "")
-	// tflog.Debug(ctx, fmt.Sprintf("===== %v =====\n%s\n", tag, out))
 }
