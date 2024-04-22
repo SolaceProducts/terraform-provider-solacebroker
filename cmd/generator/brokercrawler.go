@@ -237,7 +237,7 @@ func getInstances(context context.Context, client semp.Client, brokerObjectType 
 				// Skip system provisioned objects
 				if isSystemProvisionedAttribute(result[childIdentifierAttribute].(string)) {
 					// TODO: review for validity
-					if string(brokerObjectType) == "msg_vpn_acl_profile" || string(brokerObjectType) == "msg_vpn_client_profile" || string(brokerObjectType) == "msg_vpn_client_username"  || string(brokerObjectType) == "msg_vpn"{
+					if string(brokerObjectType) == "msg_vpn_acl_profile" || string(brokerObjectType) == "msg_vpn_client_profile" || string(brokerObjectType) == "msg_vpn_client_username" || string(brokerObjectType) == "msg_vpn" {
 						skipAppendInstance = true
 						break
 					}
