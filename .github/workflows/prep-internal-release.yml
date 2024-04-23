@@ -110,20 +110,20 @@ jobs:
       #   with:
       #     branch: ${{ env.NEXT_DEV_VERSION }}
 
-      - name: Create next dev branch
-        if: env.NEXT_DEV_VERSION != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git checkout -b ${{ env.NEXT_DEV_VERSION }}
-          VERSION=$(echo "${{ env.NEXT_DEV_VERSION }}" | cut -d'v' -f2)
-          sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
-          git commit -a -m "Uprev'd version to ${VERSION}"
-          git push --set-upstream origin ${{ env.NEXT_DEV_VERSION }}
+      # - name: Create next dev branch
+      #   if: env.NEXT_DEV_VERSION != ''
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git checkout -b ${{ env.NEXT_DEV_VERSION }}
+      #     VERSION=$(echo "${{ env.NEXT_DEV_VERSION }}" | cut -d'v' -f2)
+      #     sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
+      #     git commit -a -m "Uprev'd version to ${VERSION}"
+      #     git push --set-upstream origin ${{ env.NEXT_DEV_VERSION }}
 
-      - name: Delete last dev branch
-        if: env.NEXT_DEV_VERSION != ''
-        uses: dawidd6/action-delete-branch@v3
-        with:
-          github_token: ${{github.token}}
-          branches: "${{ github.ref_name }}"
+      # - name: Delete last dev branch
+      #   if: env.NEXT_DEV_VERSION != ''
+      #   uses: dawidd6/action-delete-branch@v3
+      #   with:
+      #     github_token: ${{github.token}}
+      #     branches: "${{ github.ref_name }}"
