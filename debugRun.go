@@ -73,7 +73,7 @@ func debugRun(debugRun, address string) {
 	}
 	cmdLine := strings.Split(debugRun, " ")
 	cmd := exec.Command(cmdLine[0], cmdLine[1:]...)
-	data, err := json.Marshal(map[string]any{
+	data, _ := json.Marshal(map[string]any{
 		address: map[string]any{
 			"Protocol":        "grpc",
 			"ProtocolVersion": 6,
