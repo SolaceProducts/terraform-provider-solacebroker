@@ -16,4 +16,4 @@
 
 package main
 
-const version = "0.9.3-rc.3"
+const version = "0.9.3-rc.4"
