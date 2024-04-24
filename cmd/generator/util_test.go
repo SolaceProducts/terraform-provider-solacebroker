@@ -223,3 +223,71 @@ func TestSanitizeHclValue(t *testing.T) {
 		})
 	}
 }
+
+func TestIsValidTerraformIdentifier(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected bool
+	}{
+		{
+			name:     "EmptyString",
+			input:    "",
+			expected: false,
+		},
+		{
+			name:     "ValidIdentifier",
+			input:    "validIdentifier",
+			expected: true,
+		},
+		{
+			name:     "InvalidIdentifier_StartsWithNumber",
+			input:    "1invalidIdentifier",
+			expected: false,
+		},
+		{
+			name:     "DoesnotStartWithNumber",
+			input:    "a123456",
+			expected: true,
+		},
+		{
+			name:     "InvalidIdentifier_ContainsSpecialCharacter",
+			input:    "invalid@Identifier",
+			expected: false,
+		},
+		{
+			name:     "InvalidIdentifier_ContainsSpace",
+			input:    "invalid Identifier",
+			expected: false,
+		},
+		{
+			name:     "StartsWithUnderscore",
+			input:    "_test",
+			expected: true,
+		},
+		{
+			name:     "IncludesUnderscore",
+			input:    "a_test",
+			expected: true,
+		},
+		{
+			name:     "StartsWithHyphen",
+			input:    "-test",
+			expected: true,
+		},
+		{
+			name:     "IncludesHyphen",
+			input:    "a-test",
+			expected: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := IsValidTerraformIdentifier(tt.input)
+			if result != tt.expected {
+				t.Errorf("IsValidTerraformIdentifier() = %v, want %v", result, tt.expected)
+			}
+		})
+	}
+}

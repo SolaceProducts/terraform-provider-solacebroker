@@ -40,6 +40,13 @@ var idStartYes = []*unicode.RangeTable{
 	unicode.L,
 	// unicode.Nl, // not included as it is not a valid starting character for an identifier
 	unicode.Other_ID_Start,
+	// include Hyphen and Underscore
+	{
+		R16: []unicode.Range16{
+			{uint16('-'), uint16('-'), 1},
+			{uint16('_'), uint16('_'), 1},
+		},
+	},
 }
 
 // This code defines the idContinueYes slice, which contains Unicode range tables for valid continuation characters in an identifier.
@@ -181,7 +188,7 @@ func SanitizeHclStringValue(value string) string {
 }
 
 func isStartRune(r rune) bool {
-	return unicode.In(r, idStartYes...) && !unicode.In(r, idNo...)
+	return r == '-' || unicode.In(r, idStartYes...) && !unicode.In(r, idNo...)
 }
 
 func isContinueRune(r rune) bool {
