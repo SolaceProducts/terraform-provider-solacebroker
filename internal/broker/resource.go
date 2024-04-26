@@ -245,10 +245,6 @@ func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, respons
 	return r.converter.FromTerraform(tftypes.NewValue(request.Type(), defaultValues))
 }
 
-func convert(any any) {
-	panic("unimplemented")
-}
-
 func (r *brokerResource) Schema(_ context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
 	response.Schema = r.schema
 }
@@ -535,20 +531,22 @@ func (r *brokerResource) ConfigValidators(_ context.Context) []resource.ConfigVa
 
 func (r *brokerResource) UpgradeState(ctx context.Context) map[int64]resource.StateUpgrader {
 	// Placeholder for future StateUpgrader code
-	// example:
-	// if r.terraformName == "a_b_c" {
-	// 	return map[int64]resource.StateUpgrader{
-	// 		// State upgrade implementation from 0 (prior state version) to 2 (Schema.Version)
-	// 		0: {
-	// 				// Optionally, the PriorSchema field can be defined.
-	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
-	// 		},
-	// 		// State upgrade implementation from 1 (prior state version) to 2 (Schema.Version)
-	// 		1: {
-	// 				// Optionally, the PriorSchema field can be defined.
-	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
-	// 		},
-	// 	}
-	// }
-	return nil
+	schema := r.schema
+	converter := r.converter
+	return map[int64]resource.StateUpgrader{
+		0: {
+			PriorSchema: &schema,
+			StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) {
+				rawState := req.State.Raw
+				resourceData, err := converter.FromTerraform(rawState)
+				if err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+				resp.State.Raw, err = converter.ToTerraform(resourceData)
+				if err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+			},
+		},
+	}
 }

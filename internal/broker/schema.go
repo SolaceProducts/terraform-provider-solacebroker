@@ -180,12 +180,22 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 		jIndex := strings.Index(inputs.PathTemplate, "{"+jAttr.SempName+"}")
 		return iIndex < jIndex
 	})
+
+	version := int64(0)
+	// // Use Version from the main package
+	// parts := strings.Split(ver.Version, ".")
+	// if len(parts) > 0 {
+	// 	v, err := strconv.ParseInt(parts[0], 10, 64)
+	// 	if err == nil {
+	// 		version = v
+	// 	}
+	// }
 	s := schema.Schema{
 		Attributes:          tfAttributes,
 		Description:         inputs.Description,
 		MarkdownDescription: inputs.MarkdownDescription,
 		DeprecationMessage:  inputs.DeprecationMessage,
-		Version:             inputs.Version,
+		Version:             version,
 	}
 	return brokerEntity[schema.Schema]{
 		schema: s,
