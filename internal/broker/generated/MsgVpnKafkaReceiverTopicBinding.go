@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "A Topic Binding receives messages from a remote Kafka Topic.\n\n\nAttribute|Identifying\n:---|:---:\nkafka_receiver_name|x\nmsg_vpn_name|x\ntopic_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaReceivers/{kafkaReceiverName}/topicBindings/{topicName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.Bool,

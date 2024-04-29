@@ -32,7 +32,7 @@ func init() {
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/dmrClusters/{dmrClusterName}/certMatchingRules/{ruleName}/conditions/{source}",
 		PostPathTemplate:    "/dmrClusters/{dmrClusterName}/certMatchingRules/{ruleName}/conditions",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

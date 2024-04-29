@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\ntopic_endpoint_template_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.14.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/topicEndpointTemplates/{topicEndpointTemplateName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

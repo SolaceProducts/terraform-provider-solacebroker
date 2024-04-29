@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "The Remote Message VPN is the Message VPN that the Bridge connects to.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nbridge_name|x||\nbridge_virtual_router|x||\nmsg_vpn_name|x||\npassword||x|x\nremote_msg_vpn_interface|x||\nremote_msg_vpn_location|x||\nremote_msg_vpn_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}/remoteMsgVpns/{remoteMsgVpnName},{remoteMsgVpnLocation},{remoteMsgVpnInterface}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "A Cert Matching Rule Attribute Filter compares a username attribute to a string.\n\n\nAttribute|Identifying\n:---|:---:\nfilter_name|x\nmsg_vpn_name|x\nrule_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.28.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/certMatchingRules/{ruleName}/attributeFilters/{filterName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

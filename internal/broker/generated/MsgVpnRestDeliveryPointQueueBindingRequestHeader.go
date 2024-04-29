@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "A request header to be added to the HTTP request.\n\n\nAttribute|Identifying\n:---|:---:\nheader_name|x\nmsg_vpn_name|x\nqueue_binding_name|x\nrest_delivery_point_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.23.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/queueBindings/{queueBindingName}/requestHeaders/{headerName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
