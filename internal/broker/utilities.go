@@ -197,3 +197,12 @@ func getFullSempAPIURL(url string) string {
 	baseBath := strings.TrimPrefix(SempDetail.BasePath, "/")
 	return url + "/" + baseBath
 }
+
+func getProviderMajorVersion(semverVersion string) int64 {
+	parts := strings.Split(semverVersion, ".")
+	if len(parts) == 0 {
+		return 0
+	}
+	majorVersion, _ := strconv.ParseInt(parts[0], 10, 64)
+	return majorVersion
+}

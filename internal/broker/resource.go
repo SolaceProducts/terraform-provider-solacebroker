@@ -246,6 +246,9 @@ func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, respons
 }
 
 func (r *brokerResource) Schema(_ context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
+	// Overwrite the schema version with the provider major version
+	providerMajorVersion := getProviderMajorVersion(ProviderVersion)
+	r.schema.Version = providerMajorVersion
 	response.Schema = r.schema
 }
 
@@ -530,12 +533,12 @@ func (r *brokerResource) ConfigValidators(_ context.Context) []resource.ConfigVa
 }
 
 func (r *brokerResource) UpgradeState(ctx context.Context) map[int64]resource.StateUpgrader {
-	// Placeholder for future StateUpgrader code
 	schema := r.schema
 	converter := r.converter
-	version := r.schema.Version
+	version := getProviderMajorVersion(ProviderVersion)
 	upgraders := make(map[int64]resource.StateUpgrader)
-	// loop version times and add upgraders for each version, starting from 0
+	// new code will add upgraders for each version, starting from 0
+	// note that upgraders are the same for each version
 	for i := int64(0); i < version; i++ {
 		upgraders[i] = resource.StateUpgrader{
 			PriorSchema: &schema,

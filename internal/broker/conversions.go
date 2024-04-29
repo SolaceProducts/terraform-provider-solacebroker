@@ -107,7 +107,7 @@ func NewObjectConverter(terraformName string, attributes []*AttributeInfo) *Obje
 func (c *ObjectConverter) ToTerraform(v any) (tftypes.Value, error) {
 	m, ok := v.(map[string]any)
 	if !ok {
-		return tftypes.Value{}, fmt.Errorf("unexpected type %T for attribute %v received in SEMP response; expected %T", v, c.terraformName, m)
+		return tftypes.Value{}, fmt.Errorf("unexpected type %T for attribute %v received in broker SEMP response; expected %T", v, c.terraformName, m)
 	}
 	tfData := map[string]tftypes.Value{}
 	for _, sempAttribute := range c.attributes {
@@ -115,7 +115,7 @@ func (c *ObjectConverter) ToTerraform(v any) (tftypes.Value, error) {
 		if ok {
 			tfv, err := sempAttribute.Converter.ToTerraform(v)
 			if err != nil {
-				return tftypes.Value{}, err
+				return tftypes.Value{}, fmt.Errorf("error converting broker SEMP response for attribute %v: %s", sempAttribute.TerraformName, err)
 			}
 			tfData[sempAttribute.TerraformName] = tfv
 		} else {

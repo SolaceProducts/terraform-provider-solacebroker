@@ -126,10 +126,6 @@ func substituteVariables(template string, attributes IdentifyingAttributes, doEs
 		}
 		result = strings.Replace(result, "{"+attr.key+"}", value, -1)
 	}
-	// TODO: revisit most efficient way to check for missing attributes
-	// if strings.Contains(result, "{") || strings.Contains(result, "}") {
-	// 	return "", fmt.Errorf("missing attributes from path template %s", template)
-	// }
 	return result, nil
 }
 

@@ -92,15 +92,7 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 				}
 				val := "\"" + SanitizeHclStringValue(valuesRes.(string)) + "\""
 				if reflect.TypeOf(attr.Default) != nil && fmt.Sprint(attr.Default) == fmt.Sprint(valuesRes) {
-					//attributes with default values will be skipped
-					// WORKAROUND: Except if attribute is "authentication_basic_type" in "msg_vpn"
-					// TODO: review if this is still needed
-					// if brokerObjectTerraformName != "msg_vpn" || attr.TerraformName != "authentication_basic_type" {
-					// 	attributesWithDefaultValue[attr.TerraformName] = &val
-					// 	continue
-					// } else {
-					// 	LogCLIInfo("Applying workaround: not ignoring default for `msg_vpn` attribute `authentication_basic_type`")
-					// }
+					//attributes with default values will be added to the internal list but will be skipped from results
 					attributesWithDefaultValue[attr.TerraformName] = &val
 					continue
 				}
@@ -200,8 +192,8 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					}
 					tfVariables[variableName] = newVariable
 					resourceConfig.ResourceAttributes[attrName] = newAttributeInfo("var." + variableName)
+					// then iterate linked attributes and also add them to variables
 					for _, linkedAttrName := range linkedAttributes[attrName] {
-						// then add the linked attributes to variables
 						attrInfo := attributes[attributeLookup[linkedAttrName]]
 						attrSensitive := attrInfo.Sensitive
 						attrType, attrDefault, _ := GetBaseTypeAndDefault(attrInfo)
