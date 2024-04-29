@@ -34,7 +34,7 @@ func init() {
 		MarkdownDescription: "REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_aws_secret_access_key||x|x\nauthentication_client_cert_content||x|x\nauthentication_client_cert_password||x|\nauthentication_http_basic_password||x|x\nauthentication_http_header_value||x|x\nauthentication_oauth_client_secret||x|x\nauthentication_oauth_jwt_secret_key||x|x\nmsg_vpn_name|x||\nrest_consumer_name|x||\nrest_delivery_point_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/restConsumers/{restConsumerName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

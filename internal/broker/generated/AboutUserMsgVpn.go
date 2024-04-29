@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "This provides information about the Message VPN access level for the username used to access the SEMP API.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.2.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/user/msgVpns/{msgVpnName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
