@@ -38,6 +38,7 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 		linkedAttributes := map[string][]string{}
 
 		for i, attr := range attributes {
+			systemProvisioned = false // reset systemProvisioned
 			attributeLookup[attr.TerraformName] = i
 			if len(attr.Requires) > 0 {
 				linkedAttributes[attr.TerraformName] = append(linkedAttributes[attr.TerraformName], attr.Requires...)
@@ -154,7 +155,6 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 						" # Note: This attribute may be system provisioned and a \"depends_on\" meta-argument may be required to the parent object of this attribute to ensure proper order of creation")
 				}
 			}
-			systemProvisioned = false // reset systemProvisioned
 		}
 		// Iterate linkedAttributes
 		// for each attribute check if there is an entry in resourceConfig
