@@ -87,6 +87,7 @@ jobs:
           sed -i '/deprecated_att/d' terraform.tfstate
           terraform plan | grep "3 to add"
           terraform apply -auto-approve | grep "Apply complete"
+          ls -l
           diff terraform.tfstate terraform.tfstate.bak > diff.out
           cat diff.out
           grep ">           \"schema_version\": 0," diff.out | wc -l | grep 3 # verify schema has been upgraded
