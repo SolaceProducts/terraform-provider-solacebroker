@@ -88,9 +88,9 @@ jobs:
           terraform plan | grep "3 to add"
           terraform apply -auto-approve | grep "Apply complete"
           ls -l
-          diff terraform.tfstate terraform.tfstate.backup
           diff terraform.tfstate terraform.tfstate.bak
           diff terraform.tfstate terraform.tfstate.bak > diff.out
+          ls -l
           cat diff.out
           grep ">           \"schema_version\": 0," diff.out | wc -l | grep 3 # verify schema has been upgraded
           grep ">             \"deprecated1\": null," diff.out # verify deprecated has been removed
