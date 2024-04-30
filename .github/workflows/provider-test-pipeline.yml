@@ -81,7 +81,7 @@ jobs:
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
-          terraform plan &> results.out || cat results.out | grep deprecated_att | wc -l | grep 2
+          bash -c "terraform plan &> results.out" || cat results.out | grep deprecated_att | wc -l | grep 2
           # remove deprecated non-null attributes from state
           cp terraform.tfstate terraform.tfstate.bak
           sed -i '/deprecated_att/d' terraform.tfstate
