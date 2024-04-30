@@ -6,8 +6,8 @@ description: |-
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
   Attribute|Identifying
   :---|:---:
-  groupname|x
-  oauthprofile_name|x
+  group_name|x
+  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---

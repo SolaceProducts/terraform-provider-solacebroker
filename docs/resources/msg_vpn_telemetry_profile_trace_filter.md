@@ -6,9 +6,9 @@ description: |-
   A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
-  telemetryprofilename|x
-  tracefiltername|x
+  msg_vpn_name|x
+  telemetry_profile_name|x
+  trace_filter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---

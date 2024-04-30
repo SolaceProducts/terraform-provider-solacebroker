@@ -6,8 +6,8 @@ description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
   Attribute|Identifying
   :---|:---:
-  kafkareceivername|x
-  msgvpnname|x
+  kafka_receiver_name|x
+  msg_vpn_name|x
   topic_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.

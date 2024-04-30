@@ -6,9 +6,9 @@ description: |-
   A Cache Cluster is a collection of one or more Cache Instances that subscribe to exactly the same topics. Cache Instances are grouped together in a Cache Cluster for the purpose of fault tolerance and load balancing. As published messages are received, the message broker message bus sends these live data messages to the Cache Instances in the Cache Cluster. This enables client cache requests to be served by any of Cache Instances in the Cache Cluster.
   Attribute|Identifying
   :---|:---:
-  cachename|x
-  clustername|x
-  msgvpnname|x
+  cache_name|x
+  cluster_name|x
+  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---

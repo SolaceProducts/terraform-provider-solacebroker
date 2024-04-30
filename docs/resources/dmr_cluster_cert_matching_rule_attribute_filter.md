@@ -6,9 +6,9 @@ description: |-
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
   Attribute|Identifying
   :---|:---:
-  dmrclustername|x
-  filtername|x
-  rulename|x
+  dmr_cluster_name|x
+  filter_name|x
+  rule_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---

@@ -6,11 +6,11 @@ description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
+  msg_vpn_name|x
   subscription|x
-  subscriptionsyntax|x
-  telemetryprofilename|x
-  tracefilter_name|x
+  subscription_syntax|x
+  telemetry_profile_name|x
+  trace_filter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---

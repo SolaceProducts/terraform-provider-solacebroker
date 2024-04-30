@@ -6,8 +6,8 @@ description: |-
   A Queue Template provides a mechanism for specifying the initial state for client created queues.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
-  queuetemplatename|x
+  msg_vpn_name|x
+  queue_template_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
 ---

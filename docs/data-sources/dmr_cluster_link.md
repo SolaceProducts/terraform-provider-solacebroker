@@ -6,9 +6,9 @@ description: |-
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
   Attribute|Identifying|Write-Only|Opaque
   :---|:---:|:---:|:---:
-  authenticationbasicpassword||x|x
-  dmrclustername|x||
-  remotenodename|x||
+  authentication_basic_password||x|x
+  dmr_cluster_name|x||
+  remote_node_name|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---

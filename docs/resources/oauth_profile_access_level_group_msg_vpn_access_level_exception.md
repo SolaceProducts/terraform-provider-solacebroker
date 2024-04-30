@@ -6,9 +6,9 @@ description: |-
   Message VPN access-level exceptions for members of this group.
   Attribute|Identifying
   :---|:---:
-  groupname|x
-  msgvpnname|x
-  oauthprofile_name|x
+  group_name|x
+  msg_vpn_name|x
+  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---

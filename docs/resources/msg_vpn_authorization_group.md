@@ -6,10 +6,10 @@ description: |-
   To use client authorization groups configured on an external server to provide client authorizations, Authorization Group objects must be created on the Message VPN that match the authorization groups provisioned on the external server. These objects must be configured with the client profiles and ACL profiles that will be assigned to the clients that belong to those authorization groups. A newly created group is placed at the end of the group list which is the lowest priority.
   Attribute|Identifying|Write-Only
   :---|:---:|:---:
-  authorizationgroupname|x|
-  msgvpnname|x|
-  orderafterauthorizationgroupname||x
-  orderbeforeauthorizationgroupname||x
+  authorization_group_name|x|
+  msg_vpn_name|x|
+  order_after_authorization_group_name||x
+  order_before_authorization_group_name||x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---

@@ -6,11 +6,11 @@ description: |-
   Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.
   Attribute|Identifying|Deprecated
   :---|:---:|:---:
-  allowcutthroughforwardingenabled||x
-  apiqueuemanagementcopyfromoncreatename||x
-  apitopicendpointmanagementcopyfromoncreatename||x
-  clientprofilename|x|
-  msgvpn_name|x|
+  allow_cut_through_forwarding_enabled||x
+  api_queue_management_copy_from_on_create_name||x
+  api_topic_endpoint_management_copy_from_on_create_name||x
+  client_profile_name|x|
+  msg_vpn_name|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---

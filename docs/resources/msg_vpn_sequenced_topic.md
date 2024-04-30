@@ -6,7 +6,7 @@ description: |-
   A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
+  msg_vpn_name|x
   sequenced_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.

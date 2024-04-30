@@ -6,7 +6,7 @@ description: |-
   A Queue acts as both a destination that clients can publish messages to, and as an endpoint that clients can bind consumers to and consume messages from.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
+  msg_vpn_name|x
   queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.

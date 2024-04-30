@@ -6,10 +6,10 @@ description: |-
   A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
   Attribute|Identifying
   :---|:---:
-  bridgename|x
-  bridgevirtualrouter|x
-  msgvpnname|x
-  remotesubscription_topic|x
+  bridge_name|x
+  bridge_virtual_router|x
+  msg_vpn_name|x
+  remote_subscription_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---

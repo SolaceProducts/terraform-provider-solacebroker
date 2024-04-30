@@ -6,10 +6,10 @@ description: |-
   A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.
   Attribute|Identifying
   :---|:---:
-  attributename|x
-  attributevalue|x
-  dmrclustername|x
-  remotenodename|x
+  attribute_name|x
+  attribute_value|x
+  dmr_cluster_name|x
+  remote_node_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---

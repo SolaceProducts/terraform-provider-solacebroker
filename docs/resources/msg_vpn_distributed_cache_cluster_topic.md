@@ -6,9 +6,9 @@ description: |-
   The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
   Attribute|Identifying
   :---|:---:
-  cachename|x
-  clustername|x
-  msgvpnname|x
+  cache_name|x
+  cluster_name|x
+  msg_vpn_name|x
   topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
