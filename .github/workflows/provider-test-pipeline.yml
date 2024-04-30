@@ -81,18 +81,17 @@ jobs:
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
-          echo YES
-          bash -c "terraform plan &> results.out" || cat results.out # | grep deprecated_att | wc -l | grep 2
+          bash -c "terraform plan &> results.out" || cat results.out | grep deprecated_att # | wc -l | grep 2
           # remove deprecated non-null attributes from state
-          # cp terraform.tfstate terraform.tfstate.bak
-          # sed -i '/deprecated_att/d' terraform.tfstate
-          # terraform plan | grep "3 to add"
-          # terraform apply -auto-approve | grep "Apply complete"
-          # diff terraform.tfstate terraform.tfstate.bak > diff.out
-          # grep ">           \"schema_version\": 0," diff.out | wc -l | grep 3 # verify schema has been upgraded
-          # grep ">             \"deprecated1\": null," diff.out # verify deprecated has been removed
-          # grep ">               \"deprecated2\": null," diff.out # verify deprecated has been removed
-          # grep "<               \"clear_percent\": 20," diff.out # verify string has been converted to number
-          # grep "<             \"egress_enabled\": true," diff.out # verify string has been converted to bool
-          # terraform destroy -auto-approve
+          cp terraform.tfstate terraform.tfstate.bak
+          sed -i '/deprecated_att/d' terraform.tfstate
+          terraform plan | grep "3 to add"
+          terraform apply -auto-approve | grep "Apply complete"
+          diff terraform.tfstate terraform.tfstate.bak > diff.out
+          grep ">           \"schema_version\": 0," diff.out | wc -l | grep 3 # verify schema has been upgraded
+          grep ">             \"deprecated1\": null," diff.out # verify deprecated has been removed
+          grep ">               \"deprecated2\": null," diff.out # verify deprecated has been removed
+          grep "<               \"clear_percent\": 20," diff.out # verify string has been converted to number
+          grep "<             \"egress_enabled\": true," diff.out # verify string has been converted to bool
+          terraform destroy -auto-approve
           popd
