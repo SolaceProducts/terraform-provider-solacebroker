@@ -578,11 +578,12 @@ func (r *brokerResource) UpgradeState(ctx context.Context) map[int64]resource.St
 								if err != nil {
 									resp.Diagnostics.AddError("State conversion failed", err.Error())
 								}
-								for nestedKey := range value.(map[string]interface{}) {
-									// _, ok := data.(map[string]tftypes.Value)[nestedKey]
-									_, ok := resultsDataMap2[nestedKey]
-									if !ok {
-										resp.Diagnostics.AddError("State upgrade failed", fmt.Sprintf("Found deprecated state key '%s' in nested object '%s', unable to upgrade state if value is not null", nestedKey, key))
+								for nestedKey, val := range value.(map[string]interface{}) {
+									if val != nil {
+										_, ok := resultsDataMap2[nestedKey]
+										if !ok {
+											resp.Diagnostics.AddError("State upgrade failed", fmt.Sprintf("Found deprecated state key '%s' in nested object '%s', unable to upgrade state if value is not null", nestedKey, key))
+										}
 									}
 								}
 							}
