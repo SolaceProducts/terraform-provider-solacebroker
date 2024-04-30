@@ -186,7 +186,7 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 		Description:         inputs.Description,
 		MarkdownDescription: inputs.MarkdownDescription,
 		DeprecationMessage:  inputs.DeprecationMessage,
-		Version:             inputs.Version,  // This will be replaced by the major version from ProviderVersion in resource.go
+		Version:             inputs.Version, // This will be replaced by the major version from ProviderVersion in resource.go
 	}
 	return brokerEntity[schema.Schema]{
 		schema: s,
