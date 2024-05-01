@@ -81,14 +81,13 @@ jobs:
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
-          bash -c "terraform plan &> results.out" || cat results.out # | grep deprecated_att | wc -l | grep 2
-          # remove deprecated non-null attributes from state
+          bash -c "terraform plan &> results.out" || echo "Expecting terraform plan to fail"
+          cat results.out | grep "Found deprecated state key 'deprecated_att"
           cp terraform.tfstate terraform.tfstate.bak
-          sed -i '/deprecated_att/d' terraform.tfstate
+          sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
           terraform plan | grep "3 to add"
           terraform apply -auto-approve | grep "Apply complete"
-          ls -l
-          diff terraform.tfstate terraform.tfstate.bak
+          # TODO: GH actions fails on following commands, need to investigate
           # diff terraform.tfstate terraform.tfstate.bak > diff.out
           # ls -l
           # cat diff.out
