@@ -33,12 +33,11 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 		resourceConfig := ResourceConfig{
 			ResourceAttributes: map[string]ResourceAttributeInfo{},
 		}
-		systemProvisioned := false
 		attributesWithDefaultValue := map[string]*string{} // list of attributes with default values
 		linkedAttributes := map[string][]string{}
 
 		for i, attr := range attributes {
-			systemProvisioned = false // reset systemProvisioned
+			systemProvisioned := false // reset systemProvisioned
 			attributeLookup[attr.TerraformName] = i
 			if len(attr.Requires) > 0 {
 				linkedAttributes[attr.TerraformName] = append(linkedAttributes[attr.TerraformName], attr.Requires...)
@@ -71,12 +70,6 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					}
 				}
 			}
-			// TODO: revisit, likely not needed
-			// } else if attr.TerraformName == "client_profile_name" && attributeExistInParent {
-			// 	//peculiar use case where client_profile is not identifying for msg_vpn_client_username but it is dependent
-			// 	resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(attributeParentNameAndValue)
-			// 	continue
-			// }
 
 			switch attr.BaseType {
 			case broker.String:
@@ -87,7 +80,6 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 					// non-identifying attributes with empty values will be skipped
 					continue
 				}
-				// TODO: review if this covers all cases of system provisioned attributes
 				if len(valuesRes.(string)) > 0 {
 					systemProvisioned = isSystemProvisionedAttribute(valuesRes.(string))
 				}
@@ -139,7 +131,7 @@ func processSempResults(resourceTypeAndName string, attributes []*broker.Attribu
 				}
 				resourceConfig.ResourceAttributes[attr.TerraformName] = newAttributeInfo(val)
 			}
-			// TODO: review here for proper handling of ancillary objects
+			// Also see SOL-102658
 			if attr.Deprecated && systemProvisioned {
 				resourceConfig.ResourceAttributes[attr.TerraformName] = addCommentToAttributeInfo(resourceConfig.ResourceAttributes[attr.TerraformName],
 					" # Note: This attribute is deprecated and may also be system provisioned.")
@@ -245,7 +237,7 @@ func GetBaseTypeAndDefault(attrInfo *broker.AttributeInfo) (string, string, erro
 		defaultValue = strconv.FormatBool(attrInfo.Default.(bool))
 		return "bool", defaultValue, nil
 	case broker.Struct:
-		// TODO: implement this
+		// Struct is not used right now, but if it is used in the future, it should be handled here
 		return "object", "", nil
 	default:
 		return "", "", errors.New("unknown base type")
