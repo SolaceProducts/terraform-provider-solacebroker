@@ -16,4 +16,4 @@
 
 package main
 
-const version = "1.0.0-rc.1"
+const version = "1.0.0-rc.2"
