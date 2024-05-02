@@ -78,6 +78,14 @@ jobs:
           terraform destroy -auto-approve
           popd
 
+      - name: Test unknown provider param, proving that the solace provider can tolerate unknown provider params until later when it is defined
+        run: |
+          pushd ci/provider_dependency
+          terraform init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
+          bash -c "terraform apply -auto-approve &> results.out" || echo "Expecting terraform apply to fail"
+          cat results.out | grep "401 Unauthorized"
+          popd
+
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
