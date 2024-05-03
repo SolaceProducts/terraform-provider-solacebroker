@@ -33,7 +33,6 @@ This has been available since SEMP API version 2.2.
 "read-only" - Read only access.
 "read-write" - Read and write access.
 </pre>
-- `global_dmr_bridge_access_enabled` (Boolean) Indicates whether global DMR Bridge access is enabled for the User. This is only for Solace internal use. This attribute may not be returned in a GET. Available since (hidden in public API).
 - `session_active` (Boolean) Indicates whether a session is active for this request. Available since SEMP API version 2.24.
 - `session_create_time` (Number) The timestamp of when the session was created. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
 - `session_current_time` (Number) The current server timestamp. This is provided as a reference point for the other timestamps provided. This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.

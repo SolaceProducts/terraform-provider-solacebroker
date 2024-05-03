@@ -2054,19 +2054,6 @@ func init() {
 				Default:             false,
 			},
 			{
-				BaseType:            broker.String,
-				SempName:            "webManagerCustomization",
-				TerraformName:       "web_manager_customization",
-				MarkdownDescription: "Reserved for internal use by Solace. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`. Available since SEMP API version 2.25.",
-				Type:                types.StringType,
-				TerraformType:       tftypes.String,
-				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				StringValidators: []validator.String{
-					stringvalidator.LengthBetween(0, 1024),
-				},
-				Default: "",
-			},
-			{
 				BaseType:            broker.Bool,
 				SempName:            "webManagerRedirectHttpEnabled",
 				TerraformName:       "web_manager_redirect_http_enabled",

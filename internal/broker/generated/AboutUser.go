@@ -49,17 +49,6 @@ func init() {
 			},
 			{
 				BaseType:            broker.Bool,
-				SempName:            "globalDmrBridgeAccessEnabled",
-				TerraformName:       "global_dmr_bridge_access_enabled",
-				MarkdownDescription: "Indicates whether global DMR Bridge access is enabled for the User. This is only for Solace internal use. This attribute may not be returned in a GET. Available since (hidden in public API).",
-				ReadOnly:            true,
-				RequiresReplace:     true,
-				Type:                types.BoolType,
-				TerraformType:       tftypes.Bool,
-				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
-			},
-			{
-				BaseType:            broker.Bool,
 				SempName:            "sessionActive",
 				TerraformName:       "session_active",
 				MarkdownDescription: "Indicates whether a session is active for this request. Available since SEMP API version 2.24.",
