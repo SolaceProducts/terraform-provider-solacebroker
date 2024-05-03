@@ -93,7 +93,6 @@ resource "solacebroker_broker" "broker" {
   tls_standard_domain_certificate_authorities_enabled                  = false
   tls_ticket_lifetime                                                  = 1
   web_manager_allow_unencrypted_wizards_enabled                        = true
-  web_manager_customization                                            = "test"
   web_manager_redirect_http_enabled                                    = false
   web_manager_redirect_http_override_tls_port                          = 8080
 }
