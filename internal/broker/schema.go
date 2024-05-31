@@ -103,7 +103,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			tfAttributes[attr.TerraformName] = schema.StringAttribute{
 				Description:         attr.Description,
 				MarkdownDescription: attr.MarkdownDescription,
-				Required:            attr.Required && isResource || attr.Identifying,
+				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
 				Sensitive:           attr.Sensitive,
@@ -115,7 +115,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			tfAttributes[attr.TerraformName] = schema.Int64Attribute{
 				Description:         attr.Description,
 				MarkdownDescription: attr.MarkdownDescription,
-				Required:            attr.Required && isResource || attr.Identifying,
+				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
 				Sensitive:           attr.Sensitive,
@@ -127,7 +127,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			tfAttributes[attr.TerraformName] = schema.BoolAttribute{
 				Description:         attr.Description,
 				MarkdownDescription: attr.MarkdownDescription,
-				Required:            attr.Required && isResource || attr.Identifying,
+				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
 				Sensitive:           attr.Sensitive,
@@ -140,7 +140,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 				Attributes:          terraformAttributeMap(attr.Attributes, isResource, requiresReplace || attr.RequiresReplace),
 				Description:         attr.Description,
 				MarkdownDescription: attr.MarkdownDescription,
-				Required:            attr.Required && isResource || attr.Identifying,
+				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
 				Sensitive:           attr.Sensitive,
