@@ -11,6 +11,7 @@ description: |-
   topic_filter_subscription|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
+  The import identifier for this resource is {msgVpnName}/{replayLogName}/{topicFilterSubscription}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_replay_log_topic_filter_subscription (Resource)
@@ -29,6 +30,8 @@ topic_filter_subscription|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.27.
+
+The import identifier for this resource is `{msgVpnName}/{replayLogName}/{topicFilterSubscription}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

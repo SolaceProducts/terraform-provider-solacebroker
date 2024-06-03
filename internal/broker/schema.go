@@ -17,6 +17,8 @@
 package broker
 
 import (
+	"fmt"
+	"regexp"
 	"sort"
 	"strings"
 
@@ -181,10 +183,30 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 		return iIndex < jIndex
 	})
 
+	identifierInfo := ""
+	if isResource {
+		identifiersString := ""
+		pathTemplate := inputs.PathTemplate
+		if pathTemplate != "/" {
+			rex := regexp.MustCompile(`{[^{}]*}`)
+			matches := rex.FindAllStringSubmatch(pathTemplate, -1)
+			// Construct identifiers string from matches, separated by /
+			identifiers := make([]string, len(matches))
+			for i, match := range matches {
+				identifiers[i] = match[0]
+				// TODO: convert to Terraform Names!
+			}
+			identifiersString = fmt.Sprintf("`%s`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.", strings.Join(identifiers, "/"))
+		} else {
+			// broker object
+			identifiersString = "`\"\"` (empty string)"
+		}
+		identifierInfo = fmt.Sprintf("\n\nThe import identifier for this resource is %s", identifiersString)
+	}
 	s := schema.Schema{
 		Attributes:          tfAttributes,
 		Description:         inputs.Description,
-		MarkdownDescription: inputs.MarkdownDescription,
+		MarkdownDescription: inputs.MarkdownDescription + identifierInfo,
 		DeprecationMessage:  inputs.DeprecationMessage,
 		Version:             inputs.Version, // This will be replaced by the major version from ProviderVersion in resource.go
 	}

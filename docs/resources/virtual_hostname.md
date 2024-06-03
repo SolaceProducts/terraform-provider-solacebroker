@@ -11,6 +11,7 @@ description: |-
   virtual_hostname|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.17.
+  The import identifier for this resource is {virtualHostname}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_virtual_hostname (Resource)
@@ -31,6 +32,8 @@ virtual_hostname|x
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.17.
+
+The import identifier for this resource is `{virtualHostname}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

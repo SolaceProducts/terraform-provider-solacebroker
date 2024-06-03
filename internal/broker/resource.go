@@ -479,6 +479,7 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 				"singleton object requires empty identifier for import",
 			)
 		}
+		response.State.Raw = tftypes.NewValue(tftypes.Object{}, nil)
 		return
 	}
 	split := strings.Split(strings.ReplaceAll(request.ID, ",", "/"), "/")

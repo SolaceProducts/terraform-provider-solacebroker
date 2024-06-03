@@ -10,6 +10,7 @@ description: |-
   ocsp_tls_trusted_common_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
+  The import identifier for this resource is {certAuthorityName}/{ocspTlsTrustedCommonName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_client_cert_authority_ocsp_tls_trusted_common_name (Resource)
@@ -27,6 +28,8 @@ ocsp_tls_trusted_common_name|x
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.19.
+
+The import identifier for this resource is `{certAuthorityName}/{ocspTlsTrustedCommonName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

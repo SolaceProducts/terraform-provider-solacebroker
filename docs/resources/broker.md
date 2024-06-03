@@ -130,6 +130,7 @@ description: |-
   tls_server_cert_content|global/read-only
   tls_ticket_lifetime|global/read-only
   This has been available since SEMP API version 2.13.
+  The import identifier for this resource is "" (empty string)
 ---
 
 # solacebroker_broker (Resource)
@@ -271,6 +272,8 @@ tls_ticket_lifetime|global/read-only
 
 
 This has been available since SEMP API version 2.13.
+
+The import identifier for this resource is `""` (empty string)
 
 
 

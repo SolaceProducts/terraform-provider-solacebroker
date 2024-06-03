@@ -13,6 +13,7 @@ description: |-
   topic_prefix|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
+  The import identifier for this resource is {msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}/{topicPrefix}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster_topic_prefix (Resource)
@@ -33,6 +34,8 @@ topic_prefix|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.11.
+
+The import identifier for this resource is `{msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}/{topicPrefix}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

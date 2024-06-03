@@ -13,6 +13,7 @@ description: |-
   trace_filter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
+  The import identifier for this resource is {msgVpnName}/{telemetryProfileName}/{traceFilterName}/{subscription}/{subscriptionSyntax}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription (Resource)
@@ -33,6 +34,8 @@ trace_filter_name|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.31.
+
+The import identifier for this resource is `{msgVpnName}/{telemetryProfileName}/{traceFilterName}/{subscription}/{subscriptionSyntax}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

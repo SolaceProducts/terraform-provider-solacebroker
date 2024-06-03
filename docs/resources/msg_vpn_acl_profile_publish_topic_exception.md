@@ -12,6 +12,7 @@ description: |-
   publish_topic_exception_syntax|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
+  The import identifier for this resource is {msgVpnName}/{aclProfileName}/{publishTopicExceptionSyntax}/{publishTopicException}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_acl_profile_publish_topic_exception (Resource)
@@ -31,6 +32,8 @@ publish_topic_exception_syntax|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.14.
+
+The import identifier for this resource is `{msgVpnName}/{aclProfileName}/{publishTopicExceptionSyntax}/{publishTopicException}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

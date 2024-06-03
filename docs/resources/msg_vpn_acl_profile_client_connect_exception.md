@@ -11,6 +11,7 @@ description: |-
   msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
+  The import identifier for this resource is {msgVpnName}/{aclProfileName}/{clientConnectExceptionAddress}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_acl_profile_client_connect_exception (Resource)
@@ -29,6 +30,8 @@ msg_vpn_name|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.0.
+
+The import identifier for this resource is `{msgVpnName}/{aclProfileName}/{clientConnectExceptionAddress}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

@@ -11,6 +11,7 @@ description: |-
   oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
+  The import identifier for this resource is {oauthProfileName}/{groupName}/{msgVpnName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_oauth_profile_access_level_group_msg_vpn_access_level_exception (Resource)
@@ -29,6 +30,8 @@ oauth_profile_name|x
 A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.24.
+
+The import identifier for this resource is `{oauthProfileName}/{groupName}/{msgVpnName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
