@@ -23,31 +23,33 @@ import (
 	"terraform-provider-solacebroker/cmd/client"
 	"terraform-provider-solacebroker/cmd/generator"
 	"terraform-provider-solacebroker/internal/broker/generated"
+	"time"
 
 	"github.com/spf13/cobra"
 )
 
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
-	Use:   "generate [options] <terraform resource address> <provider-specific identifier> <filename>",
+	Use:   "generate <terraform resource address> <provider-specific identifier> <filename>",
 	Short: "Generates a Terraform configuration file for a specified PubSub+ event broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform generator. One can download the provider binary and can execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
+This is not a Terraform command. You can download the provider binary and execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
 
-  <binary> generate [options] <terraform resource address> <provider-specific identifier> <filename>
+  <binary> generate [flags] <terraform resource address> <provider-specific identifier> <filename>
 
-  where;
+  where:
 		<binary> is the broker provider binary
-		[options] are the supported options, which mirror the configuration options for the provider object (for example -url=https://f93.soltestlab.ca:1943 and -retry_wait_max=90s) and can be set via environment variables in the same way.
-		<terraform resource address> addresses a specific resource instance in the form of <resource_type>.<resource_name>
-		<provider-specific identifier> the identifier of the broker object, the same as for the Terraform Import generator.
+		[flags] are the supported options, which mirror the configuration options for the provider object (for example --url=https://localhost:1943 and --retry_wait_max=90s) and can also be set via environment variables in the same way.
+		<terraform resource address> how to address the specified object instance in the generated configuration, in the form of <resource_type>.<resource_name>
+		<provider-specific identifier> the import identifier of the specified object instance, refer to the resource type of the object in the provider documentation
 		<filename> is the name of the generated file
 
 Example:
   SOLACEBROKER_USERNAME=adminuser SOLACEBROKER_PASSWORD=pass \
-	terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.mq default my-messagevpn.tf
+	terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.myvpn test vpn-config.tf
 
-This command will create a file my-messagevpn.tf that contains a resource definition for the default message VPN and any child objects, assuming the appropriate broker credentials were set in environment variables.`,
+This command will create a file vpn-config.tf that contains a resource definition for the 'test' message VPN and any child objects on the broker, assuming the appropriate broker credentials were set in environment variables.
+The message VPN resource address in the generated configuration will be 'solacebroker_msg_vpn.myvpn'.`,
 
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) < 3 {
@@ -57,10 +59,66 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		}
 
 		flags := cmd.Flags()
-		brokerURL, _ := flags.GetString("url")
-		generator.LogCLIInfo("Connecting to Broker : " + brokerURL)
+		cliParams:= generator.CliParams{}
+		if flags.Changed("url") {
+			if url, err := flags.GetString("url"); err == nil {
+				cliParams.Url = &url
+			}
+		}
+		if flags.Changed("username") {
+			if username, err := flags.GetString("username"); err == nil {
+				cliParams.Username = &username
+			}
+		}
+		if flags.Changed("password") {
+			if password, err := flags.GetString("password"); err == nil {
+				cliParams.Password = &password
+			}
+		}
+		if flags.Changed("bearer_token") {
+			if bearerToken, err := flags.GetString("bearer_token"); err == nil {
+				cliParams.Bearer_token = &bearerToken
+			}
+		}
+		if flags.Changed("retries") {
+			if retries, err := flags.GetInt64("retries"); err == nil {
+				cliParams.Retries = &retries
+			}
+		}
+		if flags.Changed("retry_min_interval") {
+			if retryMinInterval, err := flags.GetDuration("retry_min_interval"); err == nil {
+				cliParams.Request_min_interval = &retryMinInterval
+			}
+		}
+		if flags.Changed("retry_max_interval") {
+			if retryMaxInterval, err := flags.GetDuration("retry_max_interval"); err == nil {
+				cliParams.Retry_max_interval = &retryMaxInterval
+			}
+		}
+		if flags.Changed("request_timeout_duration") {
+			if requestTimeoutDuration, err := flags.GetDuration("request_timeout_duration"); err == nil {
+				cliParams.Request_timeout_duration = &requestTimeoutDuration
+			}
+		}
+		if flags.Changed("request_min_interval") {
+			if requestMinInterval, err := flags.GetDuration("request_min_interval"); err == nil {
+				cliParams.Request_min_interval = &requestMinInterval
+			}
+		}
+		if flags.Changed("insecure_skip_verify") {
+			if insecureSkipVerify, err := flags.GetBool("insecure_skip_verify"); err == nil {
+				cliParams.Insecure_skip_verify = &insecureSkipVerify
+			}
+		}
+		if flags.Changed("skip_api_check") {
+			if skipApiCheck, err := flags.GetBool("skip_api_check"); err == nil {
+				cliParams.Skip_api_check = &skipApiCheck
+			}
+		}
+		// Complement params with env as required, also ensure valid values for all
+		cliParams = generator.CliParamsWithEnv(cliParams)
 
-		cliClient := client.CliClient(brokerURL)
+		cliClient := client.CliClient(cliParams)
 		if cliClient == nil {
 			generator.ExitWithError("Error creating SEMP Client")
 		}
@@ -90,10 +148,7 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 			fileName = fileName + ".tf"
 		}
 
-		skipApiCheck, err := generator.BooleanWithDefaultFromEnv("skip_api_check", false, false)
-		if err != nil {
-			generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-		}
+		skipApiCheck := *cliParams.Skip_api_check
 		//Confirm SEMP version and connection via client
 		aboutPath := "/about/api"
 		result, err := cliClient.RequestWithoutBody(cmd.Context(), http.MethodGet, aboutPath)
@@ -121,7 +176,7 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 		}
 
 		brokerResourceTerraformName := strings.ReplaceAll(brokerResourceType, "solacebroker_", "")
-		generator.GenerateAll(brokerURL, cmd.Context(), cliClient, brokerResourceTerraformName, brokerResourceName, providerSpecificIdentifier, fileName)
+		generator.GenerateAll(cliParams, cmd.Context(), cliClient, brokerResourceTerraformName, brokerResourceName, providerSpecificIdentifier, fileName)
 
 		os.Exit(0)
 	},
@@ -129,5 +184,15 @@ This command will create a file my-messagevpn.tf that contains a resource defini
 
 func init() {
 	rootCmd.AddCommand(generateCmd)
-	generateCmd.PersistentFlags().String("url", "http://localhost:8080", "Broker URL")
+	generateCmd.PersistentFlags().String("url", "http://localhost:8080", "Broker base URL")
+	generateCmd.PersistentFlags().String("username", "", "Basic authentication username")
+	generateCmd.PersistentFlags().String("password", "", "Basic authentication password")
+	generateCmd.PersistentFlags().String("bearer_token", "", "Bearer token for authentication")
+	generateCmd.PersistentFlags().Int64("retries", 10, "Retries")
+	generateCmd.PersistentFlags().Duration("retry_min_interval", 3*time.Second, "Minimum retry interval")
+	generateCmd.PersistentFlags().Duration("retry_max_interval", 30*time.Second, "Maximum retry interval")
+	generateCmd.PersistentFlags().Duration("request_timeout_duration", time.Minute, "Request timeout duration")
+	generateCmd.PersistentFlags().Duration("request_min_interval", 100*time.Millisecond, "Minimum request interval")
+	generateCmd.PersistentFlags().Bool("insecure_skip_verify", false, "Disable validation of server SSL certificates")
+	generateCmd.PersistentFlags().Bool("skip_api_check", false, "Disable validation of the broker SEMP API")
 }

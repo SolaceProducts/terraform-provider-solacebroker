@@ -20,32 +20,38 @@ import (
 	"testing"
 )
 
-func TestStringWithDefaultFromEnv(t *testing.T) {
+// Add unit test for CliParamsWithEnv
+func TestCliParamsWithEnv(t *testing.T) {
 	type args struct {
-		name        string
-		isMandatory bool
-		fallback    string
+		cliParams CliParams
 	}
+	url := "https://localhost:1943"
 	tests := []struct {
 		name string
 		args args
-		want string
 	}{
 		{
-			"GetDefaultValue",
+			"TestCliParamsWithEnv",
 			args{
-				name:        "REGISTRY",
-				isMandatory: false,
-				fallback:    "Test",
+				cliParams: CliParams{
+					Url:                    &url,
+					Username:               nil,
+					Password:               nil,
+					Bearer_token:           nil,
+					Retries:                nil,
+					Retry_min_interval:     nil,
+					Retry_max_interval:     nil,
+					Request_timeout_duration: nil,
+					Request_min_interval:    nil,
+					Insecure_skip_verify:    nil,
+					Skip_api_check:          nil,
+				},
 			},
-			"Test",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := StringWithDefaultFromEnv(tt.args.name, tt.args.isMandatory, tt.args.fallback); got != tt.want {
-				t.Errorf("StringWithDefaultFromEnv() = %v, want %v", got, tt.want)
-			}
+			CliParamsWithEnv(tt.args.cliParams)
 		})
 	}
 }

@@ -18,7 +18,6 @@ package generator
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"os"
 	"sort"
@@ -28,6 +27,20 @@ import (
 	"time"
 	"unicode"
 )
+
+type CliParams struct{
+	Url *string
+	Username *string
+	Password *string
+	Bearer_token *string
+	Retries *int64
+	Retry_min_interval *time.Duration
+	Retry_max_interval *time.Duration
+	Request_timeout_duration *time.Duration
+	Request_min_interval *time.Duration
+	Insecure_skip_verify *bool
+	Skip_api_check *bool
+}
 
 type Color string
 
@@ -67,52 +80,96 @@ var idNo = []*unicode.RangeTable{
 	unicode.Pattern_White_Space,
 }
 
-func StringWithDefaultFromEnv(name string, isMandatory bool, fallback string) string {
+func CliParamsWithEnv(cliParams CliParams) CliParams {
+	cliParams.Url = StringParamWithEnv("url", cliParams.Url, true, "")
+	cliParams.Username = StringParamWithEnv("username", cliParams.Username, false, "")
+	cliParams.Password = StringParamWithEnv("password", cliParams.Password, false, "")
+	cliParams.Bearer_token = StringParamWithEnv("bearer_token", cliParams.Bearer_token, false, "")
+	if *cliParams.Bearer_token != "" && (*cliParams.Username != "" || *cliParams.Password != "") {
+		ExitWithError("Cannot provide both bearer_token and basic authentication username/password")
+	}
+	cliParams.Retries = Int64ParamWithEnv("retries", cliParams.Retries, false, 10)
+	cliParams.Retry_min_interval = DurationParamWithEnv("retry_min_interval", cliParams.Retry_min_interval, false, 3*time.Second)
+	cliParams.Retry_max_interval = DurationParamWithEnv("retry_max_interval", cliParams.Retry_max_interval, false, 30*time.Second)
+	cliParams.Request_timeout_duration = DurationParamWithEnv("request_timeout_duration", cliParams.Request_timeout_duration, false, time.Minute)
+	cliParams.Request_min_interval = DurationParamWithEnv("request_min_interval", cliParams.Request_min_interval, false, 100*time.Millisecond)
+	cliParams.Insecure_skip_verify = BooleanParamWithEnv("insecure_skip_verify", cliParams.Insecure_skip_verify, false, false)
+	cliParams.Skip_api_check = BooleanParamWithEnv("skip_api_check", cliParams.Skip_api_check, false, false)
+	return cliParams
+}
+
+func StringParamWithEnv(name string, value *string, isMandatory bool, fallback string) *string {
+	if value != nil {
+		return value
+	}
 	envValue := os.Getenv("SOLACEBROKER_" + strings.ToUpper(name))
-	if isMandatory && len(envValue) == 0 {
-		ExitWithError("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
-	} else if len(envValue) == 0 {
-		return fallback //default to fallback
+	if len(envValue) == 0 {
+		if isMandatory {
+			ExitWithError(fmt.Sprintf("Required parameter '%s' is missing", name))
+		} else {
+			return &fallback //default to fallback
+		}
 	}
-	return envValue
+	return &envValue
 }
 
-func Int64WithDefaultFromEnv(name string, isMandatory bool, fallback int64) (int64, error) {
-	envName := "SOLACEBROKER_" + strings.ToUpper(name)
-	s, ok := os.LookupEnv(envName)
-	if !ok && isMandatory {
-		return 0, errors.New("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
-	} else if !ok {
-		return fallback, nil //default to fallback
+func Int64ParamWithEnv(name string, value *int64, isMandatory bool, fallback int64) *int64 {
+	if value != nil {
+		return value
 	}
-	return strconv.ParseInt(s, 10, 64)
-}
-
-func BooleanWithDefaultFromEnv(name string, isMandatory bool, fallback bool) (bool, error) {
-	envName := "SOLACEBROKER_" + strings.ToUpper(name)
-	s, ok := os.LookupEnv(envName)
-	if !ok && isMandatory {
-		return false, errors.New("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
-	} else if !ok {
-		return fallback, nil //default to fallback
-	}
-	return strconv.ParseBool(s)
-}
-
-func DurationWithDefaultFromEnv(name string, isMandatory bool, fallback time.Duration) (time.Duration, error) {
 	envValue := os.Getenv("SOLACEBROKER_" + strings.ToUpper(name))
-	if isMandatory && len(envValue) == 0 {
-		return 0, errors.New("SOLACEBROKER_" + strings.ToUpper(name) + " is mandatory but not available")
-	} else if len(envValue) == 0 {
-		return fallback, nil //default to fallback
+	if len(envValue) == 0 {
+		if isMandatory {
+			ExitWithError(fmt.Sprintf("Required parameter '%s' is missing", name))
+		} else {
+			return &fallback //default to fallback
+		}
 	}
-	// Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h"
+	i, err := strconv.ParseInt(envValue, 10, 64)
+	if err != nil {
+		ExitWithError(fmt.Sprintf("Invalid value for %s: %s", name, envValue))
+	}
+	return &i
+}
+
+func BooleanParamWithEnv(name string, value *bool, isMandatory bool, fallback bool) *bool {
+	if value != nil {
+		return value
+	}
+	envValue := os.Getenv("SOLACEBROKER_" + strings.ToUpper(name))
+	if len(envValue) == 0 {
+		if isMandatory {
+			ExitWithError(fmt.Sprintf("Required parameter '%s' is missing", name))
+		} else {
+			return &fallback //default to fallback
+		}
+	}
+	b, err := strconv.ParseBool(envValue)
+	if err != nil {
+		ExitWithError(fmt.Sprintf("Invalid value for %s: %s", name, envValue))
+	}
+	return &b
+}
+
+func DurationParamWithEnv(name string, value *time.Duration, isMandatory bool, fallback time.Duration) *time.Duration {
+	if value != nil {
+		return value
+	}
+	envValue := os.Getenv("SOLACEBROKER_" + strings.ToUpper(name))
+	if len(envValue) == 0 {
+		if isMandatory {
+			ExitWithError(fmt.Sprintf("Required parameter '%s' is missing", name))
+		} else {
+			return &fallback //default to fallback
+		}
+	}
 	d, err := time.ParseDuration(envValue)
 	if err != nil {
-		return 0, errors.New(fmt.Errorf("%v is not valid; %q cannot be parsed as a duration: %w", "SOLACEBROKER_"+strings.ToUpper(name), envValue, err).Error())
+		ExitWithError(fmt.Sprintf("Invalid value for %s: %s", name, envValue))
 	}
-	return d, nil
+	return &d
 }
+
 
 // Workaround filter for system provisioned attributes
 func isSystemProvisionedAttribute(attribute string) bool {

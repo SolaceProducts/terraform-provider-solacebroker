@@ -20,45 +20,17 @@ import (
 	"terraform-provider-solacebroker/cmd/generator"
 	"terraform-provider-solacebroker/internal/broker"
 	"terraform-provider-solacebroker/internal/semp"
-	"time"
 )
 
-func CliClient(url string) *semp.Client {
-	username := generator.StringWithDefaultFromEnv("username", true, "")
-	password := generator.StringWithDefaultFromEnv("password", false, "")
-	bearerToken := generator.StringWithDefaultFromEnv("bearer_token", false, "")
-	retries, err := generator.Int64WithDefaultFromEnv("retries", false, 10)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
-	retryMinInterval, err := generator.DurationWithDefaultFromEnv("retry_min_interval", false, 3*time.Second)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
-	retryMaxInterval, err := generator.DurationWithDefaultFromEnv("retry_max_interval", false, 30*time.Second)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
-	requestTimeoutDuration, err := generator.DurationWithDefaultFromEnv("request_timeout_duration", false, time.Minute)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
-	requestMinInterval, err := generator.DurationWithDefaultFromEnv("request_min_interval", false, 100*time.Millisecond)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
-	insecure_skip_verify, err := generator.BooleanWithDefaultFromEnv("insecure_skip_verify", false, false)
-	if err != nil {
-		generator.ExitWithError("\nError: Unable to parse provider attribute. " + err.Error())
-	}
+func CliClient(cliParams generator.CliParams) *semp.Client {
 	client := semp.NewClient(
-		getFullSempAPIURL(url),
-		insecure_skip_verify,
+		getFullSempAPIURL(*cliParams.Url),
+		*cliParams.Insecure_skip_verify,
 		false, // this is a client for the generator
-		semp.BasicAuth(username, password),
-		semp.BearerToken(bearerToken),
-		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),
-		semp.RequestLimits(requestTimeoutDuration, requestMinInterval))
+		semp.BasicAuth(*cliParams.Username, *cliParams.Password),
+		semp.BearerToken(*cliParams.Bearer_token),
+		semp.Retries(uint(*cliParams.Retries), *cliParams.Retry_min_interval, *cliParams.Retry_max_interval),
+		semp.RequestLimits(*cliParams.Request_timeout_duration, *cliParams.Request_min_interval))
 	return client
 }
 

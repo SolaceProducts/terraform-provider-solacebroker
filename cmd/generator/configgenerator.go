@@ -58,7 +58,7 @@ var DSLookup = map[BrokerObjectType]int{} // Helper to easily lookup an entity i
 
 var ObjectNamesCount = map[string]int{}
 
-func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
+func GenerateAll(cliParams CliParams, context context.Context, cliClient *semp.Client, brokerResourceTerraformName string, brokerResourceName string, providerSpecificIdentifier string, fileName string) {
 	// First build the parent-child relationship between broker objects
 	CreateBrokerObjectRelationships()
 
@@ -87,14 +87,11 @@ func GenerateAll(brokerURL string, context context.Context, cliClient *semp.Clie
 		registry = "registry.terraform.io"
 	}
 	object.Registry = registry
-	object.BrokerURL = brokerURL
-	object.Username = StringWithDefaultFromEnv("username", true, "")
-	object.Password = StringWithDefaultFromEnv("password", false, "")
-	if len(object.Password) == 0 {
-		object.BearerToken = StringWithDefaultFromEnv("bearer_token", true, "")
-	} else {
-		object.BearerToken = StringWithDefaultFromEnv("bearer_token", false, "")
-	}
+	// TODO: update here with variables
+	object.BrokerURL = *cliParams.Url
+	object.Username = *cliParams.Username
+	object.Password = *cliParams.Password
+	object.BearerToken = *cliParams.Bearer_token
 	object.FileName = fileName
 	LogCLIInfo("Found all resources. Writing file " + fileName)
 
