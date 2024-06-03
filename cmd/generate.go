@@ -59,7 +59,7 @@ The message VPN resource address in the generated configuration will be 'solaceb
 		}
 
 		flags := cmd.Flags()
-		cliParams:= generator.CliParams{}
+		cliParams := generator.CliParams{}
 		if flags.Changed("url") {
 			if url, err := flags.GetString("url"); err == nil {
 				cliParams.Url = &url

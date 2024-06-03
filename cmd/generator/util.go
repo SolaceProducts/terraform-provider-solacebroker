@@ -28,18 +28,18 @@ import (
 	"unicode"
 )
 
-type CliParams struct{
-	Url *string
-	Username *string
-	Password *string
-	Bearer_token *string
-	Retries *int64
-	Retry_min_interval *time.Duration
-	Retry_max_interval *time.Duration
+type CliParams struct {
+	Url                      *string
+	Username                 *string
+	Password                 *string
+	Bearer_token             *string
+	Retries                  *int64
+	Retry_min_interval       *time.Duration
+	Retry_max_interval       *time.Duration
 	Request_timeout_duration *time.Duration
-	Request_min_interval *time.Duration
-	Insecure_skip_verify *bool
-	Skip_api_check *bool
+	Request_min_interval     *time.Duration
+	Insecure_skip_verify     *bool
+	Skip_api_check           *bool
 }
 
 type Color string
@@ -169,7 +169,6 @@ func DurationParamWithEnv(name string, value *time.Duration, isMandatory bool, f
 	}
 	return &d
 }
-
 
 // Workaround filter for system provisioned attributes
 func isSystemProvisionedAttribute(attribute string) bool {
