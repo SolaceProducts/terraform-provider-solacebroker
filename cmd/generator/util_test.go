@@ -26,6 +26,7 @@ func TestCliParamsWithEnv(t *testing.T) {
 		cliParams CliParams
 	}
 	url := "https://localhost:1943"
+	bearerToken := "abc"
 	tests := []struct {
 		name string
 		args args
@@ -37,7 +38,7 @@ func TestCliParamsWithEnv(t *testing.T) {
 					Url:                      &url,
 					Username:                 nil,
 					Password:                 nil,
-					Bearer_token:             nil,
+					Bearer_token:             &bearerToken,
 					Retries:                  nil,
 					Retry_min_interval:       nil,
 					Retry_max_interval:       nil,
