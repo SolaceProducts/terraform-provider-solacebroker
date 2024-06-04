@@ -95,10 +95,8 @@ jobs:
       - name: Test generated terraform on broker
         run: |
           # Create
-          sed -i '/# username       = "admin"/c\username       = "admin"' messageVpn.tf
-          sed -i '/# password       = "admin"/c\password       = "admin"' messageVpn.tf
-          terraform plan
-          terraform apply -auto-approve
+          TF_VAR_broker_url=http://localhost:8080 TF_VAR_broker_username=admin TF_VAR_broker_password=admin terraform plan
+          TF_VAR_broker_url=http://localhost:8080 TF_VAR_broker_username=admin TF_VAR_broker_password=admin terraform apply -auto-approve
           sleep 1
 
       - name: Create custom messageVPN with 22 messageVpn queues (Paging Test)
