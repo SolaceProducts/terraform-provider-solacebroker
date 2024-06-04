@@ -152,23 +152,23 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	retries, err := int64WithDefaultFromEnv(providerData.Retries, "retries", 10)
+	retries, err := int64WithDefaultFromEnv(providerData.Retries, "retries", semp.DefaultRetries)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	retryMinInterval, err := durationWithDefaultFromEnv(providerData.RetryMinInterval, "retry_min_interval", 3*time.Second)
+	retryMinInterval, err := durationWithDefaultFromEnv(providerData.RetryMinInterval, "retry_min_interval", semp.DefaultRetryMinInterval)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	retryMaxInterval, err := durationWithDefaultFromEnv(providerData.RetryMaxInterval, "retry_max_interval", 30*time.Second)
+	retryMaxInterval, err := durationWithDefaultFromEnv(providerData.RetryMaxInterval, "retry_max_interval", semp.DefaultRetryMaxInterval)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	requestTimeoutDuration, err := durationWithDefaultFromEnv(providerData.RequestTimeoutDuration, "request_timeout_duration", time.Minute)
+	requestTimeoutDuration, err := durationWithDefaultFromEnv(providerData.RequestTimeoutDuration, "request_timeout_duration", semp.DefaultRequestTimeout)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
-	requestMinInterval, err := durationWithDefaultFromEnv(providerData.RequestMinInterval, "request_min_interval", 100*time.Millisecond)
+	requestMinInterval, err := durationWithDefaultFromEnv(providerData.RequestMinInterval, "request_min_interval", semp.DefaultRequestInterval)
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}

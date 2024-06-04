@@ -26,6 +26,8 @@ import (
 	"text/tabwriter"
 	"time"
 	"unicode"
+
+	"terraform-provider-solacebroker/internal/semp"
 )
 
 type CliParams struct {
@@ -80,7 +82,7 @@ var idNo = []*unicode.RangeTable{
 	unicode.Pattern_White_Space,
 }
 
-func CliParamsWithEnv(cliParams CliParams) CliParams {
+func UpdateCliParamsWithEnv(cliParams CliParams) CliParams {
 	cliParams.Url = StringParamWithEnv("url", cliParams.Url, true, "")
 	cliParams.Username = StringParamWithEnv("username", cliParams.Username, false, "")
 	cliParams.Password = StringParamWithEnv("password", cliParams.Password, false, "")
@@ -88,11 +90,17 @@ func CliParamsWithEnv(cliParams CliParams) CliParams {
 	if *cliParams.Bearer_token != "" && (*cliParams.Username != "" || *cliParams.Password != "") {
 		ExitWithError("Cannot provide both bearer_token and basic authentication username/password")
 	}
-	cliParams.Retries = Int64ParamWithEnv("retries", cliParams.Retries, false, 10)
-	cliParams.Retry_min_interval = DurationParamWithEnv("retry_min_interval", cliParams.Retry_min_interval, false, 3*time.Second)
-	cliParams.Retry_max_interval = DurationParamWithEnv("retry_max_interval", cliParams.Retry_max_interval, false, 30*time.Second)
-	cliParams.Request_timeout_duration = DurationParamWithEnv("request_timeout_duration", cliParams.Request_timeout_duration, false, time.Minute)
-	cliParams.Request_min_interval = DurationParamWithEnv("request_min_interval", cliParams.Request_min_interval, false, 100*time.Millisecond)
+	if *cliParams.Bearer_token == "" && *cliParams.Username == "" {
+		ExitWithError("Either bearer_token or basic authentication username/password must be provided")
+	}
+	if *cliParams.Username != "" && *cliParams.Password == "" {
+		ExitWithError("Password must be provided when username is provided")
+	}
+	cliParams.Retries = Int64ParamWithEnv("retries", cliParams.Retries, false, semp.DefaultRetries)
+	cliParams.Retry_min_interval = DurationParamWithEnv("retry_min_interval", cliParams.Retry_min_interval, false, semp.DefaultRetryMinInterval)
+	cliParams.Retry_max_interval = DurationParamWithEnv("retry_max_interval", cliParams.Retry_max_interval, false, semp.DefaultRetryMaxInterval)
+	cliParams.Request_timeout_duration = DurationParamWithEnv("request_timeout_duration", cliParams.Request_timeout_duration, false, semp.DefaultRequestTimeout)
+	cliParams.Request_min_interval = DurationParamWithEnv("request_min_interval", cliParams.Request_min_interval, false, semp.DefaultRequestInterval)
 	cliParams.Insecure_skip_verify = BooleanParamWithEnv("insecure_skip_verify", cliParams.Insecure_skip_verify, false, false)
 	cliParams.Skip_api_check = BooleanParamWithEnv("skip_api_check", cliParams.Skip_api_check, false, false)
 	return cliParams

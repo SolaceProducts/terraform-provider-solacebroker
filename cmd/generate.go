@@ -23,7 +23,7 @@ import (
 	"terraform-provider-solacebroker/cmd/client"
 	"terraform-provider-solacebroker/cmd/generator"
 	"terraform-provider-solacebroker/internal/broker/generated"
-	"time"
+	"terraform-provider-solacebroker/internal/semp"
 
 	"github.com/spf13/cobra"
 )
@@ -116,7 +116,7 @@ The message VPN resource address in the generated configuration will be 'solaceb
 			}
 		}
 		// Complement params with env as required, also ensure valid values for all
-		cliParams = generator.CliParamsWithEnv(cliParams)
+		cliParams = generator.UpdateCliParamsWithEnv(cliParams)
 
 		cliClient := client.CliClient(cliParams)
 		if cliClient == nil {
@@ -188,11 +188,11 @@ func init() {
 	generateCmd.PersistentFlags().String("username", "", "Basic authentication username")
 	generateCmd.PersistentFlags().String("password", "", "Basic authentication password")
 	generateCmd.PersistentFlags().String("bearer_token", "", "Bearer token for authentication")
-	generateCmd.PersistentFlags().Int64("retries", 10, "Retries")
-	generateCmd.PersistentFlags().Duration("retry_min_interval", 3*time.Second, "Minimum retry interval")
-	generateCmd.PersistentFlags().Duration("retry_max_interval", 30*time.Second, "Maximum retry interval")
-	generateCmd.PersistentFlags().Duration("request_timeout_duration", time.Minute, "Request timeout duration")
-	generateCmd.PersistentFlags().Duration("request_min_interval", 100*time.Millisecond, "Minimum request interval")
+	generateCmd.PersistentFlags().Int64("retries", semp.DefaultRetries, "Retries")
+	generateCmd.PersistentFlags().Duration("retry_min_interval", semp.DefaultRetryMinInterval, "Minimum retry interval")
+	generateCmd.PersistentFlags().Duration("retry_max_interval", semp.DefaultRetryMaxInterval, "Maximum retry interval")
+	generateCmd.PersistentFlags().Duration("request_timeout_duration", semp.DefaultRequestTimeout, "Request timeout duration")
+	generateCmd.PersistentFlags().Duration("request_min_interval", semp.DefaultRequestInterval, "Minimum request interval")
 	generateCmd.PersistentFlags().Bool("insecure_skip_verify", false, "Disable validation of server SSL certificates")
 	generateCmd.PersistentFlags().Bool("skip_api_check", false, "Disable validation of the broker SEMP API")
 }

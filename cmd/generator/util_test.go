@@ -51,7 +51,7 @@ func TestCliParamsWithEnv(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			CliParamsWithEnv(tt.args.cliParams)
+			UpdateCliParamsWithEnv(tt.args.cliParams)
 		})
 	}
 }

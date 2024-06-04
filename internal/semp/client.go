@@ -56,6 +56,14 @@ type Client struct {
 	rateLimiter        <-chan time.Time
 }
 
+const (
+	DefaultRetryMinInterval = 3 * time.Second
+	DefaultRetryMaxInterval = 30 * time.Second
+	DefaultRequestTimeout   = time.Minute
+	DefaultRequestInterval  = 100 * time.Millisecond
+	DefaultRetries          = 10
+)
+
 var Cookies = map[string]*http.Cookie{}
 
 type Option func(*Client)
