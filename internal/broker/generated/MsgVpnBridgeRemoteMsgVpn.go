@@ -187,7 +187,6 @@ func init() {
 				TerraformName:       "remote_msg_vpn_interface",
 				MarkdownDescription: "The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remote_msg_vpn_location` must not be a virtual router name.",
 				Identifying:         true,
-				Required:            true,
 				RequiresReplace:     true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
