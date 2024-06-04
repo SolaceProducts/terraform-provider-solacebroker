@@ -439,7 +439,6 @@ resource "solacebroker_msg_vpn_bridge_remote_msg_vpn" "msg_vpn_bridge_remote_msg
   msg_vpn_name                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   bridge_name                   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
   bridge_virtual_router         = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
-  remote_msg_vpn_interface      = ""
   remote_msg_vpn_location       = "192.168.1.1:1234"
   remote_msg_vpn_name           = "default"
   client_username               = "test"
