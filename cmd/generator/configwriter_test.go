@@ -29,13 +29,9 @@ func TestGenerateTerraformFile(t *testing.T) {
 		{
 			"CanGenerateFile",
 			args{terraformObjectInfo: &ObjectInfo{
-				Registry:        "",
-				BrokerURL:       "http://localhost:8080",
-				Username:        "admin",
-				Password:        "admin",
-				BearerToken:     "",
-				FileName:        "/tmp/somefile.tf",
-				BrokerResources: []map[string]string{}},
+				BasicAuthentication: true,
+				FileName:            "/tmp/somefile.tf",
+				BrokerResources:     []map[string]string{}},
 			},
 			false,
 		},

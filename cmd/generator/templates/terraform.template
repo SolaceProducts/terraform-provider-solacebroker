@@ -1,4 +1,3 @@
-
 terraform {
   required_providers {
     solacebroker = {
@@ -7,10 +6,38 @@ terraform {
   }
 }
 
+variable "broker_url" {
+  type = string
+  description = "The URL of the Solace broker."
+}
+
+{{- if .BasicAuthentication}}
+
+variable "broker_username" {
+  type = string
+  description = "The management username of the Solace broker."
+}
+
+variable "broker_password" {
+  type = string
+  description = "The management password of the Solace broker."
+}
+{{- else}}
+
+variable "broker_bearer_token" {
+  type = string
+  description = "The management bearer token of the Solace broker."
+}
+{{- end}}
+
 provider "solacebroker" {
-  # username       = "admin"                 # This is a placeholder.
-  # password       = "admin"                 # This is a placeholder.
-  url            = "{{.BrokerURL}}"
+  url            = var.broker_url
+{{- if .BasicAuthentication}}
+  username       = var.broker_username
+  password       = var.broker_password
+{{- else}}
+  bearer_token   = var.broker_bearer_token
+{{- end}}
 }
 
 {{range $key,$value:= .Variables -}}

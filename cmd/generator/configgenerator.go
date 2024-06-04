@@ -17,7 +17,6 @@ package generator
 
 import (
 	"context"
-	"os"
 	"path"
 	"regexp"
 	"strings"
@@ -43,14 +42,10 @@ type VariableConfig struct {
 }
 
 type ObjectInfo struct {
-	Registry        string
-	BrokerURL       string
-	Username        string
-	Password        string
-	BearerToken     string
-	FileName        string
-	BrokerResources []map[string]string
-	Variables       map[string]VariableConfig
+	BasicAuthentication bool
+	FileName            string
+	BrokerResources     []map[string]string
+	Variables           map[string]VariableConfig
 }
 
 var BrokerObjectRelationship = map[BrokerObjectType][]BrokerObjectType{}
@@ -82,16 +77,7 @@ func GenerateAll(cliParams CliParams, context context.Context, cliClient *semp.C
 	object := &ObjectInfo{}
 	object.BrokerResources = resourcesToFormattedHCL(brokerResources)
 	object.Variables = variables
-	registry, ok := os.LookupEnv("SOLACEBROKER_REGISTRY_OVERRIDE")
-	if !ok {
-		registry = "registry.terraform.io"
-	}
-	object.Registry = registry
-	// TODO: update here with variables
-	object.BrokerURL = *cliParams.Url
-	object.Username = *cliParams.Username
-	object.Password = *cliParams.Password
-	object.BearerToken = *cliParams.Bearer_token
+	object.BasicAuthentication = (*cliParams.Username != "" && *cliParams.Bearer_token == "")
 	object.FileName = fileName
 	LogCLIInfo("Found all resources. Writing file " + fileName)
 
