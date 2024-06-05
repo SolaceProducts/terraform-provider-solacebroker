@@ -14,8 +14,8 @@ You can [locate](https://terra-farm.github.io/main/installation.html) the provid
 
 You should review the generated configuration for the following:
 
-* The provider block values in the generated configuration (URL, username, etc.) are exposed via Terraform input variables. Some write-only and related attributes may also be referenced by variables. It is recommended to check the variables created by the generator: you will need to assign value to those variables when applying the configuration or Terraform will prompt for the variable value.
-* Some optional write-only attributes that cannot be determined by the generator if they were used, are omitted from the generated configuration. You may need to add them manually.
+* The provider block values in the generated configuration (URL, username, etc.) are exposed via Terraform input variables. Some write-only and related attribute values may also be assigned from input variables. It is recommended to check the variables created by the generator: you will need to assign value to those variables when applying the configuration or Terraform will prompt for the variable value.
+* Some optional write-only attributes that cannot be determined by the generator if they were configured, are omitted from the generated configuration. You may need to add them manually.
 * Default resources may be present that you can omit.
 * It may be required to add a "depends_on" meta-argument between generated objects. Refer to the "System provisioned objects" section.
 * The generator uses a naming scheme for the resources. You can update this by manually replacing the generated names.
@@ -25,7 +25,7 @@ You should review the generated configuration for the following:
 `<binary> generate [flags] <terraform resource address> <provider-specific identifier> <filename>`
 
 * `<binary>` is the broker provider binary.
-* `[flags]` are the [supported parameters](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs/guides/config-generator#supported-parameters), which mirror the [configuration options for the provider object](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#schema), for example `--url=https://localhost:1943`. Parameters can also be set via environment variables, for example through setting `SOLACEBROKER_URL`.
+* `[flags]` are the [supported parameters](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs/guides/config-generator#supported-parameters), which mirror the [configuration options for the provider object](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#schema), for example `--url=https://localhost:1943`. Parameters can alternatively be set via environment variables, for this example through setting `SOLACEBROKER_URL`.
 * `<terraform resource address>` is the address of the specified object instance in the generated configuration, in the form of `<resource_type>.<resource_name>` (for example `solacebroker_msg_vpn.myvpn`). 
 * `<provider-specific identifier>` is the import identifier of the specified object instance as in the Terraform Import command. The import identifier is available from the documentation of each resource type.
 * `<filename>` is the name of the generated file.
@@ -40,7 +40,7 @@ This will generate the configuration for queue `test` in message VPN `default`, 
 
 ### Supported parameters
 
-The following parameters can be set as flags or environment variables:
+The following parameters can be set as flags or environment variables (flags take precedence if both defined):
 
 | Parameter                      | Required | Flag                  | Env var                      | Default |
 |------------------------------- |-----------|-----------------------|------------------------------|---------|
@@ -56,13 +56,13 @@ The following parameters can be set as flags or environment variables:
 | retry-max-interval | No     | --retry-max-interval   | SOLACEBROKER_RETRY_MAX_INTERVAL | 30s |
 | skip-api-check    | No        | --skip-api-check      | SOLACEBROKER_SKIP_API_CHECK | false    |
 
-Only one authentication method can be used at a time: either bearer-token or username/password.
+Note1: Only one authentication method can be used at a time: either bearer-token or username/password.
 
 ## Attribute generation
 
 For each object, all attributes will be generated as attributes on the corresponding resource with the exception of:
 * attributes that are at the default value (as per the broker version corresponding to the broker provider)
-* write-only attributes that cannot be determined if used (not coupled with another non write-only attribute)
+* write-only attributes that cannot be determined if they were configured (not coupled with another non write-only attribute)
 
 Write-only attributes that are coupled with another non write-only attribute will be generated as variable references. Variables for coupled attributes that are not write-only will have a commented-out default value with the value of the attribute, which you can choose to uncomment. Having no default means that Terraform will prompt for the variable value.
 
@@ -70,7 +70,7 @@ Write-only attributes that are coupled with another non write-only attribute wil
 
 System provisioned broker objects are created as a side-effect of creating other objects. These other objects are referred to as "parent object". The generator is attempting to recognize system provisioned objects and omit them from the configuration or add a warning comment, as direct creation of such objects will fail.
 
-If an object's attribute is referencing a possible system-provisioned object, there may be a conflict at apply-time if the referenced object has not yet been created. The generator will add a comment when recognizing such references and it may be necessary to add a "depends_on" meta-argument between generated objects to ensure proper create sequence.
+If an object's attribute is referencing a possible system-provisioned object, there may be a conflict at apply-time if the referenced object has not yet been created. The generator will add a comment when recognizing such references and it may be necessary to add a "depends_on" meta-argument between the referencoing and the parent objects to ensure proper create sequence.
 
 ## Troubleshooting
 
