@@ -492,7 +492,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "queueNameFilter",
 				TerraformName:       "queue_name_filter",
-				MarkdownDescription: "A pattern used to determine which Queues use settings from this Template. Two different wildcards can be used in the pattern: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "A pattern used to determine which Queues use settings from this Template. Two different wildcards can be used in the pattern: * and &gt;. Similar to topic filters or subscription patterns, a &gt; matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A &gt; is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

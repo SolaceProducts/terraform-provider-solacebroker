@@ -85,4 +85,4 @@ For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` e
 
 # Release Notes and History
 
-For detailed release notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebrokerappliance/releases).
+For detailed release notes and release history, refer to the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebroker/releases).

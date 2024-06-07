@@ -28,10 +28,10 @@ import (
 
 func init() {
 	info := broker.EntityInputs{
-		TerraformName:       "msg_vpn_proxy",
-		MarkdownDescription: "proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_basic_password||x|x\nmsg_vpn_name|x||\nproxy_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
+		TerraformName:       "proxy",
+		MarkdownDescription: "proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a OAuth Provider, select the proxy by name in the configuration for that object.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_basic_password||x|x\nproxy_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.41.",
 		ObjectType:          broker.StandardObject,
-		PathTemplate:        "/msgVpns/{msgVpnName}/proxies/{proxyName}",
+		PathTemplate:        "/proxies/{proxyName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
@@ -97,23 +97,6 @@ func init() {
 					stringvalidator.RegexMatches(regexp.MustCompile("^([0-9a-zA-Z\\-\\.]*|([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|([0-9a-fA-F]{1,4}:){1,7}:|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|:((:[0-9a-fA-F]{1,4}){1,7}|:)|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])$"), ""),
 				},
 				Default: "",
-			},
-			{
-				BaseType:            broker.String,
-				SempName:            "msgVpnName",
-				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN.",
-				Identifying:         true,
-				Required:            true,
-				ReadOnly:            true,
-				RequiresReplace:     true,
-				Type:                types.StringType,
-				TerraformType:       tftypes.String,
-				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
-				StringValidators: []validator.String{
-					stringvalidator.LengthBetween(1, 32),
-					stringvalidator.RegexMatches(regexp.MustCompile("^[^*?]+$"), ""),
-				},
 			},
 			{
 				BaseType:            broker.Int64,

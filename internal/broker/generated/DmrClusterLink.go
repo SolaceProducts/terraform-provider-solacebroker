@@ -271,6 +271,32 @@ func init() {
 				Default: 256,
 			},
 			{
+				BaseType:            broker.Int64,
+				SempName:            "connectionRetryCount",
+				TerraformName:       "connection_retry_count",
+				MarkdownDescription: "The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.41.",
+				Type:                types.Int64Type,
+				TerraformType:       tftypes.Number,
+				Converter:           broker.IntegerConverter{},
+				Int64Validators: []validator.Int64{
+					int64validator.Between(0, 255),
+				},
+				Default: 0,
+			},
+			{
+				BaseType:            broker.Int64,
+				SempName:            "connectionRetryDelay",
+				TerraformName:       "connection_retry_delay",
+				MarkdownDescription: "The number of seconds the broker waits for the bridge connection to be established before attempting a new connection. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`. Available since SEMP API version 2.41.",
+				Type:                types.Int64Type,
+				TerraformType:       tftypes.Number,
+				Converter:           broker.IntegerConverter{},
+				Int64Validators: []validator.Int64{
+					int64validator.Between(0, 255),
+				},
+				Default: 3,
+			},
+			{
 				BaseType:            broker.String,
 				SempName:            "dmrClusterName",
 				TerraformName:       "dmr_cluster_name",

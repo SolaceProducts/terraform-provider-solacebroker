@@ -9,6 +9,7 @@ description: |-
   authentication_basic_password||x|x
   authentication_client_cert_content||x|x
   authentication_client_cert_password||x|
+  authentication_kerberos_keytab_content||x|
   authentication_oauth_client_secret||x|x
   authentication_scram_password||x|x
   kafka_sender_name|x||
@@ -27,6 +28,7 @@ Attribute|Identifying|Write-Only|Opaque
 authentication_basic_password||x|x
 authentication_client_cert_content||x|x
 authentication_client_cert_password||x|
+authentication_kerberos_keytab_content||x|
 authentication_oauth_client_secret||x|x
 authentication_scram_password||x|x
 kafka_sender_name|x||
@@ -51,6 +53,9 @@ This has been available since SEMP API version 2.36.
 ### Read-Only
 
 - `authentication_basic_username` (String) The username the Kafka Sender uses to login to the remote Kafka broker. To be used when authentication_scheme is "basic". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_kerberos_keytab_file_name` (String) The name of this User Principal's keytab file. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`. Available since SEMP API version 2.40.
+- `authentication_kerberos_service_name` (String) The Kerberos service name of the remote Kafka broker, not including /hostname@REALM. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.40.
+- `authentication_kerberos_user_principal_name` (String) The Kerberos user principal name of the Kafka Sender. This must include the @&lt;REALM&gt; suffix. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`. Available since SEMP API version 2.40.
 - `authentication_oauth_client_id` (String) The OAuth client ID. To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `authentication_oauth_client_scope` (String) The OAuth scope. To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `authentication_oauth_client_token_endpoint` (String) The OAuth token endpoint URL that the Kafka Sender will use to request a token for login to the Kafka broker. Must begin with "https". To be used when authentication_scheme is "oauth-client". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
@@ -61,6 +66,7 @@ This has been available since SEMP API version 2.36.
 "basic" - Basic Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.
 "scram" - Salted Challenge Response Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.
 "client-certificate" - Client Certificate Authentication. Used with Kafka broker SSL listener ports.
+"kerberos" - Kerberos Authentication.
 "oauth-client" - Oauth Authentication. Used with Kafka broker SASL_SSL listener ports.
 </pre>
 - `authentication_scram_hash` (String) The hash used for SCRAM authentication. To be used when authentication_scheme is "scram". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sha-512"`. The allowed values and their meaning are:
