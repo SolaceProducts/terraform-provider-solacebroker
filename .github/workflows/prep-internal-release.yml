@@ -85,15 +85,12 @@ jobs:
           sed -i "s/productName=.*$/productName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           sed -i "s/projectName=.*$/projectName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           cat ci/whitesource/whitesource-agent.config | grep productVersion
-
-      - name: Run Whitesource Action to update licenses
-        uses: SolaceDev/Mend-Scan-GHA@v1.0.0
-        with:
-          wssURL: https://saas.whitesourcesoftware.com/agent
-          apiKey: ${{ secrets.WSS_API_KEY }}
-          productName: ${{ github.event.repository.name }}
-          projectName: ${{ github.event.repository.name }}
-          configFile: 'ci/whitesource/whitesource-agent.config'
+          curl https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar --output /ci/whitesource/wss-unified-agent.jar
+          export WS_APIKEY="${{ secrets.WSS_API_KEY }}"
+          export WS_WSS_URL="https://saas.whitesourcesoftware.com/agent"
+          export WS_PRODUCTNAME="${{ github.event.repository.name }}"
+          export WS_PROJECTNAME="${{ github.event.repository.name }}"
+          java -jar ci/whitesource/wss-unified-agent.jar -c ci/whitesource/whitesource-agent.config -d .
 
       - name: Create the release branch
         uses: peterjgrainger/action-create-branch@v2.4.0
