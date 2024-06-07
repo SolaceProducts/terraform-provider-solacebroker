@@ -6,15 +6,16 @@ description: |-
   A Kafka Sender sends messages to a Kafka Cluster.
   Attribute|Identifying|Write-Only|Opaque
   :---|:---:|:---:|:---:
-  authenticationbasicpassword||x|x
-  authenticationclientcertcontent||x|x
-  authenticationclientcertpassword||x|
-  authenticationoauthclientsecret||x|x
-  authenticationscrampassword||x|x
-  kafkasendername|x||
-  msgvpn_name|x||
+  authentication_basic_password||x|x
+  authentication_client_cert_content||x|x
+  authentication_client_cert_password||x|
+  authentication_oauth_client_secret||x|x
+  authentication_scram_password||x|x
+  kafka_sender_name|x||
+  msg_vpn_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
+  The import identifier for this resource is {msgVpnName}/{kafkaSenderName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_kafka_sender (Resource)
@@ -37,6 +38,8 @@ msg_vpn_name|x||
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.36.
+
+The import identifier for this resource is `{msgVpnName}/{kafkaSenderName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

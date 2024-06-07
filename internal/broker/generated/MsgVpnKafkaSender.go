@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "A Kafka Sender sends messages to a Kafka Cluster.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_basic_password||x|x\nauthentication_client_cert_content||x|x\nauthentication_client_cert_password||x|\nauthentication_oauth_client_secret||x|x\nauthentication_scram_password||x|x\nkafka_sender_name|x||\nmsg_vpn_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaSenders/{kafkaSenderName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

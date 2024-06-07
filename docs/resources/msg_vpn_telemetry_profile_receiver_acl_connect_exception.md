@@ -6,11 +6,12 @@ description: |-
   A Receiver ACL Connect Exception is an exception to the default action to take when a receiver connects to the broker. Exceptions must be expressed as an IP address/netmask in CIDR form.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
-  receiveraclconnectexceptionaddress|x
-  telemetryprofilename|x
+  msg_vpn_name|x
+  receiver_acl_connect_exception_address|x
+  telemetry_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
+  The import identifier for this resource is {msgVpnName}/{telemetryProfileName}/{receiverAclConnectExceptionAddress}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile_receiver_acl_connect_exception (Resource)
@@ -29,6 +30,8 @@ telemetry_profile_name|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.31.
+
+The import identifier for this resource is `{msgVpnName}/{telemetryProfileName}/{receiverAclConnectExceptionAddress}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

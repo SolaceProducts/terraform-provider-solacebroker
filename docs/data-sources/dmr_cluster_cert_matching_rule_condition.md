@@ -6,7 +6,7 @@ description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
   Attribute|Identifying
   :---|:---:
-  dmrclustername|x
+  dmr_cluster_name|x
   rule_name|x
   source|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.

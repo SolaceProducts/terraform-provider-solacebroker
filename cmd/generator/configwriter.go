@@ -13,7 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package terraform
+package generator
 
 import (
 	"bytes"
@@ -49,8 +49,7 @@ func GenerateTerraformFile(terraformObjectInfo *ObjectInfo) error {
 	var codeStream bytes.Buffer
 	err := terraformTemplate.Execute(&codeStream, terraformObjectInfo)
 	if err != nil {
-		LogCLIError("\nError: Templating error : " + err.Error() + "\n\n")
-		os.Exit(1)
+		return err
 	}
 	return os.WriteFile(terraformObjectInfo.FileName, codeStream.Bytes(), 0664)
 }

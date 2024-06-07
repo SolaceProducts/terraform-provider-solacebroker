@@ -18,6 +18,7 @@ package broker
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -25,6 +26,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/provider/schema"
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	"github.com/hashicorp/terraform-plugin-go/tftypes"
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 )
 
@@ -95,6 +97,20 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 }
 
 func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	// Enable lazy configuration of the provider to handle it gracefully if configuration is not complete
+	configValues := map[string]tftypes.Value{}
+	err := req.Config.Raw.As(&configValues)
+	if err != nil {
+		return
+	}
+	// Iterate over the configuration values and check if any of them is not known
+	for key, value := range configValues {
+		if !value.IsKnown() {
+			tflog.Info(ctx, fmt.Sprintf("Configuration has at least one paramter '%s' with unknown value, skipping configuration for now", key))
+			return
+		}
+	}
+	// At this point all params all known (even if not undefined, which is not the same as unknown)
 	// Retrieve provider data from configuration
 	var config providerData
 	diags := req.Config.Get(ctx, &config)
@@ -102,6 +118,7 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	if resp.Diagnostics.HasError() {
 		return
 	}
+	// Validate the provider configuration
 	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
 	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
 	tflog.Debug(ctx, "Creating SEMP client")

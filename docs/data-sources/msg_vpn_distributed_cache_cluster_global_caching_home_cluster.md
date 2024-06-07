@@ -6,10 +6,10 @@ description: |-
   A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
   Attribute|Identifying
   :---|:---:
-  cachename|x
-  clustername|x
-  homeclustername|x
-  msgvpnname|x
+  cache_name|x
+  cluster_name|x
+  home_cluster_name|x
+  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---

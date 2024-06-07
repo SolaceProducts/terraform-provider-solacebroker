@@ -32,7 +32,7 @@ func init() {
 		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nclient_secret||x|x\noauth_profile_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

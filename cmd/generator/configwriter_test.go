@@ -13,7 +13,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-package terraform
+package generator
 
 import "testing"
 
@@ -29,13 +29,9 @@ func TestGenerateTerraformFile(t *testing.T) {
 		{
 			"CanGenerateFile",
 			args{terraformObjectInfo: &ObjectInfo{
-				Registry:        "",
-				BrokerURL:       "http://localhost:8080",
-				Username:        "admin",
-				Password:        "admin",
-				BearerToken:     "",
-				FileName:        "/tmp/somefile.tf",
-				BrokerResources: []map[string]string{}},
+				BasicAuthentication: true,
+				FileName:            "/tmp/somefile.tf",
+				BrokerResources:     []map[string]string{}},
 			},
 			false,
 		},

@@ -13,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.21"
+          go-version: "1.22"
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -28,14 +28,14 @@ jobs:
       - name: Checkout generator
         uses: actions/checkout@v4
         with:
-          repository: SolaceDev/broker-terraform-provider-generator
+          repository: SolaceDev/broker-terraform-code-generator
           token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
-          path: broker-terraform-provider-generator
-          ref: "v0.2.0"
+          path: broker-terraform-code-generator
+          ref: "main"
 
       - name: Build and install generator
         run: |
-          pushd broker-terraform-provider-generator
+          pushd broker-terraform-code-generator
           go mod tidy
           go install .
           ls ~/go/bin
@@ -48,7 +48,7 @@ jobs:
           BASE=`pwd`
           pushd internal/broker/generated
           rm ./*
-          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-provider-generator all
+          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-code-generator software-provider all
           popd
 
       - name: Build provider
@@ -76,7 +76,7 @@ jobs:
         id: check-changed-files
         with:
           files: |
-            !broker-terraform-provider-generator
+            !broker-terraform-code-generator
 
       - name: Run step only when any of the above files change.
         if: steps.check-changed-files.outputs.files_changed == 'true'
@@ -90,7 +90,7 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
           message: 'Updating generated source'
-          add: ". ':!broker-terraform-provider-generator'"
+          add: ". ':!broker-terraform-code-generator'"
           new_branch: GeneratedSourceUpdates-${{ github.ref_name }}
 
       - name: Create pull request

@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\nremote_node_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.11.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/dmrBridges/{remoteNodeName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

@@ -6,9 +6,9 @@ description: |-
   One or more Queue Subscriptions can be added to a durable queue so that Guaranteed messages published to matching topics are also delivered to and spooled by the queue.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
-  queuename|x
-  subscriptiontopic|x
+  msg_vpn_name|x
+  queue_name|x
+  subscription_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---

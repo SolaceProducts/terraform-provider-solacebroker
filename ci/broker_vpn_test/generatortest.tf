@@ -649,7 +649,7 @@ resource "solacebroker_msg_vpn_queue" "msg_vpn_queue" {
   max_msg_spool_usage                           = 9999
   max_redelivery_count                          = 9
   max_ttl                                       = 9
-  owner                                         = "test"
+  owner                                         = "#kafka/tx/test"
   partition_count                               = 1
   partition_rebalance_delay                     = 6
   partition_rebalance_max_handoff_time          = 4

@@ -14,9 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v5
         with:
-          go-version: "1.21"
+          go-version: "1.22"
 
       - name: Checkout the code
         uses: actions/checkout@v2
@@ -85,15 +85,12 @@ jobs:
           sed -i "s/productName=.*$/productName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           sed -i "s/projectName=.*$/projectName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           cat ci/whitesource/whitesource-agent.config | grep productVersion
-
-      - name: Run Whitesource Action to update licenses
-        uses: SolaceDev/Mend-Scan-GHA@v1.0.0
-        with:
-          wssURL: https://saas.whitesourcesoftware.com/agent
-          apiKey: ${{ secrets.WSS_API_KEY }}
-          productName: ${{ github.event.repository.name }}
-          projectName: ${{ github.event.repository.name }}
-          configFile: 'ci/whitesource/whitesource-agent.config'
+          curl https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar --output /ci/whitesource/wss-unified-agent.jar
+          export WS_APIKEY="${{ secrets.WSS_API_KEY }}"
+          export WS_WSS_URL="https://saas.whitesourcesoftware.com/agent"
+          export WS_PRODUCTNAME="${{ github.event.repository.name }}"
+          export WS_PROJECTNAME="${{ github.event.repository.name }}"
+          java -jar ci/whitesource/wss-unified-agent.jar -c ci/whitesource/whitesource-agent.config -d .
 
       - name: Create the release branch
         uses: peterjgrainger/action-create-branch@v2.4.0
@@ -110,20 +107,20 @@ jobs:
       #   with:
       #     branch: ${{ env.NEXT_DEV_VERSION }}
 
-      - name: Create next dev branch
-        if: env.NEXT_DEV_VERSION != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git checkout -b ${{ env.NEXT_DEV_VERSION }}
-          VERSION=$(echo "${{ env.NEXT_DEV_VERSION }}" | cut -d'v' -f2)
-          sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
-          git commit -a -m "Uprev'd version to ${VERSION}"
-          git push --set-upstream origin ${{ env.NEXT_DEV_VERSION }}
+      # - name: Create next dev branch
+      #   if: env.NEXT_DEV_VERSION != ''
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     git checkout -b ${{ env.NEXT_DEV_VERSION }}
+      #     VERSION=$(echo "${{ env.NEXT_DEV_VERSION }}" | cut -d'v' -f2)
+      #     sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
+      #     git commit -a -m "Uprev'd version to ${VERSION}"
+      #     git push --set-upstream origin ${{ env.NEXT_DEV_VERSION }}
 
-      - name: Delete last dev branch
-        if: env.NEXT_DEV_VERSION != ''
-        uses: dawidd6/action-delete-branch@v3
-        with:
-          github_token: ${{github.token}}
-          branches: "${{ github.ref_name }}"
+      # - name: Delete last dev branch
+      #   if: env.NEXT_DEV_VERSION != ''
+      #   uses: dawidd6/action-delete-branch@v3
+      #   with:
+      #     github_token: ${{github.token}}
+      #     branches: "${{ github.ref_name }}"

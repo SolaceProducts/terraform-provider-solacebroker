@@ -6,9 +6,9 @@ description: |-
   A Cache Cluster is a collection of one or more Cache Instances that subscribe to exactly the same topics. Cache Instances are grouped together in a Cache Cluster for the purpose of fault tolerance and load balancing. As published messages are received, the message broker message bus sends these live data messages to the Cache Instances in the Cache Cluster. This enables client cache requests to be served by any of Cache Instances in the Cache Cluster.
   Attribute|Identifying
   :---|:---:
-  cachename|x
-  clustername|x
-  msgvpnname|x
+  cache_name|x
+  cluster_name|x
+  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -45,13 +45,13 @@ This has been available since SEMP API version 2.11.
 
 - `deliver_to_one_override_enabled` (Boolean) Enable or disable deliver-to-one override for the Cache Cluster. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `enabled` (Boolean) Enable or disable the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `event_data_byte_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_data_byte_rate_threshold))
-- `event_data_msg_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_data_msg_rate_threshold))
-- `event_max_memory_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_max_memory_threshold))
-- `event_max_topics_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_max_topics_threshold))
-- `event_request_queue_depth_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_request_queue_depth_threshold))
-- `event_request_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_request_rate_threshold))
-- `event_response_rate_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_response_rate_threshold))
+- `event_data_byte_rate_threshold` (Attributes) The thresholds for the cached data incoming byte rate event, in bytes per second. (see [below for nested schema](#nestedatt--event_data_byte_rate_threshold))
+- `event_data_msg_rate_threshold` (Attributes) The thresholds for the cached data incoming message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_data_msg_rate_threshold))
+- `event_max_memory_threshold` (Attributes) The thresholds for the memory usage per instance event, relative to `max_memory`. (see [below for nested schema](#nestedatt--event_max_memory_threshold))
+- `event_max_topics_threshold` (Attributes) The thresholds for the topics per instance event, relative to `max_topic_count`. (see [below for nested schema](#nestedatt--event_max_topics_threshold))
+- `event_request_queue_depth_threshold` (Attributes) The thresholds for the request queue depth event, relative to `max_request_queue_depth`. (see [below for nested schema](#nestedatt--event_request_queue_depth_threshold))
+- `event_request_rate_threshold` (Attributes) The thresholds for the cache request message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_request_rate_threshold))
+- `event_response_rate_threshold` (Attributes) The thresholds for the cache response message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_response_rate_threshold))
 - `global_caching_enabled` (Boolean) Enable or disable global caching for the Cache Cluster. When enabled, the Cache Instances will fetch topics from remote Home Cache Clusters when requested, and subscribe to those topics to cache them locally. When disabled, the Cache Instances will remove all subscriptions and cached messages for topics from remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `global_caching_heartbeat` (Number) The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
 - `global_caching_topic_lifetime` (Number) The topic lifetime, in seconds. If no client requests are received for a given global topic over the duration of the topic lifetime, then the Cache Instance will remove the subscription and cached messages for that topic. A value of 0 disables aging. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3600`.
@@ -67,8 +67,8 @@ This has been available since SEMP API version 2.11.
 
 Read-Only:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `187500000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `250000000`.
 
 
 <a id="nestedatt--event_data_msg_rate_threshold"></a>
@@ -76,8 +76,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `36000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `48000`.
 
 
 <a id="nestedatt--event_max_memory_threshold"></a>
@@ -85,8 +85,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--event_max_topics_threshold"></a>
@@ -94,8 +94,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--event_request_queue_depth_threshold"></a>
@@ -103,8 +103,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--event_request_rate_threshold"></a>
@@ -112,8 +112,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `1000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `25000`.
 
 
 <a id="nestedatt--event_response_rate_threshold"></a>
@@ -121,5 +121,5 @@ Read-Only:
 
 Read-Only:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `1000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `80000`.

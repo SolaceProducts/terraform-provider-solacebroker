@@ -30,7 +30,7 @@ func init() {
 		MarkdownDescription: "The API Description object provides metadata about the SEMP API.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.2.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/api",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,

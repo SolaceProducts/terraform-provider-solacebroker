@@ -31,7 +31,7 @@ func init() {
 		MarkdownDescription: "Session and access level information about the user accessing the SEMP API.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.2.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/user",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
@@ -46,17 +46,6 @@ func init() {
 				StringValidators: []validator.String{
 					stringvalidator.OneOf("admin", "none", "read-only", "read-write"),
 				},
-			},
-			{
-				BaseType:            broker.Bool,
-				SempName:            "globalDmrBridgeAccessEnabled",
-				TerraformName:       "global_dmr_bridge_access_enabled",
-				MarkdownDescription: "Indicates whether global DMR Bridge access is enabled for the User. This is only for Solace internal use. This attribute may not be returned in a GET. Available since (hidden in public API).",
-				ReadOnly:            true,
-				RequiresReplace:     true,
-				Type:                types.BoolType,
-				TerraformType:       tftypes.Bool,
-				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
 			},
 			{
 				BaseType:            broker.Bool,

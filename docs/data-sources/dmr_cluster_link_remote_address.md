@@ -6,9 +6,9 @@ description: |-
   Each Remote Address, consisting of a FQDN or IP address and optional port, is used to connect to the remote node for this Link. Up to 4 addresses may be provided for each Link, and will be tried on a round-robin basis.
   Attribute|Identifying
   :---|:---:
-  dmrclustername|x
-  remoteaddress|x
-  remotenode_name|x
+  dmr_cluster_name|x
+  remote_address|x
+  remote_node_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---

@@ -6,8 +6,8 @@ description: |-
   Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
-  telemetryprofilename|x
+  msg_vpn_name|x
+  telemetry_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
 ---
@@ -40,8 +40,8 @@ This has been available since SEMP API version 2.31.
 
 ### Read-Only
 
-- `queue_event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_bind_count_threshold))
-- `queue_event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_msg_spool_usage_threshold))
+- `queue_event_bind_count_threshold` (Attributes) The thresholds for the Queue consumer flows event, relative to `queue_max_bind_count`. (see [below for nested schema](#nestedatt--queue_event_bind_count_threshold))
+- `queue_event_msg_spool_usage_threshold` (Attributes) The thresholds for the message spool usage event of the Queue, relative to `queue_max_msg_spool_usage`. (see [below for nested schema](#nestedatt--queue_event_msg_spool_usage_threshold))
 - `queue_max_bind_count` (Number) The maximum number of consumer flows that can bind to the Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `queue_max_msg_spool_usage` (Number) The maximum message spool usage allowed by the Queue, in megabytes (MB). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `800000`.
 - `receiver_acl_connect_default_action` (String) The default action to take when a receiver client connects to the broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
@@ -51,7 +51,7 @@ This has been available since SEMP API version 2.31.
 "disallow" - Disallow client connection unless an exception is found for it.
 </pre>
 - `receiver_enabled` (Boolean) Enable or disable the ability for receiver clients to consume from the #telemetry queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `receiver_event_connection_count_per_client_username_threshold` (Attributes) (see [below for nested schema](#nestedatt--receiver_event_connection_count_per_client_username_threshold))
+- `receiver_event_connection_count_per_client_username_threshold` (Attributes) The thresholds for the receiver connection count event, relative to `receiver_max_connection_count_per_client_username`. (see [below for nested schema](#nestedatt--receiver_event_connection_count_per_client_username_threshold))
 - `receiver_max_connection_count_per_client_username` (Number) The maximum number of receiver connections per Client Username. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `receiver_tcp_congestion_window_size` (Number) The TCP initial congestion window size for clients using the Client Profile, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2`.
 - `receiver_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to a client using the Client Profile before declaring that it is not available. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5`.
@@ -67,9 +67,9 @@ This has been available since SEMP API version 2.31.
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -78,9 +78,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `1`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `2`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -89,7 +89,7 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.

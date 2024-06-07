@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthentication_basic_password||x||x\nauthentication_client_cert_content||x||x\nauthentication_client_cert_password||x||\ndmr_cluster_name|x|||\ntls_server_cert_enforce_trusted_common_name_enabled|||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.11.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/dmrClusters/{dmrClusterName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.Bool,

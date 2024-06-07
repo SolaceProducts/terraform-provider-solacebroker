@@ -6,9 +6,9 @@ description: |-
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
   Attribute|Identifying|Write-Only|Opaque
   :---|:---:|:---:|:---:
-  authenticationbasicpassword||x|x
-  dmrclustername|x||
-  remotenodename|x||
+  authentication_basic_password||x|x
+  dmr_cluster_name|x||
+  remote_node_name|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -74,7 +74,7 @@ This has been available since SEMP API version 2.11.
 "remote" - The remote node initiates.
 </pre>
 - `queue_dead_msg_queue` (String) The name of the Dead Message Queue (DMQ) used by the Queue for discarded messages. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"#DEAD_MSG_QUEUE"`.
-- `queue_event_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_spool_usage_threshold))
+- `queue_event_spool_usage_threshold` (Attributes) The thresholds for the message spool usage event of the Queue, relative to `queue_max_msg_spool_usage`. (see [below for nested schema](#nestedatt--queue_event_spool_usage_threshold))
 - `queue_max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Queue. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1000000`.
 - `queue_max_msg_spool_usage` (Number) The maximum message spool usage by the Queue (quota), in megabytes (MB). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `800000`.
 - `queue_max_redelivery_count` (Number) The maximum number of times the Queue will attempt redelivery of a message prior to it being discarded or moved to the DMQ. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
@@ -101,7 +101,7 @@ This has been available since SEMP API version 2.11.
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `1`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `2`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.

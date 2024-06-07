@@ -245,11 +245,10 @@ func (r *brokerResource) findBrokerDefaults(attributes []*AttributeInfo, respons
 	return r.converter.FromTerraform(tftypes.NewValue(request.Type(), defaultValues))
 }
 
-func convert(any any) {
-	panic("unimplemented")
-}
-
 func (r *brokerResource) Schema(_ context.Context, request resource.SchemaRequest, response *resource.SchemaResponse) {
+	// Overwrite the schema version with the provider major version
+	providerMajorVersion := getProviderMajorVersion(ProviderVersion)
+	r.schema.Version = providerMajorVersion
 	response.Schema = r.schema
 }
 
@@ -480,6 +479,7 @@ func (r *brokerResource) ImportState(_ context.Context, request resource.ImportS
 				"singleton object requires empty identifier for import",
 			)
 		}
+		response.State.Raw = tftypes.NewValue(tftypes.Object{}, nil)
 		return
 	}
 	split := strings.Split(strings.ReplaceAll(request.ID, ",", "/"), "/")
@@ -534,21 +534,66 @@ func (r *brokerResource) ConfigValidators(_ context.Context) []resource.ConfigVa
 }
 
 func (r *brokerResource) UpgradeState(ctx context.Context) map[int64]resource.StateUpgrader {
-	// Placeholder for future StateUpgrader code
-	// example:
-	// if r.terraformName == "a_b_c" {
-	// 	return map[int64]resource.StateUpgrader{
-	// 		// State upgrade implementation from 0 (prior state version) to 2 (Schema.Version)
-	// 		0: {
-	// 				// Optionally, the PriorSchema field can be defined.
-	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
-	// 		},
-	// 		// State upgrade implementation from 1 (prior state version) to 2 (Schema.Version)
-	// 		1: {
-	// 				// Optionally, the PriorSchema field can be defined.
-	// 				StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) { /* ... */ },
-	// 		},
-	// 	}
-	// }
-	return nil
+	schema := r.schema
+	converter := r.converter
+	version := getProviderMajorVersion(ProviderVersion)
+	upgraders := make(map[int64]resource.StateUpgrader)
+	// new code will add upgraders for each version, starting from 0
+	// note that upgraders are the same for each version
+	for i := int64(0); i < version; i++ {
+		upgraders[i] = resource.StateUpgrader{
+			PriorSchema: &schema,
+			StateUpgrader: func(ctx context.Context, req resource.UpgradeStateRequest, resp *resource.UpgradeStateResponse) {
+				// On one side, the raw state
+				var oldStateAttributes map[string]interface{}
+				if err := json.Unmarshal(req.RawState.JSON, &oldStateAttributes); err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+				// On the other side, read same through interpreting it in the new schema - this will keep attributes that are included in the new schema
+				rawState := req.State.Raw
+				resourceData, err := converter.FromTerraform(rawState)
+				if err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+				conversionResults, err := converter.ToTerraform(resourceData)
+				if err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+				var resultsDataMap map[string]tftypes.Value
+				err = conversionResults.As(&resultsDataMap)
+				if err != nil {
+					resp.Diagnostics.AddError("State conversion failed", err.Error())
+				}
+				// iterate old state attributes and if a value is not null and the attribute is to be removed then fail the upgrade
+				for key, value := range oldStateAttributes {
+					if value != nil {
+						// try to find the key in resourceDataMap
+						data, ok := resultsDataMap[key]
+						if !ok {
+							resp.Diagnostics.AddError("State upgrade failed", fmt.Sprintf("Found deprecated state key '%s', unable to upgrade state if value is not null", key))
+						} else {
+							// if the type of value is map[string]interface{} then it is a nested object
+							if _, ok := value.(map[string]interface{}); ok {
+								var resultsDataMap2 map[string]tftypes.Value
+								err = data.As(&resultsDataMap2)
+								if err != nil {
+									resp.Diagnostics.AddError("State conversion failed", err.Error())
+								}
+								for nestedKey, val := range value.(map[string]interface{}) {
+									if val != nil {
+										_, ok := resultsDataMap2[nestedKey]
+										if !ok {
+											resp.Diagnostics.AddError("State upgrade failed", fmt.Sprintf("Found deprecated state key '%s' in nested object '%s', unable to upgrade state if value is not null", nestedKey, key))
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				resp.State.Raw = conversionResults
+			},
+		}
+	}
+	return upgraders
 }

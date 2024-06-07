@@ -6,18 +6,19 @@ description: |-
   REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
   Attribute|Identifying|Write-Only|Opaque
   :---|:---:|:---:|:---:
-  authenticationawssecretaccesskey||x|x
-  authenticationclientcertcontent||x|x
-  authenticationclientcertpassword||x|
-  authenticationhttpbasicpassword||x|x
-  authenticationhttpheadervalue||x|x
-  authenticationoauthclientsecret||x|x
-  authenticationoauthjwtsecretkey||x|x
-  msgvpnname|x||
-  restconsumername|x||
-  restdeliverypointname|x||
+  authentication_aws_secret_access_key||x|x
+  authentication_client_cert_content||x|x
+  authentication_client_cert_password||x|
+  authentication_http_basic_password||x|x
+  authentication_http_header_value||x|x
+  authentication_oauth_client_secret||x|x
+  authentication_oauth_jwt_secret_key||x|x
+  msg_vpn_name|x||
+  rest_consumer_name|x||
+  rest_delivery_point_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
+  The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}/{restConsumerName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_rest_consumer (Resource)
@@ -43,6 +44,8 @@ rest_delivery_point_name|x||
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.0.
+
+The import identifier for this resource is `{msgVpnName}/{restDeliveryPointName}/{restConsumerName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

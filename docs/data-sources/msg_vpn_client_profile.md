@@ -6,11 +6,11 @@ description: |-
   Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.
   Attribute|Identifying|Deprecated
   :---|:---:|:---:
-  allowcutthroughforwardingenabled||x
-  apiqueuemanagementcopyfromoncreatename||x
-  apitopicendpointmanagementcopyfromoncreatename||x
-  clientprofilename|x|
-  msgvpn_name|x|
+  allow_cut_through_forwarding_enabled||x
+  api_queue_management_copy_from_on_create_name||x
+  api_topic_endpoint_management_copy_from_on_create_name||x
+  client_profile_name|x|
+  msg_vpn_name|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -66,16 +66,16 @@ This has been available since SEMP API version 2.0.
 - `eliding_delay` (Number) The amount of time to delay the delivery of messages to clients using the Client Profile after the initial message has been delivered (the eliding delay interval), in milliseconds. A value of 0 means there is no delay in delivering messages to clients. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `eliding_enabled` (Boolean) Enable or disable message eliding for clients using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `eliding_max_topic_count` (Number) The maximum number of topics tracked for message eliding per client connection using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.
-- `event_client_provisioned_endpoint_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_client_provisioned_endpoint_spool_usage_threshold))
-- `event_connection_count_per_client_username_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_connection_count_per_client_username_threshold))
-- `event_egress_flow_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_egress_flow_count_threshold))
-- `event_endpoint_count_per_client_username_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_endpoint_count_per_client_username_threshold))
-- `event_ingress_flow_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_ingress_flow_count_threshold))
-- `event_service_smf_connection_count_per_client_username_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_service_smf_connection_count_per_client_username_threshold))
-- `event_service_web_connection_count_per_client_username_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_service_web_connection_count_per_client_username_threshold))
-- `event_subscription_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_subscription_count_threshold))
-- `event_transacted_session_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transacted_session_count_threshold))
-- `event_transaction_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--event_transaction_count_threshold))
+- `event_client_provisioned_endpoint_spool_usage_threshold` (Attributes) The thresholds for the message spool usage event of Queues and Topic Endpoints provisioned by clients, relative to `max_msg_spool_usage` for these Queues and Topic Endpoints. Changing these values during operation does not affect existing sessions. For provisioned durable Queues and Topic Endpoints, this value applies when initially provisioned, but can then be changed afterwards by configuring the Queue or Topic Endpoint. (see [below for nested schema](#nestedatt--event_client_provisioned_endpoint_spool_usage_threshold))
+- `event_connection_count_per_client_username_threshold` (Attributes) The thresholds for the Client Username connection count event of the Client Profile, relative to `max_connection_count_per_client_username`. (see [below for nested schema](#nestedatt--event_connection_count_per_client_username_threshold))
+- `event_egress_flow_count_threshold` (Attributes) The thresholds for the transmit flow count event of the Client Profile, relative to `max_egress_flow_count`. (see [below for nested schema](#nestedatt--event_egress_flow_count_threshold))
+- `event_endpoint_count_per_client_username_threshold` (Attributes) The thresholds for the Client Username endpoint count event of the Client Profile, relative to `max_endpoint_count_per_client_username`. (see [below for nested schema](#nestedatt--event_endpoint_count_per_client_username_threshold))
+- `event_ingress_flow_count_threshold` (Attributes) The thresholds for the receive flow count event of the Client Profile, relative to `max_ingress_flow_count`. (see [below for nested schema](#nestedatt--event_ingress_flow_count_threshold))
+- `event_service_smf_connection_count_per_client_username_threshold` (Attributes) The thresholds for the client username SMF connection count event of the Client Profile, relative to `service_smf_max_connection_count_per_client_username`. (see [below for nested schema](#nestedatt--event_service_smf_connection_count_per_client_username_threshold))
+- `event_service_web_connection_count_per_client_username_threshold` (Attributes) The thresholds for the Client Username Web Transport connection count event of the Client Profile, relative to `service_web_max_connection_count_per_client_username`. (see [below for nested schema](#nestedatt--event_service_web_connection_count_per_client_username_threshold))
+- `event_subscription_count_threshold` (Attributes) The thresholds for the subscription count event of the Client Profile, relative to `max_subscription_count`. (see [below for nested schema](#nestedatt--event_subscription_count_threshold))
+- `event_transacted_session_count_threshold` (Attributes) The thresholds for the transacted session count event of the Client Profile, relative to `max_transacted_session_count`. (see [below for nested schema](#nestedatt--event_transacted_session_count_threshold))
+- `event_transaction_count_threshold` (Attributes) The thresholds for the transaction count event of the Client Profile, relative to `max_transaction_count`. (see [below for nested schema](#nestedatt--event_transaction_count_threshold))
 - `max_connection_count_per_client_username` (Number) The maximum number of client connections per Client Username using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `max_egress_flow_count` (Number) The maximum number of transmit flows that can be created by one client using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_endpoint_count_per_client_username` (Number) The maximum number of queues and topic endpoints that can be created by clients with the same Client Username using the Client Profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
@@ -115,8 +115,8 @@ This has been available since SEMP API version 2.0.
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `18`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `25`.
 
 
 <a id="nestedatt--event_connection_count_per_client_username_threshold"></a>
@@ -124,9 +124,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -135,9 +135,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -146,9 +146,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -157,9 +157,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -168,9 +168,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -179,9 +179,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -190,9 +190,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -201,9 +201,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -212,7 +212,7 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.

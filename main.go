@@ -42,7 +42,7 @@ var (
 
 func main() {
 	if broker.SempDetail.Platform != expectedPlatform {
-		fmt.Println(fmt.Sprintf("Provider error: wrong platform SEMP API spec \"%s\" used, expected \"%s\"", broker.SempDetail.Platform, expectedPlatform))
+		fmt.Printf("Provider error: wrong platform SEMP API spec \"%s\" used, expected \"%s\"\n", broker.SempDetail.Platform, expectedPlatform)
 		os.Exit(1)
 	}
 	broker.ProviderVersion = version

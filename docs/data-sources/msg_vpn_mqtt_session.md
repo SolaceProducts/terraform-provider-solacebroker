@@ -6,9 +6,9 @@ description: |-
   An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).
   Attribute|Identifying
   :---|:---:
-  mqttsessionclientid|x
-  mqttsessionvirtualrouter|x
-  msgvpnname|x
+  mqtt_session_client_id|x
+  mqtt_session_virtual_router|x
+  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -53,9 +53,9 @@ This has been available since SEMP API version 2.1.
 - `owner` (String) The owner of the MQTT Session. For externally-created sessions this defaults to the Client Username of the connecting client. For management-created sessions this defaults to empty. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `queue_consumer_ack_propagation_enabled` (Boolean) Enable or disable the propagation of consumer acknowledgments (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.14.
 - `queue_dead_msg_queue` (String) The name of the Dead Message Queue (DMQ) used by the MQTT Session Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"#DEAD_MSG_QUEUE"`. Available since SEMP API version 2.14.
-- `queue_event_bind_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_bind_count_threshold))
-- `queue_event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_msg_spool_usage_threshold))
-- `queue_event_reject_low_priority_msg_limit_threshold` (Attributes) (see [below for nested schema](#nestedatt--queue_event_reject_low_priority_msg_limit_threshold))
+- `queue_event_bind_count_threshold` (Attributes) Thresholds for the high number of the MQTT Session Queue Consumers Event, relative to `queue_max_bind_count`. Available since SEMP API version 2.14. (see [below for nested schema](#nestedatt--queue_event_bind_count_threshold))
+- `queue_event_msg_spool_usage_threshold` (Attributes) The threshold for the Message Spool usage event of the MQTT Session Queue, relative to `queue_max_msg_spool_usage`. Available since SEMP API version 2.14. (see [below for nested schema](#nestedatt--queue_event_msg_spool_usage_threshold))
+- `queue_event_reject_low_priority_msg_limit_threshold` (Attributes) The threshold for the maximum allowed number of any priority messages queued in the MQTT Session Queue, relative to `queue_reject_low_priority_msg_limit`. Available since SEMP API version 2.14. (see [below for nested schema](#nestedatt--queue_event_reject_low_priority_msg_limit_threshold))
 - `queue_max_bind_count` (Number) The maximum number of consumer flows that can bind to the MQTT Session Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`. Available since SEMP API version 2.14.
 - `queue_max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the MQTT Session Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000`. Available since SEMP API version 2.14.
 - `queue_max_msg_size` (Number) The maximum message size allowed in the MQTT Session Queue, in bytes (B). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10000000`. Available since SEMP API version 2.14.
@@ -79,9 +79,9 @@ This has been available since SEMP API version 2.1.
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -90,9 +90,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `18`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `25`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -101,7 +101,7 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.

@@ -6,11 +6,12 @@ description: |-
   Proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
   Attribute|Identifying|Write-Only|Opaque
   :---|:---:|:---:|:---:
-  authenticationbasicpassword||x|x
-  msgvpnname|x||
+  authentication_basic_password||x|x
+  msg_vpn_name|x||
   proxy_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
+  The import identifier for this resource is {msgVpnName}/{proxyName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_proxy (Resource)
@@ -29,6 +30,8 @@ proxy_name|x||
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.36.
+
+The import identifier for this resource is `{msgVpnName}/{proxyName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

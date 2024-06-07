@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).\n\n\nAttribute|Identifying\n:---|:---:\nmqtt_session_client_id|x\nmqtt_session_virtual_router|x\nmsg_vpn_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.1.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/mqttSessions/{mqttSessionClientId},{mqttSessionVirtualRouter}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.Bool,
@@ -133,13 +133,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventBindCountThreshold",
 				TerraformName:       "queue_event_bind_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "Thresholds for the high number of the MQTT Session Queue Consumers Event, relative to `queue_max_bind_count`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -182,7 +182,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -227,13 +227,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventMsgSpoolUsageThreshold",
 				TerraformName:       "queue_event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The threshold for the Message Spool usage event of the MQTT Session Queue, relative to `queue_max_msg_spool_usage`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `18`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -276,7 +276,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `25`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -321,13 +321,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "queueEventRejectLowPriorityMsgLimitThreshold",
 				TerraformName:       "queue_event_reject_low_priority_msg_limit_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The threshold for the maximum allowed number of any priority messages queued in the MQTT Session Queue, relative to `queue_reject_low_priority_msg_limit`. Available since SEMP API version 2.14.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -370,7 +370,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,

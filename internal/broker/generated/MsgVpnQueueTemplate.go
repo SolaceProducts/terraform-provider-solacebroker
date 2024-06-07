@@ -33,7 +33,7 @@ func init() {
 		MarkdownDescription: "A Queue Template provides a mechanism for specifying the initial state for client created queues.\n\n\nAttribute|Identifying\n:---|:---:\nmsg_vpn_name|x\nqueue_template_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.14.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/queueTemplates/{queueTemplateName}",
-		Version:             0,
+		Version:             0, // Placeholder: value will be replaced in the provider code
 		Attributes: []*broker.AttributeInfo{
 			{
 				BaseType:            broker.String,
@@ -102,13 +102,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventBindCountThreshold",
 				TerraformName:       "event_bind_count_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the Queue consumer flows event, relative to `max_bind_count`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -151,7 +151,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -196,13 +196,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventMsgSpoolUsageThreshold",
 				TerraformName:       "event_msg_spool_usage_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the message spool usage event of the Queue, relative to `max_msg_spool_usage`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `18`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -245,7 +245,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `25`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -290,13 +290,13 @@ func init() {
 				BaseType:            broker.Struct,
 				SempName:            "eventRejectLowPriorityMsgLimitThreshold",
 				TerraformName:       "event_reject_low_priority_msg_limit_threshold",
-				MarkdownDescription: "",
+				MarkdownDescription: "The thresholds for the maximum allowed number of any priority messages queued in the Queue event, relative to `reject_low_priority_msg_limit`.",
 				Attributes: []*broker.AttributeInfo{
 					{
 						BaseType:            broker.Int64,
 						SempName:            "clearPercent",
 						TerraformName:       "clear_percent",
-						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.",
 						Requires:            []string{"set_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,
@@ -339,7 +339,7 @@ func init() {
 						BaseType:            broker.Int64,
 						SempName:            "setPercent",
 						TerraformName:       "set_percent",
-						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.",
+						MarkdownDescription: "The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.",
 						Requires:            []string{"clear_percent"},
 						ConflictsWith:       []string{"clear_value", "set_value"},
 						Type:                types.Int64Type,

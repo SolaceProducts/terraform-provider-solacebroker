@@ -93,7 +93,6 @@ resource "solacebroker_broker" "broker" {
   tls_standard_domain_certificate_authorities_enabled                  = false
   tls_ticket_lifetime                                                  = 1
   web_manager_allow_unencrypted_wizards_enabled                        = true
-  web_manager_customization                                            = "test"
   web_manager_redirect_http_enabled                                    = false
   web_manager_redirect_http_override_tls_port                          = 8080
 }
@@ -440,7 +439,6 @@ resource "solacebroker_msg_vpn_bridge_remote_msg_vpn" "msg_vpn_bridge_remote_msg
   msg_vpn_name                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   bridge_name                   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
   bridge_virtual_router         = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
-  remote_msg_vpn_interface      = ""
   remote_msg_vpn_location       = "192.168.1.1:1234"
   remote_msg_vpn_name           = "default"
   client_username               = "test"

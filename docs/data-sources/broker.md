@@ -6,129 +6,129 @@ description: |-
   This object contains global configuration for the message broker.
   Attribute|Write-Only|Opaque
   :---|:---:|:---:
-  tlsservercertcontent|x|x
-  tlsservercertpassword|x|
+  tls_server_cert_content|x|x
+  tls_server_cert_password|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
   :---|:---:
-  authclientcertrevocationcheckmode|global/read-only
-  configsyncauthenticationclientcertmaxchaindepth|global/read-only
-  configsyncauthenticationclientcertvalidatedateenabled|global/read-only
-  configsyncclientprofiletcpinitialcongestionwindow|global/read-only
-  configsyncclientprofiletcpkeepalivecount|global/read-only
-  configsyncclientprofiletcpkeepaliveidle|global/read-only
-  configsyncclientprofiletcpkeepaliveinterval|global/read-only
-  configsyncclientprofiletcpmaxwindow|global/read-only
-  configsyncclientprofiletcpmss|global/read-only
-  configsyncenabled|global/read-only
-  configsyncsynchronizeusernameenabled|global/read-only
-  configsynctlsenabled|global/read-only
-  guaranteedmsgingdefragmentationscheduledaylist|global/read-only
-  guaranteedmsgingdefragmentationscheduleenabled|global/read-only
-  guaranteedmsgingdefragmentationscheduletimelist|global/read-only
-  guaranteedmsgingdefragmentationthresholdenabled|global/read-only
-  guaranteedmsgingdefragmentationthresholdfragmentationpercentage|global/read-only
-  guaranteedmsgingdefragmentationthresholdmininterval|global/read-only
-  guaranteedmsgingdefragmentationthresholdusagepercentage|global/read-only
-  guaranteedmsgingenabled|global/read-only
-  guaranteedmsgingeventcacheusagethreshold.clearpercent|global/read-only
-  guaranteedmsgingeventcacheusagethreshold.clearvalue|global/read-only
-  guaranteedmsgingeventcacheusagethreshold.setpercent|global/read-only
-  guaranteedmsgingeventcacheusagethreshold.setvalue|global/read-only
-  guaranteedmsgingeventdeliveredunackedthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventdeliveredunackedthreshold.setpercent|global/read-only
-  guaranteedmsgingeventdiskusagethreshold.clearpercent|global/read-only
-  guaranteedmsgingeventdiskusagethreshold.setpercent|global/read-only
-  guaranteedmsgingeventegressflowcountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventegressflowcountthreshold.clearvalue|global/read-only
-  guaranteedmsgingeventegressflowcountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventegressflowcountthreshold.setvalue|global/read-only
-  guaranteedmsgingeventendpointcountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventendpointcountthreshold.clearvalue|global/read-only
-  guaranteedmsgingeventendpointcountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventendpointcountthreshold.setvalue|global/read-only
-  guaranteedmsgingeventingressflowcountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventingressflowcountthreshold.clearvalue|global/read-only
-  guaranteedmsgingeventingressflowcountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventingressflowcountthreshold.setvalue|global/read-only
-  guaranteedmsgingeventmsgcountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventmsgcountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventmsgspoolfilecountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventmsgspoolfilecountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventmsgspoolusagethreshold.clearpercent|global/read-only
-  guaranteedmsgingeventmsgspoolusagethreshold.clearvalue|global/read-only
-  guaranteedmsgingeventmsgspoolusagethreshold.setpercent|global/read-only
-  guaranteedmsgingeventmsgspoolusagethreshold.setvalue|global/read-only
-  guaranteedmsgingeventtransactedsessioncountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventtransactedsessioncountthreshold.clearvalue|global/read-only
-  guaranteedmsgingeventtransactedsessioncountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventtransactedsessioncountthreshold.setvalue|global/read-only
-  guaranteedmsgingeventtransactedsessionresourcecountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventtransactedsessionresourcecountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventtransactioncountthreshold.clearpercent|global/read-only
-  guaranteedmsgingeventtransactioncountthreshold.clearvalue|global/read-only
-  guaranteedmsgingeventtransactioncountthreshold.setpercent|global/read-only
-  guaranteedmsgingeventtransactioncountthreshold.setvalue|global/read-only
-  guaranteedmsgingmaxcacheusage|global/read-only
-  guaranteedmsgingmaxmsgspoolusage|global/read-only
-  guaranteedmsgingmsgspoolsyncmirroredmsgacktimeout|global/read-only
-  guaranteedmsgingmsgspoolsyncmirroredspoolfileacktimeout|global/read-only
-  guaranteedmsgingtransactionreplicationcompatibilitymode|global/read-only
-  oauthprofiledefault|global/read-only
-  serviceamqpenabled|global/read-only
-  serviceamqptlslistenport|global/read-only
-  serviceeventconnectioncountthreshold.clearpercent|global/read-only
-  serviceeventconnectioncountthreshold.clearvalue|global/read-only
-  serviceeventconnectioncountthreshold.setpercent|global/read-only
-  serviceeventconnectioncountthreshold.setvalue|global/read-only
-  servicehealthcheckenabled|global/read-only
-  servicehealthchecklistenport|global/read-only
-  servicehealthchecktlsenabled|global/read-only
-  servicehealthchecktlslistenport|global/read-only
-  servicematelinkenabled|global/read-only
-  servicematelinklistenport|global/read-only
-  servicemqttenabled|global/read-only
-  servicemsgbackboneenabled|global/read-only
-  serviceredundancyenabled|global/read-only
-  serviceredundancyfirstlistenport|global/read-only
-  serviceresteventoutgoingconnectioncountthreshold.clearpercent|global/read-only
-  serviceresteventoutgoingconnectioncountthreshold.clearvalue|global/read-only
-  serviceresteventoutgoingconnectioncountthreshold.setpercent|global/read-only
-  serviceresteventoutgoingconnectioncountthreshold.setvalue|global/read-only
-  servicerestincomingenabled|global/read-only
-  servicerestoutgoingenabled|global/read-only
-  servicesempcorsallowanyhostenabled|global/read-only
-  servicesemplegacytimeoutenabled|global/read-only
-  servicesempplaintextenabled|global/read-only
-  servicesempplaintextlistenport|global/read-only
-  servicesempsessionidletimeout|global/read-only
-  servicesempsessionmaxlifetime|global/read-only
-  servicesemptlsenabled|global/read-only
-  servicesemptlslistenport|global/read-only
-  servicesmfcompressionlistenport|global/read-only
-  servicesmfenabled|global/read-only
-  servicesmfeventconnectioncountthreshold.clearpercent|global/read-only
-  servicesmfeventconnectioncountthreshold.clearvalue|global/read-only
-  servicesmfeventconnectioncountthreshold.setpercent|global/read-only
-  servicesmfeventconnectioncountthreshold.setvalue|global/read-only
-  servicesmfplaintextlistenport|global/read-only
-  servicesmfroutingcontrollistenport|global/read-only
-  servicesmftlslistenport|global/read-only
-  servicetlseventconnectioncountthreshold.clearpercent|global/read-only
-  servicetlseventconnectioncountthreshold.clearvalue|global/read-only
-  servicetlseventconnectioncountthreshold.setpercent|global/read-only
-  servicetlseventconnectioncountthreshold.setvalue|global/read-only
-  servicewebtransportenabled|global/read-only
-  servicewebtransportplaintextlistenport|global/read-only
-  servicewebtransporttlslistenport|global/read-only
-  servicewebtransportweburlsuffix|global/read-only
-  tlsblockversion11enabled|global/read-only
-  tlsciphersuitemanagementlist|global/read-only
-  tlsciphersuitemsgbackbonelist|global/read-only
-  tlsciphersuitesecureshelllist|global/read-only
-  tlscrimeexploitprotectionenabled|global/read-only
-  tlsservercertcontent|global/read-only
-  tlsticket_lifetime|global/read-only
+  auth_client_cert_revocation_check_mode|global/read-only
+  config_sync_authentication_client_cert_max_chain_depth|global/read-only
+  config_sync_authentication_client_cert_validate_date_enabled|global/read-only
+  config_sync_client_profile_tcp_initial_congestion_window|global/read-only
+  config_sync_client_profile_tcp_keepalive_count|global/read-only
+  config_sync_client_profile_tcp_keepalive_idle|global/read-only
+  config_sync_client_profile_tcp_keepalive_interval|global/read-only
+  config_sync_client_profile_tcp_max_window|global/read-only
+  config_sync_client_profile_tcp_mss|global/read-only
+  config_sync_enabled|global/read-only
+  config_sync_synchronize_username_enabled|global/read-only
+  config_sync_tls_enabled|global/read-only
+  guaranteed_msging_defragmentation_schedule_day_list|global/read-only
+  guaranteed_msging_defragmentation_schedule_enabled|global/read-only
+  guaranteed_msging_defragmentation_schedule_time_list|global/read-only
+  guaranteed_msging_defragmentation_threshold_enabled|global/read-only
+  guaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only
+  guaranteed_msging_defragmentation_threshold_min_interval|global/read-only
+  guaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only
+  guaranteed_msging_enabled|global/read-only
+  guaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only
+  guaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only
+  guaranteed_msging_event_cache_usage_threshold.set_value|global/read-only
+  guaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only
+  guaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only
+  guaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only
+  guaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only
+  guaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only
+  guaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only
+  guaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only
+  guaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only
+  guaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_msg_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only
+  guaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only
+  guaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only
+  guaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only
+  guaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only
+  guaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only
+  guaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only
+  guaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only
+  guaranteed_msging_event_transaction_count_threshold.set_value|global/read-only
+  guaranteed_msging_max_cache_usage|global/read-only
+  guaranteed_msging_max_msg_spool_usage|global/read-only
+  guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only
+  guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only
+  guaranteed_msging_transaction_replication_compatibility_mode|global/read-only
+  oauth_profile_default|global/read-only
+  service_amqp_enabled|global/read-only
+  service_amqp_tls_listen_port|global/read-only
+  service_event_connection_count_threshold.clear_percent|global/read-only
+  service_event_connection_count_threshold.clear_value|global/read-only
+  service_event_connection_count_threshold.set_percent|global/read-only
+  service_event_connection_count_threshold.set_value|global/read-only
+  service_health_check_enabled|global/read-only
+  service_health_check_listen_port|global/read-only
+  service_health_check_tls_enabled|global/read-only
+  service_health_check_tls_listen_port|global/read-only
+  service_mate_link_enabled|global/read-only
+  service_mate_link_listen_port|global/read-only
+  service_mqtt_enabled|global/read-only
+  service_msg_backbone_enabled|global/read-only
+  service_redundancy_enabled|global/read-only
+  service_redundancy_first_listen_port|global/read-only
+  service_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only
+  service_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only
+  service_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only
+  service_rest_event_outgoing_connection_count_threshold.set_value|global/read-only
+  service_rest_incoming_enabled|global/read-only
+  service_rest_outgoing_enabled|global/read-only
+  service_semp_cors_allow_any_host_enabled|global/read-only
+  service_semp_legacy_timeout_enabled|global/read-only
+  service_semp_plain_text_enabled|global/read-only
+  service_semp_plain_text_listen_port|global/read-only
+  service_semp_session_idle_timeout|global/read-only
+  service_semp_session_max_lifetime|global/read-only
+  service_semp_tls_enabled|global/read-only
+  service_semp_tls_listen_port|global/read-only
+  service_smf_compression_listen_port|global/read-only
+  service_smf_enabled|global/read-only
+  service_smf_event_connection_count_threshold.clear_percent|global/read-only
+  service_smf_event_connection_count_threshold.clear_value|global/read-only
+  service_smf_event_connection_count_threshold.set_percent|global/read-only
+  service_smf_event_connection_count_threshold.set_value|global/read-only
+  service_smf_plain_text_listen_port|global/read-only
+  service_smf_routing_control_listen_port|global/read-only
+  service_smf_tls_listen_port|global/read-only
+  service_tls_event_connection_count_threshold.clear_percent|global/read-only
+  service_tls_event_connection_count_threshold.clear_value|global/read-only
+  service_tls_event_connection_count_threshold.set_percent|global/read-only
+  service_tls_event_connection_count_threshold.set_value|global/read-only
+  service_web_transport_enabled|global/read-only
+  service_web_transport_plain_text_listen_port|global/read-only
+  service_web_transport_tls_listen_port|global/read-only
+  service_web_transport_web_url_suffix|global/read-only
+  tls_block_version11_enabled|global/read-only
+  tls_cipher_suite_management_list|global/read-only
+  tls_cipher_suite_msg_backbone_list|global/read-only
+  tls_cipher_suite_secure_shell_list|global/read-only
+  tls_crime_exploit_protection_enabled|global/read-only
+  tls_server_cert_content|global/read-only
+  tls_ticket_lifetime|global/read-only
   This has been available since SEMP API version 2.13.
 ---
 
@@ -306,18 +306,18 @@ This has been available since SEMP API version 2.13.
 - `guaranteed_msging_defragmentation_threshold_min_interval` (Number) Minimum interval of time (in minutes) between defragmentation runs triggered by thresholds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since SEMP API version 2.25.
 - `guaranteed_msging_defragmentation_threshold_usage_percentage` (Number) Percentage of spool usage needed to trigger defragmentation run. The minimum value allowed is 30%. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `50`. Available since SEMP API version 2.25.
 - `guaranteed_msging_enabled` (Boolean) Enable or disable Guaranteed Messaging. The default value is `false`. Available since SEMP API version 2.18.
-- `guaranteed_msging_event_cache_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_cache_usage_threshold))
-- `guaranteed_msging_event_delivered_unacked_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_delivered_unacked_threshold))
-- `guaranteed_msging_event_disk_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_disk_usage_threshold))
-- `guaranteed_msging_event_egress_flow_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_egress_flow_count_threshold))
-- `guaranteed_msging_event_endpoint_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_endpoint_count_threshold))
-- `guaranteed_msging_event_ingress_flow_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_ingress_flow_count_threshold))
-- `guaranteed_msging_event_msg_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_count_threshold))
-- `guaranteed_msging_event_msg_spool_file_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_spool_file_count_threshold))
-- `guaranteed_msging_event_msg_spool_usage_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_spool_usage_threshold))
-- `guaranteed_msging_event_transacted_session_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_count_threshold))
-- `guaranteed_msging_event_transacted_session_resource_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_resource_count_threshold))
-- `guaranteed_msging_event_transaction_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--guaranteed_msging_event_transaction_count_threshold))
+- `guaranteed_msging_event_cache_usage_threshold` (Attributes) The thresholds for the cache usage event at system level, relative to `guaranteed_msging_max_cache_usage`. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_cache_usage_threshold))
+- `guaranteed_msging_event_delivered_unacked_threshold` (Attributes) The thresholds for the number of delivered but unacknowledged messages event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_delivered_unacked_threshold))
+- `guaranteed_msging_event_disk_usage_threshold` (Attributes) The thresholds for the active disk partition usage event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_disk_usage_threshold))
+- `guaranteed_msging_event_egress_flow_count_threshold` (Attributes) The thresholds for the transmit flow count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_egress_flow_count_threshold))
+- `guaranteed_msging_event_endpoint_count_threshold` (Attributes) The thresholds for the endpoints count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_endpoint_count_threshold))
+- `guaranteed_msging_event_ingress_flow_count_threshold` (Attributes) The thresholds for the receive flow count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_ingress_flow_count_threshold))
+- `guaranteed_msging_event_msg_count_threshold` (Attributes) The thresholds for the spool message count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_count_threshold))
+- `guaranteed_msging_event_msg_spool_file_count_threshold` (Attributes) The thresholds for the spool file count event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_spool_file_count_threshold))
+- `guaranteed_msging_event_msg_spool_usage_threshold` (Attributes) The thresholds for the spool usage event at system level, relative to `max_spool_usage`. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_msg_spool_usage_threshold))
+- `guaranteed_msging_event_transacted_session_count_threshold` (Attributes) The thresholds for the transacted sessions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_count_threshold))
+- `guaranteed_msging_event_transacted_session_resource_count_threshold` (Attributes) The thresholds for the transacted session resources at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_resource_count_threshold))
+- `guaranteed_msging_event_transaction_count_threshold` (Attributes) The thresholds for the transactions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transaction_count_threshold))
 - `guaranteed_msging_max_cache_usage` (Number) Guaranteed messaging cache usage limit. Expressed as a maximum percentage of the NAB's egress queueing. resources that the guaranteed message cache is allowed to use. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `10`. Available since SEMP API version 2.18.
 - `guaranteed_msging_max_msg_spool_usage` (Number) The maximum total message spool usage allowed across all VPNs on this broker, in megabytes. Recommendation: the maximum value should be less than 90% of the disk space allocated for the guaranteed message spool. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1500`. Available since SEMP API version 2.18.
 - `guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout` (Number) The maximum time, in milliseconds, that can be tolerated for remote acknowledgment of synchronization messages before which the remote system will be considered out of sync. The default value is `10000`. Available since SEMP API version 2.18.
@@ -332,7 +332,7 @@ This has been available since SEMP API version 2.13.
 - `oauth_profile_default` (String) The default OAuth profile for OAuth authenticated SEMP requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.24.
 - `service_amqp_enabled` (Boolean) Enable or disable the AMQP service. When disabled new AMQP Clients may not connect through the global or per-VPN AMQP listen-ports, and all currently connected AMQP Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.17.
-- `service_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_event_connection_count_threshold))
+- `service_event_connection_count_threshold` (Attributes) The thresholds for the connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_event_connection_count_threshold))
 - `service_health_check_enabled` (Boolean) Enable or disable the plain-text health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_health_check_listen_port` (Number) The port number for the plain-text health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since SEMP API version 2.17.
 - `service_health_check_tls_enabled` (Boolean) Enable or disable the TLS health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.34.
@@ -343,7 +343,7 @@ This has been available since SEMP API version 2.13.
 - `service_msg_backbone_enabled` (Boolean) Enable or disable the msg-backbone service. When disabled new Clients may not connect through global or per-VPN listen-ports, and all currently connected Clients are immediately disconnected. The default value is `true`. Available since SEMP API version 2.17.
 - `service_redundancy_enabled` (Boolean) Enable or disable the redundancy service. The default value is `true`. Available since SEMP API version 2.17.
 - `service_redundancy_first_listen_port` (Number) The first listen-port used for the redundancy service. Redundancy uses this port and the subsequent 2 ports. These port must be unique across the message backbone. The redundancy service must be disabled to change this port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_redundancy_enabled will be temporarily set to false to apply the change. The default value is `8300`. Available since SEMP API version 2.17.
-- `service_rest_event_outgoing_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_rest_event_outgoing_connection_count_threshold))
+- `service_rest_event_outgoing_connection_count_threshold` (Attributes) The thresholds for the REST outgoing connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_rest_event_outgoing_connection_count_threshold))
 - `service_rest_incoming_enabled` (Boolean) Enable or disable the REST service incoming connections on the broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_rest_outgoing_enabled` (Boolean) Enable or disable the REST service outgoing connections on the broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_semp_cors_allow_any_host_enabled` (Boolean) Enable or disable cross origin resource requests for the SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
@@ -354,11 +354,11 @@ This has been available since SEMP API version 2.13.
 - `service_semp_tls_enabled` (Boolean) Enable or disable TLS SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.17.
 - `service_smf_compression_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw compression TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55003`. Available since SEMP API version 2.17.
 - `service_smf_enabled` (Boolean) Enable or disable the SMF service. When disabled new SMF Clients may not connect through the global listen-ports, and all currently connected SMF Clients are immediately disconnected. The default value is `true`. Available since SEMP API version 2.17.
-- `service_smf_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_smf_event_connection_count_threshold))
+- `service_smf_event_connection_count_threshold` (Attributes) The thresholds for the SMF connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_smf_event_connection_count_threshold))
 - `service_smf_plain_text_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55555`. Available since SEMP API version 2.17.
 - `service_smf_routing_control_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw routing control TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55556`. Available since SEMP API version 2.17.
 - `service_smf_tls_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55443`. Available since SEMP API version 2.17.
-- `service_tls_event_connection_count_threshold` (Attributes) (see [below for nested schema](#nestedatt--service_tls_event_connection_count_threshold))
+- `service_tls_event_connection_count_threshold` (Attributes) The thresholds for the incoming and outgoing TLS connection count event of the broker. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_tls_event_connection_count_threshold))
 - `service_web_transport_enabled` (Boolean) Enable or disable the web-transport service. When disabled new web-transport Clients may not connect through the global listen-ports, and all currently connected web-transport Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
 - `service_web_transport_plain_text_listen_port` (Number) The TCP port for plain-text WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `8008`. Available since SEMP API version 2.17.
 - `service_web_transport_tls_listen_port` (Number) The TCP port for TLS WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1443`. Available since SEMP API version 2.17.
@@ -371,7 +371,6 @@ This has been available since SEMP API version 2.13.
 - `tls_standard_domain_certificate_authorities_enabled` (Boolean) Enable or disable the standard domain certificate authority list. The default value is `true`. Available since SEMP API version 2.19.
 - `tls_ticket_lifetime` (Number) The TLS ticket lifetime in seconds. When a client connects with TLS, a session with a session ticket is created using the TLS ticket lifetime which determines how long the client has to resume the session. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
 - `web_manager_allow_unencrypted_wizards_enabled` (Boolean) Enable or disable the use of unencrypted wizards in the Web-based Manager UI. This setting should be left at its default on all production systems or other systems that need to be secure.  Enabling this option will permit the broker to forward plain-text data to other brokers, making important information or credentials available for snooping. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.28.
-- `web_manager_customization` (String) Reserved for internal use by Solace. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.25.
 - `web_manager_redirect_http_enabled` (Boolean) Enable or disable redirection of HTTP requests for the broker manager to HTTPS. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
 - `web_manager_redirect_http_override_tls_port` (Number) The HTTPS port that HTTP requests will be redirected towards in a HTTP 301 redirect response. Zero is a special value that means use the value specified for the SEMP TLS port value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.24.
 
@@ -380,9 +379,9 @@ This has been available since SEMP API version 2.13.
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -391,8 +390,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_disk_usage_threshold"></a>
@@ -400,8 +399,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_egress_flow_count_threshold"></a>
@@ -409,9 +408,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -420,9 +419,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -431,9 +430,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -442,8 +441,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_msg_spool_file_count_threshold"></a>
@@ -451,8 +450,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_msg_spool_usage_threshold"></a>
@@ -460,9 +459,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -471,9 +470,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -482,8 +481,8 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_transaction_count_threshold"></a>
@@ -491,9 +490,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -502,9 +501,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -513,9 +512,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -524,9 +523,9 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
 
 
@@ -535,7 +534,7 @@ Read-Only:
 
 Read-Only:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
 - `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
 - `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.

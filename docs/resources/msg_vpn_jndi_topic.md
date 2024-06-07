@@ -6,10 +6,11 @@ description: |-
   The message broker provides an internal JNDI store for provisioned Topic objects that clients can access through JNDI lookups.
   Attribute|Identifying
   :---|:---:
-  msgvpnname|x
+  msg_vpn_name|x
   topic_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.2.
+  The import identifier for this resource is {msgVpnName}/{topicName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_jndi_topic (Resource)
@@ -27,6 +28,8 @@ topic_name|x
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.2.
+
+The import identifier for this resource is `{msgVpnName}/{topicName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
