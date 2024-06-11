@@ -120,7 +120,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "topicName",
 				TerraformName:       "topic_name",
-				MarkdownDescription: "The name of the Topic.",
+				MarkdownDescription: "The name of the Topic or a POSIX.2 regular expression starting with '^'.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -129,7 +129,7 @@ func init() {
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 255),
-					stringvalidator.RegexMatches(regexp.MustCompile("^\\^.*|[a-zA-Z0-9\\._\\-]+$"), ""),
+					stringvalidator.RegexMatches(regexp.MustCompile("^\\^.{0,254}|[a-zA-Z0-9\\._\\-]{1,255}$"), ""),
 				},
 			},
 		},

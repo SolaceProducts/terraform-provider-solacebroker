@@ -304,6 +304,19 @@ func init() {
 				Default: "client",
 			},
 			{
+				BaseType:            broker.String,
+				SempName:            "proxyName",
+				TerraformName:       "proxy_name",
+				MarkdownDescription: "The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.41.",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.LengthBetween(0, 32),
+				},
+				Default: "",
+			},
+			{
 				BaseType:            broker.Bool,
 				SempName:            "resourceServerParseAccessTokenEnabled",
 				TerraformName:       "resource_server_parse_access_token_enabled",

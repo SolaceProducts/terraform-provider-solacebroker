@@ -106,7 +106,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "topicPrefix",
 				TerraformName:       "topic_prefix",
-				MarkdownDescription: "A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/>) is implied at the end of the prefix.",
+				MarkdownDescription: "A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/&gt;) is implied at the end of the prefix.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

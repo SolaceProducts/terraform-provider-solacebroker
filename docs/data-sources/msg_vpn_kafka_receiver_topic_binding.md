@@ -39,7 +39,7 @@ This has been available since SEMP API version 2.36.
 
 - `kafka_receiver_name` (String) The name of the Kafka Receiver.
 - `msg_vpn_name` (String) The name of the Message VPN.
-- `topic_name` (String) The name of the Topic.
+- `topic_name` (String) The name of the Topic or a POSIX.2 regular expression starting with '^'.
 
 ### Read-Only
 

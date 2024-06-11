@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_kafka_sender",
-		MarkdownDescription: "A Kafka Sender sends messages to a Kafka Cluster.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_basic_password||x|x\nauthentication_client_cert_content||x|x\nauthentication_client_cert_password||x|\nauthentication_oauth_client_secret||x|x\nauthentication_scram_password||x|x\nkafka_sender_name|x||\nmsg_vpn_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
+		MarkdownDescription: "A Kafka Sender sends messages to a Kafka Cluster.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthentication_basic_password||x|x\nauthentication_client_cert_content||x|x\nauthentication_client_cert_password||x|\nauthentication_kerberos_keytab_content||x|\nauthentication_oauth_client_secret||x|x\nauthentication_scram_password||x|x\nkafka_sender_name|x||\nmsg_vpn_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaSenders/{kafkaSenderName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -100,6 +100,75 @@ func init() {
 			},
 			{
 				BaseType:            broker.String,
+				SempName:            "authenticationKerberosKeytabContent",
+				TerraformName:       "authentication_kerberos_keytab_content",
+				MarkdownDescription: "The base64-encoded content of this User Principal's keytab. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `\"\"`. Available since SEMP API version 2.40.",
+				Sensitive:           true,
+				Requires:            []string{"authentication_kerberos_keytab_file_name", "authentication_kerberos_user_principal_name"},
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_keytab_file_name"),
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_user_principal_name"),
+					),
+					stringvalidator.LengthBetween(0, 2048),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationKerberosKeytabFileName",
+				TerraformName:       "authentication_kerberos_keytab_file_name",
+				MarkdownDescription: "The name of this User Principal's keytab file. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `\"\"`. Available since SEMP API version 2.40.",
+				Requires:            []string{"authentication_kerberos_keytab_content", "authentication_kerberos_user_principal_name"},
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_keytab_content"),
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_user_principal_name"),
+					),
+					stringvalidator.LengthBetween(0, 255),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationKerberosServiceName",
+				TerraformName:       "authentication_kerberos_service_name",
+				MarkdownDescription: "The Kerberos service name of the remote Kafka broker, not including /hostname@REALM. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.40.",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.LengthBetween(0, 128),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationKerberosUserPrincipalName",
+				TerraformName:       "authentication_kerberos_user_principal_name",
+				MarkdownDescription: "The Kerberos user principal name of the Kafka Sender. This must include the @&lt;REALM&gt; suffix. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `\"\"`. Available since SEMP API version 2.40.",
+				Requires:            []string{"authentication_kerberos_keytab_content", "authentication_kerberos_keytab_file_name"},
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_keytab_content"),
+						path.MatchRelative().AtParent().AtName("authentication_kerberos_keytab_file_name"),
+					),
+					stringvalidator.LengthBetween(0, 642),
+					stringvalidator.RegexMatches(regexp.MustCompile("^(.+@.+)?$"), ""),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
 				SempName:            "authenticationOauthClientId",
 				TerraformName:       "authentication_oauth_client_id",
 				MarkdownDescription: "The OAuth client ID. To be used when authentication_scheme is \"oauth-client\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
@@ -156,12 +225,12 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "authenticationScheme",
 				TerraformName:       "authentication_scheme",
-				MarkdownDescription: "The authentication scheme for the Kafka Sender. The bootstrap addresses must resolve to an appropriately configured and compatible listener port on the Kafka broker for the given scheme. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - Anonymous Authentication. Used with Kafka broker PLAINTEXT listener ports.\n\"basic\" - Basic Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.\n\"scram\" - Salted Challenge Response Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.\n\"client-certificate\" - Client Certificate Authentication. Used with Kafka broker SSL listener ports.\n\"oauth-client\" - Oauth Authentication. Used with Kafka broker SASL_SSL listener ports.\n</pre>\n",
+				MarkdownDescription: "The authentication scheme for the Kafka Sender. The bootstrap addresses must resolve to an appropriately configured and compatible listener port on the Kafka broker for the given scheme. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - Anonymous Authentication. Used with Kafka broker PLAINTEXT listener ports.\n\"basic\" - Basic Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.\n\"scram\" - Salted Challenge Response Authentication. Used with Kafka broker SASL_PLAINTEXT and SASL_SSL listener ports.\n\"client-certificate\" - Client Certificate Authentication. Used with Kafka broker SSL listener ports.\n\"kerberos\" - Kerberos Authentication.\n\"oauth-client\" - Oauth Authentication. Used with Kafka broker SASL_SSL listener ports.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
-					stringvalidator.OneOf("none", "basic", "scram", "client-certificate", "oauth-client"),
+					stringvalidator.OneOf("none", "basic", "scram", "client-certificate", "kerberos", "oauth-client"),
 				},
 				Default: "none",
 			},
@@ -258,7 +327,7 @@ func init() {
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(0, 1044),
-					stringvalidator.RegexMatches(regexp.MustCompile("^(((((([0-9a-zA-Z\\-\\.])+)|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])((:[0-9]{1,5}){0,1})),)*(((([0-9a-zA-Z\\-\\.])+)|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])((:[0-9]{1,5}){0,1})))?$"), ""),
+					stringvalidator.RegexMatches(regexp.MustCompile("^(((((([0-9a-zA-Z\\-\\.]){1,253})|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])((:[0-9]{1,5}){0,1})),)*(((([0-9a-zA-Z\\-\\.]){1,253})|\\[([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,7}:\\]|\\[([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}\\]|\\[([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}\\]|\\[([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}\\]|\\[([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}\\]|\\[[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})\\]|\\[:((:[0-9a-fA-F]{1,4}){1,7}|:)\\])((:[0-9]{1,5}){0,1})))?$"), ""),
 				},
 				Default: "",
 			},

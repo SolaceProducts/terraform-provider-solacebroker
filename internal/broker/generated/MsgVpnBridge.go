@@ -191,7 +191,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "remoteConnectionRetryCount",
 				TerraformName:       "remote_connection_retry_count",
-				MarkdownDescription: "The maximum number of retry attempts to establish a connection to the remote Message VPN. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
+				MarkdownDescription: "The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
