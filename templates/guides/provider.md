@@ -68,7 +68,11 @@ There are objects that are preexisting defaults and cannot be created or destroy
 
 ## Broker-Defined Attributes
 
-Some attributes don't have a default value. In this case their value will be determined by the broker. Typically, these defaults depend on the broker scaling settings. While Terraform plan and apply operations function the same way as with other attributes, import will set the Terraform state of the attribute to the broker value (instead of null), even if they were set at default. You can use subsequent plan and apply operations to fix this. 
+Some attributes don't have a default value. In this case their value will be determined by the broker. Typically, these defaults depend on the broker scaling settings. While Terraform plan and apply operations function the same way as with other attributes, import will set the Terraform state of the attribute to the broker value (instead of null), even if they were set at default. You can use subsequent plan and apply operations to fix this.
+
+## Object Type Attributes
+
+An object type attribute is a collection of attributes, for example `"event_ingress_msg_rate_threshold": { "clear_value": 2000000, "set_value": 5000000 }`. Note that due to Terraform provider framework limitations, there is no error reported when providing unknown nested attributes.
 
 ## Importing Resources
 
