@@ -74,6 +74,7 @@ jobs:
           pushd ci/brokertest
           terraform apply -auto-approve
           terraform plan | grep "No changes"
+          popd
 
       - name: Test larger config
         run: |
