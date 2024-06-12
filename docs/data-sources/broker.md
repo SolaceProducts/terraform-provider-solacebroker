@@ -4,10 +4,6 @@ page_title: "solacebroker_broker Data Source - solacebroker"
 subcategory: ""
 description: |-
   This object contains global configuration for the message broker.
-  Attribute|Write-Only|Opaque
-  :---|:---:|:---:
-  tls_server_cert_content|x|x
-  tls_server_cert_password|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
   :---|:---:
@@ -136,12 +132,6 @@ description: |-
 # solacebroker_broker (Data Source)
 
 This object contains global configuration for the message broker.
-
-
-Attribute|Write-Only|Opaque
-:---|:---:|:---:
-tls_server_cert_content|x|x
-tls_server_cert_password|x|
 
 
 

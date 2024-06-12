@@ -4,11 +4,6 @@ page_title: "solacebroker_dmr_cluster_cert_matching_rule_condition Resource - so
 subcategory: ""
 description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
-  Attribute|Identifying
-  :---|:---:
-  dmr_cluster_name|x
-  rule_name|x
-  source|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
   The import identifier for this resource is {dmrClusterName}/{ruleName}/{source}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -17,13 +12,6 @@ description: |-
 # solacebroker_dmr_cluster_cert_matching_rule_condition (Resource)
 
 A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
-
-
-Attribute|Identifying
-:---|:---:
-dmr_cluster_name|x
-rule_name|x
-source|x
 
 
 

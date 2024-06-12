@@ -31,7 +31,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_rest_delivery_point_rest_consumer",
-		MarkdownDescription: "REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.\n\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/restConsumers/{restConsumerName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

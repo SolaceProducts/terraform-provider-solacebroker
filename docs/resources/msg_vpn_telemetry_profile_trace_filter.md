@@ -4,11 +4,6 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter Resource - sola
 subcategory: ""
 description: |-
   A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  telemetry_profile_name|x
-  trace_filter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msgVpnName}/{telemetryProfileName}/{traceFilterName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -17,13 +12,6 @@ description: |-
 # solacebroker_msg_vpn_telemetry_profile_trace_filter (Resource)
 
 A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-telemetry_profile_name|x
-trace_filter_name|x
 
 
 

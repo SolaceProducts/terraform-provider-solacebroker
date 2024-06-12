@@ -4,13 +4,6 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_
 subcategory: ""
 description: |-
   A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
-  Attribute|Identifying
-  :---|:---:
-  cache_name|x
-  cluster_name|x
-  home_cluster_name|x
-  msg_vpn_name|x
-  topic_prefix|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -18,15 +11,6 @@ description: |-
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster_topic_prefix (Data Source)
 
 A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
-
-
-Attribute|Identifying
-:---|:---:
-cache_name|x
-cluster_name|x
-home_cluster_name|x
-msg_vpn_name|x
-topic_prefix|x
 
 
 

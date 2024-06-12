@@ -4,11 +4,6 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule_condition Data Source - sol
 subcategory: ""
 description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  rule_name|x
-  source|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
 ---
@@ -16,13 +11,6 @@ description: |-
 # solacebroker_msg_vpn_cert_matching_rule_condition (Data Source)
 
 A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-rule_name|x
-source|x
 
 
 

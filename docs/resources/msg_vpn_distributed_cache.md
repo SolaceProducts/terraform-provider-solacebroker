@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_distributed_cache Resource - solacebroker"
 subcategory: ""
 description: |-
   A Distributed Cache is a collection of one or more Cache Clusters that belong to the same Message VPN. Each Cache Cluster in a Distributed Cache is configured to subscribe to a different set of topics. This effectively divides up the configured topic space, to provide scaling to very large topic spaces or very high cached message throughput.
-  Attribute|Identifying
-  :---|:---:
-  cache_name|x
-  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msgVpnName}/{cacheName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -16,12 +12,6 @@ description: |-
 # solacebroker_msg_vpn_distributed_cache (Resource)
 
 A Distributed Cache is a collection of one or more Cache Clusters that belong to the same Message VPN. Each Cache Cluster in a Distributed Cache is configured to subscribe to a different set of topics. This effectively divides up the configured topic space, to provide scaling to very large topic spaces or very high cached message throughput.
-
-
-Attribute|Identifying
-:---|:---:
-cache_name|x
-msg_vpn_name|x
 
 
 

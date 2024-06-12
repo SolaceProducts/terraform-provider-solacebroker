@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_topic_endpoint_template",
-		MarkdownDescription: "A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.\n\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.14.",
+		MarkdownDescription: "A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.14.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/topicEndpointTemplates/{topicEndpointTemplateName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

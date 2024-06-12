@@ -4,10 +4,6 @@ page_title: "solacebroker_client_cert_authority_ocsp_tls_trusted_common_name Res
 subcategory: ""
 description: |-
   When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.
-  Attribute|Identifying
-  :---|:---:
-  cert_authority_name|x
-  ocsp_tls_trusted_common_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
   The import identifier for this resource is {certAuthorityName}/{ocspTlsTrustedCommonName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -16,12 +12,6 @@ description: |-
 # solacebroker_client_cert_authority_ocsp_tls_trusted_common_name (Resource)
 
 When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.
-
-
-Attribute|Identifying
-:---|:---:
-cert_authority_name|x
-ocsp_tls_trusted_common_name|x
 
 
 

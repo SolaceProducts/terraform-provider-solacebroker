@@ -4,11 +4,6 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding Resource - s
 subcategory: ""
 description: |-
   A Queue Binding for a REST Delivery Point attracts messages to be delivered to REST consumers. If the queue does not exist it can be created subsequently, and once the queue is operational the broker performs the queue binding. Removing the queue binding does not delete the queue itself. Similarly, removing the queue does not remove the queue binding, which fails until the queue is recreated or the queue binding is deleted.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  queue_binding_name|x
-  rest_delivery_point_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}/{queueBindingName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -17,13 +12,6 @@ description: |-
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding (Resource)
 
 A Queue Binding for a REST Delivery Point attracts messages to be delivered to REST consumers. If the queue does not exist it can be created subsequently, and once the queue is operational the broker performs the queue binding. Removing the queue binding does not delete the queue itself. Similarly, removing the queue does not remove the queue binding, which fails until the queue is recreated or the queue binding is deleted.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-queue_binding_name|x
-rest_delivery_point_name|x
 
 
 

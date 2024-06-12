@@ -4,12 +4,6 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding_request_head
 subcategory: ""
 description: |-
   A request header to be added to the HTTP request.
-  Attribute|Identifying
-  :---|:---:
-  header_name|x
-  msg_vpn_name|x
-  queue_binding_name|x
-  rest_delivery_point_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.23.
   The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}/{queueBindingName}/{headerName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -18,14 +12,6 @@ description: |-
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding_request_header (Resource)
 
 A request header to be added to the HTTP request.
-
-
-Attribute|Identifying
-:---|:---:
-header_name|x
-msg_vpn_name|x
-queue_binding_name|x
-rest_delivery_point_name|x
 
 
 

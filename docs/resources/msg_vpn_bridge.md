@@ -4,14 +4,6 @@ page_title: "solacebroker_msg_vpn_bridge Resource - solacebroker"
 subcategory: ""
 description: |-
   Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  bridge_name|x||
-  bridge_virtual_router|x||
-  msg_vpn_name|x||
-  remote_authentication_basic_password||x|x
-  remote_authentication_client_cert_content||x|x
-  remote_authentication_client_cert_password||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msgVpnName}/{bridgeName}/{bridgeVirtualRouter}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -20,16 +12,6 @@ description: |-
 # solacebroker_msg_vpn_bridge (Resource)
 
 Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
-
-
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-bridge_name|x||
-bridge_virtual_router|x||
-msg_vpn_name|x||
-remote_authentication_basic_password||x|x
-remote_authentication_client_cert_content||x|x
-remote_authentication_client_cert_password||x|
 
 
 

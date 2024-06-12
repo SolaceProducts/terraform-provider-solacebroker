@@ -4,12 +4,6 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_instance Data Source
 subcategory: ""
 description: |-
   A Cache Instance is a single Cache process that belongs to a single Cache Cluster. A Cache Instance object provisioned on the broker is used to disseminate configuration information to the Cache process. Cache Instances listen for and cache live data messages that match the topic subscriptions configured for their parent Cache Cluster.
-  Attribute|Identifying
-  :---|:---:
-  cache_name|x
-  cluster_name|x
-  instance_name|x
-  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
 ---
@@ -17,14 +11,6 @@ description: |-
 # solacebroker_msg_vpn_distributed_cache_cluster_instance (Data Source)
 
 A Cache Instance is a single Cache process that belongs to a single Cache Cluster. A Cache Instance object provisioned on the broker is used to disseminate configuration information to the Cache process. Cache Instances listen for and cache live data messages that match the topic subscriptions configured for their parent Cache Cluster.
-
-
-Attribute|Identifying
-:---|:---:
-cache_name|x
-cluster_name|x
-instance_name|x
-msg_vpn_name|x
 
 
 

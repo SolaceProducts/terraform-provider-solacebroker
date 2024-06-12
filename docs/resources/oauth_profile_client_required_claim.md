@@ -4,10 +4,6 @@ page_title: "solacebroker_oauth_profile_client_required_claim Resource - solaceb
 subcategory: ""
 description: |-
   Additional claims to be verified in the ID token.
-  Attribute|Identifying
-  :---|:---:
-  client_required_claim_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauthProfileName}/{clientRequiredClaimName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -16,12 +12,6 @@ description: |-
 # solacebroker_oauth_profile_client_required_claim (Resource)
 
 Additional claims to be verified in the ID token.
-
-
-Attribute|Identifying
-:---|:---:
-client_required_claim_name|x
-oauth_profile_name|x
 
 
 

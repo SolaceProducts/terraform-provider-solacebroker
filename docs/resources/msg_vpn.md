@@ -4,17 +4,6 @@ page_title: "solacebroker_msg_vpn Resource - solacebroker"
 subcategory: ""
 description: |-
   Message VPNs (Virtual Private Networks) allow for the segregation of topic space and clients. They also group clients connecting to a network of message brokers, such that messages published within a particular group are only visible to that group's clients.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authentication_oauth_default_provider_name|||x|
-  bridging_tls_server_cert_enforce_trusted_common_name_enabled|||x|
-  distributed_cache_management_enabled|||x|
-  msg_vpn_name|x|||
-  replication_bridge_authentication_basic_password||x||x
-  replication_bridge_authentication_client_cert_content||x||x
-  replication_bridge_authentication_client_cert_password||x||
-  replication_enabled_queue_behavior||x||
-  rest_tls_server_cert_enforce_trusted_common_name_enabled|||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msgVpnName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -23,19 +12,6 @@ description: |-
 # solacebroker_msg_vpn (Resource)
 
 Message VPNs (Virtual Private Networks) allow for the segregation of topic space and clients. They also group clients connecting to a network of message brokers, such that messages published within a particular group are only visible to that group's clients.
-
-
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_oauth_default_provider_name|||x|
-bridging_tls_server_cert_enforce_trusted_common_name_enabled|||x|
-distributed_cache_management_enabled|||x|
-msg_vpn_name|x|||
-replication_bridge_authentication_basic_password||x||x
-replication_bridge_authentication_client_cert_content||x||x
-replication_bridge_authentication_client_cert_password||x||
-replication_enabled_queue_behavior||x||
-rest_tls_server_cert_enforce_trusted_common_name_enabled|||x|
 
 
 

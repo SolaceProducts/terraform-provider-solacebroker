@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point Data Source - solacebroker
 subcategory: ""
 description: |-
   A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  rest_delivery_point_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_msg_vpn_rest_delivery_point (Data Source)
 
 A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-rest_delivery_point_name|x
 
 
 

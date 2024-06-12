@@ -4,9 +4,6 @@ page_title: "solacebroker_client_cert_authority Resource - solacebroker"
 subcategory: ""
 description: |-
   Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
-  Attribute|Identifying
-  :---|:---:
-  cert_authority_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
   The import identifier for this resource is {certAuthorityName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -15,11 +12,6 @@ description: |-
 # solacebroker_client_cert_authority (Resource)
 
 Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
-
-
-Attribute|Identifying
-:---|:---:
-cert_authority_name|x
 
 
 

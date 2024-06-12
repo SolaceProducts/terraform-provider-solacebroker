@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_replay_log Resource - solacebroker"
 subcategory: ""
 description: |-
   When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  replay_log_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.10.
   The import identifier for this resource is {msgVpnName}/{replayLogName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -16,12 +12,6 @@ description: |-
 # solacebroker_msg_vpn_replay_log (Resource)
 
 When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-replay_log_name|x
 
 
 

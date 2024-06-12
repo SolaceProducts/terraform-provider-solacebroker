@@ -4,11 +4,6 @@ page_title: "solacebroker_dmr_cluster_cert_matching_rule_attribute_filter Data S
 subcategory: ""
 description: |-
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
-  Attribute|Identifying
-  :---|:---:
-  dmr_cluster_name|x
-  filter_name|x
-  rule_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
 ---
@@ -16,13 +11,6 @@ description: |-
 # solacebroker_dmr_cluster_cert_matching_rule_attribute_filter (Data Source)
 
 A Cert Matching Rule Attribute Filter compares a link attribute to a string.
-
-
-Attribute|Identifying
-:---|:---:
-dmr_cluster_name|x
-filter_name|x
-rule_name|x
 
 
 

@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "dmr_cluster_cert_matching_rule_condition",
-		MarkdownDescription: "A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.\n\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.28.",
+		MarkdownDescription: "A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.28.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/dmrClusters/{dmrClusterName}/certMatchingRules/{ruleName}/conditions/{source}",
 		PostPathTemplate:    "/dmrClusters/{dmrClusterName}/certMatchingRules/{ruleName}/conditions",

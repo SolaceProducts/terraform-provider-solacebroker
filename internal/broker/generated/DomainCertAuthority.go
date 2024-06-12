@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "domain_cert_authority",
-		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.19.",
+		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.19.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/domainCertAuthorities/{certAuthorityName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

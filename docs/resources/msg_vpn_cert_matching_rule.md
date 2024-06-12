@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule Resource - solacebroker"
 subcategory: ""
 description: |-
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  rule_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.27.
   The import identifier for this resource is {msgVpnName}/{ruleName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -16,12 +12,6 @@ description: |-
 # solacebroker_msg_vpn_cert_matching_rule (Resource)
 
 A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-rule_name|x
 
 
 

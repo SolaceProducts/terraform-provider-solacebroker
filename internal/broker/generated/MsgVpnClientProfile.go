@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_client_profile",
-		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "Client Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/clientProfiles/{clientProfileName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

@@ -4,10 +4,6 @@ page_title: "solacebroker_oauth_profile_client_authorization_parameter Data Sour
 subcategory: ""
 description: |-
   Additional parameters to be passed to the OAuth authorization endpoint.
-  Attribute|Identifying
-  :---|:---:
-  authorization_parameter_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_oauth_profile_client_authorization_parameter (Data Source)
 
 Additional parameters to be passed to the OAuth authorization endpoint.
-
-
-Attribute|Identifying
-:---|:---:
-authorization_parameter_name|x
-oauth_profile_name|x
 
 
 

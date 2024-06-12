@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_topic_endpoint_template Data Source - solacebr
 subcategory: ""
 description: |-
   A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  topic_endpoint_template_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_msg_vpn_topic_endpoint_template (Data Source)
 
 A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-topic_endpoint_template_name|x
 
 
 

@@ -4,11 +4,6 @@ page_title: "solacebroker_msg_vpn_kafka_receiver_topic_binding Data Source - sol
 subcategory: ""
 description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
-  Attribute|Identifying
-  :---|:---:
-  kafka_receiver_name|x
-  msg_vpn_name|x
-  topic_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
 ---
@@ -16,13 +11,6 @@ description: |-
 # solacebroker_msg_vpn_kafka_receiver_topic_binding (Data Source)
 
 A Topic Binding receives messages from a remote Kafka Topic.
-
-
-Attribute|Identifying
-:---|:---:
-kafka_receiver_name|x
-msg_vpn_name|x
-topic_name|x
 
 
 

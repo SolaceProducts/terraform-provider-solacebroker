@@ -4,10 +4,6 @@ page_title: "solacebroker_oauth_profile_default_msg_vpn_access_level_exception D
 subcategory: ""
 description: |-
   Default message VPN access-level exceptions.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_oauth_profile_default_msg_vpn_access_level_exception (Data Source)
 
 Default message VPN access-level exceptions.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-oauth_profile_name|x
 
 
 

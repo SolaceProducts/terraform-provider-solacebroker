@@ -4,13 +4,6 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription Re
 subcategory: ""
 description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  subscription|x
-  subscription_syntax|x
-  telemetry_profile_name|x
-  trace_filter_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msgVpnName}/{telemetryProfileName}/{traceFilterName}/{subscription}/{subscriptionSyntax}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -19,15 +12,6 @@ description: |-
 # solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription (Resource)
 
 Trace filter subscriptions control which messages will be attracted by the tracing filter.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-subscription|x
-subscription_syntax|x
-telemetry_profile_name|x
-trace_filter_name|x
 
 
 

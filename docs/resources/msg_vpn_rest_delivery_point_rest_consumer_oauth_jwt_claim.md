@@ -4,12 +4,6 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_cl
 subcategory: ""
 description: |-
   A Claim is added to the JWT sent to the OAuth token request endpoint.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  oauth_jwt_claim_name|x
-  rest_consumer_name|x
-  rest_delivery_point_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.21.
   The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}/{restConsumerName}/{oauthJwtClaimName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
@@ -18,14 +12,6 @@ description: |-
 # solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_claim (Resource)
 
 A Claim is added to the JWT sent to the OAuth token request endpoint.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-oauth_jwt_claim_name|x
-rest_consumer_name|x
-rest_delivery_point_name|x
 
 
 
