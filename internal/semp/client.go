@@ -35,9 +35,10 @@ import (
 )
 
 var (
-	ErrResourceNotFound = errors.New("resource not found")
-	ErrBadRequest       = errors.New("bad request")
-	ErrInvalidPath      = errors.New("invalid path")
+	ErrResourceNotFound        = errors.New("resource not found")
+	ErrBadRequest              = errors.New("bad request")
+	ErrInvalidPath             = errors.New("invalid path")
+	ErrProviderParametersError = errors.New("provider parameters error")
 )
 
 var firstRequest = true
