@@ -17,7 +17,7 @@ func TestClient(t *testing.T) {
 		EnvPassword      string
 		EnvBearertoken   string
 		Expected         string
-		}{
+	}{
 		{"testuser", "testpassword", "testbearertoken", "", "", "", "Cannot use Bearer token with basic authentication credentials"},
 		{"", "testpassword", "testbearertoken", "", "", "", "Cannot use Bearer token with basic authentication credentials"},
 		{"testuser", "", "testbearertoken", "", "", "", "Cannot use Bearer token with basic authentication credentials"},
@@ -63,10 +63,10 @@ func TestClient(t *testing.T) {
 			bearertoken = types.StringNull()
 		}
 		providerData := &providerData{
-			Username:               username,
-			Password:               password,
-			BearerToken:            bearertoken,
-			Url:                    types.StringValue("https://example.com"),
+			Username:    username,
+			Password:    password,
+			BearerToken: bearertoken,
+			Url:         types.StringValue("https://example.com"),
 		}
 		_, diag := client(providerData)
 		// Check if the actual value is equal to the expected value
