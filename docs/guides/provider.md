@@ -64,7 +64,9 @@ The Broker object differs from all other objects as it always exists for a given
 
 ## Default Objects
 
-There are objects that are preexisting defaults and cannot be created or destroyed, only updated. The default Message VPN and the default client profile are examples of this. Any attempt to remove these resources will fail.
+There are objects that are preexisting defaults and cannot be created or destroyed, only updated. The default Message VPN and the default client profile are examples of this. Any direct attempt to remove these resources will fail. If the parent object is not a default object then deleting that parent will also remove its child default object.
+
+> If for example a configuration includes creating a non-default Message VPN and modifying its default client-profile then when destroying the configuration the provider would report an error about removing the client-profile. But the client-profile object will be eventually deleted because the whole VPN will also be deleted, which includes the default client-profile.
 
 ## Broker-Defined Attributes
 
