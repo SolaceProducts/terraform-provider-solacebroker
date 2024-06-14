@@ -36,6 +36,6 @@ The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVir
 "backup" - The Bridge is used for the backup virtual router.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
-- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both.
+- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both. Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `remote_subscription_topic` (String) The topic of the Bridge remote subscription.

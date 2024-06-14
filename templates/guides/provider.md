@@ -36,7 +36,7 @@ A given version of the provider is built to support a specific version of the SE
 
 ## Object Relationships
 
-Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "Identifying" attributes that give a hint to required pre-existing objects.
+Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "required" attributes that give a hint to required pre-existing objects.
 For example:
 
 ```terraform
@@ -74,7 +74,15 @@ Some attributes don't have a default value. In this case their value will be det
 
 ## Object Type Attributes
 
-An object type attribute is a collection of attributes, for example `"event_ingress_msg_rate_threshold": { "clear_value": 2000000, "set_value": 5000000 }`. Note that due to Terraform provider framework limitations, there is no error reported when providing unknown nested attributes.
+An object type attribute is a collection of attributes, for example `"event_ingress_msg_rate_threshold": { "clear_value": 2000000, "set_value": 5000000 }`. Note that due to Terraform provider framework limitations, there is no error reported when configuring unknown nested attributes in object type attributes.
+
+## Resource replace behavior
+
+In-place update of some resources is not possible at configuration change  and instead the resource will be replaced for the change to occur.
+
+Generally, changing a "required" attribute requires the replace of any resource because the changed attribute will identify a new resource. Optional attributes that are marked as "requires-replacement" in the [provider resources documentation](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs) also cause replace of the resource.
+
+> Important: if a resource is replaced caused by a change, its child resources will be deleted and not automatically restored. Running `terraform plan` after the resource has been replaced will reveal the missing child objects to be restored and a subsequent `terraform apply` will be required to restore those child resources. For example, changing the `direct_only_enabled` attribute of the `dmr_cluster` resource will delete all child resources such as `dmr_cluster_link`.
 
 ## Importing Resources
 

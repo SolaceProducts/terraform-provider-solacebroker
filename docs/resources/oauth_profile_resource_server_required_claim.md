@@ -30,4 +30,4 @@ The import identifier for this resource is `{oauthProfileName}/{resourceServerRe
 
 - `oauth_profile_name` (String) The name of the OAuth profile.
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
-- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value. Note that this attribute requires replacement of the resource when updated.

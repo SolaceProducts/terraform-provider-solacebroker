@@ -38,7 +38,7 @@ The import identifier for this resource is `{msgVpnName}/{cacheName}`, where {&l
 <pre>
 "auto" - The Distributed Cache is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
- Available since SEMP API version 2.28.
+ Available since SEMP API version 2.28. Note that this attribute requires replacement of the resource when updated.
 - `enabled` (Boolean) Enable or disable the Distributed Cache. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `heartbeat` (Number) The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `10`.
 - `scheduled_delete_msg_day_list` (String) The scheduled delete message day(s), specified as "daily" or a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", or "Sat", with no spaces, and in sorted order from Sunday to Saturday. The empty-string ("") can also be specified, indicating no schedule is configured ("scheduled_delete_msg_time_list" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

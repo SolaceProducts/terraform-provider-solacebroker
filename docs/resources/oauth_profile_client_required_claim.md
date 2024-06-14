@@ -29,5 +29,5 @@ The import identifier for this resource is `{oauthProfileName}/{clientRequiredCl
 ### Required
 
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
-- `client_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+- `client_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value. Note that this attribute requires replacement of the resource when updated.
 - `oauth_profile_name` (String) The name of the OAuth profile.

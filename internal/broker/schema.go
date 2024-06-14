@@ -87,6 +87,10 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			continue
 		}
 		attrRequiresReplace := isResource && (requiresReplace || attr.RequiresReplace)
+		markdownDescription := attr.MarkdownDescription
+		if attrRequiresReplace && !attr.Identifying {
+			markdownDescription += " Note that this attribute requires replacement of the resource when updated."
+		}
 		if len(attr.Attributes) != 0 {
 			childTypes := map[string]tftypes.Type{}
 			for _, cAttr := range attr.Attributes {
@@ -104,7 +108,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 		case String:
 			tfAttributes[attr.TerraformName] = schema.StringAttribute{
 				Description:         attr.Description,
-				MarkdownDescription: attr.MarkdownDescription,
+				MarkdownDescription: markdownDescription,
 				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
@@ -116,7 +120,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 		case Int64:
 			tfAttributes[attr.TerraformName] = schema.Int64Attribute{
 				Description:         attr.Description,
-				MarkdownDescription: attr.MarkdownDescription,
+				MarkdownDescription: markdownDescription,
 				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
@@ -128,7 +132,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 		case Bool:
 			tfAttributes[attr.TerraformName] = schema.BoolAttribute{
 				Description:         attr.Description,
-				MarkdownDescription: attr.MarkdownDescription,
+				MarkdownDescription: markdownDescription,
 				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,
@@ -141,7 +145,7 @@ func terraformAttributeMap(attributes []*AttributeInfo, isResource bool, require
 			tfAttributes[attr.TerraformName] = schema.SingleNestedAttribute{
 				Attributes:          terraformAttributeMap(attr.Attributes, isResource, requiresReplace || attr.RequiresReplace),
 				Description:         attr.Description,
-				MarkdownDescription: attr.MarkdownDescription,
+				MarkdownDescription: markdownDescription,
 				Required:            attr.Required && isResource || !isResource && attr.Identifying,
 				Optional:            !attr.Required && isResource,
 				Computed:            !attr.Identifying && !isResource,

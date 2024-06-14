@@ -29,6 +29,6 @@ The import identifier for this resource is `{msgVpnName}/{oauthProfileName}/{cli
 ### Required
 
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
-- `client_required_claim_value` (String) The required claim value.
+- `client_required_claim_value` (String) The required claim value. Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `oauth_profile_name` (String) The name of the OAuth profile.

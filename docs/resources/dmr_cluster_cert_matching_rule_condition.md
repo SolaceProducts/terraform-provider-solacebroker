@@ -50,5 +50,5 @@ The import identifier for this resource is `{dmrClusterName}/{ruleName}/{source}
 
 ### Optional
 
-- `attribute` (String) Link Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
-- `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
+- `attribute` (String) Link Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`. Note that this attribute requires replacement of the resource when updated.
+- `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`. Note that this attribute requires replacement of the resource when updated.
