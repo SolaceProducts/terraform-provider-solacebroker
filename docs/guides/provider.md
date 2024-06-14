@@ -86,18 +86,17 @@ Generally, changing a "required" attribute requires the replace of any resource 
 
 ## Importing Resources
 
-When [importing resources to Terraform](https://developer.hashicorp.com/terraform/language/import#syntax) an `id` is required. This `id` shall be constructed as a path from the highest parent object down to the resource.
+When [importing a resource](https://developer.hashicorp.com/terraform/cli/commands/import) to Terraform, an [ID or import identifier](https://developer.hashicorp.com/terraform/language/import#import-id) is required. Use the navigation to the left to look up the provider import identifier for the required resource.
 
-For example, when importing a `solacebroker_msg_vpn_queue_subscription`, the parent relationship is `msg_vpn` > `msg_vpn_queue` > `msg_vpn_queue_subscription`. To construct the `id`, concatenate the identifications of parents and the particular resource identification, separated by `/` (slash). Also note that elements containing `/` must be URL-encoded.
+The recommended steps to import a resource is:
 
-For this example:
-```
-id = <msg-vpn-name>/<queue-name>/<url-encoded subscription-name>
-# using my-vpn, my-queue, a/b/c
-id = my-vpn/my-queue/a%2Fb%2Fc
-```
+1. Add the desired resource block with the type and a name for the required resource to the Terraform config file. At a minimum, provide the required attributes. The list of required attributes are available from the resource documentation. Alternatively, get most attributes for the required resource (except for sensitive ones) from using the [configuration generator](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs/guides/config-generator).
+1. Use the `terraform import` command to get the resource to the state file.
+1. Test the new resource by running `terraform plan`. If all the non-default attributes were added correctly it should show no need to update. If there is any diff then the indicated attributes should be updated until the plan shows no change.
 
-## Notes
+> Note: import will only write actual values to the state file for attributes that are set to a non-default value. The value of attributes with default value will be imported as `null`.
+
+## Notes and Limitations
 
 * Terraform `apply` is not atomic.  If interrupted by a user, failure, reboot, or switchover the configuration changes may be partly applied.  Terraform does not perform rollbacks.
 * Terraform must be the authoritative source of configuration.  If there is any overlap between Terraform controlled configuration and either pre-existing configuration or modifications from other management interfaces the behaviour will be undefined.
