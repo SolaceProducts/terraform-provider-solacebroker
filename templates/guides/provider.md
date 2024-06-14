@@ -96,6 +96,11 @@ The recommended steps to import a resource is:
 
 > Note: import will only write actual values to the state file for attributes that are set to a non-default value. The value of attributes with default value will be imported as `null`.
 
+## PubSub+ Cloud notes
+
+* Applying a message VPN resource configuration to a Cloud broker may cause issues with attributes that are not authorized to be set in Cloud. This can be resolved by removing or commenting out the attributes in the configuration that are reported to be conflicting with the authorization access level.
+* Similarly, attempting to delete the configuration of a message VPN using `terraform destroy` is also expected to fail because of the insufficient authorization access level of the Cloud user.
+
 ## Notes and Limitations
 
 * Terraform `apply` is not atomic.  If interrupted by a user, failure, reboot, or switchover the configuration changes may be partly applied.  Terraform does not perform rollbacks.
