@@ -43,7 +43,7 @@ func init() {
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
-				Default:             false,
+				Default:             true,
 			},
 			{
 				BaseType:            broker.String,
