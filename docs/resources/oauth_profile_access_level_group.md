@@ -6,7 +6,7 @@ description: |-
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
-  The import identifier for this resource is {oauthProfileName}/{groupName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {oauth_profile_name}/{group_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_oauth_profile_access_level_group (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.24.
 
-The import identifier for this resource is `{oauthProfileName}/{groupName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{oauth_profile_name}/{group_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

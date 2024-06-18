@@ -6,7 +6,7 @@ description: |-
   A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
-  The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.0.
 
-The import identifier for this resource is `{msgVpnName}/{restDeliveryPointName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

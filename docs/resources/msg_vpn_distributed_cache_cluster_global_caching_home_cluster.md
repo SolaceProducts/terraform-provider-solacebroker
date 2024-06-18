@@ -6,7 +6,7 @@ description: |-
   A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
-  The import identifier for this resource is {msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.11.
 
-The import identifier for this resource is `{msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

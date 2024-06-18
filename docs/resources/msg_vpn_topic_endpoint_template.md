@@ -6,7 +6,7 @@ description: |-
   A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
-  The import identifier for this resource is {msgVpnName}/{topicEndpointTemplateName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{topic_endpoint_template_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_topic_endpoint_template (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.14.
 
-The import identifier for this resource is `{msgVpnName}/{topicEndpointTemplateName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{topic_endpoint_template_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

@@ -6,7 +6,7 @@ description: |-
   The Remote Message VPN is the Message VPN that the Bridge connects to.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
-  The import identifier for this resource is {msgVpnName}/{bridgeName}/{bridgeVirtualRouter}/{remoteMsgVpnName}/{remoteMsgVpnLocation}/{remoteMsgVpnInterface}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_msg_vpn_name}/{remote_msg_vpn_location}/{remote_msg_vpn_interface}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_bridge_remote_msg_vpn (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.0.
 
-The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVirtualRouter}/{remoteMsgVpnName}/{remoteMsgVpnLocation}/{remoteMsgVpnInterface}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_msg_vpn_name}/{remote_msg_vpn_location}/{remote_msg_vpn_interface}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

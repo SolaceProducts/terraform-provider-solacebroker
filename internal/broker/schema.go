@@ -174,9 +174,11 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 	addObjectConverters(inputs.Attributes)
 	tfAttributes := terraformAttributeMap(inputs.Attributes, isResource, inputs.ObjectType == ReplaceOnlyObject)
 	var identifyingAttributes []*AttributeInfo
+	identifyingAttributesMap := map[string]string{}
 	for _, attr := range inputs.Attributes {
 		if attr.Identifying {
 			identifyingAttributes = append(identifyingAttributes, attr)
+			identifyingAttributesMap["{"+attr.SempName+"}"] = "{" + attr.TerraformName + "}"
 		}
 	}
 	sort.Slice(identifyingAttributes, func(i, j int) bool {
@@ -197,8 +199,11 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 			// Construct identifiers string from matches, separated by /
 			identifiers := make([]string, len(matches))
 			for i, match := range matches {
-				identifiers[i] = match[0]
-				// TODO: convert to Terraform Names!
+				tfIdentifier, ok := identifyingAttributesMap[match[0]]
+				if !ok {
+					panic(fmt.Sprintf("No terraform identifier found for %s", match[0]))
+				}
+				identifiers[i] = tfIdentifier
 			}
 			identifiersString = fmt.Sprintf("`%s`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.", strings.Join(identifiers, "/"))
 		} else {

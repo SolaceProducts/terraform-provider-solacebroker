@@ -8,7 +8,7 @@ description: |-
   This mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.17.
-  The import identifier for this resource is {virtualHostname}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {virtual_hostname}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_virtual_hostname (Resource)
@@ -25,7 +25,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.17.
 
-The import identifier for this resource is `{virtualHostname}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{virtual_hostname}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

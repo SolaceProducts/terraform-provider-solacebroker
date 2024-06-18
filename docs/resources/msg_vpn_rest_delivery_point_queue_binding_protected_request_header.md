@@ -6,7 +6,7 @@ description: |-
   A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.30.
-  The import identifier for this resource is {msgVpnName}/{restDeliveryPointName}/{queueBindingName}/{headerName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}/{queue_binding_name}/{header_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding_protected_request_header (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.30.
 
-The import identifier for this resource is `{msgVpnName}/{restDeliveryPointName}/{queueBindingName}/{headerName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_name}/{queue_binding_name}/{header_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

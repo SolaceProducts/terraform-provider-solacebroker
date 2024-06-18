@@ -6,7 +6,7 @@ description: |-
   Additional claims to be verified in the access token.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
-  The import identifier for this resource is {oauthProfileName}/{resourceServerRequiredClaimName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {oauth_profile_name}/{resource_server_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_oauth_profile_resource_server_required_claim (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.24.
 
-The import identifier for this resource is `{oauthProfileName}/{resourceServerRequiredClaimName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{oauth_profile_name}/{resource_server_required_claim_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

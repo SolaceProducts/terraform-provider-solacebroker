@@ -6,7 +6,7 @@ description: |-
   An MQTT Session object is a virtual representation of an MQTT client connection. An MQTT session holds the state of an MQTT client (that is, it is used to contain a client's QoS 0 and QoS 1 subscription sets and any undelivered QoS 1 messages).
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
-  The import identifier for this resource is {msgVpnName}/{mqttSessionClientId}/{mqttSessionVirtualRouter}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{mqtt_session_client_id}/{mqtt_session_virtual_router}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_mqtt_session (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.1.
 
-The import identifier for this resource is `{msgVpnName}/{mqttSessionClientId}/{mqttSessionVirtualRouter}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{mqtt_session_client_id}/{mqtt_session_virtual_router}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

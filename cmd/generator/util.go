@@ -243,6 +243,9 @@ func hclFormatResource(resourceConfig ResourceConfig) string {
 }
 
 func SanitizeHclStringValue(value string) string {
+	if !json.Valid([]byte(value)) {
+		return ""
+	}
 	b, _ := json.Marshal(value)
 	s := string(b)
 	output := s[1 : len(s)-1]

@@ -6,7 +6,7 @@ description: |-
   An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
-  The import identifier for this resource is {msgVpnName}/{mqttSessionClientId}/{mqttSessionVirtualRouter}/{subscriptionTopic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{mqtt_session_client_id}/{mqtt_session_virtual_router}/{subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_mqtt_session_subscription (Resource)
@@ -19,7 +19,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 This has been available since SEMP API version 2.1.
 
-The import identifier for this resource is `{msgVpnName}/{mqttSessionClientId}/{mqttSessionVirtualRouter}/{subscriptionTopic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{mqtt_session_client_id}/{mqtt_session_virtual_router}/{subscription_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
