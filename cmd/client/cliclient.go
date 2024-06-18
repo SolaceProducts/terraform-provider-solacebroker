@@ -29,7 +29,7 @@ func CliClient(cliParams generator.CliParams) *semp.Client {
 		false, // this is a client for the generator
 		semp.BasicAuth(*cliParams.Username, *cliParams.Password),
 		semp.BearerToken(*cliParams.Bearer_token),
-		semp.Retries(uint(*cliParams.Retries), *cliParams.Retry_min_interval, *cliParams.Retry_max_interval),
+		semp.Retries(*cliParams.Retries, *cliParams.Retry_min_interval, *cliParams.Retry_max_interval),
 		semp.RequestLimits(*cliParams.Request_timeout_duration, *cliParams.Request_min_interval))
 	return client
 }

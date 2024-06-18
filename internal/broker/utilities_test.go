@@ -1,7 +1,6 @@
 package broker
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -42,9 +41,6 @@ func TestClient(t *testing.T) {
 		os.Setenv("SOLACEBROKER_PASSWORD", test.EnvPassword)
 		os.Setenv("SOLACEBROKER_BEARER_TOKEN", test.EnvBearertoken)
 
-		// Check if the environment variables are set correctly
-		env := os.Getenv("SOLACEBROKER_USERNAME")
-		fmt.Println(env)
 		// Create a providerData struct from the test matrix
 		var username, password, bearertoken types.String
 		if test.ParamUsername != "" {
