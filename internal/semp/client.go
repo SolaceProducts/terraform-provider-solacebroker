@@ -163,9 +163,7 @@ func (c *Client) doRequest(request *http.Request) ([]byte, error) {
 	if request.Method != http.MethodGet {
 		request.Header.Set("Content-Type", "application/json")
 	}
-	// Prefer OAuth even if Basic Auth credentials provided
 	if c.bearerToken != "" {
-		// TODO: add log
 		request.Header.Set("Authorization", "Bearer "+c.bearerToken)
 	} else if c.username != "" {
 		request.SetBasicAuth(c.username, c.password)
