@@ -153,13 +153,13 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	// If there is any 1 complete set of credentials in the provider block those are always used and are the priority.
 	// If there is not any 1 complete set of credentials in the provider block then look for 1 complete set in the env vars.
 	// If there are multiple complete sets in either the provider block or env vars this is an error.
-	// If there are no complete sets in the env vars this is an error. (edited) 
+	// If there are no complete sets in the env vars this is an error. (edited)
 	if username == "" && password == "" && bearerToken == "" {
 		return nil, diag.NewErrorDiagnostic("Bearer token or basic authentication credentials must be provided", semp.ErrProviderParametersError.Error())
 	}
 	if !providerData.BearerToken.IsNull() && providerData.Username.IsNull() && providerData.Password.IsNull() ||
-	   providerData.BearerToken.IsNull() && !providerData.Username.IsNull() && !providerData.Password.IsNull() {
-			// these are valid combinations in the provider block, no need to check further
+		providerData.BearerToken.IsNull() && !providerData.Username.IsNull() && !providerData.Password.IsNull() {
+		// these are valid combinations in the provider block, no need to check further
 	} else {
 		if (!providerData.BearerToken.IsNull() && (!providerData.Username.IsNull() || !providerData.Password.IsNull())) ||
 			(bearerToken != "" && (username != "" || password != "")) {
