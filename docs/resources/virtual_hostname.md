@@ -3,6 +3,7 @@
 page_title: "solacebroker_virtual_hostname Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.
   Clients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.
   This mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.
@@ -12,6 +13,8 @@ description: |-
 ---
 
 # solacebroker_virtual_hostname (Resource)
+
+> This resource is not supported in production by Solace in this version.
 
 A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.
 

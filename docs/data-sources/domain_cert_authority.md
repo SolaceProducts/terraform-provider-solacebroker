@@ -3,12 +3,15 @@
 page_title: "solacebroker_domain_cert_authority Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   Certificate Authorities trusted for domain verification.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_domain_cert_authority (Data Source)
+
+> This resource is not supported in production by Solace in this version.
 
 Certificate Authorities trusted for domain verification.
 

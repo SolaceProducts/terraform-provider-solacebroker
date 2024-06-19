@@ -49,7 +49,7 @@ type Client struct {
 	username           string
 	password           string
 	bearerToken        string
-	retries            uint
+	retries            int64
 	retryMinInterval   time.Duration
 	retryMaxInterval   time.Duration
 	requestMinInterval time.Duration
@@ -82,7 +82,7 @@ func BearerToken(bearerToken string) Option {
 	}
 }
 
-func Retries(numRetries uint, retryMinInterval, retryMaxInterval time.Duration) Option {
+func Retries(numRetries int64, retryMinInterval, retryMaxInterval time.Duration) Option {
 	return func(client *Client) {
 		client.retries = numRetries
 		client.retryMinInterval = retryMinInterval

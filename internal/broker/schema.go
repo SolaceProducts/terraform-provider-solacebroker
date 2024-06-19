@@ -188,7 +188,11 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 		jIndex := strings.Index(inputs.PathTemplate, "{"+jAttr.SempName+"}")
 		return iIndex < jIndex
 	})
-
+	unsupportedResourceWarning := ""
+	// Add unsupported warning for any resource not contained within a message vpn
+	if !strings.HasPrefix(inputs.TerraformName, "msg_vpn") {
+		unsupportedResourceWarning = "> This resource is not supported in production by Solace in this version.\n\n"
+	}
 	identifierInfo := ""
 	if isResource {
 		identifiersString := ""
@@ -215,7 +219,7 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 	s := schema.Schema{
 		Attributes:          tfAttributes,
 		Description:         inputs.Description,
-		MarkdownDescription: inputs.MarkdownDescription + identifierInfo,
+		MarkdownDescription: unsupportedResourceWarning + inputs.MarkdownDescription + identifierInfo,
 		DeprecationMessage:  inputs.DeprecationMessage,
 		Version:             inputs.Version, // This will be replaced by the major version from ProviderVersion in resource.go
 	}

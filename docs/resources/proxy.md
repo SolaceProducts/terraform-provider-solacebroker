@@ -3,6 +3,7 @@
 page_title: "solacebroker_proxy Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a OAuth Provider, select the proxy by name in the configuration for that object.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.41.
@@ -10,6 +11,8 @@ description: |-
 ---
 
 # solacebroker_proxy (Resource)
+
+> This resource is not supported in production by Solace in this version.
 
 proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a OAuth Provider, select the proxy by name in the configuration for that object.
 

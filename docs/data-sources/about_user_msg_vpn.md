@@ -3,12 +3,15 @@
 page_title: "solacebroker_about_user_msg_vpn Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   This provides information about the Message VPN access level for the username used to access the SEMP API.
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
   This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user_msg_vpn (Data Source)
+
+> This resource is not supported in production by Solace in this version.
 
 This provides information about the Message VPN access level for the username used to access the SEMP API.
 

@@ -81,7 +81,7 @@ The message VPN resource address in the generated configuration will be 'solaceb
 			}
 		}
 		if flags.Changed("retries") {
-			if retries, err := flags.GetUint("retries"); err == nil {
+			if retries, err := flags.GetInt64("retries"); err == nil {
 				cliParams.Retries = &retries
 			}
 		}
@@ -188,7 +188,7 @@ func init() {
 	generateCmd.PersistentFlags().String("username", "", "Basic authentication username")
 	generateCmd.PersistentFlags().String("password", "", "Basic authentication password")
 	generateCmd.PersistentFlags().String("bearer_token", "", "Bearer token for authentication")
-	generateCmd.PersistentFlags().Uint("retries", semp.DefaultRetries, "Retries")
+	generateCmd.PersistentFlags().Int64("retries", semp.DefaultRetries, "Retries")
 	generateCmd.PersistentFlags().Duration("retry_min_interval", semp.DefaultRetryMinInterval, "Minimum retry interval")
 	generateCmd.PersistentFlags().Duration("retry_max_interval", semp.DefaultRetryMaxInterval, "Maximum retry interval")
 	generateCmd.PersistentFlags().Duration("request_timeout_duration", semp.DefaultRequestTimeout, "Request timeout duration")

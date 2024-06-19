@@ -3,6 +3,7 @@
 page_title: "solacebroker_broker Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   This object contains global configuration for the message broker.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
@@ -130,6 +131,8 @@ description: |-
 ---
 
 # solacebroker_broker (Data Source)
+
+> This resource is not supported in production by Solace in this version.
 
 This object contains global configuration for the message broker.
 

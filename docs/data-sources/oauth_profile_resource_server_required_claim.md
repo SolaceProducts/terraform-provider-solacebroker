@@ -3,12 +3,15 @@
 page_title: "solacebroker_oauth_profile_resource_server_required_claim Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   Additional claims to be verified in the access token.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_resource_server_required_claim (Data Source)
+
+> This resource is not supported in production by Solace in this version.
 
 Additional claims to be verified in the access token.
 

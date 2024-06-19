@@ -35,7 +35,7 @@ type CliParams struct {
 	Username                 *string
 	Password                 *string
 	Bearer_token             *string
-	Retries                  *uint
+	Retries                  *int64
 	Retry_min_interval       *time.Duration
 	Retry_max_interval       *time.Duration
 	Request_timeout_duration *time.Duration
@@ -96,7 +96,7 @@ func UpdateCliParamsWithEnv(cliParams CliParams) CliParams {
 	if *cliParams.Username != "" && *cliParams.Password == "" {
 		ExitWithError("Password must be provided when username is provided")
 	}
-	cliParams.Retries = UintParamWithEnv("retries", cliParams.Retries, false, semp.DefaultRetries)
+	cliParams.Retries = Int64ParamWithEnv("retries", cliParams.Retries, false, semp.DefaultRetries)
 	cliParams.Retry_min_interval = DurationParamWithEnv("retry_min_interval", cliParams.Retry_min_interval, false, semp.DefaultRetryMinInterval)
 	cliParams.Retry_max_interval = DurationParamWithEnv("retry_max_interval", cliParams.Retry_max_interval, false, semp.DefaultRetryMaxInterval)
 	cliParams.Request_timeout_duration = DurationParamWithEnv("request_timeout_duration", cliParams.Request_timeout_duration, false, semp.DefaultRequestTimeout)
@@ -121,7 +121,7 @@ func StringParamWithEnv(name string, value *string, isMandatory bool, fallback s
 	return &envValue
 }
 
-func UintParamWithEnv(name string, value *uint, isMandatory bool, fallback uint) *uint {
+func Int64ParamWithEnv(name string, value *int64, isMandatory bool, fallback int64) *int64 {
 	if value != nil {
 		return value
 	}
@@ -133,12 +133,11 @@ func UintParamWithEnv(name string, value *uint, isMandatory bool, fallback uint)
 			return &fallback //default to fallback
 		}
 	}
-	i, err := strconv.Atoi(envValue)
+	i, err := strconv.ParseInt(envValue, 10, 64)
 	if err != nil {
 		ExitWithError(fmt.Sprintf("Invalid value for %s: %s", name, envValue))
 	}
-	res := uint(i)
-	return &res
+	return &i
 }
 
 func BooleanParamWithEnv(name string, value *bool, isMandatory bool, fallback bool) *bool {

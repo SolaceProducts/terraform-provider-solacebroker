@@ -3,12 +3,15 @@
 page_title: "solacebroker_about_user Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version.
   Session and access level information about the user accessing the SEMP API.
   A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
   This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user (Data Source)
+
+> This resource is not supported in production by Solace in this version.
 
 Session and access level information about the user accessing the SEMP API.
 
