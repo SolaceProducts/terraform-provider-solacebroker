@@ -164,7 +164,7 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 		}
 		if username == "" && password == "" && bearerToken == "" {
 			return nil, diag.NewErrorDiagnostic("Bearer token or basic authentication credentials must be provided", semp.ErrProviderParametersError.Error())
-		}	
+		}
 		if (!providerData.BearerToken.IsNull() && (!providerData.Username.IsNull() || !providerData.Password.IsNull())) ||
 			(bearerToken != "" && (username != "" || password != "")) {
 			return nil, diag.NewErrorDiagnostic("Cannot use Bearer token with basic authentication credentials", semp.ErrProviderParametersError.Error())
