@@ -102,7 +102,7 @@ jobs:
           sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
           terraform plan | grep "3 to add"
           terraform apply -auto-approve | grep "Apply complete"
-          # TODO: GH actions fails on following commands, need to investigate
+          # GH actions fails on following commands, need to investigate. Passes locally.
           # diff terraform.tfstate terraform.tfstate.bak > diff.out
           # ls -l
           # cat diff.out

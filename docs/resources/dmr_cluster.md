@@ -3,7 +3,7 @@
 page_title: "solacebroker_dmr_cluster Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version.
+  This resource is not supported in production by Solace in this version, see provider limitations.
   A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
@@ -12,7 +12,7 @@ description: |-
 
 # solacebroker_dmr_cluster (Resource)
 
-> This resource is not supported in production by Solace in this version.
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
 
 A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
 

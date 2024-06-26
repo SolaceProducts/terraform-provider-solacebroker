@@ -3,7 +3,7 @@
 page_title: "solacebroker_dmr_cluster_link Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version.
+  This resource is not supported in production by Solace in this version, see provider limitations.
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
@@ -12,7 +12,7 @@ description: |-
 
 # solacebroker_dmr_cluster_link (Resource)
 
-> This resource is not supported in production by Solace in this version.
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
 
 A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
 

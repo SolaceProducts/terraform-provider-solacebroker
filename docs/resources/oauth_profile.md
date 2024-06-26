@@ -3,7 +3,7 @@
 page_title: "solacebroker_oauth_profile Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version.
+  This resource is not supported in production by Solace in this version, see provider limitations.
   OAuth profiles specify how to securely authenticate to an OAuth provider.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
@@ -12,7 +12,7 @@ description: |-
 
 # solacebroker_oauth_profile (Resource)
 
-> This resource is not supported in production by Solace in this version.
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
 
 OAuth profiles specify how to securely authenticate to an OAuth provider.
 

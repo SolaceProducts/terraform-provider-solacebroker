@@ -3,7 +3,7 @@
 page_title: "solacebroker_oauth_profile_client_authorization_parameter Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version.
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Additional parameters to be passed to the OAuth authorization endpoint.
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
@@ -12,7 +12,7 @@ description: |-
 
 # solacebroker_oauth_profile_client_authorization_parameter (Resource)
 
-> This resource is not supported in production by Solace in this version.
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
 
 Additional parameters to be passed to the OAuth authorization endpoint.
 

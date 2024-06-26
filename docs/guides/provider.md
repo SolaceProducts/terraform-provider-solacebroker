@@ -12,21 +12,21 @@ This provider supports configuring software event brokers and will fail if appli
 
 ## Mapping of SEMP API and Provider Names
 
-Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming scheme, while SEMP uses camel case. Resources and datasource are also prefixed with the provider local name, `solacebroker_`.  For example, `solacebroker_msg_vpn` is the message-vpn resource name and `max_subscription_count` is the attribute for the maximum subscription count, since `MsgVpn` is the SEMP API object name and `maxSubscriptionCount` is the name of the SEMP attribute.
+Terraform uses the [snake case](https://en.wikipedia.org/wiki/Snake_case) naming scheme, while SEMP uses camel case. Resources and datasource are also prefixed with the provider local name, `solacebroker_`.  For example, `solacebroker_msg_vpn` is the Message VPN resource name and `max_subscription_count` is the attribute for the maximum subscription count, since `MsgVpn` is the SEMP API object name and `maxSubscriptionCount` is the name of the SEMP attribute.
 
-## Broker SEMP API Access
+## Event Broker SEMP API Access
 
 The broker SEMP service, by default at port 8080 for HTTP and TLS port 1943 for HTTPS, must be accessible to the console running Terraform CLI.
 
-The supported access credentials are basic authentication using username and password, and OAuth using a token. The two options are mutually exclusive and the provider will fail if both are configured.
+The supported access credentials are basic authentication using username and password, and OAuth using a token. The two options are mutually exclusive, and the provider will fail if both are configured.
 
 -> The [user access levels](https://docs.solace.com/Admin/CLI-User-Access-Levels.htm) associated with the credentials used must be properly configured on the broker so that the desired actions are authorized.
 
-## SEMP API Versioning and Provider Broker Compatibility
+## SEMP API Versioning and Provider Event Broker Compatibility
 
 The SEMP API minor version reflects the supported set of objects, attributes, their properties and possible deprecations.
 
-New versions of the PubSub+ event broker with new features typically require a newer SEMP API version that supports the new or updated objects, attributes, etc. The SEMP API version of a broker version can be determined from the [Solace PubSub+ documentation](https://docs.solace.com/Admin/SEMP/SEMP-API-Versions.htm#SEMP_v2_to_SolOS_Version_Mapping).
+New versions of the PubSub+ event broker with new features typically require a newer SEMP API version that supports the new or updated objects, attributes, etc. The SEMP API version of an event broker version can be determined from the [Solace PubSub+ documentation](https://docs.solace.com/Admin/SEMP/SEMP-API-Versions.htm#SEMP_v2_to_SolOS_Version_Mapping).
 
 A given version of the provider is built to support a specific version of the SEMP API. For the SEMP API version of the provider and corresponding broker version, refer to the [Version Compatibility section](https://docs.solace.com/Admin/SEMP/Declarative-SEMP.htm#Version) of the Solace PubSub+ documentation.
 
@@ -36,7 +36,7 @@ A given version of the provider is built to support a specific version of the SE
 
 ## Object Relationships
 
-Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "required" attributes that give a hint to required pre-existing objects.
+Event Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "required" attributes that give a hint to required pre-existing objects.
 For example:
 
 ```terraform
@@ -66,7 +66,7 @@ The Broker object differs from all other objects as it always exists for a given
 
 There are objects that are preexisting defaults and cannot be created or destroyed, only updated. The default Message VPN and the default client profile are examples of this. Any direct attempt to remove these resources will fail. If the parent object is not a default object then deleting that parent will also remove its child default object.
 
-> If for example a configuration includes creating a non-default Message VPN and modifying its default client-profile then when destroying the configuration the provider would report an error about removing the client-profile. But the client-profile object will be eventually deleted because the whole VPN will also be deleted, which includes the default client-profile.
+> If, for example, a configuration includes creating a non-default Message VPN and modifying its default client profile, then when destroying the configuration the provider would report an error about removing the client profile. However, the client profile object will be eventually deleted because the whole Message VPN will also be deleted, which includes the default client profile.
 
 ## Broker-Defined Attributes
 
@@ -76,30 +76,30 @@ Some attributes don't have a default value. In this case their value will be det
 
 An object type attribute is a collection of attributes, for example `"event_ingress_msg_rate_threshold": { "clear_value": 2000000, "set_value": 5000000 }`. Note that due to Terraform provider framework limitations, there is no error reported when configuring unknown nested attributes in object type attributes.
 
-## Resource replace behavior
+## Resource Replace Behavior
 
 In-place update of some resources is not possible at configuration change  and instead the resource will be replaced for the change to occur.
 
 Generally, changing a "required" attribute requires the replace of any resource because the changed attribute will identify a new resource. Optional attributes that are marked as "requires-replacement" in the [provider resources documentation](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs) also cause replace of the resource.
 
-> Important: if a resource is replaced caused by a change, its child resources will be deleted and not automatically restored. Running `terraform plan` after the resource has been replaced will reveal the missing child objects to be restored and a subsequent `terraform apply` will be required to restore those child resources. For example, changing the `direct_only_enabled` attribute of the `dmr_cluster` resource will delete all child resources such as `dmr_cluster_link`.
+> Important: If a resource is replaced because of a change, its child resources will be deleted and not automatically restored. Running `terraform plan` after the resource has been replaced will reveal the missing child objects to be restored and a subsequent `terraform apply` will be required to restore those child resources. For example, changing the `direct_only_enabled` attribute of the `dmr_cluster` resource will delete all child resources such as `dmr_cluster_link`.
 
 ## Importing Resources
 
 When [importing a resource](https://developer.hashicorp.com/terraform/cli/commands/import) to Terraform, an [ID or import identifier](https://developer.hashicorp.com/terraform/language/import#import-id) is required. Use the navigation to the left to look up the provider import identifier for the required resource.
 
-The recommended steps to import a resource is:
+We recommend using the following procedure to import a resource:
 
-1. Add the desired resource block with the type and a name for the required resource to the Terraform config file. At a minimum, provide the required attributes. The list of required attributes are available from the resource documentation. Alternatively, get most attributes for the required resource (except for sensitive ones) from using the [configuration generator](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs/guides/config-generator).
+1. Add the desired resource block with the type and a name for the required resource to the Terraform config file. At a minimum, provide the required attributes. The list of required attributes is available from the resource documentation. Alternatively, you can get most attributes for the required resource (except for sensitive ones) from using the [configuration generator](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs/guides/config-generator).
 1. Use the `terraform import` command to get the resource to the state file.
-1. Test the new resource by running `terraform plan`. If all the non-default attributes were added correctly it should show no need to update. If there is any diff then the indicated attributes should be updated until the plan shows no change.
+1. Test the new resource by running `terraform plan`. If all the non-default attributes were added correctly it should show no need to update. If there is any diff, then the indicated attributes should be updated until the plan shows no change.
 
-> Note: import will only write actual values to the state file for attributes that are set to a non-default value. The value of attributes with default value will be imported as `null`.
+> Note: Terraform import will only write actual values to the state file for attributes that are set to a non-default value. The value of attributes with default value will be imported as `null`.
 
-## PubSub+ Cloud notes
+## PubSub+ Cloud Notes
 
-* Applying a message VPN resource configuration to a Cloud broker may cause issues with attributes that are not authorized to be set in Cloud. This can be resolved by removing or commenting out the attributes in the configuration that are reported to be conflicting with the authorization access level.
-* Similarly, attempting to delete the configuration of a message VPN using `terraform destroy` is also expected to fail because of the insufficient authorization access level of the Cloud user.
+* Applying a Message VPN resource configuration to a PubSub+ Cloud broker may cause issues with attributes that are not authorized to be set in PubSub+ Cloud. This can be resolved by removing or commenting out the attributes in the configuration that are reported to be conflicting with the authorization access level.
+* Similarly, attempting to delete the configuration of a Message VPN using `terraform destroy` is also expected to fail because of the insufficient authorization access level of the PubSub+ Cloud user.
 
 ## Notes and Limitations
 

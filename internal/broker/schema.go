@@ -191,7 +191,7 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 	unsupportedResourceWarning := ""
 	// Add unsupported warning for any resource not contained within a message vpn
 	if !strings.HasPrefix(inputs.TerraformName, "msg_vpn") {
-		unsupportedResourceWarning = "> This resource is not supported in production by Solace in this version.\n\n"
+		unsupportedResourceWarning = "> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).\n\n"
 	}
 	identifierInfo := ""
 	if isResource {

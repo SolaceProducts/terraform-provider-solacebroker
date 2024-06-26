@@ -3,7 +3,7 @@
 page_title: "solacebroker_broker Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version.
+  This resource is not supported in production by Solace in this version, see provider limitations.
   This object contains global configuration for the message broker.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
@@ -133,7 +133,7 @@ description: |-
 
 # solacebroker_broker (Resource)
 
-> This resource is not supported in production by Solace in this version.
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
 
 This object contains global configuration for the message broker.
 
