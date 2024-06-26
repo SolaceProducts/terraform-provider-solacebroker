@@ -3,31 +3,18 @@
 page_title: "solacebroker_dmr_cluster Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
-  Attribute|Identifying|Write-Only|Deprecated|Opaque
-  :---|:---:|:---:|:---:|:---:
-  authentication_basic_password||x||x
-  authentication_client_cert_content||x||x
-  authentication_client_cert_password||x||
-  dmr_cluster_name|x|||
-  tls_server_cert_enforce_trusted_common_name_enabled|||x|
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
-  The import identifier for this resource is {dmrClusterName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {dmr_cluster_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_dmr_cluster (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
-
-
-Attribute|Identifying|Write-Only|Deprecated|Opaque
-:---|:---:|:---:|:---:|:---:
-authentication_basic_password||x||x
-authentication_client_cert_content||x||x
-authentication_client_cert_password||x||
-dmr_cluster_name|x|||
-tls_server_cert_enforce_trusted_common_name_enabled|||x|
 
 
 
@@ -35,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.11.
 
-The import identifier for this resource is `{dmrClusterName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{dmr_cluster_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -59,7 +46,7 @@ The import identifier for this resource is `{dmrClusterName}`, where {&lt;attrib
 - `authentication_client_cert_content` (String, Sensitive) The PEM formatted content for the client certificate used to login to the remote node. It must consist of a private key and between one and three certificates comprising the certificate trust chain. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
 - `authentication_client_cert_enabled` (Boolean) Enable or disable client certificate authentication for Cluster Links. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `authentication_client_cert_password` (String, Sensitive) The password for the client certificate. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. The default value is `""`.
-- `direct_only_enabled` (Boolean) Enable or disable direct messaging only. Guaranteed messages will not be transmitted through the cluster. The default value is `false`.
+- `direct_only_enabled` (Boolean) Enable or disable direct messaging only. Guaranteed messages will not be transmitted through the cluster. The default value is `false`. Note that this attribute requires replacement of the resource when updated.
 - `enabled` (Boolean) Enable or disable the Cluster. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `tls_server_cert_max_chain_depth` (Number) The maximum allowed depth of a certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
 - `tls_server_cert_validate_date_enabled` (Boolean) Enable or disable the validation of the "Not Before" and "Not After" validity dates in the certificate. When disabled, the certificate is accepted even if the certificate is not valid based on these dates. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.

@@ -3,24 +3,17 @@
 page_title: "solacebroker_oauth_profile_access_level_group Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
-  Attribute|Identifying
-  :---|:---:
-  group_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_access_level_group (Data Source)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
-
-
-Attribute|Identifying
-:---|:---:
-group_name|x
-oauth_profile_name|x
 
 
 

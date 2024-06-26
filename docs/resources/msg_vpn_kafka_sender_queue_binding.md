@@ -4,14 +4,9 @@ page_title: "solacebroker_msg_vpn_kafka_sender_queue_binding Resource - solacebr
 subcategory: ""
 description: |-
   A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.
-  Attribute|Identifying
-  :---|:---:
-  kafka_sender_name|x
-  msg_vpn_name|x
-  queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
-  The import identifier for this resource is {msgVpnName}/{kafkaSenderName}/{queueName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{kafka_sender_name}/{queue_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_kafka_sender_queue_binding (Resource)
@@ -19,19 +14,12 @@ description: |-
 A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.
 
 
-Attribute|Identifying
-:---|:---:
-kafka_sender_name|x
-msg_vpn_name|x
-queue_name|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.36.
 
-The import identifier for this resource is `{msgVpnName}/{kafkaSenderName}/{queueName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{kafka_sender_name}/{queue_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

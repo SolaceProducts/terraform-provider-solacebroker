@@ -4,15 +4,6 @@ page_title: "solacebroker_msg_vpn_bridge_remote_msg_vpn Data Source - solacebrok
 subcategory: ""
 description: |-
   The Remote Message VPN is the Message VPN that the Bridge connects to.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  bridge_name|x||
-  bridge_virtual_router|x||
-  msg_vpn_name|x||
-  password||x|x
-  remote_msg_vpn_interface|x||
-  remote_msg_vpn_location|x||
-  remote_msg_vpn_name|x||
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -20,17 +11,6 @@ description: |-
 # solacebroker_msg_vpn_bridge_remote_msg_vpn (Data Source)
 
 The Remote Message VPN is the Message VPN that the Bridge connects to.
-
-
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-bridge_name|x||
-bridge_virtual_router|x||
-msg_vpn_name|x||
-password||x|x
-remote_msg_vpn_interface|x||
-remote_msg_vpn_location|x||
-remote_msg_vpn_name|x||
 
 
 

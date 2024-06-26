@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_bridge",
-		MarkdownDescription: "Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nbridge_name|x||\nbridge_virtual_router|x||\nmsg_vpn_name|x||\nremote_authentication_basic_password||x|x\nremote_authentication_client_cert_content||x|x\nremote_authentication_client_cert_password||x|\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.0.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -191,7 +191,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "remoteConnectionRetryCount",
 				TerraformName:       "remote_connection_retry_count",
-				MarkdownDescription: "The maximum number of retry attempts to establish a connection to the remote Message VPN. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
+				MarkdownDescription: "The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.",
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},

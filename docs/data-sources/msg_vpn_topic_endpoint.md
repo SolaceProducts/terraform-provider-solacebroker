@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_topic_endpoint Data Source - solacebroker"
 subcategory: ""
 description: |-
   A Topic Endpoint attracts messages published to a topic for which the Topic Endpoint has a matching topic subscription. The topic subscription for the Topic Endpoint is specified in the client request to bind a Flow to that Topic Endpoint. Queues are significantly more flexible than Topic Endpoints and are the recommended approach for most applications. The use of Topic Endpoints should be restricted to JMS applications.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  topic_endpoint_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_msg_vpn_topic_endpoint (Data Source)
 
 A Topic Endpoint attracts messages published to a topic for which the Topic Endpoint has a matching topic subscription. The topic subscription for the Topic Endpoint is specified in the client request to bind a Flow to that Topic Endpoint. Queues are significantly more flexible than Topic Endpoints and are the recommended approach for most applications. The use of Topic Endpoints should be restricted to JMS applications.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-topic_endpoint_name|x
 
 
 

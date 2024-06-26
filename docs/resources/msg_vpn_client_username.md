@@ -4,14 +4,9 @@ page_title: "solacebroker_msg_vpn_client_username Resource - solacebroker"
 subcategory: ""
 description: |-
   A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  client_username|x||
-  msg_vpn_name|x||
-  password||x|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
-  The import identifier for this resource is {msgVpnName}/{clientUsername}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{client_username}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_client_username (Resource)
@@ -19,19 +14,12 @@ description: |-
 A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
 
 
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-client_username|x||
-msg_vpn_name|x||
-password||x|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.0.
 
-The import identifier for this resource is `{msgVpnName}/{clientUsername}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{client_username}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

@@ -3,24 +3,17 @@
 page_title: "solacebroker_oauth_profile_client_required_claim Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Additional claims to be verified in the ID token.
-  Attribute|Identifying
-  :---|:---:
-  client_required_claim_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_client_required_claim (Data Source)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 Additional claims to be verified in the ID token.
-
-
-Attribute|Identifying
-:---|:---:
-client_required_claim_name|x
-oauth_profile_name|x
 
 
 

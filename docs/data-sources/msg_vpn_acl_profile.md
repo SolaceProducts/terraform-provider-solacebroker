@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_acl_profile Data Source - solacebroker"
 subcategory: ""
 description: |-
   An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
-  Attribute|Identifying
-  :---|:---:
-  acl_profile_name|x
-  msg_vpn_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_msg_vpn_acl_profile (Data Source)
 
 An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
-
-
-Attribute|Identifying
-:---|:---:
-acl_profile_name|x
-msg_vpn_name|x
 
 
 

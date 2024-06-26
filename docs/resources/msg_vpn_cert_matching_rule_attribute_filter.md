@@ -4,14 +4,9 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule_attribute_filter Resource -
 subcategory: ""
 description: |-
   A Cert Matching Rule Attribute Filter compares a username attribute to a string.
-  Attribute|Identifying
-  :---|:---:
-  filter_name|x
-  msg_vpn_name|x
-  rule_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
-  The import identifier for this resource is {msgVpnName}/{ruleName}/{filterName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{rule_name}/{filter_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule_attribute_filter (Resource)
@@ -19,19 +14,12 @@ description: |-
 A Cert Matching Rule Attribute Filter compares a username attribute to a string.
 
 
-Attribute|Identifying
-:---|:---:
-filter_name|x
-msg_vpn_name|x
-rule_name|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.28.
 
-The import identifier for this resource is `{msgVpnName}/{ruleName}/{filterName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{rule_name}/{filter_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

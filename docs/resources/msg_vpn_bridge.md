@@ -4,17 +4,9 @@ page_title: "solacebroker_msg_vpn_bridge Resource - solacebroker"
 subcategory: ""
 description: |-
   Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  bridge_name|x||
-  bridge_virtual_router|x||
-  msg_vpn_name|x||
-  remote_authentication_basic_password||x|x
-  remote_authentication_client_cert_content||x|x
-  remote_authentication_client_cert_password||x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
-  The import identifier for this resource is {msgVpnName}/{bridgeName}/{bridgeVirtualRouter}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_bridge (Resource)
@@ -22,22 +14,12 @@ description: |-
 Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
 
 
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-bridge_name|x||
-bridge_virtual_router|x||
-msg_vpn_name|x||
-remote_authentication_basic_password||x|x
-remote_authentication_client_cert_content||x|x
-remote_authentication_client_cert_password||x|
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.0.
 
-The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVirtualRouter}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge_virtual_router}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -70,7 +52,7 @@ The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVir
 "basic" - Basic Authentication Scheme (via username and password).
 "client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
 </pre>
-- `remote_connection_retry_count` (Number) The maximum number of retry attempts to establish a connection to the remote Message VPN. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
+- `remote_connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `remote_connection_retry_delay` (Number) The number of seconds the broker waits for the bridge connection to be established before attempting a new connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
 - `remote_deliver_to_one_priority` (String) The priority for deliver-to-one (DTO) messages transmitted from the remote Message VPN. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"p1"`. The allowed values and their meaning are:
 

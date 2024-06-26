@@ -4,15 +4,9 @@ page_title: "solacebroker_msg_vpn_bridge_remote_subscription Resource - solacebr
 subcategory: ""
 description: |-
   A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
-  Attribute|Identifying
-  :---|:---:
-  bridge_name|x
-  bridge_virtual_router|x
-  msg_vpn_name|x
-  remote_subscription_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.0.
-  The import identifier for this resource is {msgVpnName}/{bridgeName}/{bridgeVirtualRouter}/{remoteSubscriptionTopic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_bridge_remote_subscription (Resource)
@@ -20,20 +14,12 @@ description: |-
 A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
 
 
-Attribute|Identifying
-:---|:---:
-bridge_name|x
-bridge_virtual_router|x
-msg_vpn_name|x
-remote_subscription_topic|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.0.
 
-The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVirtualRouter}/{remoteSubscriptionTopic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_subscription_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -50,6 +36,6 @@ The import identifier for this resource is `{msgVpnName}/{bridgeName}/{bridgeVir
 "backup" - The Bridge is used for the backup virtual router.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
-- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both.
+- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both. Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `remote_subscription_topic` (String) The topic of the Bridge remote subscription.

@@ -4,14 +4,9 @@ page_title: "solacebroker_msg_vpn_authentication_oauth_profile_client_required_c
 subcategory: ""
 description: |-
   Additional claims to be verified in the ID token.
-  Attribute|Identifying
-  :---|:---:
-  client_required_claim_name|x
-  msg_vpn_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.25.
-  The import identifier for this resource is {msgVpnName}/{oauthProfileName}/{clientRequiredClaimName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{oauth_profile_name}/{client_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile_client_required_claim (Resource)
@@ -19,19 +14,12 @@ description: |-
 Additional claims to be verified in the ID token.
 
 
-Attribute|Identifying
-:---|:---:
-client_required_claim_name|x
-msg_vpn_name|x
-oauth_profile_name|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.25.
 
-The import identifier for this resource is `{msgVpnName}/{oauthProfileName}/{clientRequiredClaimName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{oauth_profile_name}/{client_required_claim_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -41,6 +29,6 @@ The import identifier for this resource is `{msgVpnName}/{oauthProfileName}/{cli
 ### Required
 
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
-- `client_required_claim_value` (String) The required claim value.
+- `client_required_claim_value` (String) The required claim value. Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
 - `oauth_profile_name` (String) The name of the OAuth profile.

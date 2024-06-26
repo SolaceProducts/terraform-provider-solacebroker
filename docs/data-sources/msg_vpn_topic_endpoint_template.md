@@ -4,10 +4,6 @@ page_title: "solacebroker_msg_vpn_topic_endpoint_template Data Source - solacebr
 subcategory: ""
 description: |-
   A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  topic_endpoint_template_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
 ---
@@ -15,12 +11,6 @@ description: |-
 # solacebroker_msg_vpn_topic_endpoint_template (Data Source)
 
 A Topic Endpoint Template provides a mechanism for specifying the initial state for client created topic endpoints.
-
-
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-topic_endpoint_template_name|x
 
 
 
@@ -83,7 +73,7 @@ This has been available since SEMP API version 2.14.
 </pre>
 - `respect_msg_priority_enabled` (Boolean) Enable or disable the respecting of message priority. When enabled, messages are delivered in priority order, from 9 (highest) to 0 (lowest). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages. When enabled, expired messages are discarded or moved to the DMQ. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `topic_endpoint_name_filter` (String) A pattern used to determine which Topic Endpoints use settings from this Template. Two different wildcards can be used in the pattern: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when  used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `topic_endpoint_name_filter` (String) A pattern used to determine which Topic Endpoints use settings from this Template. Two different wildcards can be used in the pattern: * and &gt;. Similar to topic filters or subscription patterns, a &gt; matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A &gt; is only a wildcard when  used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 
 <a id="nestedatt--event_bind_count_threshold"></a>
 ### Nested Schema for `event_bind_count_threshold`

@@ -3,14 +3,12 @@
 page_title: "solacebroker_broker Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   This object contains global configuration for the message broker.
-  Attribute|Write-Only|Opaque
-  :---|:---:|:---:
-  tls_server_cert_content|x|x
-  tls_server_cert_password|x|
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
   Attribute|Access Scope/Level
   :---|:---:
+  auth_brute_force_protection_enabled|global/read-only
   auth_client_cert_revocation_check_mode|global/read-only
   config_sync_authentication_client_cert_max_chain_depth|global/read-only
   config_sync_authentication_client_cert_validate_date_enabled|global/read-only
@@ -135,13 +133,9 @@ description: |-
 
 # solacebroker_broker (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 This object contains global configuration for the message broker.
-
-
-Attribute|Write-Only|Opaque
-:---|:---:|:---:
-tls_server_cert_content|x|x
-tls_server_cert_password|x|
 
 
 
@@ -150,6 +144,7 @@ A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is
 
 Attribute|Access Scope/Level
 :---|:---:
+auth_brute_force_protection_enabled|global/read-only
 auth_client_cert_revocation_check_mode|global/read-only
 config_sync_authentication_client_cert_max_chain_depth|global/read-only
 config_sync_authentication_client_cert_validate_date_enabled|global/read-only
@@ -282,6 +277,7 @@ The import identifier for this resource is `""` (empty string)
 
 ### Optional
 
+- `auth_brute_force_protection_enabled` (Boolean) Enable or disable protection against brute force password guessing attacks on local management accounts. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.40.
 - `auth_client_cert_revocation_check_mode` (String) The client certificate revocation checking mode used when a client authenticates with a client certificate. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>

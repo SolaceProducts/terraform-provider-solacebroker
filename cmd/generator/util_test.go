@@ -192,6 +192,11 @@ func TestSanitizeHclValue(t *testing.T) {
 			"\\\"",
 		},
 		{
+			"SanitizeOnlySpecialCharacterValueFour",
+			args{name: "er\"rerrr\"\""},
+			"er\\\"rerrr\\\"\\\"",
+		},
+		{
 			"SanitizeSubstituitionExpression",
 			args{name: "time/${now()}"},
 			"time/$${now()}",

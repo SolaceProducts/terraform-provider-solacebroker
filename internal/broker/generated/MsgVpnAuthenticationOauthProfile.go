@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authentication_oauth_profile",
-		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nclient_secret||x|x\nmsg_vpn_name|x||\noauth_profile_name|x||\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.25.",
+		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.25.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authenticationOauthProfiles/{oauthProfileName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -302,6 +302,19 @@ func init() {
 					stringvalidator.OneOf("client", "resource-server"),
 				},
 				Default: "client",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "proxyName",
+				TerraformName:       "proxy_name",
+				MarkdownDescription: "The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.41.",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.LengthBetween(0, 32),
+				},
+				Default: "",
 			},
 			{
 				BaseType:            broker.Bool,

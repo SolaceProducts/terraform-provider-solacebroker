@@ -9,6 +9,10 @@ The provider is available from the [Terraform Providers Registry](https://regist
 
 The minimum required PubSub+ Software Event Broker version is 10.4.
 
+## Limitations
+
+> This version of the PubSub+ Terraform provider is generally available for production services contained within a Message VPN.  Use of any resource not contained within a Message VPN is not supported in production by Solace.
+
 ## Quick Start
 
 1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).

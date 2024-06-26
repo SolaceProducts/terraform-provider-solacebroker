@@ -3,26 +3,14 @@
 page_title: "solacebroker_msg_vpn_proxy Data Source - solacebroker"
 subcategory: ""
 description: |-
-  Proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  authentication_basic_password||x|x
-  msg_vpn_name|x||
-  proxy_name|x||
+  proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_proxy (Data Source)
 
-Proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
-
-
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-authentication_basic_password||x|x
-msg_vpn_name|x||
-proxy_name|x||
+proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
 
 
 
@@ -49,7 +37,7 @@ This has been available since SEMP API version 2.36.
 "none" - No authentication.
 "basic" - Username/password authentication.
 </pre>
-- `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular Proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `host` (String) The IP address or host name of the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `port` (Number) The port to connect to on the proxy host. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
 - `proxy_type` (String) The type of proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"direct"`. The allowed values and their meaning are:

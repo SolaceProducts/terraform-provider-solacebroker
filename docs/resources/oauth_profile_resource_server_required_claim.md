@@ -3,25 +3,18 @@
 page_title: "solacebroker_oauth_profile_resource_server_required_claim Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Additional claims to be verified in the access token.
-  Attribute|Identifying
-  :---|:---:
-  oauth_profile_name|x
-  resource_server_required_claim_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
-  The import identifier for this resource is {oauthProfileName}/{resourceServerRequiredClaimName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {oauth_profile_name}/{resource_server_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_oauth_profile_resource_server_required_claim (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 Additional claims to be verified in the access token.
-
-
-Attribute|Identifying
-:---|:---:
-oauth_profile_name|x
-resource_server_required_claim_name|x
 
 
 
@@ -29,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.24.
 
-The import identifier for this resource is `{oauthProfileName}/{resourceServerRequiredClaimName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{oauth_profile_name}/{resource_server_required_claim_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -40,4 +33,4 @@ The import identifier for this resource is `{oauthProfileName}/{resourceServerRe
 
 - `oauth_profile_name` (String) The name of the OAuth profile.
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
-- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value. Note that this attribute requires replacement of the resource when updated.

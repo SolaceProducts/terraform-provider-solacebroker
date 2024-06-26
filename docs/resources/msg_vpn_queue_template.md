@@ -4,13 +4,9 @@ page_title: "solacebroker_msg_vpn_queue_template Resource - solacebroker"
 subcategory: ""
 description: |-
   A Queue Template provides a mechanism for specifying the initial state for client created queues.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  queue_template_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
-  The import identifier for this resource is {msgVpnName}/{queueTemplateName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{queue_template_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_queue_template (Resource)
@@ -18,18 +14,12 @@ description: |-
 A Queue Template provides a mechanism for specifying the initial state for client created queues.
 
 
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-queue_template_name|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.14.
 
-The import identifier for this resource is `{msgVpnName}/{queueTemplateName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{queue_template_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -76,7 +66,7 @@ The import identifier for this resource is `{msgVpnName}/{queueTemplateName}`, w
 "modify-topic" - Consume messages or modify the topic/selector.
 "delete" - Consume messages, modify the topic/selector or delete the Client created endpoint altogether.
 </pre>
-- `queue_name_filter` (String) A pattern used to determine which Queues use settings from this Template. Two different wildcards can be used in the pattern: * and >. Similar to topic filters or subscription patterns, a > matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A > is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `queue_name_filter` (String) A pattern used to determine which Queues use settings from this Template. Two different wildcards can be used in the pattern: * and &gt;. Similar to topic filters or subscription patterns, a &gt; matches anything (but only when used at the end), and a * matches zero or more characters but never a slash (/). A &gt; is only a wildcard when used at the end, after a /. A * is only allowed at the end, after a slash (/). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `redelivery_delay_enabled` (Boolean) Enable or disable a message redelivery delay. When false, messages are redelivered as soon as possible.  When true, messages are redelivered according to the initial, max and multiplier.  This should only be enabled when redelivery is enabled. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.33.
 - `redelivery_delay_initial_interval` (Number) The delay to be used between the first 2 redelivery attempts.  This value is in milliseconds. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`. Available since SEMP API version 2.33.
 - `redelivery_delay_max_interval` (Number) The maximum delay to be used between any 2 redelivery attempts.  This value is in milliseconds.  Due to technical limitations, some redelivery attempt delays may slightly exceed this value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `64000`. Available since SEMP API version 2.33.

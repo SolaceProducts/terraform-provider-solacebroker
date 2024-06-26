@@ -3,23 +3,18 @@
 page_title: "solacebroker_domain_cert_authority Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Certificate Authorities trusted for domain verification.
-  Attribute|Identifying
-  :---|:---:
-  cert_authority_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
-  The import identifier for this resource is {certAuthorityName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {cert_authority_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_domain_cert_authority (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 Certificate Authorities trusted for domain verification.
-
-
-Attribute|Identifying
-:---|:---:
-cert_authority_name|x
 
 
 
@@ -27,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.19.
 
-The import identifier for this resource is `{certAuthorityName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{cert_authority_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

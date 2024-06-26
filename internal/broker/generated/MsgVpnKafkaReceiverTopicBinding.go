@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_kafka_receiver_topic_binding",
-		MarkdownDescription: "A Topic Binding receives messages from a remote Kafka Topic.\n\n\nAttribute|Identifying\n:---|:---:\nkafka_receiver_name|x\nmsg_vpn_name|x\ntopic_name|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
+		MarkdownDescription: "A Topic Binding receives messages from a remote Kafka Topic.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.36.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaReceivers/{kafkaReceiverName}/topicBindings/{topicName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -120,7 +120,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "topicName",
 				TerraformName:       "topic_name",
-				MarkdownDescription: "The name of the Topic.",
+				MarkdownDescription: "The name of the Topic or a POSIX.2 regular expression starting with '^'.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -129,7 +129,7 @@ func init() {
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
 					stringvalidator.LengthBetween(1, 255),
-					stringvalidator.RegexMatches(regexp.MustCompile("^\\^.*|[a-zA-Z0-9\\._\\-]+$"), ""),
+					stringvalidator.RegexMatches(regexp.MustCompile("^\\^.{0,254}|[a-zA-Z0-9\\._\\-]{1,255}$"), ""),
 				},
 			},
 		},

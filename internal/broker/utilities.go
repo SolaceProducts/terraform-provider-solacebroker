@@ -135,18 +135,44 @@ func durationWithDefaultFromEnv(value types.String, name string, def time.Durati
 }
 
 func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
-	// username, password, bearer token and url will be set to "" if not provided through env or config
-	username, err := stringWithDefaultFromEnv(providerData.Username, "username")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
-	}
-	password, err := stringWithDefaultFromEnv(providerData.Password, "password")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
-	}
-	bearerToken, err := stringWithDefaultFromEnv(providerData.BearerToken, "bearer_token")
-	if err != nil {
-		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
+	// Check for params credentials conflicts
+	// Logic:
+	// If there is any 1 complete set of credentials in the provider block those are always used and are the priority.
+	// If there is not any 1 complete set of credentials in the provider block then look for 1 complete set in the env vars.
+	// If there are multiple complete sets in either the provider block or env vars this is an error.
+	// If there are no complete sets in the env vars this is an error.
+	var username, password, bearerToken string
+	if !providerData.BearerToken.IsNull() && providerData.Username.IsNull() && providerData.Password.IsNull() ||
+		providerData.BearerToken.IsNull() && !providerData.Username.IsNull() && !providerData.Password.IsNull() {
+		// these are valid combinations in the provider block, no need to check further
+		username = providerData.Username.ValueString()
+		password = providerData.Password.ValueString()
+		bearerToken = providerData.BearerToken.ValueString()
+	} else {
+		// username, password and bearer token will be set to "" if not provided through env or config
+		username, err := stringWithDefaultFromEnv(providerData.Username, "username")
+		if err != nil {
+			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
+		}
+		password, err := stringWithDefaultFromEnv(providerData.Password, "password")
+		if err != nil {
+			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
+		}
+		bearerToken, err := stringWithDefaultFromEnv(providerData.BearerToken, "bearer_token")
+		if err != nil {
+			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
+		}
+		if username == "" && password == "" && bearerToken == "" {
+			return nil, diag.NewErrorDiagnostic("Bearer token or basic authentication credentials must be provided", semp.ErrProviderParametersError.Error())
+		}
+		if (!providerData.BearerToken.IsNull() && (!providerData.Username.IsNull() || !providerData.Password.IsNull())) ||
+			(bearerToken != "" && (username != "" || password != "")) {
+			return nil, diag.NewErrorDiagnostic("Cannot use Bearer token with basic authentication credentials", semp.ErrProviderParametersError.Error())
+		}
+		if !providerData.Username.IsNull() && providerData.Password.IsNull() || providerData.Username.IsNull() && !providerData.Password.IsNull() ||
+			username != "" && password == "" || username == "" && password != "" {
+			return nil, diag.NewErrorDiagnostic("Both username and password must be provided for basic authentication and cannot mix params and env vars", semp.ErrProviderParametersError.Error())
+		}
 	}
 	url, err := stringWithDefaultFromEnv(providerData.Url, "url")
 	if err != nil {
@@ -187,7 +213,7 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 		true, // this is a client for the provider
 		semp.BasicAuth(username, password),
 		semp.BearerToken(bearerToken),
-		semp.Retries(uint(retries), retryMinInterval, retryMaxInterval),
+		semp.Retries(retries, retryMinInterval, retryMaxInterval),
 		semp.RequestLimits(requestTimeoutDuration, requestMinInterval))
 	return client, nil
 }

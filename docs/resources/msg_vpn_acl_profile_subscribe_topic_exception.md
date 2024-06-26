@@ -4,15 +4,9 @@ page_title: "solacebroker_msg_vpn_acl_profile_subscribe_topic_exception Resource
 subcategory: ""
 description: |-
   A Subscribe Topic Exception is an exception to the default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Exceptions must be expressed as a topic.
-  Attribute|Identifying
-  :---|:---:
-  acl_profile_name|x
-  msg_vpn_name|x
-  subscribe_topic_exception|x
-  subscribe_topic_exception_syntax|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.14.
-  The import identifier for this resource is {msgVpnName}/{aclProfileName}/{subscribeTopicExceptionSyntax}/{subscribeTopicException}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{acl_profile_name}/{subscribe_topic_exception_syntax}/{subscribe_topic_exception}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_acl_profile_subscribe_topic_exception (Resource)
@@ -20,20 +14,12 @@ description: |-
 A Subscribe Topic Exception is an exception to the default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Exceptions must be expressed as a topic.
 
 
-Attribute|Identifying
-:---|:---:
-acl_profile_name|x
-msg_vpn_name|x
-subscribe_topic_exception|x
-subscribe_topic_exception_syntax|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.14.
 
-The import identifier for this resource is `{msgVpnName}/{aclProfileName}/{subscribeTopicExceptionSyntax}/{subscribeTopicException}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{acl_profile_name}/{subscribe_topic_exception_syntax}/{subscribe_topic_exception}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

@@ -3,22 +3,17 @@
 page_title: "solacebroker_domain_cert_authority Data Source - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Certificate Authorities trusted for domain verification.
-  Attribute|Identifying
-  :---|:---:
-  cert_authority_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_domain_cert_authority (Data Source)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 Certificate Authorities trusted for domain verification.
-
-
-Attribute|Identifying
-:---|:---:
-cert_authority_name|x
 
 
 

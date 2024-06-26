@@ -3,27 +3,18 @@
 page_title: "solacebroker_dmr_cluster_link Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
-  Attribute|Identifying|Write-Only|Opaque
-  :---|:---:|:---:|:---:
-  authentication_basic_password||x|x
-  dmr_cluster_name|x||
-  remote_node_name|x||
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
-  The import identifier for this resource is {dmrClusterName}/{remoteNodeName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {dmr_cluster_name}/{remote_node_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_dmr_cluster_link (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
-
-
-Attribute|Identifying|Write-Only|Opaque
-:---|:---:|:---:|:---:
-authentication_basic_password||x|x
-dmr_cluster_name|x||
-remote_node_name|x||
 
 
 
@@ -31,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.11.
 
-The import identifier for this resource is `{dmrClusterName}/{remoteNodeName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{dmr_cluster_name}/{remote_node_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -68,6 +59,8 @@ The import identifier for this resource is `{dmrClusterName}/{remoteNodeName}`, 
 - `client_profile_tcp_keepalive_interval` (Number) The amount of time between TCP keepalive retransmissions when no acknowledgment is received, in seconds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
 - `client_profile_tcp_max_segment_size` (Number) The TCP maximum segment size, in bytes. Changes are applied to all existing connections. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1460`.
 - `client_profile_tcp_max_window_size` (Number) The TCP maximum window size, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `256`.
+- `connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.41.
+- `connection_retry_delay` (Number) The number of seconds the broker waits for the bridge connection to be established before attempting a new connection. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`. Available since SEMP API version 2.41.
 - `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be sent over the Link before acknowledgment is received by the sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
 - `enabled` (Boolean) Enable or disable the Link. When disabled, subscription sets of this and the remote node are not kept up-to-date, and messages are not exchanged with the remote node. Published guaranteed messages will be queued up for future delivery based on current subscription sets. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `initiator` (String) The initiator of the Link's TCP connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"lexical"`. The allowed values and their meaning are:

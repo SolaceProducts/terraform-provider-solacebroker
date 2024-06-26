@@ -4,16 +4,9 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_
 subcategory: ""
 description: |-
   A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
-  Attribute|Identifying
-  :---|:---:
-  cache_name|x
-  cluster_name|x
-  home_cluster_name|x
-  msg_vpn_name|x
-  topic_prefix|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.11.
-  The import identifier for this resource is {msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}/{topicPrefix}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}/{topic_prefix}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster_topic_prefix (Resource)
@@ -21,21 +14,12 @@ description: |-
 A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
 
 
-Attribute|Identifying
-:---|:---:
-cache_name|x
-cluster_name|x
-home_cluster_name|x
-msg_vpn_name|x
-topic_prefix|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.11.
 
-The import identifier for this resource is `{msgVpnName}/{cacheName}/{clusterName}/{homeClusterName}/{topicPrefix}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}/{topic_prefix}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -48,4 +32,4 @@ The import identifier for this resource is `{msgVpnName}/{cacheName}/{clusterNam
 - `cluster_name` (String) The name of the Cache Cluster.
 - `home_cluster_name` (String) The name of the remote Home Cache Cluster.
 - `msg_vpn_name` (String) The name of the Message VPN.
-- `topic_prefix` (String) A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/>) is implied at the end of the prefix.
+- `topic_prefix` (String) A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/&gt;) is implied at the end of the prefix.

@@ -3,27 +3,18 @@
 page_title: "solacebroker_dmr_cluster_cert_matching_rule_condition Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
-  Attribute|Identifying
-  :---|:---:
-  dmr_cluster_name|x
-  rule_name|x
-  source|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.28.
-  The import identifier for this resource is {dmrClusterName}/{ruleName}/{source}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {dmr_cluster_name}/{rule_name}/{source}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_dmr_cluster_cert_matching_rule_condition (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 A Cert Matching Rule Condition compares data extracted from a certificate to a link attribute or an expression.
-
-
-Attribute|Identifying
-:---|:---:
-dmr_cluster_name|x
-rule_name|x
-source|x
 
 
 
@@ -31,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.28.
 
-The import identifier for this resource is `{dmrClusterName}/{ruleName}/{source}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{dmr_cluster_name}/{rule_name}/{source}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -62,5 +53,5 @@ The import identifier for this resource is `{dmrClusterName}/{ruleName}/{source}
 
 ### Optional
 
-- `attribute` (String) Link Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`.
-- `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`.
+- `attribute` (String) Link Attribute to be compared with certificate content. Either an attribute or an expression must be provided on creation, but not both. The default value is `""`. Note that this attribute requires replacement of the resource when updated.
+- `expression` (String) Glob expression to be matched with certificate content. Either an expression or an attribute must be provided on creation, but not both. The default value is `""`. Note that this attribute requires replacement of the resource when updated.

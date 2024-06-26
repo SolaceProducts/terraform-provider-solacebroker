@@ -4,14 +4,9 @@ page_title: "solacebroker_msg_vpn_kafka_receiver_topic_binding Resource - solace
 subcategory: ""
 description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
-  Attribute|Identifying
-  :---|:---:
-  kafka_receiver_name|x
-  msg_vpn_name|x
-  topic_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
-  The import identifier for this resource is {msgVpnName}/{kafkaReceiverName}/{topicName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{kafka_receiver_name}/{topic_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_kafka_receiver_topic_binding (Resource)
@@ -19,19 +14,12 @@ description: |-
 A Topic Binding receives messages from a remote Kafka Topic.
 
 
-Attribute|Identifying
-:---|:---:
-kafka_receiver_name|x
-msg_vpn_name|x
-topic_name|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.36.
 
-The import identifier for this resource is `{msgVpnName}/{kafkaReceiverName}/{topicName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{kafka_receiver_name}/{topic_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
@@ -42,7 +30,7 @@ The import identifier for this resource is `{msgVpnName}/{kafkaReceiverName}/{to
 
 - `kafka_receiver_name` (String) The name of the Kafka Receiver.
 - `msg_vpn_name` (String) The name of the Message VPN.
-- `topic_name` (String) The name of the Topic.
+- `topic_name` (String) The name of the Topic or a POSIX.2 regular expression starting with '^'.
 
 ### Optional
 

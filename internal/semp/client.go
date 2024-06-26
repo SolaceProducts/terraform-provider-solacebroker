@@ -35,9 +35,10 @@ import (
 )
 
 var (
-	ErrResourceNotFound = errors.New("resource not found")
-	ErrBadRequest       = errors.New("bad request")
-	ErrInvalidPath      = errors.New("invalid path")
+	ErrResourceNotFound        = errors.New("resource not found")
+	ErrBadRequest              = errors.New("bad request")
+	ErrInvalidPath             = errors.New("invalid path")
+	ErrProviderParametersError = errors.New("provider parameters error")
 )
 
 var firstRequest = true
@@ -48,7 +49,7 @@ type Client struct {
 	username           string
 	password           string
 	bearerToken        string
-	retries            uint
+	retries            int64
 	retryMinInterval   time.Duration
 	retryMaxInterval   time.Duration
 	requestMinInterval time.Duration
@@ -81,7 +82,7 @@ func BearerToken(bearerToken string) Option {
 	}
 }
 
-func Retries(numRetries uint, retryMinInterval, retryMaxInterval time.Duration) Option {
+func Retries(numRetries int64, retryMinInterval, retryMaxInterval time.Duration) Option {
 	return func(client *Client) {
 		client.retries = numRetries
 		client.retryMinInterval = retryMinInterval
@@ -162,9 +163,7 @@ func (c *Client) doRequest(request *http.Request) ([]byte, error) {
 	if request.Method != http.MethodGet {
 		request.Header.Set("Content-Type", "application/json")
 	}
-	// Prefer OAuth even if Basic Auth credentials provided
 	if c.bearerToken != "" {
-		// TODO: add log
 		request.Header.Set("Authorization", "Bearer "+c.bearerToken)
 	} else if c.username != "" {
 		request.SetBasicAuth(c.username, c.password)

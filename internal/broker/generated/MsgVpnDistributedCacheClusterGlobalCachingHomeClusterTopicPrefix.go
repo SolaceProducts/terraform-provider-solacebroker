@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_distributed_cache_cluster_global_caching_home_cluster_topic_prefix",
-		MarkdownDescription: "A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.\n\n\nAttribute|Identifying\n:---|:---:\ncache_name|x\ncluster_name|x\nhome_cluster_name|x\nmsg_vpn_name|x\ntopic_prefix|x\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.11.",
+		MarkdownDescription: "A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.11.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}/clusters/{clusterName}/globalCachingHomeClusters/{homeClusterName}/topicPrefixes/{topicPrefix}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/distributedCaches/{cacheName}/clusters/{clusterName}/globalCachingHomeClusters/{homeClusterName}/topicPrefixes",
@@ -106,7 +106,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "topicPrefix",
 				TerraformName:       "topic_prefix",
-				MarkdownDescription: "A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/>) is implied at the end of the prefix.",
+				MarkdownDescription: "A topic prefix for global topics available from the remote Home Cache Cluster. A wildcard (/&gt;) is implied at the end of the prefix.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

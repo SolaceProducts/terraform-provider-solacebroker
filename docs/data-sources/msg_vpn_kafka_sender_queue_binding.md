@@ -4,11 +4,6 @@ page_title: "solacebroker_msg_vpn_kafka_sender_queue_binding Data Source - solac
 subcategory: ""
 description: |-
   A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.
-  Attribute|Identifying
-  :---|:---:
-  kafka_sender_name|x
-  msg_vpn_name|x
-  queue_name|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.36.
 ---
@@ -16,13 +11,6 @@ description: |-
 # solacebroker_msg_vpn_kafka_sender_queue_binding (Data Source)
 
 A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.
-
-
-Attribute|Identifying
-:---|:---:
-kafka_sender_name|x
-msg_vpn_name|x
-queue_name|x
 
 
 

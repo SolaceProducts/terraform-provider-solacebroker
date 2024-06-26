@@ -85,7 +85,7 @@ jobs:
           sed -i "s/productName=.*$/productName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           sed -i "s/projectName=.*$/projectName=${{ github.event.repository.name }}/g" ci/whitesource/whitesource-agent.config
           cat ci/whitesource/whitesource-agent.config | grep productVersion
-          curl https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar --output /ci/whitesource/wss-unified-agent.jar
+          curl https://unified-agent.s3.amazonaws.com/wss-unified-agent.jar --output ci/whitesource/wss-unified-agent.jar
           export WS_APIKEY="${{ secrets.WSS_API_KEY }}"
           export WS_WSS_URL="https://saas.whitesourcesoftware.com/agent"
           export WS_PRODUCTNAME="${{ github.event.repository.name }}"

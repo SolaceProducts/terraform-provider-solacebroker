@@ -4,13 +4,9 @@ page_title: "solacebroker_msg_vpn_replicated_topic Resource - solacebroker"
 subcategory: ""
 description: |-
   To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
-  Attribute|Identifying
-  :---|:---:
-  msg_vpn_name|x
-  replicated_topic|x
   A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.1.
-  The import identifier for this resource is {msgVpnName}/{replicatedTopic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {msg_vpn_name}/{replicated_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_msg_vpn_replicated_topic (Resource)
@@ -18,18 +14,12 @@ description: |-
 To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
 
 
-Attribute|Identifying
-:---|:---:
-msg_vpn_name|x
-replicated_topic|x
-
-
 
 A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
 
 This has been available since SEMP API version 2.1.
 
-The import identifier for this resource is `{msgVpnName}/{replicatedTopic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{msg_vpn_name}/{replicated_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 

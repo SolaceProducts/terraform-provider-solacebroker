@@ -3,27 +3,18 @@
 page_title: "solacebroker_oauth_profile_access_level_group_msg_vpn_access_level_exception Resource - solacebroker"
 subcategory: ""
 description: |-
+  This resource is not supported in production by Solace in this version, see provider limitations.
   Message VPN access-level exceptions for members of this group.
-  Attribute|Identifying
-  :---|:---:
-  group_name|x
-  msg_vpn_name|x
-  oauth_profile_name|x
   A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
   This has been available since SEMP API version 2.24.
-  The import identifier for this resource is {oauthProfileName}/{groupName}/{msgVpnName}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+  The import identifier for this resource is {oauth_profile_name}/{group_name}/{msg_vpn_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
 # solacebroker_oauth_profile_access_level_group_msg_vpn_access_level_exception (Resource)
 
+> This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
+
 Message VPN access-level exceptions for members of this group.
-
-
-Attribute|Identifying
-:---|:---:
-group_name|x
-msg_vpn_name|x
-oauth_profile_name|x
 
 
 
@@ -31,7 +22,7 @@ A SEMP client authorized with a minimum access scope/level of "global/read-only"
 
 This has been available since SEMP API version 2.24.
 
-The import identifier for this resource is `{oauthProfileName}/{groupName}/{msgVpnName}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
+The import identifier for this resource is `{oauth_profile_name}/{group_name}/{msg_vpn_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
 
 
