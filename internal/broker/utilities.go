@@ -149,16 +149,17 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 		password = providerData.Password.ValueString()
 		bearerToken = providerData.BearerToken.ValueString()
 	} else {
+		var err error
 		// username, password and bearer token will be set to "" if not provided through env or config
-		username, err := stringWithDefaultFromEnv(providerData.Username, "username")
+		username, err = stringWithDefaultFromEnv(providerData.Username, "username")
 		if err != nil {
 			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 		}
-		password, err := stringWithDefaultFromEnv(providerData.Password, "password")
+		password, err = stringWithDefaultFromEnv(providerData.Password, "password")
 		if err != nil {
 			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 		}
-		bearerToken, err := stringWithDefaultFromEnv(providerData.BearerToken, "bearer_token")
+		bearerToken, err = stringWithDefaultFromEnv(providerData.BearerToken, "bearer_token")
 		if err != nil {
 			return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 		}
