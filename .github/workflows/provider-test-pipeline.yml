@@ -69,6 +69,12 @@ jobs:
           terraform import solacebroker_msg_vpn.newone new
           popd
 
+      - name: Test provider params from env
+        run: |
+          pushd ci/broker_vpn_test2
+          SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform apply -auto-approve
+          popd
+
       - name: Test broker object attributes override
         run: |
           pushd ci/brokertest
