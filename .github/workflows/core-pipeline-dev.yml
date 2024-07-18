@@ -4,8 +4,9 @@ name: Build Terraform Provider in Development phase
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - dev*
+      - v*
 
 jobs:
   build:
