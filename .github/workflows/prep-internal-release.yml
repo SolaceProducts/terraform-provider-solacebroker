@@ -2,10 +2,14 @@
 on:
   workflow_dispatch:
     inputs:
+      prev_branch_name:
+        description: 'Prev branch name, must start with v'
+        required: true
+        default: 'v0.1.0-rc.1'
       release_branch_name:
         description: 'Release branch name, must start with v'
         required: true
-        default: 'v0.1.0-rc.1'
+        default: 'v0.1.0-rc.2'
 
 
 jobs:
@@ -92,12 +96,26 @@ jobs:
           export WS_PROJECTNAME="${{ github.event.repository.name }}"
           java -jar ci/whitesource/wss-unified-agent.jar -c ci/whitesource/whitesource-agent.config -d .
 
-      - name: Create the release branch
-        uses: peterjgrainger/action-create-branch@v2.4.0
+      - name: Create release branch starting point
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: "${{ github.event.inputs.release_branch_name }}"
+        run: |
+          git fetch
+          git push origin refs/remotes/origin/${{ github.event.inputs.prev_branch_name }}:refs/heads/${{ github.event.inputs.release_branch_name }}
+
+      - name: Create PR to release branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT_BRANCH=${GITHUB_REF_NAME}
+          gh pr create -B ${{ github.event.inputs.release_branch_name }} --title "New release ${{ github.event.inputs.release_branch_name }}" --body 'Created by Github action'
+
+      # - name: Create the release branch
+      #   uses: peterjgrainger/action-create-branch@v2.4.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     branch: "${{ github.event.inputs.release_branch_name }}"
 
       # - name: Create next dev branch
       #   if: env.NEXT_DEV_VERSION != ''
