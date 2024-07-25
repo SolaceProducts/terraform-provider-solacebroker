@@ -66,6 +66,9 @@ jobs:
         if: steps.check-changed-files.outputs.files_changed == 'true'
         run: |
           echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
+          echo ******** Excluding MarkdownDescription:
+          git diff -I MarkdownDescription
+          echo ******** Including MarkdownDescription:
           git diff
 
       - name: Set up Terraform latest
