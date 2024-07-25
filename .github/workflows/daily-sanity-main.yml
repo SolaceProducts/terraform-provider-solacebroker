@@ -2,8 +2,6 @@ name: Daily sanity main
 # Uses solace/solace-pubsub-standard:edge image
 
 on:
-  push:
-
   schedule:
     - cron: "0 5 * * *"
 
