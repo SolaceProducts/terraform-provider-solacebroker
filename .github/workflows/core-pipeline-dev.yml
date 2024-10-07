@@ -4,8 +4,9 @@ name: Build Terraform Provider in Development phase
 
 on:
   push:
-    branches-ignore:
-      - main
+    branches:
+      - dev*
+      - v*
 
 jobs:
   build:
@@ -15,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: "1.23"
 
       - name: Check out code
         uses: actions/checkout@v4

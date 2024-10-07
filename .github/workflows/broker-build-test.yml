@@ -1,0 +1,158 @@
+name: Test Provider triggered by a broker build
+# Branch naming convention assumes dev branches start with "dev" then semver release name,
+#          internal QA release candidate branches start with "v" then semver release name.
+#          broker builds are triggered by Jenkins from a broker release branch with an example pattern of 10.9.1
+
+on:
+  push:
+    branches-ignore:
+      - dev*
+      - v*
+      - main
+
+jobs:
+  build:
+    name: Build & test provider from broker build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Checkout generator
+        uses: actions/checkout@v4
+        with:
+          repository: SolaceDev/broker-terraform-code-generator
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+          path: broker-terraform-code-generator
+          ref: "main"
+
+      - name: Build and install generator
+        run: |
+          pushd broker-terraform-code-generator
+          go mod tidy
+          go install .
+          ls ~/go/bin
+          popd
+
+      - name: Generate provider code
+        run: |
+          SWAGGER_SPEC_NAME=`ls ci/swagger_spec`
+          echo "Generating code using spec $SWAGGER_SPEC_NAME"
+          BASE=`pwd`
+          pushd internal/broker/generated
+          rm ./*
+          SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="$BASE/ci/swagger_spec/$SWAGGER_SPEC_NAME" ~/go/bin/broker-terraform-code-generator software-provider all
+          popd
+
+      - name: Check changed files
+        uses: tj-actions/verify-changed-files@v17
+        id: check-changed-files
+        with:
+          files: |
+            !broker-terraform-code-generator
+            !version.go
+
+      - name: Run step only when no change detected
+        if: steps.check-changed-files.outputs.files_changed == 'false'
+        run: |
+          echo "No changes detected, skipping further steps"          
+
+      - name: List changed files - from now on all tests are run only if there were changes
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "Changed files: ${{ steps.check-changed-files.outputs.changed_files }}"
+          echo ******** Excluding MarkdownDescription:
+          git diff -I MarkdownDescription
+          echo ******** Including MarkdownDescription:
+          git diff
+
+      - name: Set up Terraform latest
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_wrapper: false
+
+      - name: Setup Test broker
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
+            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:latest
+          while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
+
+      - name: Run acceptance test
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          make vet
+          make testacc
+
+      - name: Use local provider
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          echo "
+          provider_installation {
+            dev_overrides {
+              \"registry.terraform.io/solaceproducts/solacebroker\" = \"${HOME}/go/bin\"
+            }
+            direct {}
+          }" > ~/.terraformrc
+
+      - name: Build provider
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          make test-coverage
+          make install
+          ls ~/go/bin
+          terraform-provider-solacebroker -h
+
+      - name: Run provider test - create custom messageVPN with large config
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          pushd ci/broker_vpn_test
+          # Create
+          terraform plan
+          terraform apply -auto-approve
+          sleep 1
+          popd
+
+      - name: Run generate test - generate complete large config file for custom messageVPN file
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.test test messageVpn.tf
+          cat messageVpn.tf
+
+      - name: Run provider test - delete large config
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          pushd ci/broker_vpn_test
+          terraform plan
+          terraform destroy -auto-approve
+          sleep 1
+          popd
+
+      - name: Test state upgrade
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          pushd ci/state_upgrade
+          bash -c "terraform plan &> results.out" || echo "Expecting terraform plan to fail"
+          cat results.out | grep "Found deprecated state key 'deprecated_att"
+          cp terraform.tfstate terraform.tfstate.bak
+          sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
+          terraform plan | grep "3 to add"
+          terraform apply -auto-approve | grep "Apply complete"
+          # GH actions fails on following commands, need to investigate. Passes locally.
+          # diff terraform.tfstate terraform.tfstate.bak > diff.out
+          # ls -l
+          # cat diff.out
+          # grep ">           \"schema_version\": 0," diff.out | wc -l | grep 3 # verify schema has been upgraded
+          # grep ">             \"deprecated1\": null," diff.out # verify deprecated has been removed
+          # grep ">               \"deprecated2\": null," diff.out # verify deprecated has been removed
+          # grep "<               \"clear_percent\": 20," diff.out # verify string has been converted to number
+          # grep "<             \"egress_enabled\": true," diff.out # verify string has been converted to bool
+          # terraform destroy -auto-approve
+          popd

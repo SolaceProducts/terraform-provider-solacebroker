@@ -34,7 +34,7 @@ This has been available since SEMP API version 2.14.
 
 <pre>
 "exclusive" - Exclusive delivery of messages to the first bound consumer flow.
-"non-exclusive" - Non-exclusive delivery of messages to bound consumer flows in a round-robin (if partition count is zero) or partitioned (if partition count is non-zero) fashion.
+"non-exclusive" - Non-exclusive delivery of messages to bound consumer flows in a round-robin fashion.
 </pre>
 - `consumer_ack_propagation_enabled` (Boolean) Enable or disable the propagation of consumer acknowledgments (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `dead_msg_queue` (String) The name of the Dead Message Queue (DMQ). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"#DEAD_MSG_QUEUE"`.

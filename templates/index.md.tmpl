@@ -39,6 +39,13 @@ The minimum required PubSub+ Software Event Broker version is 10.4.
 -> All provider configuration values can also be set as environment variables with the same name, but uppercase and with the `SOLACEBROKER_` prefix.
 For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
 
+## HTTP Proxy Support
+
+This provider supports the environment variables `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` (or the lowercase versions thereof) to configure clients to use the specified proxy server(s).
+
+If the proxy URL contains a [userinfo](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2) subcomponent, the proxy request will pass the provided username and password for proxy authorization.
+Example: `https_proxy=http://username:password@proxy:port`
+
 # Release Notes and History
 
 For detailed release notes and release history, see [this link](https://products.solace.com/download/DSEMP_TERRAFORM_SW_BROKER_PROVIDER_RN) and the Releases section in the [Provider GitHub repository](https://github.com/SolaceProducts/terraform-provider-solacebroker/releases).

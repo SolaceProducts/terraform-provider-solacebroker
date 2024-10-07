@@ -47,7 +47,7 @@ The import identifier for this resource is `{oauth_profile_name}`, where {&lt;at
 - `client_redirect_uri` (String) The OAuth redirect URI. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `client_required_type` (String) The required value for the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"JWT"`.
 - `client_scope` (String) The OAuth scope. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"openid email"`.
-- `client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
 - `default_global_access_level` (String) The default global access level for this OAuth profile. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 

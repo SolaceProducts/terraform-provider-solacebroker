@@ -35,4 +35,4 @@ The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_
 
 ### Optional
 
-- `header_value` (String, Sensitive) The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `header_value` (String, Sensitive) The value of the protected HTTP request header. Unlike a non-protected request header, this value cannot be displayed after it is set, and does not support substitution expressions. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

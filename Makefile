@@ -47,3 +47,16 @@ clean: ## Remove previous build
 .PHONY:
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+.PHONY:
+generate-code: ## Generate latest code from SEMP API spec
+	@if [ ! -d "broker-terraform-code-generator" ]; then \
+		git clone https://github.com/SolaceDev/broker-terraform-code-generator.git; \
+	fi
+	@cd broker-terraform-code-generator && git pull ; \
+	go mod tidy; \
+	go install .; \
+	ls ~/go/bin | grep broker-terraform-code-generator
+	@cd internal/broker/generated; \
+	rm ./*; \
+	SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="../../../ci/swagger_spec/$(shell ls ci/swagger_spec)" ~/go/bin/broker-terraform-code-generator software-provider all;

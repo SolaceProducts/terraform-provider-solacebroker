@@ -35,7 +35,7 @@ The import identifier for this resource is `{proxy_name}`, where {&lt;attribute&
 
 ### Optional
 
-- `authentication_basic_password` (String, Sensitive) The password to use with basic authentication. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authentication_basic_password` (String, Sensitive) The password to use with basic authentication. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `authentication_basic_username` (String) The username to use with basic authentication. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
 - `authentication_scheme` (String) The authentication scheme used to connect to the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
