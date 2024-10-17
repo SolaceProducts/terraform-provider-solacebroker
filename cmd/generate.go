@@ -46,7 +46,7 @@ This is not a Terraform command. You can download the provider binary and execut
 
 Example:
   SOLACEBROKER_USERNAME=adminuser SOLACEBROKER_PASSWORD=pass \
-	terraform-provider-solacebroker generate --url=https://localhost:8080 solacebroker_msg_vpn.myvpn test vpn-config.tf
+	terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.myvpn test vpn-config.tf
 
 This command will create a file vpn-config.tf that contains a resource definition for the 'test' message VPN and any child objects on the broker, assuming the appropriate broker credentials were set in environment variables.
 The message VPN resource address in the generated configuration will be 'solacebroker_msg_vpn.myvpn'.`,
@@ -184,7 +184,7 @@ The message VPN resource address in the generated configuration will be 'solaceb
 
 func init() {
 	rootCmd.AddCommand(generateCmd)
-	generateCmd.PersistentFlags().String("url", "http://localhost:8080", "Broker base URL")
+	generateCmd.PersistentFlags().String("url", "http://localhost:8080", "Broker base URL, for example https://mybroker.example.org:<semp-service-port>")
 	generateCmd.PersistentFlags().String("username", "", "Basic authentication username")
 	generateCmd.PersistentFlags().String("password", "", "Basic authentication password")
 	generateCmd.PersistentFlags().String("bearer_token", "", "Bearer token for authentication")

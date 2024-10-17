@@ -86,6 +86,8 @@ Generally, changing a "required" attribute requires the replace of any resource 
 
 ## Importing Resources
 
+Import shall be used to take resources you have created by some other means and bring them under Terraform management.
+
 When [importing a resource](https://developer.hashicorp.com/terraform/cli/commands/import) to Terraform, an [ID or import identifier](https://developer.hashicorp.com/terraform/language/import#import-id) is required. Use the navigation to the left to look up the provider import identifier for the required resource.
 
 We recommend using the following procedure to import a resource:

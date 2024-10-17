@@ -41,10 +41,24 @@ For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` e
 
 ## HTTP Proxy Support
 
-This provider supports the environment variables `HTTP_PROXY`, `HTTPS_PROXY` and `NO_PROXY` (or the lowercase versions thereof) to configure clients to use the specified proxy server(s).
+This provider supports the use of HTTP proxies through environment variables.
 
-If the proxy URL contains a [userinfo](https://datatracker.ietf.org/doc/html/rfc3986#section-3.2) subcomponent, the proxy request will pass the provided username and password for proxy authorization.
-Example: `https_proxy=http://username:password@proxy:port`
+The environment variables for HTTP proxy configuration are:
+* `HTTP_PROXY`: Use to set the proxy when `http://` protocol is specified in the target broker URL in the provider configuration.
+* `HTTPS_PROXY`: Use to set the proxy when secure `https://` protocol is specified in the target broker URL in the provider configuration.
+* `NO_PROXY`: Comma separated list of broker address domains that should bypass the proxy.
+
+To set the proxy, specify the proxy protocol, FQDN address and port. If `https://` proxy protocol is specified then secure TLS connection will be used between the provider and the proxy. Username and password can be optionally specified for proxy authorization.
+
+Examples:
+```shell
+# Plain text connection to the target broker via proxy
+HTTP_PROXY=http://proxy:port
+# Set up TLS tunnel from the provider through the proxy server to reach the broker via secure connection. Note the 'http' proxy protocol specified.
+HTTPS_PROXY=http://proxy:port
+# As above, additionally uses proxy authentication and secure TLS connection from the provider to the proxy server
+HTTPS_PROXY=https://username:password@proxy:port
+```
 
 # Release Notes and History
 
