@@ -116,7 +116,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "clientSecret",
 				TerraformName:       "client_secret",
-				MarkdownDescription: "The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions in note 4 (refer to the `Notes` section in the SEMP API `Config reference`). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Sensitive:           true,
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,

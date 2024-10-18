@@ -287,6 +287,19 @@ func init() {
 				Default:             false,
 			},
 			{
+				BaseType:            broker.Int64,
+				SempName:            "messagingPayloadCompressionLevel",
+				TerraformName:       "messaging_payload_compression_level",
+				MarkdownDescription: "The level of compression to apply to the message payload, from 1 (least compression) to 9 (most compression). A value of 0 means no compression. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.42.",
+				Type:                types.Int64Type,
+				TerraformType:       tftypes.Number,
+				Converter:           broker.IntegerConverter{},
+				Int64Validators: []validator.Int64{
+					int64validator.Between(0, 9),
+				},
+				Default: 0,
+			},
+			{
 				BaseType:            broker.Bool,
 				SempName:            "messagingTextInXmlPayloadEnabled",
 				TerraformName:       "messaging_text_in_xml_payload_enabled",

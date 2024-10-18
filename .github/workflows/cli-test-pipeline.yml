@@ -10,7 +10,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.22"
+          go-version: "1.23"
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -22,7 +22,7 @@ jobs:
         run: |
           mkdir -p $HOME/solace; chmod 777 $HOME/solace
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:"10.8.1.126"
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:"10.9.1.115"
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Use local provider
@@ -121,7 +121,7 @@ jobs:
 
       - name: Create custom messageVPN with large config
         run: |
-          pushd ci/broker_vpn_test
+          pushd ci/bigtest
           # Create
           terraform plan
           terraform apply -auto-approve
@@ -132,7 +132,7 @@ jobs:
         run: |
           SOLACEBROKER_REGISTRY_OVERRIDE=registry.terraform.io/solaceproducts/solacebroker SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform-provider-solacebroker generate --url=http://localhost:8080 solacebroker_msg_vpn.test test messageVpn.tf
           cat messageVpn.tf
-          # also confirm comment is generated when ancillary object is refereced
+          # also confirm comment is generated when ancillary object is referenced
           cat messageVpn.tf | grep depends_on
 
       - name: Generate some resources( only msg_vpn_queue) for custom messageVPN file

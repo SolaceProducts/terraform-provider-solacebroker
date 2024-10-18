@@ -41,10 +41,13 @@ terraform {
   }
 }
 
-# Configure the   provider
+# Configure the provider
 provider "solacebroker" {
+  # Event broker management user credentials
   username = "admin"
   password = "admin"
+  # The base URL of the PubSub+ event broker,
+  #  for example https://mybroker.example.org:<semp-service-port>
   url      = "http://localhost:8080"
 }
 
@@ -86,6 +89,27 @@ resource "solacebroker_msg_vpn_queue" "q" {
 
 -> All provider configuration values can also be set as environment variables with the same name, but uppercase and with the `SOLACEBROKER_` prefix.
 For example, the password attribute can be set via the `SOLACEBROKER_PASSWORD` environment variable.  Values in the configuration take precedence over environment variables.
+
+## HTTP Proxy Support
+
+This provider supports the use of HTTP proxies through environment variables.
+
+The environment variables for HTTP proxy configuration are:
+* `HTTP_PROXY`: Use to set the proxy when `http://` protocol is specified in the target broker URL in the provider configuration.
+* `HTTPS_PROXY`: Use to set the proxy when secure `https://` protocol is specified in the target broker URL in the provider configuration.
+* `NO_PROXY`: Comma separated list of broker address domains that should bypass the proxy.
+
+To set the proxy, specify the proxy protocol, FQDN address and port. If `https://` proxy protocol is specified then secure TLS connection will be used between the provider and the proxy. Username and password can be optionally specified for proxy authorization.
+
+Examples:
+```shell
+# Plain text connection to the target broker via proxy
+HTTP_PROXY=http://proxy:port
+# Set up TLS tunnel from the provider through the proxy server to reach the broker via secure connection. Note the 'http' proxy protocol specified.
+HTTPS_PROXY=http://proxy:port
+# As above, additionally uses proxy authentication and secure TLS connection from the provider to the proxy server
+HTTPS_PROXY=https://username:password@proxy:port
+```
 
 # Release Notes and History
 

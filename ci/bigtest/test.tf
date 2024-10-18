@@ -439,6 +439,7 @@ resource "solacebroker_msg_vpn_bridge_remote_msg_vpn" "msg_vpn_bridge_remote_msg
   msg_vpn_name                  = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
   bridge_name                   = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_name
   bridge_virtual_router         = solacebroker_msg_vpn_bridge.msg_vpn_bridge.bridge_virtual_router
+  # remote_msg_vpn_interface      = "" # not providing this attribute shall not cause a fail
   remote_msg_vpn_location       = "192.168.1.1:1234"
   remote_msg_vpn_name           = "default"
   client_username               = "test"
@@ -674,6 +675,7 @@ resource "solacebroker_msg_vpn_jndi_connection_factory" "msg_vpn_jndi_connection
   transport_send_buffer_size                   = 65533
   transport_tcp_no_delay_enabled               = false
   xa_enabled                                   = true
+  messaging_payload_compression_level = 5
 }
 
 resource "solacebroker_msg_vpn_jndi_queue" "msg_vpn_jndi_queue" {
@@ -836,7 +838,7 @@ resource "solacebroker_msg_vpn_queue" "msg_vpn_queue" {
   max_msg_spool_usage                           = 9999
   max_redelivery_count                          = 9
   max_ttl                                       = 9
-  owner                                         = "test"
+  owner                                         = "#kafka/tx/test"
   partition_count                               = 1
   partition_rebalance_delay                     = 6
   partition_rebalance_max_handoff_time          = 4
@@ -979,6 +981,8 @@ resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer" "msg_vpn_rest_
   retry_delay                                      = 4
   tls_cipher_suite_list                            = "default"
   tls_enabled                                      = true
+  authentication_oauth_client_proxy_name           = "test"
+  authentication_oauth_jwt_proxy_name              = "test"
 }
 
 resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_claim" "msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_claim" {

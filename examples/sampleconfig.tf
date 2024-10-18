@@ -6,10 +6,13 @@ terraform {
   }
 }
 
-# Configure the   provider
+# Configure the provider
 provider "solacebroker" {
+  # Event broker management user credentials
   username = "admin"
   password = "admin"
+  # The base URL of the PubSub+ event broker,
+  #  for example https://mybroker.example.org:<semp-service-port>
   url      = "http://localhost:8080"
 }
 

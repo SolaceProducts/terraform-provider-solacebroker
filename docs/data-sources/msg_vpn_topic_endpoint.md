@@ -34,7 +34,7 @@ This has been available since SEMP API version 2.1.
 
 <pre>
 "exclusive" - Exclusive delivery of messages to the first bound consumer flow.
-"non-exclusive" - Non-exclusive delivery of messages to bound consumer flows in a round-robin (if partition count is zero) or partitioned (if partition count is non-zero) fashion.
+"non-exclusive" - Non-exclusive delivery of messages to bound consumer flows in a round-robin fashion.
 </pre>
  Available since SEMP API version 2.4.
 - `consumer_ack_propagation_enabled` (Boolean) Enable or disable the propagation of consumer acknowledgments (ACKs) received on the active replication Message VPN to the standby replication Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
