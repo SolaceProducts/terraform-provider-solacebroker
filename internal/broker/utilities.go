@@ -176,6 +176,9 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 		}
 	}
 	url, err := stringWithDefaultFromEnv(providerData.Url, "url")
+	if url == "" {
+		return nil, diag.NewErrorDiagnostic("`url` attribute must be defined in a provider block or set as an environment variable (`SOLACEBROKER_URL`)", semp.ErrProviderParametersError.Error())
+	}
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}

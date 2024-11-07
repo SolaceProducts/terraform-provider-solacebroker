@@ -47,7 +47,7 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
 				MarkdownDescription: "The base URL of the event broker, for example `https://mybroker.example.org:<semp-service-port>/`. The trailing / can be omitted.",
-				Required:            true,
+				Optional:            true,
 			},
 			"username": schema.StringAttribute{
 				MarkdownDescription: "The username to connect to the broker with.  Requires password and conflicts with bearer_token.",
@@ -106,7 +106,7 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 	// Iterate over the configuration values and check if any of them is not known
 	for key, value := range configValues {
 		if !value.IsKnown() {
-			tflog.Info(ctx, fmt.Sprintf("Configuration has at least one paramter '%s' with unknown value, skipping configuration for now", key))
+			tflog.Info(ctx, fmt.Sprintf("Configuration has at least one parameter '%s' with unknown value, skipping configuration for now", key))
 			return
 		}
 	}
@@ -119,6 +119,7 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 	// Validate the provider configuration
+	// Line 123 will log solacebroker_url=<null> if `url` is not yet set (i.e loaded from SOLACEBROKER_URL), change?
 	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
 	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
 	tflog.Debug(ctx, "Creating SEMP client")
