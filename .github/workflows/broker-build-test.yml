@@ -156,3 +156,12 @@ jobs:
           # grep "<             \"egress_enabled\": true," diff.out # verify string has been converted to bool
           # terraform destroy -auto-approve
           popd
+
+      - name: Commit back the generated code
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          git add internal/broker/generated/
+          # Use the latest commit message and append a note
+          MESSAGE="$(git log -1 --pretty=%B) - added generated code updates [skip ci]"
+          git commit -m "$MESSAGE"
+          git push
