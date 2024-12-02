@@ -102,6 +102,12 @@ jobs:
             direct {}
           }" > ~/.terraformrc
 
+
+      - name: Build documentation
+        if: steps.check-changed-files.outputs.files_changed == 'true'
+        run: |
+          make generate-docs
+
       - name: Build provider
         if: steps.check-changed-files.outputs.files_changed == 'true'
         run: |
@@ -161,7 +167,8 @@ jobs:
         if: steps.check-changed-files.outputs.files_changed == 'true'
         run: |
           git add internal/broker/generated/
+          git add docs/
           # Use the latest commit message and append a note
-          MESSAGE="$(git log -1 --pretty=%B) - added generated code updates [skip ci]"
+          MESSAGE="$(git log -1 --pretty=%B) - added generated code and docs updates [skip ci]"
           git commit -m "$MESSAGE"
           git push
