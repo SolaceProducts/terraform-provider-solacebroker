@@ -12,4 +12,3 @@ __debug*
 bin
 dist
 vendor
-broker-terraform-code-generator
