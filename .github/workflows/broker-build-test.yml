@@ -166,6 +166,8 @@ jobs:
       - name: Commit back the generated code
         if: steps.check-changed-files.outputs.files_changed == 'true'
         run: |
+          git config --global user.email "actions@github.com"
+          git config --global user.name "GitHub Actions"
           git add internal/broker/generated/
           git add docs/
           # Use the latest commit message and append a note
