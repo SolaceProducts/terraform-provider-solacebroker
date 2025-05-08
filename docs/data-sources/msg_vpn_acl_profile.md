@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_acl_profile Data Source - solacebroker"
 subcategory: ""
 description: |-
   An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.0.
 ---
 
@@ -14,7 +14,7 @@ An ACL Profile controls whether an authenticated client is permitted to establis
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.0.
 
@@ -26,30 +26,42 @@ This has been available since SEMP API version 2.0.
 ### Required
 
 - `acl_profile_name` (String) The name of the ACL Profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `client_connect_default_action` (String) The default action to take when a client using the ACL Profile connects to the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
+- `client_connect_default_action` (String) The default action to take when a client using the ACL Profile connects to the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>
 "allow" - Allow client connection unless an exception is found for it.
 "disallow" - Disallow client connection unless an exception is found for it.
 </pre>
-- `publish_topic_default_action` (String) The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
+- `publish_topic_default_action` (String) The default action to take when a client using the ACL Profile publishes to a topic in the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>
 "allow" - Allow topic unless an exception is found for it.
 "disallow" - Disallow topic unless an exception is found for it.
 </pre>
-- `subscribe_share_name_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a share-name subscription in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"allow"`. The allowed values and their meaning are:
+- `subscribe_share_name_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a share-name subscription in the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"allow"`. The allowed values and their meaning are:
 
 <pre>
 "allow" - Allow topic unless an exception is found for it.
 "disallow" - Disallow topic unless an exception is found for it.
 </pre>
  Available since SEMP API version 2.14.
-- `subscribe_topic_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
+- `subscribe_topic_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:
 
 <pre>
 "allow" - Allow topic unless an exception is found for it.

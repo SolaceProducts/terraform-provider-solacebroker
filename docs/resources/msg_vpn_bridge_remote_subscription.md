@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_bridge_remote_subscription Resource - solacebr
 subcategory: ""
 description: |-
   A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Remote Subscription is a topic subscription used by the Message VPN Bridge to 
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.0.
 
@@ -29,13 +29,23 @@ The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge
 ### Required
 
 - `bridge_name` (String) The name of the Bridge.
-- `bridge_virtual_router` (String) The virtual router of the Bridge. The allowed values and their meaning are:
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `bridge_virtual_router` (String) The virtual router of the Bridge.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The allowed values and their meaning are:
 
 <pre>
 "primary" - The Bridge is used for the primary virtual router.
 "backup" - The Bridge is used for the backup virtual router.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
-- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both. Note that this attribute requires replacement of the resource when updated.
+- `deliver_always_enabled` (Boolean) Enable or disable deliver-always for the Bridge remote subscription topic instead of a deliver-to-one remote priority. A given topic for the Bridge may be deliver-to-one or deliver-always but not both.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `remote_subscription_topic` (String) The topic of the Bridge remote subscription.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

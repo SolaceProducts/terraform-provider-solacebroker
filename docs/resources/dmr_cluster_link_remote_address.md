@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Each Remote Address, consisting of a FQDN or IP address and optional port, is used to connect to the remote node for this Link. Up to 4 addresses may be provided for each Link, and will be tried on a round-robin basis.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {dmr_cluster_name}/{remote_node_name}/{remote_address}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ Each Remote Address, consisting of a FQDN or IP address and optional port, is us
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -32,5 +32,11 @@ The import identifier for this resource is `{dmr_cluster_name}/{remote_node_name
 ### Required
 
 - `dmr_cluster_name` (String) The name of the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `remote_address` (String) The FQDN or IP address (and optional port) of the remote node. If a port is not provided, it will vary based on the transport encoding: 55555 (plain-text), 55443 (encrypted), or 55003 (compressed).
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `remote_node_name` (String) The name of the node at the remote end of the Link.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".

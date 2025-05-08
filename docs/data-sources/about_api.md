@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   The API Description object provides metadata about the SEMP API.
-  A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
   This has been available since SEMP API version 2.2.
 ---
 
@@ -17,7 +17,7 @@ The API Description object provides metadata about the SEMP API.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
+The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
 
 This has been available since SEMP API version 2.2.
 
@@ -29,4 +29,8 @@ This has been available since SEMP API version 2.2.
 ### Read-Only
 
 - `platform` (String) The platform running the SEMP API.
+
+The minimum access scope/level required to retrieve this attribute is "global/none".
 - `semp_version` (String) The version of the SEMP API.
+
+The minimum access scope/level required to retrieve this attribute is "global/none".

@@ -5,128 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   This object contains global configuration for the message broker.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
-  Attribute|Access Scope/Level
-  :---|:---:
-  auth_brute_force_protection_enabled|global/read-only
-  auth_client_cert_revocation_check_mode|global/read-only
-  config_sync_authentication_client_cert_max_chain_depth|global/read-only
-  config_sync_authentication_client_cert_validate_date_enabled|global/read-only
-  config_sync_client_profile_tcp_initial_congestion_window|global/read-only
-  config_sync_client_profile_tcp_keepalive_count|global/read-only
-  config_sync_client_profile_tcp_keepalive_idle|global/read-only
-  config_sync_client_profile_tcp_keepalive_interval|global/read-only
-  config_sync_client_profile_tcp_max_window|global/read-only
-  config_sync_client_profile_tcp_mss|global/read-only
-  config_sync_enabled|global/read-only
-  config_sync_synchronize_username_enabled|global/read-only
-  config_sync_tls_enabled|global/read-only
-  guaranteed_msging_defragmentation_schedule_day_list|global/read-only
-  guaranteed_msging_defragmentation_schedule_enabled|global/read-only
-  guaranteed_msging_defragmentation_schedule_time_list|global/read-only
-  guaranteed_msging_defragmentation_threshold_enabled|global/read-only
-  guaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only
-  guaranteed_msging_defragmentation_threshold_min_interval|global/read-only
-  guaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only
-  guaranteed_msging_enabled|global/read-only
-  guaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only
-  guaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only
-  guaranteed_msging_event_cache_usage_threshold.set_value|global/read-only
-  guaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only
-  guaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only
-  guaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only
-  guaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only
-  guaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only
-  guaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only
-  guaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only
-  guaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only
-  guaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_msg_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only
-  guaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only
-  guaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only
-  guaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only
-  guaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only
-  guaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only
-  guaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only
-  guaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only
-  guaranteed_msging_event_transaction_count_threshold.set_value|global/read-only
-  guaranteed_msging_max_cache_usage|global/read-only
-  guaranteed_msging_max_msg_spool_usage|global/read-only
-  guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only
-  guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only
-  guaranteed_msging_transaction_replication_compatibility_mode|global/read-only
-  oauth_profile_default|global/read-only
-  service_amqp_enabled|global/read-only
-  service_amqp_tls_listen_port|global/read-only
-  service_event_connection_count_threshold.clear_percent|global/read-only
-  service_event_connection_count_threshold.clear_value|global/read-only
-  service_event_connection_count_threshold.set_percent|global/read-only
-  service_event_connection_count_threshold.set_value|global/read-only
-  service_health_check_enabled|global/read-only
-  service_health_check_listen_port|global/read-only
-  service_health_check_tls_enabled|global/read-only
-  service_health_check_tls_listen_port|global/read-only
-  service_mate_link_enabled|global/read-only
-  service_mate_link_listen_port|global/read-only
-  service_mqtt_enabled|global/read-only
-  service_msg_backbone_enabled|global/read-only
-  service_redundancy_enabled|global/read-only
-  service_redundancy_first_listen_port|global/read-only
-  service_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only
-  service_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only
-  service_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only
-  service_rest_event_outgoing_connection_count_threshold.set_value|global/read-only
-  service_rest_incoming_enabled|global/read-only
-  service_rest_outgoing_enabled|global/read-only
-  service_semp_cors_allow_any_host_enabled|global/read-only
-  service_semp_legacy_timeout_enabled|global/read-only
-  service_semp_plain_text_enabled|global/read-only
-  service_semp_plain_text_listen_port|global/read-only
-  service_semp_session_idle_timeout|global/read-only
-  service_semp_session_max_lifetime|global/read-only
-  service_semp_tls_enabled|global/read-only
-  service_semp_tls_listen_port|global/read-only
-  service_smf_compression_listen_port|global/read-only
-  service_smf_enabled|global/read-only
-  service_smf_event_connection_count_threshold.clear_percent|global/read-only
-  service_smf_event_connection_count_threshold.clear_value|global/read-only
-  service_smf_event_connection_count_threshold.set_percent|global/read-only
-  service_smf_event_connection_count_threshold.set_value|global/read-only
-  service_smf_plain_text_listen_port|global/read-only
-  service_smf_routing_control_listen_port|global/read-only
-  service_smf_tls_listen_port|global/read-only
-  service_tls_event_connection_count_threshold.clear_percent|global/read-only
-  service_tls_event_connection_count_threshold.clear_value|global/read-only
-  service_tls_event_connection_count_threshold.set_percent|global/read-only
-  service_tls_event_connection_count_threshold.set_value|global/read-only
-  service_web_transport_enabled|global/read-only
-  service_web_transport_plain_text_listen_port|global/read-only
-  service_web_transport_tls_listen_port|global/read-only
-  service_web_transport_web_url_suffix|global/read-only
-  tls_block_version11_enabled|global/read-only
-  tls_cipher_suite_management_list|global/read-only
-  tls_cipher_suite_msg_backbone_list|global/read-only
-  tls_cipher_suite_secure_shell_list|global/read-only
-  tls_crime_exploit_protection_enabled|global/read-only
-  tls_server_cert_content|global/read-only
-  tls_ticket_lifetime|global/read-only
+  The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
   This has been available since SEMP API version 2.13.
   The import identifier for this resource is "" (empty string)
 ---
@@ -139,132 +18,7 @@ This object contains global configuration for the message broker.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation. Requests which include the following attributes may require greater access scope/level than "vpn/read-only":
-
-
-Attribute|Access Scope/Level
-:---|:---:
-auth_brute_force_protection_enabled|global/read-only
-auth_client_cert_revocation_check_mode|global/read-only
-config_sync_authentication_client_cert_max_chain_depth|global/read-only
-config_sync_authentication_client_cert_validate_date_enabled|global/read-only
-config_sync_client_profile_tcp_initial_congestion_window|global/read-only
-config_sync_client_profile_tcp_keepalive_count|global/read-only
-config_sync_client_profile_tcp_keepalive_idle|global/read-only
-config_sync_client_profile_tcp_keepalive_interval|global/read-only
-config_sync_client_profile_tcp_max_window|global/read-only
-config_sync_client_profile_tcp_mss|global/read-only
-config_sync_enabled|global/read-only
-config_sync_synchronize_username_enabled|global/read-only
-config_sync_tls_enabled|global/read-only
-guaranteed_msging_defragmentation_schedule_day_list|global/read-only
-guaranteed_msging_defragmentation_schedule_enabled|global/read-only
-guaranteed_msging_defragmentation_schedule_time_list|global/read-only
-guaranteed_msging_defragmentation_threshold_enabled|global/read-only
-guaranteed_msging_defragmentation_threshold_fragmentation_percentage|global/read-only
-guaranteed_msging_defragmentation_threshold_min_interval|global/read-only
-guaranteed_msging_defragmentation_threshold_usage_percentage|global/read-only
-guaranteed_msging_enabled|global/read-only
-guaranteed_msging_event_cache_usage_threshold.clear_percent|global/read-only
-guaranteed_msging_event_cache_usage_threshold.clear_value|global/read-only
-guaranteed_msging_event_cache_usage_threshold.set_percent|global/read-only
-guaranteed_msging_event_cache_usage_threshold.set_value|global/read-only
-guaranteed_msging_event_delivered_unacked_threshold.clear_percent|global/read-only
-guaranteed_msging_event_delivered_unacked_threshold.set_percent|global/read-only
-guaranteed_msging_event_disk_usage_threshold.clear_percent|global/read-only
-guaranteed_msging_event_disk_usage_threshold.set_percent|global/read-only
-guaranteed_msging_event_egress_flow_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_egress_flow_count_threshold.clear_value|global/read-only
-guaranteed_msging_event_egress_flow_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_egress_flow_count_threshold.set_value|global/read-only
-guaranteed_msging_event_endpoint_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_endpoint_count_threshold.clear_value|global/read-only
-guaranteed_msging_event_endpoint_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_endpoint_count_threshold.set_value|global/read-only
-guaranteed_msging_event_ingress_flow_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_ingress_flow_count_threshold.clear_value|global/read-only
-guaranteed_msging_event_ingress_flow_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_ingress_flow_count_threshold.set_value|global/read-only
-guaranteed_msging_event_msg_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_msg_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_msg_spool_file_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_msg_spool_file_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_msg_spool_usage_threshold.clear_percent|global/read-only
-guaranteed_msging_event_msg_spool_usage_threshold.clear_value|global/read-only
-guaranteed_msging_event_msg_spool_usage_threshold.set_percent|global/read-only
-guaranteed_msging_event_msg_spool_usage_threshold.set_value|global/read-only
-guaranteed_msging_event_transacted_session_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_transacted_session_count_threshold.clear_value|global/read-only
-guaranteed_msging_event_transacted_session_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_transacted_session_count_threshold.set_value|global/read-only
-guaranteed_msging_event_transacted_session_resource_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_transacted_session_resource_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_transaction_count_threshold.clear_percent|global/read-only
-guaranteed_msging_event_transaction_count_threshold.clear_value|global/read-only
-guaranteed_msging_event_transaction_count_threshold.set_percent|global/read-only
-guaranteed_msging_event_transaction_count_threshold.set_value|global/read-only
-guaranteed_msging_max_cache_usage|global/read-only
-guaranteed_msging_max_msg_spool_usage|global/read-only
-guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout|global/read-only
-guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout|global/read-only
-guaranteed_msging_transaction_replication_compatibility_mode|global/read-only
-oauth_profile_default|global/read-only
-service_amqp_enabled|global/read-only
-service_amqp_tls_listen_port|global/read-only
-service_event_connection_count_threshold.clear_percent|global/read-only
-service_event_connection_count_threshold.clear_value|global/read-only
-service_event_connection_count_threshold.set_percent|global/read-only
-service_event_connection_count_threshold.set_value|global/read-only
-service_health_check_enabled|global/read-only
-service_health_check_listen_port|global/read-only
-service_health_check_tls_enabled|global/read-only
-service_health_check_tls_listen_port|global/read-only
-service_mate_link_enabled|global/read-only
-service_mate_link_listen_port|global/read-only
-service_mqtt_enabled|global/read-only
-service_msg_backbone_enabled|global/read-only
-service_redundancy_enabled|global/read-only
-service_redundancy_first_listen_port|global/read-only
-service_rest_event_outgoing_connection_count_threshold.clear_percent|global/read-only
-service_rest_event_outgoing_connection_count_threshold.clear_value|global/read-only
-service_rest_event_outgoing_connection_count_threshold.set_percent|global/read-only
-service_rest_event_outgoing_connection_count_threshold.set_value|global/read-only
-service_rest_incoming_enabled|global/read-only
-service_rest_outgoing_enabled|global/read-only
-service_semp_cors_allow_any_host_enabled|global/read-only
-service_semp_legacy_timeout_enabled|global/read-only
-service_semp_plain_text_enabled|global/read-only
-service_semp_plain_text_listen_port|global/read-only
-service_semp_session_idle_timeout|global/read-only
-service_semp_session_max_lifetime|global/read-only
-service_semp_tls_enabled|global/read-only
-service_semp_tls_listen_port|global/read-only
-service_smf_compression_listen_port|global/read-only
-service_smf_enabled|global/read-only
-service_smf_event_connection_count_threshold.clear_percent|global/read-only
-service_smf_event_connection_count_threshold.clear_value|global/read-only
-service_smf_event_connection_count_threshold.set_percent|global/read-only
-service_smf_event_connection_count_threshold.set_value|global/read-only
-service_smf_plain_text_listen_port|global/read-only
-service_smf_routing_control_listen_port|global/read-only
-service_smf_tls_listen_port|global/read-only
-service_tls_event_connection_count_threshold.clear_percent|global/read-only
-service_tls_event_connection_count_threshold.clear_value|global/read-only
-service_tls_event_connection_count_threshold.set_percent|global/read-only
-service_tls_event_connection_count_threshold.set_value|global/read-only
-service_web_transport_enabled|global/read-only
-service_web_transport_plain_text_listen_port|global/read-only
-service_web_transport_tls_listen_port|global/read-only
-service_web_transport_web_url_suffix|global/read-only
-tls_block_version11_enabled|global/read-only
-tls_cipher_suite_management_list|global/read-only
-tls_cipher_suite_msg_backbone_list|global/read-only
-tls_cipher_suite_secure_shell_list|global/read-only
-tls_crime_exploit_protection_enabled|global/read-only
-tls_server_cert_content|global/read-only
-tls_ticket_lifetime|global/read-only
-
-
+The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
 
 This has been available since SEMP API version 2.13.
 
@@ -277,34 +31,76 @@ The import identifier for this resource is `""` (empty string)
 
 ### Optional
 
-- `auth_brute_force_protection_enabled` (Boolean) Enable or disable protection against brute force password guessing attacks on local management accounts. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.40.
-- `auth_client_cert_revocation_check_mode` (String) The client certificate revocation checking mode used when a client authenticates with a client certificate. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `auth_brute_force_protection_enabled` (Boolean) Enable or disable protection against brute force password guessing attacks on local management accounts.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.40.
+- `auth_client_cert_revocation_check_mode` (String) The client certificate revocation checking mode used when a client authenticates with a client certificate.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - Do not perform any certificate revocation checking.
-"ocsp" - Use the Open Certificate Status Protcol (OCSP) for certificate revocation checking.
+"ocsp" - Use the Online Certificate Status Protocol (OCSP) for certificate revocation checking.
 "crl" - Use Certificate Revocation Lists (CRL) for certificate revocation checking.
 "ocsp-crl" - Use OCSP first, but if OCSP fails to return an unambiguous result, then check via CRL.
 </pre>
-- `config_sync_authentication_client_cert_max_chain_depth` (Number) The maximum depth for a client certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. The default value is `3`. Available since SEMP API version 2.22.
-- `config_sync_authentication_client_cert_validate_date_enabled` (Boolean) Enable or disable validation of the "Not Before" and "Not After" validity dates in the authentication certificate(s). The default value is `true`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_initial_congestion_window` (Number) The TCP initial congestion window size for Config Sync clients, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value. The default value is `2`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to a client using the Client Profile before declaring that it is not available. The default value is `5`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_keepalive_idle` (Number) The amount of time a client connection using the Client Profile must remain idle before TCP begins sending keepalive probes, in seconds. The default value is `3`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_keepalive_interval` (Number) The amount of time between TCP keepalive retransmissions to a client using the Client Profile when no acknowledgment is received, in seconds. The default value is `1`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_max_window` (Number) The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. The default value is `256`. Available since SEMP API version 2.22.
-- `config_sync_client_profile_tcp_mss` (Number) The TCP maximum segment size for clients using the Client Profile, in bytes. Changes are applied to all existing connections. The default value is `1460`. Available since SEMP API version 2.22.
-- `config_sync_enabled` (Boolean) Enable or disable configuration synchronization for High Availability or Disaster Recovery. The default value is `false`. Available since SEMP API version 2.22.
-- `config_sync_synchronize_username_enabled` (Boolean) Enable or disable the synchronizing of usernames within High Availability groups. The transition from not synchronizing to synchronizing will cause the High Availability mate to fall out of sync. Recommendation: leave this as enabled. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.22.
-- `config_sync_tls_enabled` (Boolean) Enable or disable the use of TLS encryption of the configuration synchronization communications between brokers in High Availability groups and/or Disaster Recovery sites. The default value is `false`. Available since SEMP API version 2.22.
-- `guaranteed_msging_defragmentation_schedule_day_list` (String) The days of the week to schedule defragmentation runs, specified as "daily" or as a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri, or "Sat", with no spaces, and in sorted order from Sunday to Saturday. Please note "Sun,Mon,Tue,Wed,Thu,Fri,Sat" is not allowed, use "daily" instead. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_schedule_enabled` (Boolean) Enable or disable schedule-based defragmentation of Guaranteed Messaging spool files. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_schedule_time_list` (String) The times of the day to schedule defragmentation runs, specified as "hourly" or as a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"0:00"`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_threshold_enabled` (Boolean) Enable or disable threshold-based defragmentation of Guaranteed Messaging spool files. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_threshold_fragmentation_percentage` (Number) Percentage of spool fragmentation needed to trigger defragmentation run. The minimum value allowed is 30%. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `50`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_threshold_min_interval` (Number) Minimum interval of time (in minutes) between defragmentation runs triggered by thresholds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since SEMP API version 2.25.
-- `guaranteed_msging_defragmentation_threshold_usage_percentage` (Number) Percentage of spool usage needed to trigger defragmentation run. The minimum value allowed is 30%. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `50`. Available since SEMP API version 2.25.
-- `guaranteed_msging_enabled` (Boolean) Enable or disable Guaranteed Messaging. The default value is `false`. Available since SEMP API version 2.18.
+- `config_sync_authentication_client_cert_max_chain_depth` (Number) The maximum depth for a client certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `3`. Available since SEMP API version 2.22.
+- `config_sync_authentication_client_cert_validate_date_enabled` (Boolean) Enable or disable validation of the "Not Before" and "Not After" validity dates in the authentication certificate(s).
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_initial_congestion_window` (Number) The TCP initial congestion window size for Config Sync clients, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `2`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to a client using the Client Profile before declaring that it is not available.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `5`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_keepalive_idle` (Number) The amount of time a client connection using the Client Profile must remain idle before TCP begins sending keepalive probes, in seconds.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `3`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_keepalive_interval` (Number) The amount of time between TCP keepalive retransmissions to a client using the Client Profile when no acknowledgment is received, in seconds.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `1`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_max_window` (Number) The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `256`. Available since SEMP API version 2.22.
+- `config_sync_client_profile_tcp_mss` (Number) The TCP maximum segment size for clients using the Client Profile, in bytes. Changes are applied to all existing connections.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `1460`. Available since SEMP API version 2.22.
+- `config_sync_enabled` (Boolean) Enable or disable configuration synchronization for High Availability or Disaster Recovery.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `false`. Available since SEMP API version 2.22.
+- `config_sync_synchronize_username_enabled` (Boolean) Enable or disable the synchronizing of usernames within High Availability groups. The transition from not synchronizing to synchronizing will cause the High Availability mate to fall out of sync. Recommendation: leave this as enabled.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.22.
+- `config_sync_tls_enabled` (Boolean) Enable or disable the use of TLS encryption of the configuration synchronization communications between brokers in High Availability groups and/or Disaster Recovery sites.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `false`. Available since SEMP API version 2.22.
+- `guaranteed_msging_defragmentation_schedule_day_list` (String) The days of the week to schedule defragmentation runs, specified as "daily" or as a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri, or "Sat", with no spaces, and in sorted order from Sunday to Saturday. Please note "Sun,Mon,Tue,Wed,Thu,Fri,Sat" is not allowed, use "daily" instead.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_schedule_enabled` (Boolean) Enable or disable schedule-based defragmentation of Guaranteed Messaging spool files.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_schedule_time_list` (String) The times of the day to schedule defragmentation runs, specified as "hourly" or as a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"0:00"`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_threshold_enabled` (Boolean) Enable or disable threshold-based defragmentation of Guaranteed Messaging spool files.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_threshold_fragmentation_percentage` (Number) Percentage of spool fragmentation needed to trigger defragmentation run. The minimum value allowed is 30%.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `50`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_threshold_min_interval` (Number) Minimum interval of time (in minutes) between defragmentation runs triggered by thresholds.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since SEMP API version 2.25.
+- `guaranteed_msging_defragmentation_threshold_usage_percentage` (Number) Percentage of spool usage needed to trigger defragmentation run. The minimum value allowed is 30%.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `50`. Available since SEMP API version 2.25.
+- `guaranteed_msging_enabled` (Boolean) Enable or disable Guaranteed Messaging.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `false`. Available since SEMP API version 2.18.
 - `guaranteed_msging_event_cache_usage_threshold` (Attributes) The thresholds for the cache usage event at system level, relative to `guaranteed_msging_max_cache_usage`. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_cache_usage_threshold))
 - `guaranteed_msging_event_delivered_unacked_threshold` (Attributes) The thresholds for the number of delivered but unacknowledged messages event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_delivered_unacked_threshold))
 - `guaranteed_msging_event_disk_usage_threshold` (Attributes) The thresholds for the active disk partition usage event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_disk_usage_threshold))
@@ -317,73 +113,175 @@ The import identifier for this resource is `""` (empty string)
 - `guaranteed_msging_event_transacted_session_count_threshold` (Attributes) The thresholds for the transacted sessions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_count_threshold))
 - `guaranteed_msging_event_transacted_session_resource_count_threshold` (Attributes) The thresholds for the transacted session resources at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transacted_session_resource_count_threshold))
 - `guaranteed_msging_event_transaction_count_threshold` (Attributes) The thresholds for the transactions event at system level, relative to the maximum system limit. Available since SEMP API version 2.18. (see [below for nested schema](#nestedatt--guaranteed_msging_event_transaction_count_threshold))
-- `guaranteed_msging_max_cache_usage` (Number) Guaranteed messaging cache usage limit. Expressed as a maximum percentage of the NAB's egress queueing. resources that the guaranteed message cache is allowed to use. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `10`. Available since SEMP API version 2.18.
-- `guaranteed_msging_max_msg_spool_usage` (Number) The maximum total message spool usage allowed across all VPNs on this broker, in megabytes. Recommendation: the maximum value should be less than 90% of the disk space allocated for the guaranteed message spool. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1500`. Available since SEMP API version 2.18.
-- `guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout` (Number) The maximum time, in milliseconds, that can be tolerated for remote acknowledgment of synchronization messages before which the remote system will be considered out of sync. The default value is `10000`. Available since SEMP API version 2.18.
-- `guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout` (Number) The maximum time, in milliseconds, that can be tolerated for remote disk writes before which the remote system will be considered out of sync. The default value is `10000`. Available since SEMP API version 2.18.
-- `guaranteed_msging_transaction_replication_compatibility_mode` (String) The replication compatibility mode for the broker. The default value is `"legacy"`. The allowed values and their meaning are:"legacy" - All transactions originated by clients are replicated to the standby site without using transactions."transacted" - All transactions originated by clients are replicated to the standby site using transactions. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"legacy"`. The allowed values and their meaning are:
+- `guaranteed_msging_max_cache_usage` (Number) Guaranteed messaging cache usage limit. Expressed as a maximum percentage of the NAB's egress queueing. resources that the guaranteed message cache is allowed to use.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `10`. Available since SEMP API version 2.18.
+- `guaranteed_msging_max_msg_spool_usage` (Number) The maximum total message spool usage allowed across all VPNs on this broker, in megabytes. Recommendation: the maximum value should be less than 90% of the disk space allocated for the guaranteed message spool.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1500`. Available since SEMP API version 2.18.
+- `guaranteed_msging_msg_spool_sync_mirrored_msg_ack_timeout` (Number) The maximum time, in milliseconds, that can be tolerated for remote acknowledgment of synchronization messages before which the remote system will be considered out of sync.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `10000`. Available since SEMP API version 2.18.
+- `guaranteed_msging_msg_spool_sync_mirrored_spool_file_ack_timeout` (Number) The maximum time, in milliseconds, that can be tolerated for remote disk writes before which the remote system will be considered out of sync.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `10000`. Available since SEMP API version 2.18.
+- `guaranteed_msging_transaction_replication_compatibility_mode` (String) The replication compatibility mode for the broker. The default value is `"legacy"`. The allowed values and their meaning are:"legacy" - All transactions originated by clients are replicated to the standby site without using transactions."transacted" - All transactions originated by clients are replicated to the standby site using transactions.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"legacy"`. The allowed values and their meaning are:
 
 <pre>
 "legacy" - All transactions originated by clients are replicated to the standby site without using transactions.
 "transacted" - All transactions originated by clients are replicated to the standby site using transactions.
 </pre>
  Available since SEMP API version 2.18.
-- `oauth_profile_default` (String) The default OAuth profile for OAuth authenticated SEMP requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.24.
-- `service_amqp_enabled` (Boolean) Enable or disable the AMQP service. When disabled new AMQP Clients may not connect through the global or per-VPN AMQP listen-ports, and all currently connected AMQP Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.17.
+- `oauth_profile_default` (String) The default OAuth profile for OAuth authenticated SEMP requests.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.24.
+- `service_amqp_enabled` (Boolean) Enable or disable the AMQP service. When disabled new AMQP Clients may not connect through the global or per-VPN AMQP listen-ports, and all currently connected AMQP Clients are immediately disconnected.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_amqp_tls_listen_port` (Number) TCP port number that AMQP clients can use to connect to the broker using raw TCP over TLS.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.17.
 - `service_event_connection_count_threshold` (Attributes) The thresholds for the connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_event_connection_count_threshold))
-- `service_health_check_enabled` (Boolean) Enable or disable the plain-text health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_health_check_listen_port` (Number) The port number for the plain-text health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since SEMP API version 2.17.
-- `service_health_check_tls_enabled` (Boolean) Enable or disable the TLS health-check service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.34.
-- `service_health_check_tls_listen_port` (Number) The port number for the TLS health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.34.
-- `service_mate_link_enabled` (Boolean) Enable or disable the mate-link service. The default value is `true`. Available since SEMP API version 2.17.
-- `service_mate_link_listen_port` (Number) The port number for the mate-link service. The port must be unique across the message backbone. The mate-link service must be disabled to change the port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mate_link_enabled will be temporarily set to false to apply the change. The default value is `8741`. Available since SEMP API version 2.17.
-- `service_mqtt_enabled` (Boolean) Enable or disable the MQTT service. When disabled new MQTT Clients may not connect through the per-VPN MQTT listen-ports, and all currently connected MQTT Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_msg_backbone_enabled` (Boolean) Enable or disable the msg-backbone service. When disabled new Clients may not connect through global or per-VPN listen-ports, and all currently connected Clients are immediately disconnected. The default value is `true`. Available since SEMP API version 2.17.
-- `service_redundancy_enabled` (Boolean) Enable or disable the redundancy service. The default value is `true`. Available since SEMP API version 2.17.
-- `service_redundancy_first_listen_port` (Number) The first listen-port used for the redundancy service. Redundancy uses this port and the subsequent 2 ports. These port must be unique across the message backbone. The redundancy service must be disabled to change this port. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_redundancy_enabled will be temporarily set to false to apply the change. The default value is `8300`. Available since SEMP API version 2.17.
+- `service_health_check_enabled` (Boolean) Enable or disable the plain-text health-check service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_health_check_listen_port` (Number) The port number for the plain-text health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5550`. Available since SEMP API version 2.17.
+- `service_health_check_tls_enabled` (Boolean) Enable or disable the TLS health-check service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.34.
+- `service_health_check_tls_listen_port` (Number) The port number for the TLS health-check service. The port must be unique across the message backbone. The health-check service must be disabled to change the port.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_health_check_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.34.
+- `service_mate_link_enabled` (Boolean) Enable or disable the mate-link service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.17.
+- `service_mate_link_listen_port` (Number) The port number for the mate-link service. The port must be unique across the message backbone. The mate-link service must be disabled to change the port.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mate_link_enabled will be temporarily set to false to apply the change. The default value is `8741`. Available since SEMP API version 2.17.
+- `service_mqtt_enabled` (Boolean) Enable or disable the MQTT service. When disabled new MQTT Clients may not connect through the per-VPN MQTT listen-ports, and all currently connected MQTT Clients are immediately disconnected.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_msg_backbone_enabled` (Boolean) Enable or disable the msg-backbone service. When disabled new Clients may not connect through global or per-VPN listen-ports, and all currently connected Clients are immediately disconnected.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.17.
+- `service_redundancy_enabled` (Boolean) Enable or disable the redundancy service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.17.
+- `service_redundancy_first_listen_port` (Number) The first listen-port used for the redundancy service. Redundancy uses this port and the subsequent 2 ports. These port must be unique across the message backbone. The redundancy service must be disabled to change this port.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_redundancy_enabled will be temporarily set to false to apply the change. The default value is `8300`. Available since SEMP API version 2.17.
 - `service_rest_event_outgoing_connection_count_threshold` (Attributes) The thresholds for the REST outgoing connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_rest_event_outgoing_connection_count_threshold))
-- `service_rest_incoming_enabled` (Boolean) Enable or disable the REST service incoming connections on the broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_rest_outgoing_enabled` (Boolean) Enable or disable the REST service outgoing connections on the broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_semp_cors_allow_any_host_enabled` (Boolean) Enable or disable cross origin resource requests for the SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
-- `service_semp_legacy_timeout_enabled` (Boolean) Enable or disable extended SEMP timeouts for paged responses. When a request times out, it returns the current page of content, even if the page is not full.  When enabled, the timeout is 60 seconds. When disabled, the timeout is 5 seconds.  The recommended setting is disabled (no legacy-timeout).  This parameter is intended as a temporary workaround to be used until SEMP clients can handle short pages.  This setting will be removed in a future release. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.18.
-- `service_semp_plain_text_enabled` (Boolean) Enable or disable plain-text SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.17.
-- `service_semp_session_idle_timeout` (Number) The session idle timeout, in minutes. Sessions will be invalidated if there is no activity in this period of time. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since SEMP API version 2.21.
-- `service_semp_session_max_lifetime` (Number) The maximum lifetime of a session, in minutes. Sessions will be invalidated after this period of time, regardless of activity. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `43200`. Available since SEMP API version 2.21.
-- `service_semp_tls_enabled` (Boolean) Enable or disable TLS SEMP service. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.17.
-- `service_smf_compression_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw compression TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55003`. Available since SEMP API version 2.17.
-- `service_smf_enabled` (Boolean) Enable or disable the SMF service. When disabled new SMF Clients may not connect through the global listen-ports, and all currently connected SMF Clients are immediately disconnected. The default value is `true`. Available since SEMP API version 2.17.
+- `service_rest_incoming_enabled` (Boolean) Enable or disable the REST service incoming connections on the broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_rest_outgoing_enabled` (Boolean) Enable or disable the REST service outgoing connections on the broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_semp_cors_allow_any_host_enabled` (Boolean) Enable or disable cross origin resource requests for the SEMP service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
+- `service_semp_legacy_timeout_enabled` (Boolean) Enable or disable extended SEMP timeouts for paged responses. When a request times out, it returns the current page of content, even if the page is not full.  When enabled, the timeout is 60 seconds. When disabled, the timeout is 5 seconds.  The recommended setting is disabled (no legacy-timeout).  This parameter is intended as a temporary workaround to be used until SEMP clients can handle short pages.  This setting will be removed in a future release.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.18.
+- `service_semp_plain_text_enabled` (Boolean) Enable or disable plain-text SEMP service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.17.
+- `service_semp_session_idle_timeout` (Number) The session idle timeout, in minutes. Sessions will be invalidated if there is no activity in this period of time.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `15`. Available since SEMP API version 2.21.
+- `service_semp_session_max_lifetime` (Number) The maximum lifetime of a session, in minutes. Sessions will be invalidated after this period of time, regardless of activity.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `43200`. Available since SEMP API version 2.21.
+- `service_semp_tls_enabled` (Boolean) Enable or disable TLS SEMP service.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.17.
+- `service_smf_compression_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw compression TCP.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55003`. Available since SEMP API version 2.17.
+- `service_smf_enabled` (Boolean) Enable or disable the SMF service. When disabled new SMF Clients may not connect through the global listen-ports, and all currently connected SMF Clients are immediately disconnected.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.17.
 - `service_smf_event_connection_count_threshold` (Attributes) The thresholds for the SMF connection count event. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_smf_event_connection_count_threshold))
-- `service_smf_plain_text_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55555`. Available since SEMP API version 2.17.
-- `service_smf_routing_control_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw routing control TCP. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55556`. Available since SEMP API version 2.17.
-- `service_smf_tls_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP over TLS. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55443`. Available since SEMP API version 2.17.
+- `service_smf_plain_text_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55555`. Available since SEMP API version 2.17.
+- `service_smf_routing_control_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw routing control TCP.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55556`. Available since SEMP API version 2.17.
+- `service_smf_tls_listen_port` (Number) TCP port number that SMF clients can use to connect to the broker using raw TCP over TLS.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_smf_enabled will be temporarily set to false to apply the change. The default value is `55443`. Available since SEMP API version 2.17.
 - `service_tls_event_connection_count_threshold` (Attributes) The thresholds for the incoming and outgoing TLS connection count event of the broker. Available since SEMP API version 2.17. (see [below for nested schema](#nestedatt--service_tls_event_connection_count_threshold))
-- `service_web_transport_enabled` (Boolean) Enable or disable the web-transport service. When disabled new web-transport Clients may not connect through the global listen-ports, and all currently connected web-transport Clients are immediately disconnected. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
-- `service_web_transport_plain_text_listen_port` (Number) The TCP port for plain-text WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `8008`. Available since SEMP API version 2.17.
-- `service_web_transport_tls_listen_port` (Number) The TCP port for TLS WEB client connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1443`. Available since SEMP API version 2.17.
-- `service_web_transport_web_url_suffix` (String) Used to specify the Web URL suffix that will be used by Web clients when communicating with the broker. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. The default value is `""`. Available since SEMP API version 2.17.
-- `tls_block_version11_enabled` (Boolean) Enable or disable the blocking of TLS version 1.1 connections. When blocked, all existing incoming and outgoing TLS 1.1 connections with Clients, SEMP users, and LDAP servers remain connected while new connections are blocked. Note that support for TLS 1.1 will eventually be discontinued, at which time TLS 1.1 connections will be blocked regardless of this setting. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `tls_cipher_suite_management_list` (String) The colon-separated list of cipher suites used for TLS management connections (e.g. SEMP, LDAP). The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
-- `tls_cipher_suite_msg_backbone_list` (String) The colon-separated list of cipher suites used for TLS data connections (e.g. client pub/sub). The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
-- `tls_cipher_suite_secure_shell_list` (String) The colon-separated list of cipher suites used for TLS secure shell connections (e.g. SSH, SFTP, SCP). The value "default" implies all supported suites ordered from most secure to least secure. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
-- `tls_crime_exploit_protection_enabled` (Boolean) Enable or disable protection against the CRIME exploit. When enabled, TLS+compressed messaging performance is degraded. This protection should only be disabled if sufficient ACL and authentication features are being employed such that a potential attacker does not have sufficient access to trigger the exploit. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `tls_server_cert_content` (String, Sensitive) The PEM formatted content for the server certificate used for TLS connections. It must consist of a private key and between one and three certificates comprising the certificate trust chain. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`.
-- `tls_server_cert_password` (String, Sensitive) The password for the server certificate used for TLS connections. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`.
-- `tls_standard_domain_certificate_authorities_enabled` (Boolean) Enable or disable the standard domain certificate authority list. The default value is `true`. Available since SEMP API version 2.19.
-- `tls_ticket_lifetime` (Number) The TLS ticket lifetime in seconds. When a client connects with TLS, a session with a session ticket is created using the TLS ticket lifetime which determines how long the client has to resume the session. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
-- `web_manager_allow_unencrypted_wizards_enabled` (Boolean) Enable or disable the use of unencrypted wizards in the Web-based Manager UI. This setting should be left at its default on all production systems or other systems that need to be secure.  Enabling this option will permit the broker to forward plain-text data to other brokers, making important information or credentials available for snooping. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.28.
-- `web_manager_redirect_http_enabled` (Boolean) Enable or disable redirection of HTTP requests for the broker manager to HTTPS. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
-- `web_manager_redirect_http_override_tls_port` (Number) The HTTPS port that HTTP requests will be redirected towards in a HTTP 301 redirect response. Zero is a special value that means use the value specified for the SEMP TLS port value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.24.
+- `service_web_transport_enabled` (Boolean) Enable or disable the web-transport service. When disabled new web-transport Clients may not connect through the global listen-ports, and all currently connected web-transport Clients are immediately disconnected.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.17.
+- `service_web_transport_plain_text_listen_port` (Number) The TCP port for plain-text WEB client connections.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `8008`. Available since SEMP API version 2.17.
+- `service_web_transport_tls_listen_port` (Number) The TCP port for TLS WEB client connections.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1443`. Available since SEMP API version 2.17.
+- `service_web_transport_web_url_suffix` (String) Used to specify the Web URL suffix that will be used by Web clients when communicating with the broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_web_transport_enabled will be temporarily set to false to apply the change. The default value is `""`. Available since SEMP API version 2.17.
+- `tls_block_version11_enabled` (Boolean) Enable or disable the blocking of TLS version 1.1 connections. When blocked, all existing incoming and outgoing TLS 1.1 connections with Clients, SEMP users, and LDAP servers remain connected while new connections are blocked. Note that support for TLS 1.1 will eventually be discontinued, at which time TLS 1.1 connections will be blocked regardless of this setting.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `tls_cipher_suite_management_list` (String) The colon-separated list of cipher suites used for TLS management connections (e.g. SEMP, LDAP). The value "default" implies all supported suites ordered from most secure to least secure.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
+- `tls_cipher_suite_msg_backbone_list` (String) The colon-separated list of cipher suites used for TLS data connections (e.g. client pub/sub). The value "default" implies all supported suites ordered from most secure to least secure.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
+- `tls_cipher_suite_secure_shell_list` (String) The colon-separated list of cipher suites used for TLS secure shell connections (e.g. SSH, SFTP, SCP). The value "default" implies all supported suites ordered from most secure to least secure.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"default"`.
+- `tls_crime_exploit_protection_enabled` (Boolean) Enable or disable protection against the CRIME exploit. When enabled, TLS+compressed messaging performance is degraded. This protection should only be disabled if sufficient ACL and authentication features are being employed such that a potential attacker does not have sufficient access to trigger the exploit.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `tls_server_cert_content` (String, Sensitive) The PEM formatted content for the server certificate used for TLS connections. It must consist of a private key and between one and three certificates comprising the certificate trust chain.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`.
+- `tls_server_cert_password` (String, Sensitive) The password for the server certificate used for TLS connections.
+
+The minimum access scope/level required to change this attribute is "global/admin". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`.
+- `tls_standard_domain_certificate_authorities_enabled` (Boolean) Enable or disable the standard domain certificate authority list.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `true`. Available since SEMP API version 2.19.
+- `tls_ticket_lifetime` (Number, Deprecated) The TLS ticket lifetime in seconds. When a client connects with TLS, a session with a session ticket is created using the TLS ticket lifetime which determines how long the client has to resume the session.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". The default value is `86400`. Deprecated since SEMP API version 2.45. This attribute had been deprecated. TLS session tickets are no longer supported.
+- `web_manager_allow_unencrypted_wizards_enabled` (Boolean) Enable or disable the use of unencrypted wizards in the Web-based Manager UI. This setting should be left at its default on all production systems or other systems that need to be secure.  Enabling this option will permit the broker to forward plain-text data to other brokers, making important information or credentials available for snooping.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.28.
+- `web_manager_redirect_http_enabled` (Boolean) Enable or disable redirection of HTTP requests for the broker manager to HTTPS.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.24.
+- `web_manager_redirect_http_override_tls_port` (Number) The HTTPS port that HTTP requests will be redirected towards in a HTTP 301 redirect response. Zero is a special value that means use the value specified for the SEMP TLS port value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.24.
 
 <a id="nestedatt--guaranteed_msging_event_cache_usage_threshold"></a>
 ### Nested Schema for `guaranteed_msging_event_cache_usage_threshold`
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--guaranteed_msging_event_delivered_unacked_threshold"></a>
@@ -391,8 +289,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_disk_usage_threshold"></a>
@@ -400,8 +302,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_egress_flow_count_threshold"></a>
@@ -409,10 +315,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--guaranteed_msging_event_endpoint_count_threshold"></a>
@@ -420,10 +334,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--guaranteed_msging_event_ingress_flow_count_threshold"></a>
@@ -431,10 +353,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--guaranteed_msging_event_msg_count_threshold"></a>
@@ -442,8 +372,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_msg_spool_file_count_threshold"></a>
@@ -451,8 +385,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_msg_spool_usage_threshold"></a>
@@ -460,10 +398,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--guaranteed_msging_event_transacted_session_count_threshold"></a>
@@ -471,10 +417,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is to have no `clear_value`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is to have no `set_value`.
 
 
 <a id="nestedatt--guaranteed_msging_event_transacted_session_resource_count_threshold"></a>
@@ -482,8 +436,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--guaranteed_msging_event_transaction_count_threshold"></a>
@@ -491,10 +449,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--service_event_connection_count_threshold"></a>
@@ -502,10 +468,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--service_rest_event_outgoing_connection_count_threshold"></a>
@@ -513,10 +487,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--service_smf_event_connection_count_threshold"></a>
@@ -524,10 +506,18 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
 
 
 <a id="nestedatt--service_tls_event_connection_count_threshold"></a>
@@ -535,7 +525,15 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `60`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `80`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `60`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `80`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.

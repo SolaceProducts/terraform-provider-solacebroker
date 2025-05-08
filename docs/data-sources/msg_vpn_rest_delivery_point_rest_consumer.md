@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer Data Source 
 subcategory: ""
 description: |-
   REST Consumer objects establish HTTP connectivity to REST consumer applications who wish to receive messages from a broker.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.0.
 ---
 
@@ -14,7 +14,7 @@ REST Consumer objects establish HTTP connectivity to REST consumer applications 
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.0.
 
@@ -26,25 +26,59 @@ This has been available since SEMP API version 2.0.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rest_consumer_name` (String) The name of the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `authentication_aws_access_key_id` (String) The AWS access key id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
-- `authentication_aws_region` (String) The AWS region id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
-- `authentication_aws_service` (String) The AWS service id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
-- `authentication_http_basic_username` (String) The username that the REST Consumer will use to login to the REST host. Normally a username is only configured when basic authentication is selected for the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `authentication_http_header_name` (String) The authentication header name. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.15.
-- `authentication_oauth_client_id` (String) The OAuth client ID. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
-- `authentication_oauth_client_proxy_name` (String) The name of the proxy to use. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.42.
-- `authentication_oauth_client_scope` (String) The OAuth scope. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
-- `authentication_oauth_client_token_endpoint` (String) The OAuth token endpoint URL that the REST Consumer will use to request a token for login to the REST host. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
-- `authentication_oauth_client_token_expiry_default` (Number) The default expiry time for a token, in seconds. Only used when the token endpoint does not return an expiry time. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `900`. Available since SEMP API version 2.30.
-- `authentication_oauth_jwt_proxy_name` (String) The name of the proxy to use. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.42.
-- `authentication_oauth_jwt_token_endpoint` (String) The OAuth token endpoint URL that the REST Consumer will use to request a token for login to the REST host. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.21.
-- `authentication_oauth_jwt_token_expiry_default` (Number) The default expiry time for a token, in seconds. Only used when the token endpoint does not return an expiry time. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `900`. Available since SEMP API version 2.30.
-- `authentication_scheme` (String) The authentication scheme used by the REST Consumer to login to the REST host. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `authentication_aws_access_key_id` (String) The AWS access key id.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
+- `authentication_aws_region` (String) The AWS region id.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
+- `authentication_aws_service` (String) The AWS service id.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.26.
+- `authentication_http_basic_username` (String) The username that the REST Consumer will use to login to the REST host. Normally a username is only configured when basic authentication is selected for the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `authentication_http_header_name` (String) The authentication header name.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.15.
+- `authentication_oauth_client_id` (String) The OAuth client ID.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
+- `authentication_oauth_client_proxy_name` (String) The name of the proxy to use. Leave empty for no proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.42.
+- `authentication_oauth_client_scope` (String) The OAuth scope.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
+- `authentication_oauth_client_token_endpoint` (String) The OAuth token endpoint URL that the REST Consumer will use to request a token for login to the REST host.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
+- `authentication_oauth_client_token_expiry_default` (Number) The default expiry time for a token, in seconds. Only used when the token endpoint does not return an expiry time. Changes to this attribute are synchronized to HA mates and replication sites via config-sync.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `900`. Available since SEMP API version 2.30.
+- `authentication_oauth_jwt_proxy_name` (String) The name of the proxy to use. Leave empty for no proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.42.
+- `authentication_oauth_jwt_token_endpoint` (String) The OAuth token endpoint URL that the REST Consumer will use to request a token for login to the REST host.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.21.
+- `authentication_oauth_jwt_token_expiry_default` (Number) The default expiry time for a token, in seconds. Only used when the token endpoint does not return an expiry time. Changes to this attribute are synchronized to HA mates and replication sites via config-sync.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `900`. Available since SEMP API version 2.30.
+- `authentication_scheme` (String) The authentication scheme used by the REST Consumer to login to the REST host.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - Login with no authentication. This may be useful for anonymous connections or when a REST Consumer does not require authentication.
@@ -56,20 +90,42 @@ This has been available since SEMP API version 2.0.
 "transparent" - Login using the Authorization header from the message properties, if present. Transparent authentication passes along existing Authorization header metadata instead of discarding it. Note that if the message is coming from a REST producer, the REST service must be configured to forward the Authorization header.
 "aws" - Login using AWS Signature Version 4 authentication (AWS4-HMAC-SHA256).
 </pre>
-- `enabled` (Boolean) Enable or disable the REST Consumer. When disabled, no connections are initiated or messages delivered to this particular REST Consumer. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `http_method` (String) The HTTP method to use (POST or PUT). This is used only when operating in the REST service "messaging" mode and is ignored in "gateway" mode. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"post"`. The allowed values and their meaning are:
+- `enabled` (Boolean) Enable or disable the REST Consumer. When disabled, no connections are initiated or messages delivered to this particular REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `http_method` (String) The HTTP method to use (POST or PUT). This is used only when operating in the REST service "messaging" mode and is ignored in "gateway" mode.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"post"`. The allowed values and their meaning are:
 
 <pre>
 "post" - Use the POST HTTP method.
 "put" - Use the PUT HTTP method.
 </pre>
  Available since SEMP API version 2.17.
-- `local_interface` (String) The interface that will be used for all outgoing connections associated with the REST Consumer. When unspecified, an interface is automatically chosen. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `max_post_wait_time` (Number) The maximum amount of time (in seconds) to wait for an HTTP POST response from the REST Consumer. Once this time is exceeded, the TCP connection is reset. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`.
-- `outgoing_connection_count` (Number) The number of concurrent TCP connections open to the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
-- `proxy_name` (String) The name of the proxy to use. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.36.
-- `remote_host` (String) The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `remote_port` (Number) The port associated with the host of the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `8080`.
-- `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
-- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
-- `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `local_interface` (String) The interface that will be used for all outgoing connections associated with the REST Consumer. When unspecified, an interface is automatically chosen.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `max_post_wait_time` (Number) The maximum amount of time (in seconds) to wait for an HTTP POST response from the REST Consumer. Once this time is exceeded, the TCP connection is reset.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `30`.
+- `outgoing_connection_count` (Number) The number of concurrent TCP connections open to the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
+- `proxy_name` (String) The name of the proxy to use. Leave empty for no proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.36.
+- `remote_host` (String) The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `remote_port` (Number) The port associated with the host of the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `8080`.
+- `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
+- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
+- `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

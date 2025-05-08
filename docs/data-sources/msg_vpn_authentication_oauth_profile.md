@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_authentication_oauth_profile Data Source - sol
 subcategory: ""
 description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.25.
 ---
 
@@ -14,7 +14,7 @@ OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.25.
 
@@ -26,47 +26,109 @@ This has been available since SEMP API version 2.25.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `authorization_groups_claim_name` (String) The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorization_type attribute of the Message VPN will be used to determine authorization. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"groups"`.
-- `authorization_groups_claim_string_format` (String) The format of the authorization groups claim value when it is a string. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"single"`. The allowed values and their meaning are:
+- `authorization_groups_claim_name` (String) The name of the groups claim. If non-empty, the specified claim will be used to determine groups for authorization. If empty, the authorization_type attribute of the Message VPN will be used to determine authorization.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"groups"`.
+- `authorization_groups_claim_string_format` (String) The format of the authorization groups claim value when it is a string.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"single"`. The allowed values and their meaning are:
 
 <pre>
 "single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
  Available since SEMP API version 2.32.
-- `client_id` (String) The OAuth client id. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `client_required_type` (String) The required value for the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"JWT"`.
-- `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `disconnect_on_token_expiration_enabled` (Boolean) Enable or disable the disconnection of clients when their tokens expire. Changing this value does not affect existing clients, only new client connections. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `enabled` (Boolean) Enable or disable the OAuth profile. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `endpoint_discovery` (String) The OpenID Connect discovery endpoint or OAuth Authorization Server Metadata endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `endpoint_discovery_refresh_interval` (Number) The number of seconds between discovery endpoint requests. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
-- `endpoint_introspection` (String) The OAuth introspection endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `endpoint_introspection_timeout` (Number) The maximum time in seconds a token introspection request is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
-- `endpoint_jwks` (String) The OAuth JWKS endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
-- `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
-- `issuer` (String) The Issuer Identifier for the OAuth provider. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `mqtt_username_validate_enabled` (Boolean) Enable or disable whether the API provided MQTT client username will be validated against the username calculated from the token(s). When enabled, connection attempts by MQTT clients are rejected if they differ. Note that this value only applies to MQTT clients; SMF client usernames will not be validated. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `oauth_role` (String) The OAuth role of the broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"client"`. The allowed values and their meaning are:
+- `client_id` (String) The OAuth client id.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `client_required_type` (String) The required value for the TYP field in the ID token header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"JWT"`.
+- `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `disconnect_on_token_expiration_enabled` (Boolean) Enable or disable the disconnection of clients when their tokens expire. Changing this value does not affect existing clients, only new client connections.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `enabled` (Boolean) Enable or disable the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `endpoint_discovery` (String) The OpenID Connect discovery endpoint or OAuth Authorization Server Metadata endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `endpoint_discovery_refresh_interval` (Number) The number of seconds between discovery endpoint requests.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
+- `endpoint_introspection` (String) The OAuth introspection endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `endpoint_introspection_timeout` (Number) The maximum time in seconds a token introspection request is allowed to take.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
+- `endpoint_jwks` (String) The OAuth JWKS endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `86400`.
+- `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
+- `issuer` (String) The Issuer Identifier for the OAuth provider.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `mqtt_username_validate_enabled` (Boolean) Enable or disable whether the API provided MQTT client username will be validated against the username calculated from the token(s). When enabled, connection attempts by MQTT clients are rejected if they differ. Note that this value only applies to MQTT clients; SMF client usernames will not be validated.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `oauth_role` (String) The OAuth role of the broker.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"client"`. The allowed values and their meaning are:
 
 <pre>
 "client" - The broker is in the OAuth client role.
 "resource-server" - The broker is in the OAuth resource server role.
 </pre>
-- `proxy_name` (String) The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.41.
-- `resource_server_parse_access_token_enabled` (Boolean) Enable or disable parsing of the access token as a JWT. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `resource_server_required_audience` (String) The required audience value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `resource_server_required_issuer` (String) The required issuer value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `resource_server_required_scope` (String) A space-separated list of scopes that must be present in the scope claim. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `resource_server_required_type` (String) The required TYP value. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"at+jwt"`.
-- `resource_server_validate_audience_enabled` (Boolean) Enable or disable verification of the audience claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `resource_server_validate_issuer_enabled` (Boolean) Enable or disable verification of the issuer claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `username_claim_name` (String) The name of the username claim. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sub"`.
+- `proxy_name` (String) The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.41.
+- `resource_server_parse_access_token_enabled` (Boolean) Enable or disable parsing of the access token as a JWT.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `resource_server_required_audience` (String) The required audience value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `resource_server_required_issuer` (String) The required issuer value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `resource_server_required_scope` (String) A space-separated list of scopes that must be present in the scope claim.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `resource_server_required_type` (String) The required TYP value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"at+jwt"`.
+- `resource_server_validate_audience_enabled` (Boolean) Enable or disable verification of the audience claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `resource_server_validate_issuer_enabled` (Boolean) Enable or disable verification of the issuer claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `username_claim_name` (String) The name of the username claim.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"sub"`.

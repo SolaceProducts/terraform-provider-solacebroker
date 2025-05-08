@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_authentication_kerberos_realm Resource - solac
 subcategory: ""
 description: |-
   Kerberos Realm.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.40.
   The import identifier for this resource is {msg_vpn_name}/{kerberos_realm_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ Kerberos Realm.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.40.
 
@@ -29,9 +29,17 @@ The import identifier for this resource is `{msg_vpn_name}/{kerberos_realm_name}
 ### Required
 
 - `kerberos_realm_name` (String) The Realm Name. Must start with "@", typically all uppercase.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `enabled` (Boolean) Enable or disable the Realm. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `kdc_address` (String) Address (FQDN or IP) and optional port of the Key Distribution Center for principals in this Realm. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `enabled` (Boolean) Enable or disable the Realm.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `kdc_address` (String) Address (FQDN or IP) and optional port of the Key Distribution Center for principals in this Realm.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

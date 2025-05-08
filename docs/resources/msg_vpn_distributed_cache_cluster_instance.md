@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_instance Resource - 
 subcategory: ""
 description: |-
   A Cache Instance is a single Cache process that belongs to a single Cache Cluster. A Cache Instance object provisioned on the broker is used to disseminate configuration information to the Cache process. Cache Instances listen for and cache live data messages that match the topic subscriptions configured for their parent Cache Cluster.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{instance_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Cache Instance is a single Cache process that belongs to a single Cache Cluste
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -29,12 +29,26 @@ The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster
 ### Required
 
 - `cache_name` (String) The name of the Distributed Cache.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `cluster_name` (String) The name of the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `instance_name` (String) The name of the Cache Instance.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `auto_start_enabled` (Boolean) Enable or disable auto-start for the Cache Instance. When enabled, the Cache Instance will automatically attempt to transition from the Stopped operational state to Up whenever it restarts or reconnects to the message broker. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `enabled` (Boolean) Enable or disable the Cache Instance. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `stop_on_lost_msg_enabled` (Boolean) Enable or disable stop-on-lost-message for the Cache Instance. When enabled, the Cache Instance will transition to the stopped operational state upon losing a message. When stopped, it cannot accept or respond to cache requests, but continues to cache messages. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `auto_start_enabled` (Boolean) Enable or disable auto-start for the Cache Instance. When enabled, the Cache Instance will automatically attempt to transition from the Stopped operational state to Up whenever it restarts or reconnects to the message broker.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable the Cache Instance.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `stop_on_lost_msg_enabled` (Boolean) Enable or disable stop-on-lost-message for the Cache Instance. When enabled, the Cache Instance will transition to the stopped operational state upon losing a message. When stopped, it cannot accept or respond to cache requests, but continues to cache messages.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.

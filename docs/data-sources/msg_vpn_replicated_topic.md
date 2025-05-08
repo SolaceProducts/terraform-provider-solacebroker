@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_replicated_topic Data Source - solacebroker"
 subcategory: ""
 description: |-
   To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.1.
 ---
 
@@ -14,7 +14,7 @@ To indicate which messages should be replicated between the active and standby s
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.1.
 
@@ -26,11 +26,17 @@ This has been available since SEMP API version 2.1.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `replicated_topic` (String) The topic for applying replication. Published messages matching this topic will be replicated to the standby site.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `replication_mode` (String) The replication mode for the Replicated Topic. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"async"`. The allowed values and their meaning are:
+- `replication_mode` (String) The replication mode for the Replicated Topic.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"async"`. The allowed values and their meaning are:
 
 <pre>
 "sync" - Messages are acknowledged when replicated (spooled remotely).

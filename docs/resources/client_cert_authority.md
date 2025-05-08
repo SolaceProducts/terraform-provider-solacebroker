@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.19.
   The import identifier for this resource is {cert_authority_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ Clients can authenticate with the message broker over TLS by presenting a valid 
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.19.
 
@@ -33,13 +33,31 @@ The import identifier for this resource is `{cert_authority_name}`, where {&lt;a
 
 - `cert_authority_name` (String) The name of the Certificate Authority.
 
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+
 ### Optional
 
-- `cert_content` (String) The PEM formatted content for the trusted root certificate of a client Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `crl_day_list` (String) The scheduled CRL refresh day(s), specified as "daily" or a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", or "Sat", with no spaces, and in sorted order from Sunday to Saturday. The empty-string ("") can also be specified, indicating no schedule is configured ("crl_time_list" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`.
-- `crl_time_list` (String) The scheduled CRL refresh time(s), specified as "hourly" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string ("") can also be specified, indicating no schedule is configured ("crl_day_list" must also be configured to the empty-string). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"3:00"`.
-- `crl_url` (String) The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `ocsp_non_responder_cert_enabled` (Boolean) Enable or disable allowing a non-responder certificate to sign an OCSP response. Typically used with an OCSP override URL in cases where a single certificate is used to sign client certificates and OCSP responses. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `ocsp_override_url` (String) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `ocsp_timeout` (Number) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
-- `revocation_check_enabled` (Boolean) Enable or disable Certificate Authority revocation checking. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `cert_content` (String) The PEM formatted content for the trusted root certificate of a client Certificate Authority.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `crl_day_list` (String) The scheduled CRL refresh day(s), specified as "daily" or a comma-separated list of days. Days must be specified as "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", or "Sat", with no spaces, and in sorted order from Sunday to Saturday. The empty-string ("") can also be specified, indicating no schedule is configured ("crl_time_list" must also be configured to the empty-string).
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"daily"`.
+- `crl_time_list` (String) The scheduled CRL refresh time(s), specified as "hourly" or a comma-separated list of 24-hour times in the form hh:mm, or h:mm. There must be no spaces, and times (up to 4) must be in sorted order from 0:00 to 23:59. The empty-string ("") can also be specified, indicating no schedule is configured ("crl_day_list" must also be configured to the empty-string).
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"3:00"`.
+- `crl_url` (String) The URL for the CRL source. This is a required attribute for CRL to be operational and the URL must be complete with http:// included. IPv6 addresses must be enclosed in square-brackets.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as revocation_check_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `ocsp_non_responder_cert_enabled` (Boolean) Enable or disable allowing a non-responder certificate to sign an OCSP response. Typically used with an OCSP override URL in cases where a single certificate is used to sign client certificates and OCSP responses.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `ocsp_override_url` (String) The OCSP responder URL to use for overriding the one supplied in the client certificate. The URL must be complete with http:// included.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `ocsp_timeout` (Number) The timeout in seconds to receive a response from the OCSP responder after sending a request or making the initial connection attempt.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
+- `revocation_check_enabled` (Boolean) Enable or disable Certificate Authority revocation checking.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.

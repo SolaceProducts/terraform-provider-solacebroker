@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription Re
 subcategory: ""
 description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msg_vpn_name}/{telemetry_profile_name}/{trace_filter_name}/{subscription}/{subscription_syntax}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ Trace filter subscriptions control which messages will be attracted by the traci
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.31.
 
@@ -29,12 +29,22 @@ The import identifier for this resource is `{msg_vpn_name}/{telemetry_profile_na
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `subscription` (String) Messages matching this subscription will follow this filter's configuration.
-- `subscription_syntax` (String) The syntax of the trace filter subscription. The allowed values and their meaning are:
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `subscription_syntax` (String) The syntax of the trace filter subscription.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The allowed values and their meaning are:
 
 <pre>
 "smf" - Subscription uses SMF syntax.
 "mqtt" - Subscription uses MQTT syntax.
 </pre>
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `trace_filter_name` (String) A name used to identify the trace filter. Consider a name that describes the subscriptions contained within the filter, such as the name of the application and/or the scenario in which the trace filter might be enabled, such as "appNameDebug".
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

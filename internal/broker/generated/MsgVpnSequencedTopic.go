@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_sequenced_topic",
-		MarkdownDescription: "A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
+		MarkdownDescription: "A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/sequencedTopics/{sequencedTopic}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/sequencedTopics",
@@ -38,7 +38,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN. Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
+				MarkdownDescription: "The name of the Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -56,7 +56,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "sequencedTopic",
 				TerraformName:       "sequenced_topic",
-				MarkdownDescription: "Topic for applying sequence numbers. Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
+				MarkdownDescription: "Topic for applying sequence numbers.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

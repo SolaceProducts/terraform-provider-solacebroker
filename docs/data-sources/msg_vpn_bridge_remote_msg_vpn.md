@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_bridge_remote_msg_vpn Data Source - solacebrok
 subcategory: ""
 description: |-
   The Remote Message VPN is the Message VPN that the Bridge connects to.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.0.
 ---
 
@@ -14,7 +14,7 @@ The Remote Message VPN is the Message VPN that the Bridge connects to.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.0.
 
@@ -26,7 +26,11 @@ This has been available since SEMP API version 2.0.
 ### Required
 
 - `bridge_name` (String) The name of the Bridge.
-- `bridge_virtual_router` (String) The virtual router of the Bridge. The allowed values and their meaning are:
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `bridge_virtual_router` (String) The virtual router of the Bridge.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The allowed values and their meaning are:
 
 <pre>
 "primary" - The Bridge is used for the primary virtual router.
@@ -34,17 +38,41 @@ This has been available since SEMP API version 2.0.
 "auto" - The Bridge is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `remote_msg_vpn_interface` (String) The physical interface on the local Message VPN host for connecting to the remote Message VPN. By default, an interface is chosen automatically (recommended), but if specified, `remote_msg_vpn_location` must not be a virtual router name.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `remote_msg_vpn_location` (String) The location of the remote Message VPN as either an FQDN with port, IP address with port, or virtual router name (starting with "v:").
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `remote_msg_vpn_name` (String) The name of the remote Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `client_username` (String) The Client Username the Bridge uses to login to the remote Message VPN. This per remote Message VPN value overrides the value provided for the Bridge overall. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `compressed_data_enabled` (Boolean) Enable or disable data compression for the remote Message VPN connection. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `connect_order` (Number) The preference given to incoming connections from remote Message VPN hosts, from 1 (highest priority) to 4 (lowest priority). Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
-- `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be transmitted over the remote Message VPN connection before an acknowledgment is received. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
-- `enabled` (Boolean) Enable or disable the remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `queue_binding` (String) The queue binding of the Bridge in the remote Message VPN. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
-- `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the remote Message VPN connection. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `unidirectional_client_profile` (String) The Client Profile for the unidirectional Bridge of the remote Message VPN. The Client Profile must exist in the local Message VPN, and it is used only for the TCP parameters. Note that the default client profile has a TCP maximum window size of 2 MB. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"#client-profile"`.
+- `client_username` (String) The Client Username the Bridge uses to login to the remote Message VPN. This per remote Message VPN value overrides the value provided for the Bridge overall.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `compressed_data_enabled` (Boolean) Enable or disable data compression for the remote Message VPN connection.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `connect_order` (Number) The preference given to incoming connections from remote Message VPN hosts, from 1 (highest priority) to 4 (lowest priority).
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `4`.
+- `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be transmitted over the remote Message VPN connection before an acknowledgment is received.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `255`.
+- `enabled` (Boolean) Enable or disable the remote Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `queue_binding` (String) The queue binding of the Bridge in the remote Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the remote Message VPN connection.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `unidirectional_client_profile` (String) The Client Profile for the unidirectional Bridge of the remote Message VPN. The Client Profile must exist in the local Message VPN, and it is used only for the TCP parameters. Note that the default client profile has a TCP maximum window size of 2 MB.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"#client-profile"`.

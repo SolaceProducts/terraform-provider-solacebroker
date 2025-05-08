@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   This provides information about the Message VPN access level for the username used to access the SEMP API.
-  A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/none".
   This has been available since SEMP API version 2.2.
 ---
 
@@ -17,7 +17,7 @@ This provides information about the Message VPN access level for the username us
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/none" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/none".
 
 This has been available since SEMP API version 2.2.
 
@@ -30,9 +30,13 @@ This has been available since SEMP API version 2.2.
 
 - `msg_vpn_name` (String) The name of the Message VPN.
 
+The minimum access scope/level required to retrieve this attribute is "global/none".
+
 ### Read-Only
 
-- `access_level` (String) The Message VPN access level of the User. The allowed values and their meaning are:
+- `access_level` (String) The Message VPN access level of the User.
+
+The minimum access scope/level required to retrieve this attribute is "global/none". The allowed values and their meaning are:
 
 <pre>
 "none" - No access.

@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster Resource - solacebro
 subcategory: ""
 description: |-
   A Cache Cluster is a collection of one or more Cache Instances that subscribe to exactly the same topics. Cache Instances are grouped together in a Cache Cluster for the purpose of fault tolerance and load balancing. As published messages are received, the message broker message bus sends these live data messages to the Cache Instances in the Cache Cluster. This enables client cache requests to be served by any of Cache Instances in the Cache Cluster.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Cache Cluster is a collection of one or more Cache Instances that subscribe to
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -29,13 +29,23 @@ The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster
 ### Required
 
 - `cache_name` (String) The name of the Distributed Cache.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `cluster_name` (String) The name of the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `deliver_to_one_override_enabled` (Boolean) Enable or disable deliver-to-one override for the Cache Cluster. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `enabled` (Boolean) Enable or disable the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `deliver_to_one_override_enabled` (Boolean) Enable or disable deliver-to-one override for the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `enabled` (Boolean) Enable or disable the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `event_data_byte_rate_threshold` (Attributes) The thresholds for the cached data incoming byte rate event, in bytes per second. (see [below for nested schema](#nestedatt--event_data_byte_rate_threshold))
 - `event_data_msg_rate_threshold` (Attributes) The thresholds for the cached data incoming message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_data_msg_rate_threshold))
 - `event_max_memory_threshold` (Attributes) The thresholds for the memory usage per instance event, relative to `max_memory`. (see [below for nested schema](#nestedatt--event_max_memory_threshold))
@@ -43,23 +53,45 @@ The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster
 - `event_request_queue_depth_threshold` (Attributes) The thresholds for the request queue depth event, relative to `max_request_queue_depth`. (see [below for nested schema](#nestedatt--event_request_queue_depth_threshold))
 - `event_request_rate_threshold` (Attributes) The thresholds for the cache request message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_request_rate_threshold))
 - `event_response_rate_threshold` (Attributes) The thresholds for the cache response message rate event, in messages per second. (see [below for nested schema](#nestedatt--event_response_rate_threshold))
-- `global_caching_enabled` (Boolean) Enable or disable global caching for the Cache Cluster. When enabled, the Cache Instances will fetch topics from remote Home Cache Clusters when requested, and subscribe to those topics to cache them locally. When disabled, the Cache Instances will remove all subscriptions and cached messages for topics from remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
-- `global_caching_heartbeat` (Number) The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the remote Home Cache Clusters. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
-- `global_caching_topic_lifetime` (Number) The topic lifetime, in seconds. If no client requests are received for a given global topic over the duration of the topic lifetime, then the Cache Instance will remove the subscription and cached messages for that topic. A value of 0 disables aging. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3600`.
-- `max_memory` (Number) The maximum memory usage, in megabytes (MB), for each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2048`.
-- `max_msgs_per_topic` (Number) The maximum number of messages per topic for each Cache Instance in the Cache Cluster. When at the maximum, old messages are removed as new messages arrive. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
-- `max_request_queue_depth` (Number) The maximum queue depth for cache requests received by the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `100000`.
-- `max_topic_count` (Number) The maximum number of topics for each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000000`.
-- `msg_lifetime` (Number) The message lifetime, in seconds. If a message remains cached for the duration of its lifetime, the Cache Instance will remove the message. A lifetime of 0 results in the message being retained indefinitely. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
-- `new_topic_advertisement_enabled` (Boolean) Enable or disable the advertising, onto the message bus, of new topics learned by each Cache Instance in the Cache Cluster. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `global_caching_enabled` (Boolean) Enable or disable global caching for the Cache Cluster. When enabled, the Cache Instances will fetch topics from remote Home Cache Clusters when requested, and subscribe to those topics to cache them locally. When disabled, the Cache Instances will remove all subscriptions and cached messages for topics from remote Home Cache Clusters.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `global_caching_heartbeat` (Number) The heartbeat interval, in seconds, used by the Cache Instances to monitor connectivity with the remote Home Cache Clusters.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
+- `global_caching_topic_lifetime` (Number) The topic lifetime, in seconds. If no client requests are received for a given global topic over the duration of the topic lifetime, then the Cache Instance will remove the subscription and cached messages for that topic. A value of 0 disables aging.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3600`.
+- `max_memory` (Number) The maximum memory usage, in megabytes (MB), for each Cache Instance in the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2048`.
+- `max_msgs_per_topic` (Number) The maximum number of messages per topic for each Cache Instance in the Cache Cluster. When at the maximum, old messages are removed as new messages arrive.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1`.
+- `max_request_queue_depth` (Number) The maximum queue depth for cache requests received by the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `100000`.
+- `max_topic_count` (Number) The maximum number of topics for each Cache Instance in the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2000000`.
+- `msg_lifetime` (Number) The message lifetime, in seconds. If a message remains cached for the duration of its lifetime, the Cache Instance will remove the message. A lifetime of 0 results in the message being retained indefinitely.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
+- `new_topic_advertisement_enabled` (Boolean) Enable or disable the advertising, onto the message bus, of new topics learned by each Cache Instance in the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 
 <a id="nestedatt--event_data_byte_rate_threshold"></a>
 ### Nested Schema for `event_data_byte_rate_threshold`
 
 Optional:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `187500000`.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `250000000`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `187500000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `250000000`.
 
 
 <a id="nestedatt--event_data_msg_rate_threshold"></a>
@@ -67,8 +99,12 @@ Optional:
 
 Optional:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `36000`.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `48000`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `36000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `48000`.
 
 
 <a id="nestedatt--event_max_memory_threshold"></a>
@@ -76,8 +112,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--event_max_topics_threshold"></a>
@@ -85,8 +125,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--event_request_queue_depth_threshold"></a>
@@ -94,8 +138,12 @@ Optional:
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. The default value is: `60`.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. The default value is: `80`.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `60`.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `80`.
 
 
 <a id="nestedatt--event_request_rate_threshold"></a>
@@ -103,8 +151,12 @@ Optional:
 
 Optional:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `1000`.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `25000`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `25000`.
 
 
 <a id="nestedatt--event_response_rate_threshold"></a>
@@ -112,5 +164,9 @@ Optional:
 
 Optional:
 
-- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event. The default value is: `1000`.
-- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event. The default value is: `80000`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter or rate. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
+- `set_value` (Number) The set threshold for the absolute value of this counter or rate. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `80000`.

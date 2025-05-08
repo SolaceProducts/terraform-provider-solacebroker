@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_kafka_receiver_topic_binding Resource - solace
 subcategory: ""
 description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.36.
   The import identifier for this resource is {msg_vpn_name}/{kafka_receiver_name}/{topic_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Topic Binding receives messages from a remote Kafka Topic.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.36.
 
@@ -29,17 +29,25 @@ The import identifier for this resource is `{msg_vpn_name}/{kafka_receiver_name}
 ### Required
 
 - `kafka_receiver_name` (String) The name of the Kafka Receiver.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `topic_name` (String) The name of the Topic or a POSIX.2 regular expression starting with '^'.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `enabled` (Boolean) Enable or disable this topic binding of the Kafka Receiver. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable this topic binding of the Kafka Receiver.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `initial_offset` (String) The initial offset to consume from the Kafka Topic if no member of the group has consumed and committed any offset already, or if the last committed offset has been deleted. Offsets are unique per partition.
 
 This corresponds to the Kafka consumer API `auto.offset.reset` configuration setting.
 
-Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"end"`. The allowed values and their meaning are:
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"end"`. The allowed values and their meaning are:
 
 <pre>
 "beginning" - Start with the earliest offset available.
@@ -49,9 +57,9 @@ Modifying this attribute while the object (or the relevant part of the object) i
 
 If empty, no key is included for each message as it is published into Solace.
 
-Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `local_topic` (String) The Substitution Expression used to generate the Solace Topic for each message received from Kafka. This expression can include data extracted from the metadata of each individual Kafka message as it is received from the Kafka Topic.
 
 If empty, the Topic Binding will not be operational.
 
-Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

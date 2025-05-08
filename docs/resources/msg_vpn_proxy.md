@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_proxy Resource - solacebroker"
 subcategory: ""
 description: |-
   proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.36.
   The import identifier for this resource is {msg_vpn_name}/{proxy_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ proxy objects define the connection parameters for a proxy server. To use a prox
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.36.
 
@@ -29,22 +29,40 @@ The import identifier for this resource is `{msg_vpn_name}/{proxy_name}`, where 
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `proxy_name` (String) The name of the proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `authentication_basic_password` (String, Sensitive) The password to use with basic authentication. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `authentication_basic_username` (String) The username to use with basic authentication. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `authentication_scheme` (String) The authentication scheme used to connect to the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `authentication_basic_password` (String, Sensitive) The password to use with basic authentication.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authentication_basic_username` (String) The username to use with basic authentication.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authentication_scheme` (String) The authentication scheme used to connect to the proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - No authentication.
 "basic" - Username/password authentication.
 </pre>
-- `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `host` (String) The IP address or host name of the proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `port` (Number) The port to connect to on the proxy host. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
-- `proxy_type` (String) The type of proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"direct"`. The allowed values and their meaning are:
+- `enabled` (Boolean) Enable or disable the proxy. When disabled, no connections are initiated to this particular proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `host` (String) The IP address or host name of the proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `port` (Number) The port to connect to on the proxy host.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
+- `proxy_type` (String) The type of proxy.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"direct"`. The allowed values and their meaning are:
 
 <pre>
 "direct" - Direct connection (no proxy).

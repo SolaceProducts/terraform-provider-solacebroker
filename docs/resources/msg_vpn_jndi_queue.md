@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_jndi_queue Resource - solacebroker"
 subcategory: ""
 description: |-
   The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.2.
   The import identifier for this resource is {msg_vpn_name}/{queue_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ The message broker provides an internal JNDI store for provisioned Queue objects
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.2.
 
@@ -29,8 +29,14 @@ The import identifier for this resource is `{msg_vpn_name}/{queue_name}`, where 
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `queue_name` (String) The JNDI name of the JMS Queue.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `physical_name` (String) The physical name of the JMS Queue. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `physical_name` (String) The physical name of the JMS Queue.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

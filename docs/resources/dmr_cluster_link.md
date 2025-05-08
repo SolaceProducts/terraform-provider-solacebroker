@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {dmr_cluster_name}/{remote_node_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ A Link connects nodes (either within a Cluster or between two different Clusters
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -32,73 +32,151 @@ The import identifier for this resource is `{dmr_cluster_name}/{remote_node_name
 ### Required
 
 - `dmr_cluster_name` (String) The name of the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `remote_node_name` (String) The name of the node at the remote end of the Link.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Optional
 
-- `authentication_basic_password` (String, Sensitive) The password used to authenticate with the remote node when using basic internal authentication. If this per-Link password is not configured, the Cluster's password is used instead. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `authentication_scheme` (String) The authentication scheme to be used by the Link which initiates connections to the remote node. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"basic"`. The allowed values and their meaning are:
+- `authentication_basic_password` (String, Sensitive) The password used to authenticate with the remote node when using basic internal authentication. If this per-Link password is not configured, the Cluster's password is used instead.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authentication_scheme` (String) The authentication scheme to be used by the Link which initiates connections to the remote node.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"basic"`. The allowed values and their meaning are:
 
 <pre>
 "basic" - Basic Authentication Scheme (via username and password).
 "client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
 </pre>
-- `client_profile_queue_control1_max_depth` (Number) The maximum depth of the "Control 1" (C-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `client_profile_queue_control1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
-- `client_profile_queue_direct1_max_depth` (Number) The maximum depth of the "Direct 1" (D-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `client_profile_queue_direct1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
-- `client_profile_queue_direct2_max_depth` (Number) The maximum depth of the "Direct 2" (D-2) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `client_profile_queue_direct2_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
-- `client_profile_queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `client_profile_queue_direct3_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
-- `client_profile_queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
-- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-1) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
-- `client_profile_tcp_congestion_window_size` (Number) The TCP initial congestion window size, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.
-- `client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to be carried out before declaring that the remote end is not available. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
-- `client_profile_tcp_keepalive_idle_time` (Number) The amount of time a connection must remain idle before TCP begins sending keepalive probes, in seconds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
-- `client_profile_tcp_keepalive_interval` (Number) The amount of time between TCP keepalive retransmissions when no acknowledgment is received, in seconds. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
-- `client_profile_tcp_max_segment_size` (Number) The TCP maximum segment size, in bytes. Changes are applied to all existing connections. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1460`.
-- `client_profile_tcp_max_window_size` (Number) The TCP maximum window size, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `256`.
-- `connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.41.
-- `connection_retry_delay` (Number) The number of seconds the broker waits for the bridge connection to be established before attempting a new connection. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`. Available since SEMP API version 2.41.
-- `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be sent over the Link before acknowledgment is received by the sender. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
-- `enabled` (Boolean) Enable or disable the Link. When disabled, subscription sets of this and the remote node are not kept up-to-date, and messages are not exchanged with the remote node. Published guaranteed messages will be queued up for future delivery based on current subscription sets. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `initiator` (String) The initiator of the Link's TCP connections. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"lexical"`. The allowed values and their meaning are:
+- `client_profile_queue_control1_max_depth` (Number) The maximum depth of the "Control 1" (C-1) priority queue, in work units. Each work unit is 2048 bytes of message data.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
+- `client_profile_queue_control1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Control 1" (C-1) priority queue, regardless of the `client_profile_queue_control1_max_depth` value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct1_max_depth` (Number) The maximum depth of the "Direct 1" (D-1) priority queue, in work units. Each work unit is 2048 bytes of message data.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
+- `client_profile_queue_direct1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 1" (D-1) priority queue, regardless of the `client_profile_queue_direct1_max_depth` value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct2_max_depth` (Number) The maximum depth of the "Direct 2" (D-2) priority queue, in work units. Each work unit is 2048 bytes of message data.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
+- `client_profile_queue_direct2_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 2" (D-2) priority queue, regardless of the `client_profile_queue_direct2_max_depth` value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_direct3_max_depth` (Number) The maximum depth of the "Direct 3" (D-3) priority queue, in work units. Each work unit is 2048 bytes of message data.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
+- `client_profile_queue_direct3_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Direct 3" (D-3) priority queue, regardless of the `client_profile_queue_direct3_max_depth` value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `4`.
+- `client_profile_queue_guaranteed1_max_depth` (Number) The maximum depth of the "Guaranteed 1" (G-1) priority queue, in work units. Each work unit is 2048 bytes of message data.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `20000`.
+- `client_profile_queue_guaranteed1_min_msg_burst` (Number) The number of messages that are always allowed entry into the "Guaranteed 1" (G-1) priority queue, regardless of the `client_profile_queue_guaranteed1_max_depth` value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
+- `client_profile_tcp_congestion_window_size` (Number) The TCP initial congestion window size, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.
+- `client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to be carried out before declaring that the remote end is not available.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
+- `client_profile_tcp_keepalive_idle_time` (Number) The amount of time a connection must remain idle before TCP begins sending keepalive probes, in seconds.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
+- `client_profile_tcp_keepalive_interval` (Number) The amount of time between TCP keepalive retransmissions when no acknowledgment is received, in seconds.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
+- `client_profile_tcp_max_segment_size` (Number) The TCP maximum segment size, in bytes. Changes are applied to all existing connections.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1460`.
+- `client_profile_tcp_max_window_size` (Number) The TCP maximum window size, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `256`.
+- `connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.41.
+- `connection_retry_delay` (Number) The number of seconds the broker waits for the bridge connection to be established before attempting a new connection.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`. Available since SEMP API version 2.41.
+- `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be sent over the Link before acknowledgment is received by the sender.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
+- `enabled` (Boolean) Enable or disable the Link. When disabled, subscription sets of this and the remote node are not kept up-to-date, and messages are not exchanged with the remote node. Published guaranteed messages will be queued up for future delivery based on current subscription sets.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `initiator` (String) The initiator of the Link's TCP connections.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"lexical"`. The allowed values and their meaning are:
 
 <pre>
 "lexical" - The "higher" node-name initiates.
 "local" - The local node initiates.
 "remote" - The remote node initiates.
 </pre>
-- `queue_dead_msg_queue` (String) The name of the Dead Message Queue (DMQ) used by the Queue for discarded messages. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"#DEAD_MSG_QUEUE"`.
+- `queue_dead_msg_queue` (String) The name of the Dead Message Queue (DMQ) used by the Queue for discarded messages.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"#DEAD_MSG_QUEUE"`.
 - `queue_event_spool_usage_threshold` (Attributes) The thresholds for the message spool usage event of the Queue, relative to `queue_max_msg_spool_usage`. (see [below for nested schema](#nestedatt--queue_event_spool_usage_threshold))
-- `queue_max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Queue. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1000000`.
-- `queue_max_msg_spool_usage` (Number) The maximum message spool usage by the Queue (quota), in megabytes (MB). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `800000`.
-- `queue_max_redelivery_count` (Number) The maximum number of times the Queue will attempt redelivery of a message prior to it being discarded or moved to the DMQ. A value of 0 means to retry forever. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
-- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the Queue when `queue_respect_ttl_enabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queue_max_ttl` configured for the Queue, is exceeded. A value of 0 disables expiry. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
-- `queue_reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgments (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"always"`. The allowed values and their meaning are:
+- `queue_max_delivered_unacked_msgs_per_flow` (Number) The maximum number of messages delivered but not acknowledged per flow for the Queue.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1000000`.
+- `queue_max_msg_spool_usage` (Number) The maximum message spool usage by the Queue (quota), in megabytes (MB).
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `800000`.
+- `queue_max_redelivery_count` (Number) The maximum number of times the Queue will attempt redelivery of a message prior to it being discarded or moved to the DMQ. A value of 0 means to retry forever.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
+- `queue_max_ttl` (Number) The maximum time in seconds a message can stay in the Queue when `queue_respect_ttl_enabled` is `true`. A message expires when the lesser of the sender assigned time-to-live (TTL) in the message and the `queue_max_ttl` configured for the Queue, is exceeded. A value of 0 disables expiry.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
+- `queue_reject_msg_to_sender_on_discard_behavior` (String) Determines when to return negative acknowledgments (NACKs) to sending clients on message discards. Note that NACKs cause the message to not be delivered to any destination and Transacted Session commits to fail.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"always"`. The allowed values and their meaning are:
 
 <pre>
 "never" - Silently discard messages.
 "when-queue-enabled" - NACK each message discard back to the client, except messages that are discarded because an endpoint is administratively disabled.
 "always" - NACK each message discard back to the client, including messages that are discarded because an endpoint is administratively disabled.
 </pre>
-- `queue_respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages in the Queue. When enabled, expired messages are discarded or moved to the DMQ. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `span` (String) The span of the Link, either internal or external. Internal Links connect nodes within the same Cluster. External Links connect nodes within different Clusters. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"external"`. The allowed values and their meaning are:
+- `queue_respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages in the Queue. When enabled, expired messages are discarded or moved to the DMQ.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `span` (String) The span of the Link, either internal or external. Internal Links connect nodes within the same Cluster. External Links connect nodes within different Clusters.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"external"`. The allowed values and their meaning are:
 
 <pre>
 "internal" - Link to same cluster.
 "external" - Link to other cluster.
 </pre>
-- `transport_compressed_enabled` (Boolean) Enable or disable compression on the Link. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `transport_tls_enabled` (Boolean) Enable or disable encryption (TLS) on the Link. Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `transport_compressed_enabled` (Boolean) Enable or disable compression on the Link.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `transport_tls_enabled` (Boolean) Enable or disable encryption (TLS) on the Link.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 
 <a id="nestedatt--queue_event_spool_usage_threshold"></a>
 ### Nested Schema for `queue_event_spool_usage_threshold`
 
 Optional:
 
-- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `1`.
-- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event. This attribute may not be returned in a GET.
-- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET. The default value is: `2`.
-- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event. This attribute may not be returned in a GET.
+- `clear_percent` (Number) The clear threshold for the value of this counter as a percentage of its maximum value. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
+- `clear_value` (Number) The clear threshold for the absolute value of this counter. Falling below this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.
+- `set_percent` (Number) The set threshold for the value of this counter as a percentage of its maximum value. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.
+- `set_value` (Number) The set threshold for the absolute value of this counter. Exceeding this value will trigger a corresponding event.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". This attribute may not be returned in a GET. Changes to this attribute are synchronized to HA mates via config-sync. The default is not applicable.

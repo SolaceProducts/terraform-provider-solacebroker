@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_default_msg_vpn_access_level_exception",
-		MarkdownDescription: "Default message VPN access-level exceptions.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "Default message VPN access-level exceptions.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.24.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/defaultMsgVpnAccessLevelExceptions/{msgVpnName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "accessLevel",
 				TerraformName:       "access_level",
-				MarkdownDescription: "The message VPN access level. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - User has no access to a Message VPN.\n\"read-only\" - User has read-only access to a Message VPN.\n\"read-write\" - User has read-write access to most Message VPN settings.\n</pre>\n",
+				MarkdownDescription: "The message VPN access level.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"none\"`. The allowed values and their meaning are:\n\n<pre>\n\"none\" - User has no access to a Message VPN.\n\"read-only\" - User has read-only access to a Message VPN.\n\"read-write\" - User has read-write access to most Message VPN settings.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -50,7 +50,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the message VPN.",
+				MarkdownDescription: "The name of the message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -66,7 +66,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "oauthProfileName",
 				TerraformName:       "oauth_profile_name",
-				MarkdownDescription: "The name of the OAuth profile.",
+				MarkdownDescription: "The name of the OAuth profile.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,

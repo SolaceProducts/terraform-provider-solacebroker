@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Additional claims to be verified in the access token.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
 ---
 
@@ -17,7 +17,7 @@ Additional claims to be verified in the access token.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -29,8 +29,14 @@ This has been available since SEMP API version 2.24.
 ### Required
 
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Read-Only
 
 - `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".

@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_queue_subscription Data Source - solacebroker"
 subcategory: ""
 description: |-
   One or more Queue Subscriptions can be added to a durable queue so that Guaranteed messages published to matching topics are also delivered to and spooled by the queue.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.0.
 ---
 
@@ -14,7 +14,7 @@ One or more Queue Subscriptions can be added to a durable queue so that Guarante
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.0.
 
@@ -26,5 +26,11 @@ This has been available since SEMP API version 2.0.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `queue_name` (String) The name of the Queue.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `subscription_topic` (String) The topic of the Subscription.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

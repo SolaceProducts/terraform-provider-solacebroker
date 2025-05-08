@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_replicated_topic",
-		MarkdownDescription: "To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.1.",
+		MarkdownDescription: "To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.1.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/replicatedTopics/{replicatedTopic}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN.",
+				MarkdownDescription: "The name of the Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -54,7 +54,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "replicatedTopic",
 				TerraformName:       "replicated_topic",
-				MarkdownDescription: "The topic for applying replication. Published messages matching this topic will be replicated to the standby site.",
+				MarkdownDescription: "The topic for applying replication. Published messages matching this topic will be replicated to the standby site.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -69,7 +69,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "replicationMode",
 				TerraformName:       "replication_mode",
-				MarkdownDescription: "The replication mode for the Replicated Topic. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"async\"`. The allowed values and their meaning are:\n\n<pre>\n\"sync\" - Messages are acknowledged when replicated (spooled remotely).\n\"async\" - Messages are acknowledged when pending replication (spooled locally).\n</pre>\n",
+				MarkdownDescription: "The replication mode for the Replicated Topic.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"async\"`. The allowed values and their meaning are:\n\n<pre>\n\"sync\" - Messages are acknowledged when replicated (spooled remotely).\n\"async\" - Messages are acknowledged when pending replication (spooled locally).\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

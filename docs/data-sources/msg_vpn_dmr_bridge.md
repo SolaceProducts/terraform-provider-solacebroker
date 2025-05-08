@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_dmr_bridge Data Source - solacebroker"
 subcategory: ""
 description: |-
   A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.11.
 ---
 
@@ -14,7 +14,7 @@ A DMR Bridge is required to establish a data channel over a corresponding extern
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -26,8 +26,14 @@ This has been available since SEMP API version 2.11.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `remote_node_name` (String) The name of the node at the remote end of the DMR Bridge.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `remote_msg_vpn_name` (String) The remote Message VPN of the DMR Bridge. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `remote_msg_vpn_name` (String) The remote Message VPN of the DMR Bridge.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

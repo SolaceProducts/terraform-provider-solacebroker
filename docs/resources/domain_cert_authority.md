@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Certificate Authorities trusted for domain verification.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.19.
   The import identifier for this resource is {cert_authority_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ Certificate Authorities trusted for domain verification.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.19.
 
@@ -33,6 +33,10 @@ The import identifier for this resource is `{cert_authority_name}`, where {&lt;a
 
 - `cert_authority_name` (String) The name of the Certificate Authority.
 
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+
 ### Optional
 
-- `cert_content` (String) The PEM formatted content for the trusted root certificate of a domain Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `cert_content` (String) The PEM formatted content for the trusted root certificate of a domain Certificate Authority.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

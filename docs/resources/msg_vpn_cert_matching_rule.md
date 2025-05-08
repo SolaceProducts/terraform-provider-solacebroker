@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_cert_matching_rule Resource - solacebroker"
 subcategory: ""
 description: |-
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.27.
   The import identifier for this resource is {msg_vpn_name}/{rule_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Cert Matching Rule is a collection of conditions and attribute filters that al
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.27.
 
@@ -29,8 +29,14 @@ The import identifier for this resource is `{msg_vpn_name}/{rule_name}`, where {
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rule_name` (String) The name of the rule.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `enabled` (Boolean) Enable or disable a certificate matching rule. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable a certificate matching rule.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

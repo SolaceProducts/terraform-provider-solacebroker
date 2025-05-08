@@ -27,7 +27,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "about_api",
-		MarkdownDescription: "The API Description object provides metadata about the SEMP API.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/none\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.2.",
+		MarkdownDescription: "The API Description object provides metadata about the SEMP API.\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes retrieved.\n\nThis has been available since SEMP API version 2.2.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/api",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -36,7 +36,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "platform",
 				TerraformName:       "platform",
-				MarkdownDescription: "The platform running the SEMP API.",
+				MarkdownDescription: "The platform running the SEMP API.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/none\".",
 				ReadOnly:            true,
 				RequiresReplace:     true,
 				Type:                types.StringType,
@@ -50,7 +50,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "sempVersion",
 				TerraformName:       "semp_version",
-				MarkdownDescription: "The version of the SEMP API.",
+				MarkdownDescription: "The version of the SEMP API.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/none\".",
 				ReadOnly:            true,
 				RequiresReplace:     true,
 				Type:                types.StringType,
