@@ -14,6 +14,14 @@ Solace
 THIRD-PARTY SOFTWARE USED
 =========================
 
+github.com/HASHICORP/terraform-plugin-framework-v1.9.0
+------------------------------------------------------
+Licensed under Mozilla
+Licensed under Mozilla 2.0
+Copyright 2021
+Copyright 2021 HashiCorp, Inc
+Home page: https://pkg.go.dev/github.com/HASHICORP/terraform-plugin-framework@v1.9.0
+
 github.com/fatih/coloR-v1.17.0
 ------------------------------
 Licensed under MIT
@@ -34,13 +42,6 @@ Licensed under Mozilla 2.0
 Copyright 2015
 Copyright 2015 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashiCorp/go-retryablehttp@v0.7.7
-
-github.com/hashicorp/go-UUID-v1.0.3
------------------------------------
-Licensed under Mozilla 2.0
-Copyright 2015-2022
-Copyright 2015-2022 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/go-UUID@v1.0.3
 
 github.com/hashicorp/go-Version-v1.7.0
 --------------------------------------
@@ -69,13 +70,12 @@ Copyright 2016
 Copyright 2016 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/go-plugin@v1.6.1
 
-github.com/hashicorp/terraform-plugin-framework-v1.9.0
-------------------------------------------------------
-Licensed under Mozilla
+github.com/hashicorp/go-uuID-v1.0.3
+-----------------------------------
 Licensed under Mozilla 2.0
-Copyright 2021
-Copyright 2021 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-framework@v1.9.0
+Copyright 2015-2022
+Copyright 2015-2022 HashiCorp, Inc
+Home page: https://pkg.go.dev/github.com/hashicorp/go-uuID@v1.0.3
 
 github.com/hashicorp/terraform-plugin-framework-validators-v0.12.0
 ------------------------------------------------------------------
@@ -173,26 +173,26 @@ Copyright 2019
 Copyright 2019 The github.com/vmihailenco/tagparser Authors
 Home page: https://pkg.go.dev/github.com/vmihailenco/tagparser/v2@v2.0.0
 
-golang.org/x/net-v0.33.0
+golang.org/x/net-v0.38.0
 ------------------------
-Licensed under BSD 3
+Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/net@v0.33.0
+Home page: https://pkg.go.dev/golang.org/x/net@v0.38.0
 
-golang.org/x/sys-v0.28.0
+golang.org/x/sys-v0.31.0
 ------------------------
-Licensed under BSD 3
+Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/sys@v0.28.0
+Home page: https://pkg.go.dev/golang.org/x/sys@v0.31.0
 
-golang.org/x/text-v0.21.0
+golang.org/x/text-v0.23.0
 -------------------------
-Licensed under BSD 3
+Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/text@v0.21.0
+Home page: https://pkg.go.dev/golang.org/x/text@v0.23.0
 
 google.golang.org/genproto/googleapis/rpc-v0.0.0-20240610135401-a8a62080eff3
 ----------------------------------------------------------------------------
@@ -206,12 +206,12 @@ Copyright 2014
 Copyright 2014 gRPC authors
 Home page: https://pkg.go.dev/google.golang.org/grpc@v1.64.1
 
-google.golang.org/protobuf-v1.34.2
+google.golang.org/protobuf-v1.35.2
 ----------------------------------
 Licensed under Golang BSD + Patents
 Copyright 2018
 Copyright 2018 The Go Authors
-Home page: https://pkg.go.dev/google.golang.org/protobuf@v1.34.2
+Home page: https://pkg.go.dev/google.golang.org/protobuf@v1.35.2
 
 
 LICENSE REQUIREMENTS & SPECIFICATIONS
