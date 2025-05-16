@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Message VPN access-level exceptions for members of this group.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}/{group_name}/{msg_vpn_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ Message VPN access-level exceptions for members of this group.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -32,12 +32,20 @@ The import identifier for this resource is `{oauth_profile_name}/{group_name}/{m
 ### Required
 
 - `group_name` (String) The name of the group.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `msg_vpn_name` (String) The name of the message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Optional
 
-- `access_level` (String) The message VPN access level. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `access_level` (String) The message VPN access level.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - User has no access to a Message VPN.

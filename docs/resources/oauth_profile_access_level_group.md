@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}/{group_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ The name of a group as it exists on the OAuth server being used to authenticate 
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -32,20 +32,31 @@ The import identifier for this resource is `{oauth_profile_name}/{group_name}`, 
 ### Required
 
 - `group_name` (String) The name of the group.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Optional
 
-- `description` (String) A description for the group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `global_access_level` (String) The global access level for this group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `description` (String) A description for the group.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `global_access_level` (String) The global access level for this group.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - User has no access to global data.
 "read-only" - User has read-only access to global data.
+"mesh-manager" - User has read-write access to global data required to administer this broker as a member of a mesh of brokers.
 "read-write" - User has read-write access to most global data.
 "admin" - User has read-write access to all global data.
 </pre>
-- `msg_vpn_access_level` (String) The default message VPN access level for this group. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `msg_vpn_access_level` (String) The default message VPN access level for this group.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - User has no access to a Message VPN.

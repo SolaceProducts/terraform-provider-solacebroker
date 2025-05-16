@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_client_username_attribute Data Source - solace
 subcategory: ""
 description: |-
   A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.27.
 ---
 
@@ -14,7 +14,7 @@ A ClientUsername Attribute is a key+value pair that can be used to locate a clie
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.27.
 
@@ -26,6 +26,14 @@ This has been available since SEMP API version 2.27.
 ### Required
 
 - `attribute_name` (String) The name of the Attribute.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `attribute_value` (String) The value of the Attribute.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `client_username` (String) The name of the Client Username.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

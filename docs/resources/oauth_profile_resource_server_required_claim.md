@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Additional claims to be verified in the access token.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}/{resource_server_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ Additional claims to be verified in the access token.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -32,5 +32,11 @@ The import identifier for this resource is `{oauth_profile_name}/{resource_serve
 ### Required
 
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `resource_server_required_claim_name` (String) The name of the access token claim to verify.
-- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value. Note that this attribute requires replacement of the resource when updated.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+- `resource_server_required_claim_value` (String) The required claim value, which must be a string containing a valid JSON value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". Note that this attribute requires replacement of the resource when updated.

@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding_protected_re
 subcategory: ""
 description: |-
   A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.30.
 ---
 
@@ -14,7 +14,7 @@ A protected request header to be added to the HTTP request. Unlike a non-protect
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.30.
 
@@ -26,6 +26,14 @@ This has been available since SEMP API version 2.30.
 ### Required
 
 - `header_name` (String) The name of the protected HTTP request header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `queue_binding_name` (String) The name of a queue in the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

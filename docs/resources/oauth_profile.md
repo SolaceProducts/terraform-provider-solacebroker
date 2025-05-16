@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   OAuth profiles specify how to securely authenticate to an OAuth provider.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -33,69 +33,152 @@ The import identifier for this resource is `{oauth_profile_name}`, where {&lt;at
 
 - `oauth_profile_name` (String) The name of the OAuth profile.
 
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+
 ### Optional
 
-- `access_level_groups_claim_name` (String) The name of the groups claim. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"groups"`.
-- `access_level_groups_claim_string_format` (String) The format of the access level groups claim value when it is a string. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"single"`. The allowed values and their meaning are:
+- `access_level_groups_claim_name` (String) The name of the groups claim.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"groups"`.
+- `access_level_groups_claim_string_format` (String) The format of the access level groups claim value when it is a string.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"single"`. The allowed values and their meaning are:
 
 <pre>
 "single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
  Available since SEMP API version 2.32.
-- `client_id` (String) The OAuth client id. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `client_redirect_uri` (String) The OAuth redirect URI. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `client_required_type` (String) The required value for the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"JWT"`.
-- `client_scope` (String) The OAuth scope. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"openid email"`.
-- `client_secret` (String, Sensitive) The OAuth client secret. This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `default_global_access_level` (String) The default global access level for this OAuth profile. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `client_id` (String) The OAuth client id.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `client_redirect_uri` (String) The OAuth redirect URI.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `client_required_type` (String) The required value for the TYP field in the ID token header.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"JWT"`.
+- `client_scope` (String) The OAuth scope.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"openid email"`.
+- `client_secret` (String, Sensitive) The OAuth client secret.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `client_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the ID token header.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `default_global_access_level` (String) The default global access level for this OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - User has no access to global data.
 "read-only" - User has read-only access to global data.
+"mesh-manager" - User has read-write access to global data required to administer this broker as a member of a mesh of brokers.
 "read-write" - User has read-write access to most global data.
 "admin" - User has read-write access to all global data.
 </pre>
-- `default_msg_vpn_access_level` (String) The default message VPN access level for the OAuth profile. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
+- `default_msg_vpn_access_level` (String) The default message VPN access level for the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"none"`. The allowed values and their meaning are:
 
 <pre>
 "none" - User has no access to a Message VPN.
 "read-only" - User has read-only access to a Message VPN.
 "read-write" - User has read-write access to most Message VPN settings.
 </pre>
-- `display_name` (String) The user friendly name for the OAuth profile. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `enabled` (Boolean) Enable or disable the OAuth profile. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
-- `endpoint_authorization` (String) The OAuth authorization endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_discovery` (String) The OpenID Connect discovery endpoint or OAuth Authorization Server Metadata endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_discovery_refresh_interval` (Number) The number of seconds between discovery endpoint requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
-- `endpoint_introspection` (String) The OAuth introspection endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_introspection_timeout` (Number) The maximum time in seconds a token introspection request is allowed to take. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
-- `endpoint_jwks` (String) The OAuth JWKS endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
-- `endpoint_token` (String) The OAuth token endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_token_timeout` (Number) The maximum time in seconds a token request is allowed to take. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
-- `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
-- `interactive_enabled` (Boolean) Enable or disable interactive logins via this OAuth provider. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `interactive_prompt_for_expired_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session has expired. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `interactive_prompt_for_new_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session is new or the user has explicitly logged out. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"select_account"`.
-- `issuer` (String) The Issuer Identifier for the OAuth provider. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `oauth_role` (String) The OAuth role of the broker. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"client"`. The allowed values and their meaning are:
+- `display_name` (String) The user friendly name for the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `enabled` (Boolean) Enable or disable the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `endpoint_authorization` (String) The OAuth authorization endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_discovery` (String) The OpenID Connect discovery endpoint or OAuth Authorization Server Metadata endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_discovery_refresh_interval` (Number) The number of seconds between discovery endpoint requests.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
+- `endpoint_introspection` (String) The OAuth introspection endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_introspection_timeout` (Number) The maximum time in seconds a token introspection request is allowed to take.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
+- `endpoint_jwks` (String) The OAuth JWKS endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_jwks_refresh_interval` (Number) The number of seconds between JWKS endpoint requests.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `86400`.
+- `endpoint_token` (String) The OAuth token endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_token_timeout` (Number) The maximum time in seconds a token request is allowed to take.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
+- `endpoint_userinfo` (String) The OpenID Connect Userinfo endpoint.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `endpoint_userinfo_timeout` (Number) The maximum time in seconds a userinfo request is allowed to take.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1`.
+- `interactive_enabled` (Boolean) Enable or disable interactive logins via this OAuth provider.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `interactive_prompt_for_expired_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session has expired.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `interactive_prompt_for_new_session` (String) The value of the prompt parameter provided to the OAuth authorization server for login requests where the session is new or the user has explicitly logged out.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"select_account"`.
+- `issuer` (String) The Issuer Identifier for the OAuth provider.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `oauth_role` (String) The OAuth role of the broker.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"client"`. The allowed values and their meaning are:
 
 <pre>
 "client" - The broker is in the OAuth client role.
 "resource-server" - The broker is in the OAuth resource server role.
 </pre>
-- `proxy_name` (String) The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.41.
-- `resource_server_parse_access_token_enabled` (Boolean) Enable or disable parsing of the access token as a JWT. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `resource_server_required_audience` (String) The required audience value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `resource_server_required_issuer` (String) The required issuer value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `resource_server_required_scope` (String) A space-separated list of scopes that must be present in the scope claim. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `resource_server_required_type` (String) The required TYP value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"at+jwt"`.
-- `resource_server_validate_audience_enabled` (Boolean) Enable or disable verification of the audience claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `resource_server_validate_issuer_enabled` (Boolean) Enable or disable verification of the issuer claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `semp_enabled` (Boolean) Enable or disable authentication of SEMP requests with OAuth tokens. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `username_claim_name` (String) The name of the username claim. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"sub"`.
+- `proxy_name` (String) The name of the proxy to use for discovery, user info, jwks, introspection, and token requests. Leave empty for no proxy.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`. Available since SEMP API version 2.41.
+- `resource_server_parse_access_token_enabled` (Boolean) Enable or disable parsing of the access token as a JWT.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `resource_server_required_audience` (String) The required audience value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `resource_server_required_issuer` (String) The required issuer value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `resource_server_required_scope` (String) A space-separated list of scopes that must be present in the scope claim.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `resource_server_required_type` (String) The required TYP value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"at+jwt"`.
+- `resource_server_validate_audience_enabled` (Boolean) Enable or disable verification of the audience claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `resource_server_validate_issuer_enabled` (Boolean) Enable or disable verification of the issuer claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `resource_server_validate_scope_enabled` (Boolean) Enable or disable verification of the scope claim in the access token or introspection response.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `resource_server_validate_type_enabled` (Boolean) Enable or disable verification of the TYP field in the access token header.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `semp_enabled` (Boolean) Enable or disable authentication of SEMP requests with OAuth tokens.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `username_claim_name` (String) The name of the username claim.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"sub"`.

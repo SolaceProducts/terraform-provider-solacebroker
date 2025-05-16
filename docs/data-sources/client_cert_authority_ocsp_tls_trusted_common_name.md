@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.19.
 ---
 
@@ -17,7 +17,7 @@ When an OCSP override URL is configured, the OCSP responder will be required to 
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.19.
 
@@ -29,4 +29,8 @@ This has been available since SEMP API version 2.19.
 ### Required
 
 - `cert_authority_name` (String) The name of the Certificate Authority.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `ocsp_tls_trusted_common_name` (String) The expected Trusted Common Name of the OCSP responder remote certificate.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".

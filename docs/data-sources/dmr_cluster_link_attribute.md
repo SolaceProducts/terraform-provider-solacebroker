@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.28.
 ---
 
@@ -17,7 +17,7 @@ A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Li
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.28.
 
@@ -29,6 +29,14 @@ This has been available since SEMP API version 2.28.
 ### Required
 
 - `attribute_name` (String) The name of the Attribute.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `attribute_value` (String) The value of the Attribute.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `dmr_cluster_name` (String) The name of the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `remote_node_name` (String) The name of the node at the remote end of the Link.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".

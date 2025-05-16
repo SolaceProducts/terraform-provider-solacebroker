@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_dmr_bridge",
-		MarkdownDescription: "A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.11.",
+		MarkdownDescription: "A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.11.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/dmrBridges/{remoteNodeName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN.",
+				MarkdownDescription: "The name of the Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -54,7 +54,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "remoteMsgVpnName",
 				TerraformName:       "remote_msg_vpn_name",
-				MarkdownDescription: "The remote Message VPN of the DMR Bridge. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The remote Message VPN of the DMR Bridge.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -68,7 +68,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "remoteNodeName",
 				TerraformName:       "remote_node_name",
-				MarkdownDescription: "The name of the node at the remote end of the DMR Bridge.",
+				MarkdownDescription: "The name of the node at the remote end of the DMR Bridge.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

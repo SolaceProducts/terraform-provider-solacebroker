@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_acl_profile_subscribe_topic_exception Resource
 subcategory: ""
 description: |-
   A Subscribe Topic Exception is an exception to the default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN. Exceptions must be expressed as a topic.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.14.
   The import identifier for this resource is {msg_vpn_name}/{acl_profile_name}/{subscribe_topic_exception_syntax}/{subscribe_topic_exception}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Subscribe Topic Exception is an exception to the default action to take when a
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.14.
 
@@ -29,9 +29,17 @@ The import identifier for this resource is `{msg_vpn_name}/{acl_profile_name}/{s
 ### Required
 
 - `acl_profile_name` (String) The name of the ACL Profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `subscribe_topic_exception` (String) The topic for the exception to the default action taken. May include wildcard characters.
-- `subscribe_topic_exception_syntax` (String) The syntax of the topic for the exception to the default action taken. The allowed values and their meaning are:
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `subscribe_topic_exception_syntax` (String) The syntax of the topic for the exception to the default action taken.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The allowed values and their meaning are:
 
 <pre>
 "smf" - Topic uses SMF syntax.

@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_mqtt_session_subscription Resource - solacebro
 subcategory: ""
 description: |-
   An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.1.
   The import identifier for this resource is {msg_vpn_name}/{mqtt_session_client_id}/{mqtt_session_virtual_router}/{subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creati
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.1.
 
@@ -29,7 +29,11 @@ The import identifier for this resource is `{msg_vpn_name}/{mqtt_session_client_
 ### Required
 
 - `mqtt_session_client_id` (String) The Client ID of the MQTT Session, which corresponds to the ClientId provided in the MQTT CONNECT packet.
-- `mqtt_session_virtual_router` (String) The virtual router of the MQTT Session. The allowed values and their meaning are:
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `mqtt_session_virtual_router` (String) The virtual router of the MQTT Session.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The allowed values and their meaning are:
 
 <pre>
 "primary" - The MQTT Session belongs to the primary virtual router.
@@ -37,8 +41,14 @@ The import identifier for this resource is `{msg_vpn_name}/{mqtt_session_client_
 "auto" - The MQTT Session is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `subscription_topic` (String) The MQTT subscription topic.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Optional
 
-- `subscription_qos` (Number) The quality of service (QoS) for the subscription as either 0 (deliver at most once) or 1 (deliver at least once). QoS 2 is not supported, but QoS 2 messages attracted by QoS 0 or QoS 1 subscriptions are accepted and delivered accordingly. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
+- `subscription_qos` (Number) The quality of service (QoS) for the subscription as either 0 (deliver at most once) or 1 (deliver at least once). QoS 2 is not supported, but QoS 2 messages attracted by QoS 0 or QoS 1 subscriptions are accepted and delivered accordingly.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.

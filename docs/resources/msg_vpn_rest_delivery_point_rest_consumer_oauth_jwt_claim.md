@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_cl
 subcategory: ""
 description: |-
   A Claim is added to the JWT sent to the OAuth token request endpoint.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.21.
   The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}/{rest_consumer_name}/{oauth_jwt_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ A Claim is added to the JWT sent to the OAuth token request endpoint.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.21.
 
@@ -29,7 +29,17 @@ The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `oauth_jwt_claim_name` (String) The name of the additional claim. Cannot be "exp", "iat", or "jti".
-- `oauth_jwt_claim_value` (String) The value of the additional claim, which must be a string containing a valid JSON value. Note that this attribute requires replacement of the resource when updated.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `oauth_jwt_claim_value` (String) The value of the additional claim, which must be a string containing a valid JSON value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Note that this attribute requires replacement of the resource when updated.
 - `rest_consumer_name` (String) The name of the REST Consumer.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

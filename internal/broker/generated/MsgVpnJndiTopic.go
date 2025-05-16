@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_jndi_topic",
-		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Topic objects that clients can access through JNDI lookups.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.2.",
+		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Topic objects that clients can access through JNDI lookups.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.2.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/jndiTopics/{topicName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN.",
+				MarkdownDescription: "The name of the Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -54,7 +54,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "physicalName",
 				TerraformName:       "physical_name",
-				MarkdownDescription: "The physical name of the JMS Topic. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The physical name of the JMS Topic.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -67,7 +67,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "topicName",
 				TerraformName:       "topic_name",
-				MarkdownDescription: "The JNDI name of the JMS Topic.",
+				MarkdownDescription: "The JNDI name of the JMS Topic.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

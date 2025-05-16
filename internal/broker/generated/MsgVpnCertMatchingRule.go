@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_cert_matching_rule",
-		MarkdownDescription: "A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"vpn/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.27.",
+		MarkdownDescription: "A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.27.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/certMatchingRules/{ruleName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "enabled",
 				TerraformName:       "enabled",
-				MarkdownDescription: "Enable or disable a certificate matching rule. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
+				MarkdownDescription: "Enable or disable a certificate matching rule.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},
@@ -47,7 +47,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "msgVpnName",
 				TerraformName:       "msg_vpn_name",
-				MarkdownDescription: "The name of the Message VPN.",
+				MarkdownDescription: "The name of the Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,
@@ -64,7 +64,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "ruleName",
 				TerraformName:       "rule_name",
-				MarkdownDescription: "The name of the rule.",
+				MarkdownDescription: "The name of the rule.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,

@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given link.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.28.
 ---
 
@@ -17,7 +17,7 @@ A Cert Matching Rule is a collection of conditions and attribute filters that al
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.28.
 
@@ -29,8 +29,14 @@ This has been available since SEMP API version 2.28.
 ### Required
 
 - `dmr_cluster_name` (String) The name of the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `rule_name` (String) The name of the rule.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Read-Only
 
-- `enabled` (Boolean) Enable or disable a certificate matching rule. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable a certificate matching rule.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.

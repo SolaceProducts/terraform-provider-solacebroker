@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A valid hostname for this broker in OAuth redirects.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}/{allowed_host}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -18,7 +18,7 @@ A valid hostname for this broker in OAuth redirects.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -32,4 +32,8 @@ The import identifier for this resource is `{oauth_profile_name}/{allowed_host}`
 ### Required
 
 - `allowed_host` (String) An allowed value for the Host header.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".

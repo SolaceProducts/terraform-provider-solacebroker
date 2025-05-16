@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   Additional parameters to be passed to the OAuth authorization endpoint.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.24.
 ---
 
@@ -17,7 +17,7 @@ Additional parameters to be passed to the OAuth authorization endpoint.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.24.
 
@@ -29,8 +29,14 @@ This has been available since SEMP API version 2.24.
 ### Required
 
 - `authorization_parameter_name` (String) The name of the authorization parameter.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Read-Only
 
-- `authorization_parameter_value` (String) The authorization parameter value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `authorization_parameter_value` (String) The authorization parameter value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

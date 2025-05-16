@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "domain_cert_authority",
-		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.19.",
+		MarkdownDescription: "Certificate Authorities trusted for domain verification.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.19.",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/domainCertAuthorities/{certAuthorityName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -37,7 +37,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "certAuthorityName",
 				TerraformName:       "cert_authority_name",
-				MarkdownDescription: "The name of the Certificate Authority.",
+				MarkdownDescription: "The name of the Certificate Authority.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -53,7 +53,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "certContent",
 				TerraformName:       "cert_content",
-				MarkdownDescription: "The PEM formatted content for the trusted root certificate of a domain Certificate Authority. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
+				MarkdownDescription: "The PEM formatted content for the trusted root certificate of a domain Certificate Authority.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/admin\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

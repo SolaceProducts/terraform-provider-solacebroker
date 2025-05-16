@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_rest_delivery_point_queue_binding_request_head
 subcategory: ""
 description: |-
   A request header to be added to the HTTP request.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.23.
 ---
 
@@ -14,7 +14,7 @@ A request header to be added to the HTTP request.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.23.
 
@@ -26,10 +26,20 @@ This has been available since SEMP API version 2.23.
 ### Required
 
 - `header_name` (String) The name of the HTTP request header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `queue_binding_name` (String) The name of a queue in the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `rest_delivery_point_name` (String) The name of the REST Delivery Point.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `header_value` (String) A substitution expression for the value of the HTTP request header. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
+- `header_value` (String) A substitution expression for the value of the HTTP request header.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

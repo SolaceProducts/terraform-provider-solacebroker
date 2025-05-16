@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.28.
 ---
 
@@ -17,7 +17,7 @@ A Cert Matching Rule Attribute Filter compares a link attribute to a string.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.28.
 
@@ -29,10 +29,20 @@ This has been available since SEMP API version 2.28.
 ### Required
 
 - `dmr_cluster_name` (String) The name of the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `filter_name` (String) The name of the filter.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 - `rule_name` (String) The name of the rule.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
 
 ### Read-Only
 
-- `attribute_name` (String) Link Attribute to be tested. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
-- `attribute_value` (String) Expected attribute value. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `attribute_name` (String) Link Attribute to be tested.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.
+- `attribute_value` (String) Expected attribute value.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

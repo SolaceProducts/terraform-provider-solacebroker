@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_authentication_oauth_profile_client_required_c
 subcategory: ""
 description: |-
   Additional claims to be verified in the ID token.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.25.
   The import identifier for this resource is {msg_vpn_name}/{oauth_profile_name}/{client_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ Additional claims to be verified in the ID token.
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.25.
 
@@ -29,6 +29,14 @@ The import identifier for this resource is `{msg_vpn_name}/{oauth_profile_name}/
 ### Required
 
 - `client_required_claim_name` (String) The name of the ID token claim to verify.
-- `client_required_claim_value` (String) The required claim value. Note that this attribute requires replacement of the resource when updated.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
+- `client_required_claim_value` (String) The required claim value.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Note that this attribute requires replacement of the resource when updated.
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `oauth_profile_name` (String) The name of the OAuth profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

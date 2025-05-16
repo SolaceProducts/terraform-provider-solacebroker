@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_telemetry_profile_trace_filter Data Source - s
 subcategory: ""
 description: |-
   A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.31.
 ---
 
@@ -14,7 +14,7 @@ A Trace Filter controls which messages received by the broker will be traced. If
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.31.
 
@@ -26,9 +26,17 @@ This has been available since SEMP API version 2.31.
 ### Required
 
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `telemetry_profile_name` (String) The name of the Telemetry Profile.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `trace_filter_name` (String) A name used to identify the trace filter. Consider a name that describes the subscriptions contained within the filter, such as the name of the application and/or the scenario in which the trace filter might be enabled, such as "appNameDebug".
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 
 ### Read-Only
 
-- `enabled` (Boolean) Enable or disable the trace filter. When the filter is disabled, the filter's subscriptions will not trigger a message to be traced. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
+- `enabled` (Boolean) Enable or disable the trace filter. When the filter is disabled, the filter's subscriptions will not trigger a message to be traced.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

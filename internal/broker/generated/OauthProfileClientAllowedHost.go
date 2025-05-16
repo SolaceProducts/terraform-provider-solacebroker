@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_client_allowed_host",
-		MarkdownDescription: "A valid hostname for this broker in OAuth redirects.\n\n\n\nA SEMP client authorized with a minimum access scope/level of \"global/read-only\" is required to perform this operation.\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "A valid hostname for this broker in OAuth redirects.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.24.",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/clientAllowedHosts/{allowedHost}",
 		PostPathTemplate:    "/oauthProfiles/{oauthProfileName}/clientAllowedHosts",
@@ -38,7 +38,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "allowedHost",
 				TerraformName:       "allowed_host",
-				MarkdownDescription: "An allowed value for the Host header.",
+				MarkdownDescription: "An allowed value for the Host header.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				RequiresReplace:     true,
@@ -53,7 +53,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "oauthProfileName",
 				TerraformName:       "oauth_profile_name",
-				MarkdownDescription: "The name of the OAuth profile.",
+				MarkdownDescription: "The name of the OAuth profile.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\".",
 				Identifying:         true,
 				Required:            true,
 				ReadOnly:            true,

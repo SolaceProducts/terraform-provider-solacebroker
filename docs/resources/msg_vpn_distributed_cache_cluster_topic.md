@@ -4,7 +4,7 @@ page_title: "solacebroker_msg_vpn_distributed_cache_cluster_topic Resource - sol
 subcategory: ""
 description: |-
   The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
-  A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "vpn/read-only".
   This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
@@ -15,7 +15,7 @@ The Cache Instances that belong to the containing Cache Cluster will cache any m
 
 
 
-A SEMP client authorized with a minimum access scope/level of "vpn/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "vpn/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -29,6 +29,14 @@ The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster
 ### Required
 
 - `cache_name` (String) The name of the Distributed Cache.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `cluster_name` (String) The name of the Cache Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `msg_vpn_name` (String) The name of the Message VPN.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".
 - `topic` (String) The value of the Topic in the form a/b/c.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only".

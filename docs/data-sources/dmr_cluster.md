@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   This resource is not supported in production by Solace in this version, see provider limitations.
   A Cluster is a provisioned object on a message broker that contains global DMR configuration parameters.
-  A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+  The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.11.
 ---
 
@@ -17,7 +17,7 @@ A Cluster is a provisioned object on a message broker that contains global DMR c
 
 
 
-A SEMP client authorized with a minimum access scope/level of "global/read-only" is required to perform this operation.
+The minimum access scope/level required to perform this operation is "global/read-only".
 
 This has been available since SEMP API version 2.11.
 
@@ -30,19 +30,39 @@ This has been available since SEMP API version 2.11.
 
 - `dmr_cluster_name` (String) The name of the Cluster.
 
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+
 ### Read-Only
 
-- `authentication_basic_enabled` (Boolean) Enable or disable basic authentication for Cluster Links. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `authentication_basic_type` (String) The type of basic authentication to use for Cluster Links. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"internal"`. The allowed values and their meaning are:
+- `authentication_basic_enabled` (Boolean) Enable or disable basic authentication for Cluster Links.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `authentication_basic_type` (String) The type of basic authentication to use for Cluster Links.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"internal"`. The allowed values and their meaning are:
 
 <pre>
 "internal" - Use locally configured password.
 "none" - No authentication.
 </pre>
-- `authentication_client_cert_enabled` (Boolean) Enable or disable client certificate authentication for Cluster Links. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `direct_only_enabled` (Boolean) Enable or disable direct messaging only. Guaranteed messages will not be transmitted through the cluster. The default value is `false`.
-- `enabled` (Boolean) Enable or disable the Cluster. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
+- `authentication_client_cert_enabled` (Boolean) Enable or disable client certificate authentication for Cluster Links.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `direct_only_enabled` (Boolean) Enable or disable direct messaging only. Guaranteed messages will not be transmitted through the cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The default value is `false`.
+- `enabled` (Boolean) Enable or disable the Cluster.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `node_name` (String) The name of this node in the Cluster. This is the name that this broker (or redundant group of brokers) is know by to other nodes in the Cluster. The name is chosen automatically to be either this broker's Router Name or Mate Router Name, depending on which Active Standby Role (primary or backup) this broker plays in its redundancy group.
-- `tls_server_cert_max_chain_depth` (Number) The maximum allowed depth of a certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
-- `tls_server_cert_validate_date_enabled` (Boolean) Enable or disable the validation of the "Not Before" and "Not After" validity dates in the certificate. When disabled, the certificate is accepted even if the certificate is not valid based on these dates. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
-- `tls_server_cert_validate_name_enabled` (Boolean) Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the bridge. If enabled, the name used to connect to the bridge is checked against the names specified in the certificate returned by the remote broker. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.18.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only".
+- `tls_server_cert_max_chain_depth` (Number) The maximum allowed depth of a certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
+- `tls_server_cert_validate_date_enabled` (Boolean) Enable or disable the validation of the "Not Before" and "Not After" validity dates in the certificate. When disabled, the certificate is accepted even if the certificate is not valid based on these dates.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`.
+- `tls_server_cert_validate_name_enabled` (Boolean) Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the bridge. If enabled, the name used to connect to the bridge is checked against the names specified in the certificate returned by the remote broker. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `true`. Available since SEMP API version 2.18.
