@@ -35,7 +35,7 @@ We recommended that you familiarize yourself with Solace technology and broker m
 ### Requirements
 
 * [Terraform](https://www.terraform.io/downloads) (>= 1.0)
-* [Go](https://go.dev/doc/install) (1.22)
+* [Go](https://go.dev/doc/install) (1.24)
 * [Make](https://www.gnu.org/software/make/)
 
 ### Building
