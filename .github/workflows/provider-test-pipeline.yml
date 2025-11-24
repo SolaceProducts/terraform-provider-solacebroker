@@ -22,7 +22,8 @@ jobs:
         run: |
           mkdir -p $HOME/solace; chmod 777 $HOME/solace
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
-            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:"10.9.1.115"
+            --ulimit nofile=1048576:1048576 \
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace/solace-pubsub-standard:latest
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Use local provider
