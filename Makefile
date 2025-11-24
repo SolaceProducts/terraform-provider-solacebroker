@@ -61,4 +61,10 @@ generate-code: ## Generate latest code from SEMP API spec
 	rm ./*; \
 	SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="../../../ci/swagger_spec/$(shell ls ci/swagger_spec)" ~/go/bin/broker-terraform-code-generator software-provider all;
 	@rm -rf broker-terraform-code-generator
-	
+
+.PHONY:
+newbroker: ## Run a new broker container with a specified tag, usage: make newbroker [tag=<docker-tag>]
+	$(eval tag := $(if $(tag),$(tag),"10.25.0.24"))
+	@echo "Running a new broker container with tag: $(tag)"
+	@docker kill solace >/dev/null 2>&1 || true ; docker rm solace >/dev/null 2>&1 || true
+	docker run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000 -p 5672:5672 -p 9000:9000 -p 2222:2222 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace docker.solacedev.ca/pubsubplus/solace-pubsub-standard:$(tag)
