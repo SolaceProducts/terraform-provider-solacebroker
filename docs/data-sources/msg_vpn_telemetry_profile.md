@@ -57,9 +57,9 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 - `receiver_max_connection_count_per_client_username` (Number) The maximum number of receiver connections per Client Username.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
-- `receiver_tcp_congestion_window_size` (Number) The TCP initial congestion window size for clients using the Client Profile, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.
+- `receiver_tcp_congestion_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2`.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `2`. Deprecated since SEMP API version 2.48. The value is now ignored.
 - `receiver_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to a client using the Client Profile before declaring that it is not available.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5`.
@@ -72,9 +72,9 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 - `receiver_tcp_max_segment_size` (Number) The TCP maximum segment size for clients using the Client Profile, in bytes. Changes are applied to all existing connections.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1460`.
-- `receiver_tcp_max_window_size` (Number) The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.
+- `receiver_tcp_max_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `256`. Deprecated since SEMP API version 2.48. The value is now ignored.
 - `trace_enabled` (Boolean) Enable or disable generation of all trace span data messages. When enabled, the state of configured trace filters control which messages get traced. When disabled, trace span data messages are never generated, regardless of the state of trace filters.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

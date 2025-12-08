@@ -65,8 +65,8 @@ func init() {
 				Target: "/var/lib/solace",
 			},
 		},
-		ShmSize: 1000000000,
 		HostConfigModifier: func(hostConfig *container.HostConfig) {
+			hostConfig.ShmSize = 1000000000
 			hostConfig.Ulimits = []*units.Ulimit{
 				{
 					Name: "nofile",

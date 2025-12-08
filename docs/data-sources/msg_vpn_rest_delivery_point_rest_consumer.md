@@ -114,6 +114,9 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 - `proxy_name` (String) The name of the proxy to use. Leave empty for no proxy.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.36.
+- `rejected_status_code_list` (String) Comma-separated list of HTTP status codes or status code ranges which should be processed as a "rejected" (do not retry) outcome.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.47.
 - `remote_host` (String) The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
@@ -123,7 +126,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 - `retry_delay` (Number) The number of seconds that must pass before retrying the remote REST Consumer connection.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `3`.
-- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports.
+- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection when using TLS 1.2 and lower. The value `"default"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.
 - `tls_enabled` (Boolean) Enable or disable encryption (TLS) for the REST Consumer.

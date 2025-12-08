@@ -127,6 +127,9 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "when-queue-enabled" - NACK each message discard back to the client, except messages that are discarded because an endpoint is administratively disabled.
 "always" - NACK each message discard back to the client, including messages that are discarded because an endpoint is administratively disabled.
 </pre>
+- `respect_dmq_eligible_enabled` (Boolean) Enable or disable the respecting of DMQ Eligible for messages in the Queue.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.49.
 - `respect_msg_priority_enabled` (Boolean) Enable or disable the respecting of message priority. When enabled, messages are delivered in priority order, from 9 (highest) to 0 (lowest).
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

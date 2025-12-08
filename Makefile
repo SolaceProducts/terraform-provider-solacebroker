@@ -1,4 +1,8 @@
 #make
+
+# Include .env file if it exists
+-include .env
+
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 
 
@@ -64,7 +68,9 @@ generate-code: ## Generate latest code from SEMP API spec
 
 .PHONY:
 newbroker: ## Run a new broker container with a specified tag, usage: make newbroker [tag=<docker-tag>]
-	$(eval tag := $(if $(tag),$(tag),"10.25.0.24"))
+	$(eval tag := $(if $(tag),$(tag),"edge"))
 	@echo "Running a new broker container with tag: $(tag)"
-	@docker kill solace >/dev/null 2>&1 || true ; docker rm solace >/dev/null 2>&1 || true
-	docker run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000 -p 5672:5672 -p 9000:9000 -p 2222:2222 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace docker.solacedev.ca/pubsubplus/solace-pubsub-standard:$(tag)
+	@$(CONTAINER_ENGINE) kill solace >/dev/null 2>&1 || true ; $(CONTAINER_ENGINE) rm solace >/dev/null 2>&1 || true
+	$(CONTAINER_ENGINE) run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000 -p 5672:5672 -p 9000:9000 -p 2222:2222 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=$(BROKER_USERNAME) --env username_admin_password=$(BROKER_PASSWORD) --env system_scaling_maxconnectioncount="1000" --env system_scaling_maxkafkabridgecount="10" --name=solace solace/solace-pubsub-standard:$(tag)
+	@echo "Broker is starting up, waiting for 30 seconds to allow it to initialize..."
+	@sleep 30 ; $(CONTAINER_ENGINE) ps

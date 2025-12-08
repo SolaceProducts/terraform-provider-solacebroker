@@ -46,6 +46,15 @@ The minimum access scope/level required to retrieve this attribute is "global/re
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
  Available since SEMP API version 2.32.
+- `authentication_scheme` (String) The authentication scheme for token and introspection requests.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"basic"`. The allowed values and their meaning are:
+
+<pre>
+"basic" - Basic Authentication Scheme (via client id and client secret).
+"client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
+</pre>
+ Available since SEMP API version 2.47.
 - `client_id` (String) The OAuth client id.
 
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

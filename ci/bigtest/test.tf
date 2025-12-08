@@ -14,6 +14,7 @@ provider "solacebroker" {
 
 resource "solacebroker_broker" "broker" {
   auth_client_cert_revocation_check_mode                               = "ocsp"
+  auth_required_access_level_gather_diagnostics                        = "global-admin"
   config_sync_authentication_client_cert_max_chain_depth               = 4
   config_sync_authentication_client_cert_validate_date_enabled         = false
   config_sync_client_profile_tcp_initial_congestion_window             = 3
@@ -27,7 +28,7 @@ resource "solacebroker_broker" "broker" {
   config_sync_tls_enabled                                              = true
   guaranteed_msging_defragmentation_schedule_day_list                  = "Mon,Tue"
   guaranteed_msging_defragmentation_schedule_enabled                   = true
-  guaranteed_msging_defragmentation_schedule_time_list                 = "23:59"
+  guaranteed_msging_defragmentation_schedule_time_list                 = "22:59"
   guaranteed_msging_defragmentation_threshold_enabled                  = true
   guaranteed_msging_defragmentation_threshold_fragmentation_percentage = 30
   guaranteed_msging_defragmentation_threshold_min_interval             = 16
@@ -181,6 +182,7 @@ resource "solacebroker_dmr_cluster_link" "dmr_cluster_link" {
   queue_max_delivered_unacked_msgs_per_flow      = 100000
   queue_max_msg_spool_usage                      = 700000
   queue_max_redelivery_count                     = 1
+  queue_respect_dmq_eligible_enabled             = true
   queue_max_ttl                                  = 1
   queue_reject_msg_to_sender_on_discard_behavior = "never"
   queue_respect_ttl_enabled                      = true
@@ -210,6 +212,7 @@ resource "solacebroker_domain_cert_authority" "domain_cert_authority" {
 resource "solacebroker_msg_vpn" "msg_vpn" {
   msg_vpn_name                                                   = "test"
   alias                                                          = "test123"
+  allow_dmq_eligible_endpoint_override_enabled                   = true
   authentication_basic_enabled                                   = false
   authentication_basic_profile_name                              = ""
   authentication_basic_radius_domain                             = "test"
@@ -407,6 +410,13 @@ resource "solacebroker_msg_vpn_authentication_oauth_profile_resource_server_requ
   oauth_profile_name                   = solacebroker_msg_vpn_authentication_oauth_profile.msg_vpn_authentication_oauth_profile.oauth_profile_name
   resource_server_required_claim_name  = "test"
   resource_server_required_claim_value = "{\"test\":1}"
+}
+
+resource "solacebroker_msg_vpn_authentication_kerberos_realm" "msg_vpn_authentication_kerberos_realm" {
+  msg_vpn_name         = solacebroker_msg_vpn.msg_vpn.msg_vpn_name
+  kerberos_realm_name  = "@EXAMPLE.COM"
+  enabled              = true
+  kdc_address          = "kdc.example.com:88"
 }
 
 resource "solacebroker_msg_vpn_authorization_group" "msg_vpn_authorization_group" {
@@ -796,6 +806,7 @@ resource "solacebroker_msg_vpn_mqtt_session" "msg_vpn_mqtt_session" {
   queue_reject_low_priority_msg_enabled               = true
   queue_reject_low_priority_msg_limit                 = 1
   queue_reject_msg_to_sender_on_discard_behavior      = "always"
+  queue_respect_dmq_eligible_enabled                  = true
   queue_respect_ttl_enabled                           = true
 }
 
@@ -852,6 +863,7 @@ resource "solacebroker_msg_vpn_queue" "msg_vpn_queue" {
   reject_low_priority_msg_limit                 = 1
   reject_msg_to_sender_on_discard_behavior      = "always"
   respect_msg_priority_enabled                  = true
+  respect_dmq_eligible_enabled                  = true
   respect_ttl_enabled                           = true
 }
 
@@ -889,6 +901,7 @@ resource "solacebroker_msg_vpn_queue_template" "msg_vpn_queue_template" {
   reject_low_priority_msg_limit                 = 1
   reject_msg_to_sender_on_discard_behavior      = "always"
   respect_msg_priority_enabled                  = true
+  respect_dmq_eligible_enabled                  = true
   respect_ttl_enabled                           = true
 }
 
@@ -978,6 +991,7 @@ resource "solacebroker_msg_vpn_rest_delivery_point_rest_consumer" "msg_vpn_rest_
   proxy_name                                       = "test"
   remote_host                                      = "192.168.1.2"
   remote_port                                      = 2423
+  rejected_status_code_list                      = "404,500-503"
   retry_delay                                      = 4
   tls_cipher_suite_list                            = "default"
   tls_enabled                                      = true
@@ -1070,6 +1084,7 @@ resource "solacebroker_msg_vpn_topic_endpoint" "msg_vpn_topic_endpoint" {
   reject_low_priority_msg_limit                 = 9
   reject_msg_to_sender_on_discard_behavior      = "always"
   respect_msg_priority_enabled                  = true
+  respect_dmq_eligible_enabled                  = true
   respect_ttl_enabled                           = true
 }
 
@@ -1099,6 +1114,7 @@ resource "solacebroker_msg_vpn_topic_endpoint_template" "msg_vpn_topic_endpoint_
   reject_low_priority_msg_limit                 = 9
   reject_msg_to_sender_on_discard_behavior      = "always"
   respect_msg_priority_enabled                  = true
+  respect_dmq_eligible_enabled                  = true
   respect_ttl_enabled                           = true
   topic_endpoint_name_filter                    = "test"
 }
@@ -1133,6 +1149,9 @@ resource "solacebroker_oauth_profile" "oauth_profile" {
   interactive_prompt_for_new_session         = "test"
   issuer                                     = "test"
   oauth_role                                 = "resource-server"
+  authentication_scheme                      = "basic"
+  authentication_client_cert_content         = ""
+  authentication_client_cert_password        = ""
   resource_server_parse_access_token_enabled = false
   resource_server_required_audience          = "test"
   resource_server_required_issuer            = "test"
@@ -1188,6 +1207,17 @@ resource "solacebroker_oauth_profile_resource_server_required_claim" "oauth_prof
   oauth_profile_name                   = solacebroker_oauth_profile.oauth_profile.oauth_profile_name
   resource_server_required_claim_name  = "test"
   resource_server_required_claim_value = "{\"test\":1}"
+}
+
+resource "solacebroker_proxy" "proxy" {
+  proxy_name                        = "test-proxy"
+  enabled                           = true
+  proxy_type                        = "http"
+  host                              = "proxy.example.com"
+  port                              = 8080
+  authentication_scheme             = "basic"
+  authentication_basic_username     = "proxy-user"
+  authentication_basic_password     = "proxy-pass"
 }
 
 resource "solacebroker_virtual_hostname" "virtual_hostname" {

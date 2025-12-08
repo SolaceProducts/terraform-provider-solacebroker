@@ -71,6 +71,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 <pre>
 "basic" - Basic Authentication Scheme (via username and password).
 "client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
+"tls-psk" - This authentication scheme is used internally by the broker. It cannot be directly configured by a user.
 </pre>
 - `remote_connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN.
 
@@ -89,6 +90,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "p4" - The 4th highest priority.
 "da" - Ignore priority and deliver always.
 </pre>
-- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN. The value "default" implies all supported suites ordered from most secure to least secure.
+- `tls_cipher_suite_list` (String) The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN when using TLS 1.2 and lower. The value "default" implies all supported suites ordered from most secure to least secure.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"default"`.

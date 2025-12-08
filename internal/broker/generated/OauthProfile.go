@@ -19,6 +19,7 @@ package generated
 import (
 	"github.com/hashicorp/terraform-plugin-framework-validators/int64validator"
 	"github.com/hashicorp/terraform-plugin-framework-validators/stringvalidator"
+	"github.com/hashicorp/terraform-plugin-framework/path"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
@@ -59,6 +60,51 @@ func init() {
 					stringvalidator.OneOf("single", "space-delimited"),
 				},
 				Default: "single",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationClientCertContent",
+				TerraformName:       "authentication_client_cert_content",
+				MarkdownDescription: "The PEM formatted content for the client certificate used by the broker to login to the token and introspection endpoints. To be used when authentication_scheme is \"client-certificate\".\n\nThe minimum access scope/level required to change this attribute is \"global/admin\". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `\"\"`. Available since SEMP API version 2.47.",
+				Sensitive:           true,
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.LengthBetween(0, 32768),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationClientCertPassword",
+				TerraformName:       "authentication_client_cert_password",
+				MarkdownDescription: "The password for the client certificate. To be used when authentication_scheme is \"client-certificate\".\n\nThe minimum access scope/level required to change this attribute is \"global/admin\". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `\"\"`. Available since SEMP API version 2.47.",
+				Sensitive:           true,
+				Requires:            []string{"authentication_client_cert_content"},
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.AlsoRequires(
+						path.MatchRelative().AtParent().AtName("authentication_client_cert_content"),
+					),
+					stringvalidator.LengthBetween(0, 512),
+				},
+				Default: "",
+			},
+			{
+				BaseType:            broker.String,
+				SempName:            "authenticationScheme",
+				TerraformName:       "authentication_scheme",
+				MarkdownDescription: "The authentication scheme for token and introspection requests.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/admin\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"basic\"`. The allowed values and their meaning are:\n\n<pre>\n\"basic\" - Basic Authentication Scheme (via client id and client secret).\n\"client-certificate\" - Client Certificate Authentication Scheme (via certificate file or content).\n</pre>\n Available since SEMP API version 2.47.",
+				Type:                types.StringType,
+				TerraformType:       tftypes.String,
+				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
+				StringValidators: []validator.String{
+					stringvalidator.OneOf("basic", "client-certificate"),
+				},
+				Default: "basic",
 			},
 			{
 				BaseType:            broker.String,
