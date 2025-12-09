@@ -118,3 +118,8 @@ jobs:
     needs: build
     uses: ./.github/workflows/cli-test-pipeline.yml
     secrets: inherit
+
+  Plugin-Integration-Test-OpenTF:
+    needs: build
+    uses: ./.github/workflows/provider-test-pipeline-opentofu.yml
+    secrets: inherit

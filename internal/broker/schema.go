@@ -58,12 +58,14 @@ func RegisterSempVersionDetails(sempAPIBasePath string, sempVersion string, plat
 	}
 }
 
-func addObjectConverters(attributes []*AttributeInfo) {
+func addObjectConverters(attributes []*AttributeInfo, isResource bool) {
 	for _, attr := range attributes {
 		// if it is an object, we need to add a converter for it (simple attributes will already have converters)
 		if attr.Attributes != nil {
-			addObjectConverters(attr.Attributes)
-			attr.Converter = NewObjectConverter(attr.TerraformName, attr.Attributes)
+			addObjectConverters(attr.Attributes, isResource)
+			// Filter nested attributes to match schema
+			filteredNestedAttrs := filterAttributesForConverter(attr.Attributes, isResource)
+			attr.Converter = NewObjectConverter(attr.TerraformName, filteredNestedAttrs)
 		}
 	}
 }
@@ -170,8 +172,27 @@ type EntityInputs struct {
 	Attributes          []*AttributeInfo
 }
 
+func filterAttributesForConverter(attributes []*AttributeInfo, isResource bool) []*AttributeInfo {
+	// For resources, filter out read-only attributes that are not identifying
+	// to match the schema filtering logic in terraformAttributeMap
+	// For datasources, filter out sensitive (write-only) attributes
+	filtered := make([]*AttributeInfo, 0, len(attributes))
+	for _, attr := range attributes {
+		// Datasources: skip write-only (sensitive) attributes - they can't be retrieved
+		if attr.Sensitive && !isResource {
+			continue
+		}
+		// Resources: skip read-only attributes unless they are identifying
+		if isResource && attr.ReadOnly && !attr.Identifying {
+			continue
+		}
+		filtered = append(filtered, attr)
+	}
+	return filtered
+}
+
 func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.Schema] {
-	addObjectConverters(inputs.Attributes)
+	addObjectConverters(inputs.Attributes, isResource)
 	tfAttributes := terraformAttributeMap(inputs.Attributes, isResource, inputs.ObjectType == ReplaceOnlyObject)
 	var identifyingAttributes []*AttributeInfo
 	identifyingAttributesMap := map[string]string{}
@@ -216,6 +237,8 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 		}
 		identifierInfo = fmt.Sprintf("\n\nThe import identifier for this resource is %s", identifiersString)
 	}
+	// Filter attributes for converter to match schema
+	converterAttributes := filterAttributesForConverter(inputs.Attributes, isResource)
 	s := schema.Schema{
 		Attributes:          tfAttributes,
 		Description:         inputs.Description,
@@ -232,7 +255,7 @@ func newBrokerEntity(inputs EntityInputs, isResource bool) brokerEntity[schema.S
 			objectType:            inputs.ObjectType,
 			identifyingAttributes: identifyingAttributes,
 			attributes:            inputs.Attributes,
-			converter:             NewObjectConverter(inputs.TerraformName, inputs.Attributes),
+			converter:             NewObjectConverter(inputs.TerraformName, converterAttributes),
 		},
 	}
 }

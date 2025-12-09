@@ -1,18 +1,11 @@
-name: TF Provider Test Pipeline
+name: OpenTF Provider Test Pipeline
 
 on: workflow_call
 
 jobs:
   test:
-    name: Run Provider setup and tests (Terraform ${{ matrix.terraform-version }})
+    name: Run Provider setup and tests (OpenTF)
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false  # Continue testing other versions even if one fails
-      matrix:
-        terraform-version:
-          - '1.0.11'  # Minimum supported version
-          - '1.5.7'   # Mid-range version
-          - '1.9.8'   # Latest stable version
     steps:
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -22,10 +15,8 @@ jobs:
       - name: Check out code
         uses: actions/checkout@v4
 
-      - name: Set up Terraform ${{ matrix.terraform-version }}
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: ${{ matrix.terraform-version }}
+      - name: Set up OpenTofu latest
+        uses: opentofu/setup-opentofu@v1
 
       - name: Setup test broker - using edge docker image for latest release
         run: |
@@ -43,7 +34,7 @@ jobs:
               \"registry.terraform.io/solaceproducts/solacebroker\" = \"${HOME}/go/bin\"
             }
             direct {}
-          }" > ~/.terraformrc
+          }" > ~/.tofurc
 
       - name: Build provider
         run: |
@@ -54,71 +45,71 @@ jobs:
       - name: Check provider available
         run: |
           pushd ci/broker_vpn_q
-          terraform plan
+          tofu plan
           popd
 
       - name: Test provider on test broker
         run: |
           pushd ci/broker_vpn_q
           # Create
-          terraform plan
-          terraform apply -auto-approve
+          tofu plan
+          tofu apply -auto-approve
           sleep 1
           # Modify
           cat ../broker_vpn_q2/testconfig2.tf >> testconfig.tf
-          terraform plan
-          terraform apply -auto-approve
+          tofu plan
+          tofu apply -auto-approve
           sleep 1
           # Delete
-          terraform destroy -auto-approve
+          tofu destroy -auto-approve
           sleep 1
           # import
-          terraform apply -auto-approve
+          tofu apply -auto-approve
           sleep 1
           rm terraform.tfstate*
-          terraform import solacebroker_msg_vpn.newone new
+          tofu import solacebroker_msg_vpn.newone new
           popd
 
       - name: Test provider params from env
         run: |
           pushd ci/broker_vpn_test2
-          SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform apply -auto-approve
-          SOLACEBROKER_BEARER_TOKEN=abc terraform apply -auto-approve | grep 401
+          SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin tofu apply -auto-approve
+          bash -c "SOLACEBROKER_BEARER_TOKEN=abc tofu apply -auto-approve 2>&1" | grep 401
           popd
 
       - name: Test broker object attributes override
         run: |
           pushd ci/brokertest
-          terraform apply -auto-approve
-          terraform plan | grep "No changes"
+          tofu apply -auto-approve
+          tofu plan | grep "No changes"
           popd
 
       - name: Test larger config
         run: |
           pushd ci/bigtest
-          terraform plan
-          terraform apply -auto-approve
-          terraform plan
-          terraform destroy -auto-approve
+          tofu plan
+          tofu apply -auto-approve
+          tofu plan
+          tofu destroy -auto-approve
           popd
 
       - name: Test unknown provider param, proving that the solace provider can tolerate unknown provider params until later when it is defined
         run: |
           pushd ci/provider_dependency
-          terraform init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
-          bash -c "terraform apply -auto-approve &> results.out" || echo "Expecting terraform apply to fail"
+          tofu init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
+          bash -c "tofu apply -auto-approve &> results.out" || echo "Expecting tofu apply to fail"
           cat results.out | grep "401 Unauthorized"
           popd
 
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
-          bash -c "terraform plan &> results.out" || echo "Expecting terraform plan to fail"
+          bash -c "tofu plan &> results.out" || echo "Expecting tofu plan to fail"
           cat results.out | grep "Found deprecated state key 'deprecated_att"
           cp terraform.tfstate terraform.tfstate.bak
           sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
-          terraform plan | grep "3 to add"
-          terraform apply -auto-approve | grep "Apply complete"
+          tofu plan | grep "3 to add"
+          tofu apply -auto-approve | grep "Apply complete"
           # GH actions fails on following commands, need to investigate. Passes locally.
           # diff terraform.tfstate terraform.tfstate.bak > diff.out
           # ls -l

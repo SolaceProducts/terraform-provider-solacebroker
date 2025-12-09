@@ -68,6 +68,11 @@ generate-code: ## Generate latest code from SEMP API spec
 
 .PHONY:
 newbroker: ## Run a new broker container with a specified tag, usage: make newbroker [tag=<docker-tag>]
+	# fail if CONTAINER_ENGINE is not set
+	@if [ -z "$(CONTAINER_ENGINE)" ]; then \
+		echo "Error: CONTAINER_ENGINE is not set. Please set it in the .env file."; \
+		exit 1; \
+	fi
 	$(eval tag := $(if $(tag),$(tag),"edge"))
 	@echo "Running a new broker container with tag: $(tag)"
 	@$(CONTAINER_ENGINE) kill solace >/dev/null 2>&1 || true ; $(CONTAINER_ENGINE) rm solace >/dev/null 2>&1 || true
