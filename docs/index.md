@@ -1,12 +1,12 @@
 ---
 page_title: "Provider: solacebroker"
 description: |-
-  A provider for a Solace PubSub+ Software Event Broker.  
+  A provider for a Solace Software Event Broker.  
 ---
 
-# Solace PubSub+ Software Event Broker (solacebroker) Provider
+# Solace Software Event Broker (solacebroker) Provider
 
-The [Solace PubSub+ Platform](https://solace.com/products/platform/)'s [PubSub+ Software Event Broker](https://solace.com/products/event-broker/software/) 
+The [Solace Platform](https://solace.com/products/platform/)'s [Solace Software Event Broker](https://solace.com/products/event-broker/software/) 
 efficiently streams event-driven information between applications, IoT devices and user interfaces running in cloud, on-premises, and hybrid environments 
 using open APIs and protocols like AMQP, JMS, MQTT, REST and WebSocket.
 
@@ -16,7 +16,7 @@ to dynamically share events across the distributed enterprise.
 
 ## Overview
 
-The _solacebroker_ provider enables you to configure a PubSub+ Software Event Broker using Terraform.
+The _solacebroker_ provider enables you to configure a Solace Software Event Broker using Terraform.
 
 This provider also offers the possibility to generate an [HCL configuration](https://developer.hashicorp.com/terraform/language) file from a preconfigured event broker.
 
@@ -24,11 +24,11 @@ Use the navigation to the left for more information in the guides and for the av
 
 ## Limitations
 
-> This version of the PubSub+ Terraform provider is generally available for production services contained within a Message VPN.  Use of any resource not contained within a Message VPN is not supported in production by Solace.
+> This version of the Solace Terraform provider is generally available for production services contained within a Message VPN.  Use of any resource not contained within a Message VPN is not supported in production by Solace.
 
 ## Minimum broker version
 
-The minimum required PubSub+ Software Event Broker version is 10.4.
+The minimum required Solace Software Event Broker version is 10.4.
 
 ## Example Usage
 

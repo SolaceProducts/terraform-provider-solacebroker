@@ -2,11 +2,11 @@
 page_title: "Solacebroker Provider Guide"
 ---
 
-# Solace PubSub+ Software Event Broker (solacebroker) Provider
+# Solace Software Event Broker (solacebroker) Provider
 
 The `solacebroker` provider supports Terraform CLI operations including basic CRUD (create, read, update, and delete) and import.
 
-The provider leverages the [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) REST API to configure the PubSub+ event broker. The API reference is available from the [Solace PubSub+ documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/appliance/config/index.html).
+The provider leverages the [SEMP (Solace Element Management Protocol)](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) REST API to configure the Solace event broker. The API reference is available from the [Solace documentation](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/appliance/config/index.html).
 
 This provider supports configuring software event brokers and will fail if applied against an appliance. This check may be overridden by specifying the `skip_api_check = true` configuration argument.
 
@@ -26,9 +26,9 @@ The supported access credentials are basic authentication using username and pas
 
 The SEMP API minor version reflects the supported set of objects, attributes, their properties and possible deprecations.
 
-New versions of the PubSub+ event broker with new features typically require a newer SEMP API version that supports the new or updated objects, attributes, etc. The SEMP API version of an event broker version can be determined from the [Solace PubSub+ documentation](https://docs.solace.com/Admin/SEMP/SEMP-API-Versions.htm#SEMP_v2_to_SolOS_Version_Mapping).
+New versions of the Solace event broker with new features typically require a newer SEMP API version that supports the new or updated objects, attributes, etc. The SEMP API version of an event broker version can be determined from the [Solace documentation](https://docs.solace.com/Admin/SEMP/SEMP-API-Versions.htm#SEMP_v2_to_SolOS_Version_Mapping).
 
-A given version of the provider is built to support a specific version of the SEMP API. For the SEMP API version of the provider and corresponding broker version, refer to the [Version Compatibility section](https://docs.solace.com/Admin/SEMP/Declarative-SEMP.htm#Version) of the Solace PubSub+ documentation.
+A given version of the provider is built to support a specific version of the SEMP API. For the SEMP API version of the provider and corresponding broker version, refer to the [Version Compatibility section](https://docs.solace.com/Admin/SEMP/Declarative-SEMP.htm#Version) of the Solace documentation.
 
 * Broker versions at the same SEMP API version level as the provider can be fully configured.
 * Broker versions at a lower SEMP API version level than the provider can be configured, except for objects or attributes that have been deprecated and removed in the provider's SEMP version. However, configuration will fail when attempting to configure objects or attributes that have been introduced in a later SEMP version than the broker supports.
@@ -36,7 +36,7 @@ A given version of the provider is built to support a specific version of the SE
 
 ## Object Relationships
 
-Event Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the PubSub+ event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "required" attributes that give a hint to required pre-existing objects.
+Event Broker inter-object references must be correctly encoded in Terraform configuration to have the apply operation work. This requires an understanding of the Solace event broker objects. For more information about each object consult the [SEMP API reference](https://docs.solace.com/API-Developer-Online-Ref-Documentation/swagger-ui/software-broker/config/index.htm) and especially look for "required" attributes that give a hint to required pre-existing objects.
 For example:
 
 ```terraform
@@ -56,7 +56,7 @@ resource "solacebroker_msg_vpn_queue" "q" {
 
 ## The Broker Object
 
-The Broker object is the `solacebroker_broker` resource. This object contains global configuration for the PubSub+ event broker.
+The Broker object is the `solacebroker_broker` resource. This object contains global configuration for the Solace event broker.
 
 The Broker object differs from all other objects as it always exists for a given broker and can only be updated.
 
@@ -98,10 +98,10 @@ We recommend using the following procedure to import a resource:
 
 > Note: Terraform import will only write actual values to the state file for attributes that are set to a non-default value. The value of attributes with default value will be imported as `null`.
 
-## PubSub+ Cloud Notes
+## Solace Cloud Notes
 
-* Applying a Message VPN resource configuration to a PubSub+ Cloud broker may cause issues with attributes that are not authorized to be set in PubSub+ Cloud. This can be resolved by removing or commenting out the attributes in the configuration that are reported to be conflicting with the authorization access level.
-* Similarly, attempting to delete the configuration of a Message VPN using `terraform destroy` is also expected to fail because of the insufficient authorization access level of the PubSub+ Cloud user.
+* Applying a Message VPN resource configuration to a Solace Cloud broker may cause issues with attributes that are not authorized to be set in Solace Cloud. This can be resolved by removing or commenting out the attributes in the configuration that are reported to be conflicting with the authorization access level.
+* Similarly, attempting to delete the configuration of a Message VPN using `terraform destroy` is also expected to fail because of the insufficient authorization access level of the Solace Cloud user.
 
 ## Notes and Limitations
 
