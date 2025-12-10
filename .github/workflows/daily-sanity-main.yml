@@ -4,11 +4,15 @@ name: Daily sanity main
 on:
   schedule:
     - cron: "0 5 * * *"
+  workflow_dispatch:
 
 jobs:
   build:
-    name: Daily test
+    name: Daily test (${{ matrix.tool }})
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        tool: [terraform, opentofu]
     steps:
       - name: Set up Go
         uses: actions/setup-go@v5
@@ -25,22 +29,54 @@ jobs:
           mkdir -p $HOME/solace; chmod 777 $HOME/solace
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
             --ulimit nofile=1048576:1048576 \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
-      - name: Set up Terraform latest - public
+      - name: Set up Terraform latest
+        if: matrix.tool == 'terraform'
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_wrapper: true
 
+      - name: Set up OpenTofu latest
+        if: matrix.tool == 'opentofu'
+        uses: opentofu/setup-opentofu@v1
+
+      - name: Use local provider (OpenTofu)
+        if: matrix.tool == 'opentofu'
+        run: |
+          echo "
+          provider_installation {
+            dev_overrides {
+              \"registry.terraform.io/solaceproducts/solacebroker\" = \"${HOME}/go/bin\"
+            }
+            direct {}
+          }" > ~/.tofurc
+
+      - name: Build provider (OpenTofu)
+        if: matrix.tool == 'opentofu'
+        run: |
+          go mod tidy
+          make install
+          ls ~/go/bin
+
+      - name: Set command variable
+        id: set-cmd
+        run: |
+          if [ "${{ matrix.tool }}" == "terraform" ]; then
+            echo "cmd=terraform" >> $GITHUB_OUTPUT
+          else
+            echo "cmd=tofu" >> $GITHUB_OUTPUT
+          fi
+
       - name: Run provider test - create custom messageVPN with large config
         run: |
           pushd ci/broker_vpn_test
-          terraform init
+          ${{ steps.set-cmd.outputs.cmd }} init
           $(find .terraform/ | grep terraform-provider) version
           # Create
-          terraform plan
-          terraform apply -auto-approve
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
           sleep 1
           popd
 
@@ -55,7 +91,68 @@ jobs:
       - name: Run provider test - delete large config
         run: |
           pushd ci/broker_vpn_test
-          terraform plan
-          terraform destroy -auto-approve
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} destroy -auto-approve
           sleep 1
+          popd
+
+      - name: Test provider on test broker - create/modify/delete/import
+        run: |
+          pushd ci/broker_vpn_q
+          ${{ steps.set-cmd.outputs.cmd }} init
+          # Create
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
+          sleep 1
+          # Modify
+          cat ../broker_vpn_q2/testconfig2.tf >> testconfig.tf
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
+          sleep 1
+          # Delete
+          ${{ steps.set-cmd.outputs.cmd }} destroy -auto-approve
+          sleep 1
+          # import
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
+          sleep 1
+          rm terraform.tfstate*
+          ${{ steps.set-cmd.outputs.cmd }} import solacebroker_msg_vpn.newone new
+          popd
+
+      - name: Test provider params from env
+        run: |
+          pushd ci/broker_vpn_test2
+          ${{ steps.set-cmd.outputs.cmd }} init
+          SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
+          bash -c "SOLACEBROKER_BEARER_TOKEN=abc ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve 2>&1" | grep 401
+          popd
+
+      - name: Test larger config
+        run: |
+          pushd ci/bigtest
+          ${{ steps.set-cmd.outputs.cmd }} init
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve
+          ${{ steps.set-cmd.outputs.cmd }} plan
+          ${{ steps.set-cmd.outputs.cmd }} destroy -auto-approve
+          popd
+
+      - name: Test unknown provider param
+        run: |
+          pushd ci/provider_dependency
+          ${{ steps.set-cmd.outputs.cmd }} init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
+          bash -c "${{ steps.set-cmd.outputs.cmd }} apply -auto-approve &> results.out" || echo "Expecting apply to fail"
+          cat results.out | grep "401 Unauthorized"
+          popd
+
+      - name: Test state upgrade
+        run: |
+          pushd ci/state_upgrade
+          ${{ steps.set-cmd.outputs.cmd }} init
+          bash -c "${{ steps.set-cmd.outputs.cmd }} plan &> results.out" || echo "Expecting plan to fail"
+          cat results.out | grep "Found deprecated state key 'deprecated_att"
+          cp terraform.tfstate terraform.tfstate.bak
+          sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
+          ${{ steps.set-cmd.outputs.cmd }} plan | grep "3 to add"
+          ${{ steps.set-cmd.outputs.cmd }} apply -auto-approve | grep "Apply complete"
           popd
