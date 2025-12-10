@@ -31,9 +31,9 @@ import (
 // generateCmd represents the generate command
 var generateCmd = &cobra.Command{
 	Use:   "generate <terraform resource address> <provider-specific identifier> <filename>",
-	Short: "Generates a Terraform configuration file for a specified PubSub+ event broker object and all child objects known to the provider",
+	Short: "Generates a Terraform configuration file for a specified Solace event broker object and all child objects known to the provider",
 	Long: `The generate command on the provider binary generates a Terraform configuration file for the specified object and all child objects known to the provider.
-This is not a Terraform command. You can download the provider binary and execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a PubSub+ event broker.
+This is not a Terraform command. You can download the provider binary and execute that binary with the "generate" command to generate a Terraform configuration file from the current configuration of a Solace event broker.
 
   <binary> generate [flags] <terraform resource address> <provider-specific identifier> <filename>
 
