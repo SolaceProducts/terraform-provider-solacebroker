@@ -1,21 +1,21 @@
-# Terraform Provider for Solace PubSub+ Software Event Broker
+# Terraform Provider for Solace Software Event Broker
 [![Actions Status](https://github.com/SolaceProducts/terraform-provider-solacebroker/actions/workflows/core-pipeline-main-branch-only.yml/badge.svg?branch=main)](https://github.com/SolaceProducts/terraform-provider-solacebroker/actions?query=workflow:%22Test+Provider%22+branch:main)
 [![Go Report Card](https://goreportcard.com/badge/github.com/solaceproducts/terraform-provider-solacebroker)](https://goreportcard.com/report/github.com/solaceproducts/terraform-provider-solacebroker)
 
 
-This provider, maintained by Solace, is a plugin for Terraform that enables you to configure PubSub+ Software Event Brokers.
+This provider, maintained by Solace, is a plugin for Terraform that enables you to configure Solace Software Event Brokers.
 
 The provider is available from the [Terraform Providers Registry](https://registry.terraform.io/providers/solaceproducts/solacebroker/latest).
 
-The minimum required PubSub+ Software Event Broker version is 10.4.
+The minimum required Solace Software Event Broker version is 10.4.
 
 ## Limitations
 
-> This version of the PubSub+ Terraform provider is generally available for production services contained within a Message VPN.  Use of any resource not contained within a Message VPN is not supported in production by Solace.
+> This version of the Solace Terraform provider is generally available for production services contained within a Message VPN.  Use of any resource not contained within a Message VPN is not supported in production by Solace.
 
 ## Quick Start
 
-1. Ensure you have admin access to a Solace PubSub+ Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [PubSub+ Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
+1. Ensure you have admin access to a Solace Software Event Broker. Options include [local deployment of a containerized version](https://docs.solace.com/Software-Broker/SW-Broker-Set-Up/Containers/Set-Up-Container-Image.htm) or use of a free broker from [Solace Cloud](https://docs.solace.com/Cloud/cloud-lp.htm).
 2. Install the [Terraform CLI](https://www.terraform.io/downloads)
 3. Create the [`examples/sampleconfig.tf`](examples/sampleconfig.tf) sample file in a new directory, adjust the `url`, and the management credential parameters `username` and `password` to your broker's setup.
 4. From this directory run `terraform plan`, then `terraform apply` (if prompted, `terraform init` may also be required).
@@ -35,7 +35,7 @@ We recommended that you familiarize yourself with Solace technology and broker m
 ### Requirements
 
 * [Terraform](https://www.terraform.io/downloads) (>= 1.0)
-* [Go](https://go.dev/doc/install) (1.24)
+* [Go](https://go.dev/doc/install) (1.25)
 * [Make](https://www.gnu.org/software/make/)
 
 ### Building

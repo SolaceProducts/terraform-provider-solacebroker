@@ -23,7 +23,7 @@ import (
 var rootCmd = &cobra.Command{
 	Use:   "terraform-provider-solacebroker",
 	Short: "",
-	Long: `Terraform provider for the Solace PubSub+ Event Broker.
+	Long: `Terraform provider for the Solace Event Broker.
 This binary is both a plugin for Terraform CLI and it also provides command-line options when invoked as standalone.
 The rest of this help describes the command-line use.`,
 }

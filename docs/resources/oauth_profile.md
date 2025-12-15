@@ -49,6 +49,21 @@ The minimum access scope/level required to retrieve this attribute is "global/re
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
  Available since SEMP API version 2.32.
+- `authentication_client_cert_content` (String, Sensitive) The PEM formatted content for the client certificate used by the broker to login to the token and introspection endpoints. To be used when authentication_scheme is "client-certificate".
+
+The minimum access scope/level required to change this attribute is "global/admin". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`. Available since SEMP API version 2.47.
+- `authentication_client_cert_password` (String, Sensitive) The password for the client certificate. To be used when authentication_scheme is "client-certificate".
+
+The minimum access scope/level required to change this attribute is "global/admin". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `""`. Available since SEMP API version 2.47.
+- `authentication_scheme` (String) The authentication scheme for token and introspection requests.
+
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `"basic"`. The allowed values and their meaning are:
+
+<pre>
+"basic" - Basic Authentication Scheme (via client id and client secret).
+"client-certificate" - Client Certificate Authentication Scheme (via certificate file or content).
+</pre>
+ Available since SEMP API version 2.47.
 - `client_id` (String) The OAuth client id.
 
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/admin". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `""`.

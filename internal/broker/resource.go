@@ -167,6 +167,11 @@ func (r *brokerResource) resetResponse(attributes []*AttributeInfo, response tft
 	}
 	for _, attr := range attributes {
 		name := attr.TerraformName
+		// Skip attributes that were filtered out from the converter/schema
+		// (read-only non-identifying attributes for resources)
+		if !attr.Identifying && attr.ReadOnly {
+			continue
+		}
 		response, responseExists := responseValues[name]
 		state, stateExists := stateValues[name]
 		if responseExists && response.IsKnown() && !response.IsNull() {

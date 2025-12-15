@@ -26,6 +26,8 @@ import (
 
 	"context"
 
+	"github.com/docker/docker/api/types/container"
+	"github.com/docker/go-units"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 
@@ -63,7 +65,16 @@ func init() {
 				Target: "/var/lib/solace",
 			},
 		},
-		ShmSize:    1000000000,
+		HostConfigModifier: func(hostConfig *container.HostConfig) {
+			hostConfig.ShmSize = 1000000000
+			hostConfig.Ulimits = []*units.Ulimit{
+				{
+					Name: "nofile",
+					Hard: 1048576,
+					Soft: 1048576,
+				},
+			}
+		},
 		WaitingFor: wait.ForHTTP("/").WithPort("8080/tcp"),
 	}
 	solaceC, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{

@@ -512,8 +512,36 @@
           "x-type": "certAuth_RevocationMode_param",
           "x-writeOnly": false
         },
+        "authRequiredAccessLevelGatherDiagnostics": {
+          "description": "The access level required to generate encrypted gather-diagnostics output, which can only be decrypted by Solace support. global/admin is always required to generate unencrypted gather-diagnostics output. Gather-diagnostics output may contain sensitive information.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/admin\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"global-read-only\"`. The allowed values and their meaning are:\n\n<pre>\n\"global-read-only\" - Generating encrypted gather-diagnostics output requires global/read-only.\n\"global-admin\" - Generating encrypted gather-diagnostics output requires global/admin.\n</pre>\n Available since 2.48.",
+          "enum": [
+            "global-read-only",
+            "global-admin"
+          ],
+          "type": "string",
+          "x-accessLevels": {
+            "get": "global/read-only",
+            "patch": "global/admin"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": "global-read-only",
+          "x-configSyncTableType": "router",
+          "x-default": "global-read-only",
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "auth_GatherDiagnosticsRequiredAccessLevel_param",
+          "x-writeOnly": false
+        },
         "configSyncAuthenticationClientCertMaxChainDepth": {
-          "description": "The maximum depth for a client certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `3`. Available since 2.22.",
+          "description": "The maximum depth for a client certificate chain. The depth of a chain is defined as the number of signing CA certificates that are present in the chain back to a trusted self-signed root CA certificate.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `3`. Deprecated since 2.48. Client certificate authentication is deprecated for config-sync.",
           "format": "int64",
           "maximum": 8,
           "minimum": 0,
@@ -525,7 +553,7 @@
           "x-autoDisable": [],
           "x-configSyncDefault": 3,
           "x-default": 3,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -539,7 +567,7 @@
           "x-writeOnly": false
         },
         "configSyncAuthenticationClientCertValidateDateEnabled": {
-          "description": "Enable or disable validation of the \"Not Before\" and \"Not After\" validity dates in the authentication certificate(s).\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `true`. Available since 2.22.",
+          "description": "Enable or disable validation of the \"Not Before\" and \"Not After\" validity dates in the authentication certificate(s).\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `true`. Deprecated since 2.48. Client certificate authentication is deprecated for config-sync.",
           "type": "boolean",
           "x-accessLevels": {
             "get": "global/read-only",
@@ -548,7 +576,7 @@
           "x-autoDisable": [],
           "x-configSyncDefault": true,
           "x-default": true,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -562,7 +590,7 @@
           "x-writeOnly": false
         },
         "configSyncClientProfileTcpInitialCongestionWindow": {
-          "description": "The TCP initial congestion window size for Config Sync clients, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `2`. Available since 2.22.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `2`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 7826,
           "minimum": 2,
@@ -574,7 +602,7 @@
           "x-autoDisable": [],
           "x-configSyncDefault": 2,
           "x-default": 2,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -666,7 +694,7 @@
           "x-writeOnly": false
         },
         "configSyncClientProfileTcpMaxWindow": {
-          "description": "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `256`. Available since 2.22.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". The default value is `256`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 65536,
           "minimum": 16,
@@ -678,7 +706,7 @@
           "x-autoDisable": [],
           "x-configSyncDefault": 256,
           "x-default": 256,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -2033,7 +2061,7 @@
           "x-writeOnly": false
         },
         "tlsCipherSuiteManagementList": {
-          "description": "The colon-separated list of cipher suites used for TLS management connections (e.g. SEMP, LDAP). The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
+          "description": "The colon-separated list of cipher suites used for TLS management connections (e.g. SEMP, LDAP) when using TLS 1.2 and lower. The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
           "maxLength": 1559,
           "minLength": 0,
           "type": "string",
@@ -2059,7 +2087,7 @@
           "x-writeOnly": false
         },
         "tlsCipherSuiteMsgBackboneList": {
-          "description": "The colon-separated list of cipher suites used for TLS data connections (e.g. client pub/sub). The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
+          "description": "The colon-separated list of cipher suites used for TLS data connections (e.g. client pub/sub) when using TLS 1.2 and lower. The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
           "maxLength": 1559,
           "minLength": 0,
           "type": "string",
@@ -2085,7 +2113,7 @@
           "x-writeOnly": false
         },
         "tlsCipherSuiteSecureShellList": {
-          "description": "The colon-separated list of cipher suites used for TLS secure shell connections (e.g. SSH, SFTP, SCP). The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
+          "description": "The colon-separated list of cipher suites used for secure shell connections (e.g. SSH, SFTP, SCP). The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/read-write\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"default\"`.",
           "maxLength": 1559,
           "minLength": 0,
           "type": "string",
@@ -6295,7 +6323,7 @@
           "x-writeOnly": false
         },
         "clientProfileTcpCongestionWindowSize": {
-          "description": "The TCP initial congestion window size, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `2`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". The default value is `2`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 7826,
           "minimum": 2,
@@ -6306,9 +6334,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 2,
-          "x-configSyncTableType": "router",
           "x-default": 2,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -6430,7 +6457,7 @@
           "x-writeOnly": false
         },
         "clientProfileTcpMaxWindowSize": {
-          "description": "The TCP maximum window size, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `256`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". The default value is `256`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 65536,
           "minimum": 16,
@@ -6441,9 +6468,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 256,
-          "x-configSyncTableType": "router",
           "x-default": 256,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -6619,8 +6645,8 @@
         "queueDeadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ) used by the Queue for discarded messages.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "global/read-only",
@@ -6640,7 +6666,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "queueEventSpoolUsageThreshold": {
@@ -6781,6 +6807,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_Discard_param",
+          "x-writeOnly": false
+        },
+        "queueRespectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "global/read-only",
+            "patch": "global/mesh-manager"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "router",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "BOOL_PARAM",
           "x-writeOnly": false
         },
         "queueRespectTtlEnabled": {
@@ -7719,6 +7769,30 @@
           "x-type": "msgSvc_NameConfigAllowEmptyAllowInternal_param",
           "x-writeOnly": false
         },
+        "allowDmqEligibleEndpointOverrideEnabled": {
+          "description": "Enable or disable allowing endpoints to override the DMQ Eligible flag provided by the publisher.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": true,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "BOOL_PARAM",
+          "x-writeOnly": false
+        },
         "authenticationBasicEnabled": {
           "description": "Enable or disable basic authentication for clients connecting to the Message VPN. Basic authentication is authentication that involves the use of a username and password to prove identity. If a user provides credentials for a different authentication scheme, this setting is not applicable.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
           "type": "boolean",
@@ -7830,7 +7904,7 @@
           "x-writeOnly": false
         },
         "authenticationClientCertAllowApiProvidedUsernameEnabled": {
-          "description": "Enable or disable allowing an incoming client connection to specify a Client Username via the API connect method. When disabled, the certificate CN (Common Name) is always used.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
+          "description": "Enable or disable allowing an incoming client connection to specify a Client Username via the API connect method. When disabled, the system will use the configured username source settings to determine which client username will be used.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
           "type": "boolean",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -14108,10 +14182,11 @@
           "x-writeOnly": true
         },
         "remoteAuthenticationScheme": {
-          "description": "The authentication scheme for the remote Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"basic\"`. The allowed values and their meaning are:\n\n<pre>\n\"basic\" - Basic Authentication Scheme (via username and password).\n\"client-certificate\" - Client Certificate Authentication Scheme (via certificate file or content).\n</pre>\n",
+          "description": "The authentication scheme for the remote Message VPN.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"basic\"`. The allowed values and their meaning are:\n\n<pre>\n\"basic\" - Basic Authentication Scheme (via username and password).\n\"client-certificate\" - Client Certificate Authentication Scheme (via certificate file or content).\n\"tls-psk\" - This authentication scheme is used internally by the broker. It cannot be directly configured by a user.\n</pre>\n",
           "enum": [
             "basic",
-            "client-certificate"
+            "client-certificate",
+            "tls-psk"
           ],
           "type": "string",
           "x-accessLevels": {
@@ -14134,7 +14209,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "BRIDGE_AUTHN_SCHEME_PARAM",
+          "x-type": "BRIDGE_AUTHN_SCHEME_WITH_PSK_PARAM",
           "x-writeOnly": false
         },
         "remoteConnectionRetryCount": {
@@ -14225,7 +14300,7 @@
           "x-writeOnly": false
         },
         "tlsCipherSuiteList": {
-          "description": "The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN. The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
+          "description": "The colon-separated list of cipher suites supported for TLS connections to the remote Message VPN when using TLS 1.2 and lower. The value \"default\" implies all supported suites ordered from most secure to least secure.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
           "maxLength": 1559,
           "minLength": 0,
           "type": "string",
@@ -16798,7 +16873,7 @@
           "x-writeOnly": false
         },
         "tcpCongestionWindowSize": {
-          "description": "The TCP initial congestion window size for clients using the Client Profile, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". The default value is `2`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 7826,
           "minimum": 2,
@@ -16809,9 +16884,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 2,
-          "x-configSyncTableType": "vpn",
           "x-default": 2,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -16933,7 +17007,7 @@
           "x-writeOnly": false
         },
         "tcpMaxWindowSize": {
-          "description": "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager\". The default value is `256`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 65536,
           "minimum": 16,
@@ -16944,9 +17018,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 256,
-          "x-configSyncTableType": "vpn",
           "x-default": 256,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -27300,8 +27373,8 @@
         "queueDeadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ) used by the MQTT Session Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`. Available since 2.14.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -27321,7 +27394,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "queueEventBindCountThreshold": {
@@ -27575,6 +27648,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_Discard_param",
+          "x-writeOnly": false
+        },
+        "queueRespectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the MQTT Session Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "BOOL_PARAM",
           "x-writeOnly": false
         },
         "queueRespectTtlEnabled": {
@@ -28615,8 +28712,8 @@
         "deadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ) used by the Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`. Available since 2.2.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -28636,7 +28733,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "deliveryCountEnabled": {
@@ -29314,6 +29411,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_Discard_param",
+          "x-writeOnly": false
+        },
+        "respectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "BOOL_PARAM",
           "x-writeOnly": false
         },
         "respectMsgPriorityEnabled": {
@@ -30015,8 +30136,8 @@
         "deadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ).\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -30036,7 +30157,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "deliveryDelay": {
@@ -30575,6 +30696,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_Discard_param",
+          "x-writeOnly": false
+        },
+        "respectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the Queue.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "qendpt_respectDmqEligible_type_param",
           "x-writeOnly": false
         },
         "respectMsgPriorityEnabled": {
@@ -33160,6 +33305,33 @@
           "x-type": "proxy_ProxyReference_param",
           "x-writeOnly": false
         },
+        "rejectedStatusCodeList": {
+          "description": "Comma-separated list of HTTP status codes or status code ranges which should be processed as a \"rejected\" (do not retry) outcome.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since 2.47.",
+          "maxLength": 200,
+          "minLength": 0,
+          "pattern": "^((\\s*[45]\\d\\d(\\s*-\\s*[45]\\d\\d)?\\s*,)*\\s*[45]\\d\\d(\\s*-\\s*[45]\\d\\d)?)?$",
+          "type": "string",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": "",
+          "x-configSyncTableType": "vpn",
+          "x-default": "",
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "REST_CONSUMER_STATUS_CODES_REJECTED_PARAM",
+          "x-writeOnly": false
+        },
         "remoteHost": {
           "description": "The IP address or DNS name to which the broker is to connect to deliver messages for the REST Consumer. A host value must be configured for the REST Consumer to be operationally up.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
           "maxLength": 253,
@@ -33293,7 +33465,7 @@
           "x-writeOnly": false
         },
         "tlsCipherSuiteList": {
-          "description": "The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection. The value `\"default\"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the Broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
+          "description": "The colon-separated list of cipher suites the REST Consumer uses in its encrypted connection when using TLS 1.2 and lower. The value `\"default\"` implies all supported suites ordered from most secure to least secure. The list of default cipher suites is available in the `tlsCipherSuiteMsgBackboneDefaultList` attribute of the Broker object in the Monitoring API. The REST Consumer should choose the first suite from this list that it supports.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"default\"`.",
           "maxLength": 1559,
           "minLength": 0,
           "type": "string",
@@ -34027,7 +34199,7 @@
           "x-writeOnly": false
         },
         "receiverTcpCongestionWindowSize": {
-          "description": "The TCP initial congestion window size for clients using the Client Profile, in multiples of the TCP Maximum Segment Size (MSS). Changing the value from its default of 2 results in non-compliance with RFC 2581. Contact support before changing this value.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `2`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `2`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 7826,
           "minimum": 2,
@@ -34038,9 +34210,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 2,
-          "x-configSyncTableType": "vpn",
           "x-default": 2,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -34162,7 +34333,7 @@
           "x-writeOnly": false
         },
         "receiverTcpMaxWindowSize": {
-          "description": "The TCP maximum window size for clients using the Client Profile, in kilobytes. Changes are applied to all existing connections. This setting is ignored on the software broker.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `256`.",
+          "description": "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `256`. Deprecated since 2.48. The value is now ignored.",
           "format": "int64",
           "maximum": 65536,
           "minimum": 16,
@@ -34173,9 +34344,8 @@
           },
           "x-autoDisable": [],
           "x-configSyncDefault": 256,
-          "x-configSyncTableType": "vpn",
           "x-default": 256,
-          "x-deprecated": false,
+          "x-deprecated": true,
           "x-identifying": false,
           "x-identifyingDirect": false,
           "x-opaque": false,
@@ -35267,8 +35437,8 @@
         "deadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ) used by the Topic Endpoint.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`. Available since 2.2.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -35288,7 +35458,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "deliveryCountEnabled": {
@@ -35862,6 +36032,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_DiscardTopicEndpoint_param",
+          "x-writeOnly": false
+        },
+        "respectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the Topic Endpoint.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "qendpt_respectDmqEligible_type_param",
           "x-writeOnly": false
         },
         "respectMsgPriorityEnabled": {
@@ -36455,8 +36649,8 @@
         "deadMsgQueue": {
           "description": "The name of the Dead Message Queue (DMQ).\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"#DEAD_MSG_QUEUE\"`.",
           "maxLength": 200,
-          "minLength": 1,
-          "pattern": "^[^*?'<>&;]+$",
+          "minLength": 0,
+          "pattern": "^[^*?'<>&;]*$",
           "type": "string",
           "x-accessLevels": {
             "get": "vpn/read-only",
@@ -36476,7 +36670,7 @@
           "x-requiredPost": false,
           "x-requiresDisable": [],
           "x-sensitive": false,
-          "x-type": "qendpt_NameQueue_param",
+          "x-type": "qendpt_NameQueueNoMinLength_param",
           "x-writeOnly": false
         },
         "deliveryDelay": {
@@ -36938,6 +37132,30 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "qendpt_DiscardTopicEndpoint_param",
+          "x-writeOnly": false
+        },
+        "respectDmqEligibleEnabled": {
+          "description": "Enable or disable the respecting of DMQ Eligible for messages in the Topic Endpoint.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since 2.49.",
+          "type": "boolean",
+          "x-accessLevels": {
+            "get": "vpn/read-only",
+            "patch": "vpn/read-write"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": false,
+          "x-configSyncTableType": "vpn",
+          "x-default": false,
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "qendpt_respectDmqEligible_type_param",
           "x-writeOnly": false
         },
         "respectMsgPriorityEnabled": {
@@ -37620,6 +37838,85 @@
           "x-requiresDisable": [],
           "x-sensitive": false,
           "x-type": "oauth_GroupsClaimStringFormat_param",
+          "x-writeOnly": false
+        },
+        "authenticationClientCertContent": {
+          "description": "The PEM formatted content for the client certificate used by the broker to login to the token and introspection endpoints. To be used when authenticationScheme is \"client-certificate\".\n\nThe minimum access scope/level required to change this attribute is \"global/admin\". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `\"\"`. Available since 2.47.",
+          "maxLength": 32768,
+          "minLength": 0,
+          "type": "string",
+          "x-accessLevels": {
+            "patch": "global/admin"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": "",
+          "x-default": "",
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": true,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": true,
+          "x-type": "certAuth_CertificateContent_param",
+          "x-writeOnly": true
+        },
+        "authenticationClientCertPassword": {
+          "description": "The password for the client certificate. To be used when authenticationScheme is \"client-certificate\".\n\nThe minimum access scope/level required to change this attribute is \"global/admin\". This attribute is absent from a GET and not updated when absent in a PUT, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods). The default value is `\"\"`. Available since 2.47.",
+          "maxLength": 512,
+          "minLength": 0,
+          "type": "string",
+          "x-accessLevels": {
+            "patch": "global/admin"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": "",
+          "x-default": "",
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": true,
+          "x-requiredPost": false,
+          "x-requires": [
+            "authenticationClientCertContent"
+          ],
+          "x-requiresDisable": [],
+          "x-sensitive": true,
+          "x-type": "certAuth_Passphrase_param",
+          "x-writeOnly": true
+        },
+        "authenticationScheme": {
+          "description": "The authentication scheme for token and introspection requests.\n\nThe minimum access scope/level required to retrieve this attribute is \"global/read-only\". The minimum access scope/level required to change this attribute is \"global/admin\". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `\"basic\"`. The allowed values and their meaning are:\n\n<pre>\n\"basic\" - Basic Authentication Scheme (via client id and client secret).\n\"client-certificate\" - Client Certificate Authentication Scheme (via certificate file or content).\n</pre>\n Available since 2.47.",
+          "enum": [
+            "basic",
+            "client-certificate"
+          ],
+          "type": "string",
+          "x-accessLevels": {
+            "get": "global/read-only",
+            "patch": "global/admin"
+          },
+          "x-autoDisable": [],
+          "x-configSyncDefault": "basic",
+          "x-configSyncTableType": "router",
+          "x-default": "basic",
+          "x-deprecated": false,
+          "x-identifying": false,
+          "x-identifyingDirect": false,
+          "x-opaque": false,
+          "x-readOnlyOther": false,
+          "x-readOnlyPost": false,
+          "x-readOptional": false,
+          "x-requiredPost": false,
+          "x-requiresDisable": [],
+          "x-sensitive": false,
+          "x-type": "oauth_AuthenticationScheme_param",
           "x-writeOnly": false
         },
         "clientId": {
@@ -39973,7 +40270,7 @@
     "SempMeta": {
       "properties": {
         "count": {
-          "description": "The total number of objects requested, irrespective of page size. This may be a count of all objects in a collection or a filtered subset. It represents a snapshot in time and may change when paging through results.",
+          "description": "The total number of objects requested, irrespective of page size. This may be a count of all objects in a collection or a filtered subset. It represents a snapshot in time and may change when paging through results.\n\nThis attribute is only supported for [specific collections](https://docs.solace.com/Admin/SEMP/SEMP-Features.htm#retrieving-the-number-of-objects-in-a-collection).",
           "format": "int64",
           "type": "integer"
         },
@@ -40259,7 +40556,7 @@
     },
     "description": "SEMP (starting in `v2`) is a RESTful API for configuring, monitoring, and administering a Solace PubSub+ broker. This specification defines the following API:\n\n\nAPI|Base Path|Purpose\n:---|:---|:---\nConfiguration|/SEMP/v2/config|Reading and writing configuration\n\n\n\nThe following APIs are also available:\n\n\nAPI|Base Path|Purpose\n:---|:---|:---\nAction|/SEMP/v2/action|Performing actions\nMonitoring|/SEMP/v2/monitor|Querying operational state\n\n\n\nFor tutorials, architectural and protocol design documentation, and other information about the SEMP API, consult the [SEMP documentation](https://docs.solace.com/Admin/SEMP/Using-SEMP.htm) on the Solace website. The SEMP API specifications are also [available for download](https://solace.com/downloads/).\n\nIf you need additional support, please contact us at [support@solace.com](mailto:support@solace.com).",
     "title": "SEMP (Solace Element Management Protocol)",
-    "version": "2.46"
+    "version": "2.49"
   },
   "parameters": {
     "countQuery": {
@@ -40326,7 +40623,7 @@
   "paths": {
     "/": {
       "get": {
-        "description": "Get a Broker object.\n\nThis object contains global configuration for the message broker.\n\n\nAttribute|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:\ntlsServerCertContent|x||x\ntlsServerCertPassword|x||\ntlsTicketLifetime||x|\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes retrieved.\n\nThis has been available since 2.13.",
+        "description": "Get a Broker object.\n\nThis object contains global configuration for the message broker.\n\n\nAttribute|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:\nconfigSyncAuthenticationClientCertMaxChainDepth||x|\nconfigSyncAuthenticationClientCertValidateDateEnabled||x|\nconfigSyncClientProfileTcpInitialCongestionWindow||x|\nconfigSyncClientProfileTcpMaxWindow||x|\ntlsServerCertContent|x||x\ntlsServerCertPassword|x||\ntlsTicketLifetime||x|\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes retrieved.\n\nThis has been available since 2.13.",
         "operationId": "getBroker",
         "parameters": [
           {
@@ -40368,7 +40665,7 @@
         "x-supportedInSempDirect": false
       },
       "patch": {
-        "description": "Update a Broker object. Any attribute missing from the request will be left unchanged.\n\nThis object contains global configuration for the message broker.\n\n\nAttribute|Write-Only|Requires-Disable|Auto-Disable|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:|:---:\nserviceAmqpTlsListenPort|||x||\nserviceHealthCheckListenPort|||x||\nserviceHealthCheckTlsListenPort|||x||\nserviceMateLinkListenPort|||x||\nserviceRedundancyFirstListenPort|||x||\nserviceSempPlainTextListenPort||x|||\nserviceSempTlsListenPort||x|||\nserviceSmfCompressionListenPort|||x||\nserviceSmfPlainTextListenPort|||x||\nserviceSmfRoutingControlListenPort|||x||\nserviceSmfTlsListenPort|||x||\nserviceWebTransportPlainTextListenPort|||x||\nserviceWebTransportTlsListenPort|||x||\nserviceWebTransportWebUrlSuffix|||x||\ntlsServerCertContent|x||||x\ntlsServerCertPassword|x||||\ntlsTicketLifetime||||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nBroker|tlsServerCertPassword|tlsServerCertContent|\nBrokerGuaranteedMsgingEventCacheUsageThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventCacheUsageThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventCacheUsageThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventCacheUsageThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventDeliveredUnackedThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventDeliveredUnackedThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventDiskUsageThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventDiskUsageThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEndpointCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEndpointCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEndpointCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEndpointCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventMsgCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventMsgCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventMsgSpoolFileCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventMsgSpoolFileCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionResourceCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventTransactedSessionResourceCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceRestEventOutgoingConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceRestEventOutgoingConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceRestEventOutgoingConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceRestEventOutgoingConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceSmfEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceSmfEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceSmfEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceSmfEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceTlsEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceTlsEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceTlsEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceTlsEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.13.",
+        "description": "Update a Broker object. Any attribute missing from the request will be left unchanged.\n\nThis object contains global configuration for the message broker.\n\n\nAttribute|Write-Only|Requires-Disable|Auto-Disable|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:|:---:\nconfigSyncAuthenticationClientCertMaxChainDepth||||x|\nconfigSyncAuthenticationClientCertValidateDateEnabled||||x|\nconfigSyncClientProfileTcpInitialCongestionWindow||||x|\nconfigSyncClientProfileTcpMaxWindow||||x|\nserviceAmqpTlsListenPort|||x||\nserviceHealthCheckListenPort|||x||\nserviceHealthCheckTlsListenPort|||x||\nserviceMateLinkListenPort|||x||\nserviceRedundancyFirstListenPort|||x||\nserviceSempPlainTextListenPort||x|||\nserviceSempTlsListenPort||x|||\nserviceSmfCompressionListenPort|||x||\nserviceSmfPlainTextListenPort|||x||\nserviceSmfRoutingControlListenPort|||x||\nserviceSmfTlsListenPort|||x||\nserviceWebTransportPlainTextListenPort|||x||\nserviceWebTransportTlsListenPort|||x||\nserviceWebTransportWebUrlSuffix|||x||\ntlsServerCertContent|x||||x\ntlsServerCertPassword|x||||\ntlsTicketLifetime||||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nBroker|tlsServerCertPassword|tlsServerCertContent|\nBrokerGuaranteedMsgingEventCacheUsageThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventCacheUsageThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventCacheUsageThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventCacheUsageThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventDeliveredUnackedThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventDeliveredUnackedThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventDiskUsageThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventDiskUsageThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEndpointCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEndpointCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventEndpointCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventEndpointCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventMsgCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventMsgCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventMsgSpoolFileCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventMsgSpoolFileCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactedSessionResourceCountThreshold|clearPercent|setPercent|\nBrokerGuaranteedMsgingEventTransactedSessionResourceCountThreshold|setPercent|clearPercent|\nBrokerGuaranteedMsgingEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerGuaranteedMsgingEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerGuaranteedMsgingEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceRestEventOutgoingConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceRestEventOutgoingConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceRestEventOutgoingConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceRestEventOutgoingConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceSmfEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceSmfEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceSmfEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceSmfEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\nBrokerServiceTlsEventConnectionCountThreshold|clearPercent|setPercent|clearValue, setValue\nBrokerServiceTlsEventConnectionCountThreshold|clearValue|setValue|clearPercent, setPercent\nBrokerServiceTlsEventConnectionCountThreshold|setPercent|clearPercent|clearValue, setValue\nBrokerServiceTlsEventConnectionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.13.",
         "operationId": "updateBroker",
         "parameters": [
           {
@@ -43125,7 +43422,7 @@
     },
     "/dmrClusters/{dmrClusterName}/links": {
       "get": {
-        "description": "Get a list of Link objects.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthenticationBasicPassword||x|x\ndmrClusterName|x||\nremoteNodeName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.11.",
+        "description": "Get a list of Link objects.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||x||x\nclientProfileTcpCongestionWindowSize|||x|\nclientProfileTcpMaxWindowSize|||x|\ndmrClusterName|x|||\nremoteNodeName|x|||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.11.",
         "operationId": "getDmrClusterLinks",
         "parameters": [
           {
@@ -43187,7 +43484,7 @@
         "x-supportedInSempDirect": false
       },
       "post": {
-        "description": "Create a Link object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates via config-sync.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Required|Read-Only|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword|||||x|x\ndmrClusterName|x|||x||\nremoteNodeName|x|x|x|||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/mesh-manager\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.11.",
+        "description": "Create a Link object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates via config-sync.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Required|Read-Only|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword|||||x||x\nclientProfileTcpCongestionWindowSize||||||x|\nclientProfileTcpMaxWindowSize||||||x|\ndmrClusterName|x|||x|||\nremoteNodeName|x|x|x||||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/mesh-manager\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.11.",
         "operationId": "createDmrClusterLink",
         "parameters": [
           {
@@ -43299,7 +43596,7 @@
         "x-supportedInSempDirect": false
       },
       "get": {
-        "description": "Get a Link object.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthenticationBasicPassword||x|x\ndmrClusterName|x||\nremoteNodeName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since 2.11.",
+        "description": "Get a Link object.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Write-Only|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||x||x\nclientProfileTcpCongestionWindowSize|||x|\nclientProfileTcpMaxWindowSize|||x|\ndmrClusterName|x|||\nremoteNodeName|x|||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since 2.11.",
         "operationId": "getDmrClusterLink",
         "parameters": [
           {
@@ -43356,7 +43653,7 @@
         "x-supportedInSempDirect": false
       },
       "patch": {
-        "description": "Update a Link object. Any attribute missing from the request will be left unchanged.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Read-Only|Write-Only|Auto-Disable|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||||x|x|x\nauthenticationScheme|||||x|\ndmrClusterName|x||x|||\negressFlowWindowSize|||||x|\ninitiator|||||x|\nremoteNodeName|x|x||||\nspan|||||x|\ntransportCompressedEnabled|||||x|\ntransportTlsEnabled|||||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.11.",
+        "description": "Update a Link object. Any attribute missing from the request will be left unchanged.\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Read-Only|Write-Only|Auto-Disable|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||||x|x||x\nauthenticationScheme|||||x||\nclientProfileTcpCongestionWindowSize||||||x|\nclientProfileTcpMaxWindowSize||||||x|\ndmrClusterName|x||x||||\negressFlowWindowSize|||||x||\ninitiator|||||x||\nremoteNodeName|x|x|||||\nspan|||||x||\ntransportCompressedEnabled|||||x||\ntransportTlsEnabled|||||x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.11.",
         "operationId": "updateDmrClusterLink",
         "parameters": [
           {
@@ -43422,7 +43719,7 @@
         "x-supportedInSempDirect": false
       },
       "put": {
-        "description": "Replace a Link object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Read-Only|Write-Only|Auto-Disable|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||||x|x|x\nauthenticationScheme|||||x|\ndmrClusterName|x||x|||\negressFlowWindowSize|||||x|\ninitiator|||||x|\nremoteNodeName|x|x||||\nspan|||||x|\ntransportCompressedEnabled|||||x|\ntransportTlsEnabled|||||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/mesh-manager\" is required if this operation creates an object.\n\nThis has been available since 2.11.",
+        "description": "Replace a Link object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nA Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.\n\n\nAttribute|Identifying|Const|Read-Only|Write-Only|Auto-Disable|Deprecated|Opaque\n:---|:---:|:---:|:---:|:---:|:---:|:---:|:---:\nauthenticationBasicPassword||||x|x||x\nauthenticationScheme|||||x||\nclientProfileTcpCongestionWindowSize||||||x|\nclientProfileTcpMaxWindowSize||||||x|\ndmrClusterName|x||x||||\negressFlowWindowSize|||||x||\ninitiator|||||x||\nremoteNodeName|x|x|||||\nspan|||||x||\ntransportCompressedEnabled|||||x||\ntransportTlsEnabled|||||x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nDmrClusterLinkQueueEventSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nDmrClusterLinkQueueEventSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/mesh-manager\" is required if this operation creates an object.\n\nThis has been available since 2.11.",
         "operationId": "replaceDmrClusterLink",
         "parameters": [
           {
@@ -51509,7 +51806,7 @@
     },
     "/msgVpns/{msgVpnName}/clientProfiles": {
       "get": {
-        "description": "Get a list of Client Profile objects.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nallowCutThroughForwardingEnabled||x\napiQueueManagementCopyFromOnCreateName||x\napiTopicEndpointManagementCopyFromOnCreateName||x\nclientProfileName|x|\nmsgVpnName|x|\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.0.",
+        "description": "Get a list of Client Profile objects.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nallowCutThroughForwardingEnabled||x\napiQueueManagementCopyFromOnCreateName||x\napiTopicEndpointManagementCopyFromOnCreateName||x\nclientProfileName|x|\nmsgVpnName|x|\ntcpCongestionWindowSize||x\ntcpMaxWindowSize||x\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.0.",
         "operationId": "getMsgVpnClientProfiles",
         "parameters": [
           {
@@ -51572,7 +51869,7 @@
         "x-supportedInSempDirect": false
       },
       "post": {
-        "description": "Create a Client Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates and replication sites via config-sync.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Required|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled|||||x\napiQueueManagementCopyFromOnCreateName|||||x\napiTopicEndpointManagementCopyFromOnCreateName|||||x\nclientProfileName|x|x|x||\nmsgVpnName|x|||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/mesh-manager\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.0.",
+        "description": "Create a Client Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates and replication sites via config-sync.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Required|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled|||||x\napiQueueManagementCopyFromOnCreateName|||||x\napiTopicEndpointManagementCopyFromOnCreateName|||||x\nclientProfileName|x|x|x||\nmsgVpnName|x|||x|\ntcpCongestionWindowSize|||||x\ntcpMaxWindowSize|||||x\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/mesh-manager\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.0.",
         "operationId": "createMsgVpnClientProfile",
         "parameters": [
           {
@@ -51686,7 +51983,7 @@
         "x-supportedInSempDirect": false
       },
       "get": {
-        "description": "Get a Client Profile object.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nallowCutThroughForwardingEnabled||x\napiQueueManagementCopyFromOnCreateName||x\napiTopicEndpointManagementCopyFromOnCreateName||x\nclientProfileName|x|\nmsgVpnName|x|\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since 2.0.",
+        "description": "Get a Client Profile object.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nallowCutThroughForwardingEnabled||x\napiQueueManagementCopyFromOnCreateName||x\napiTopicEndpointManagementCopyFromOnCreateName||x\nclientProfileName|x|\nmsgVpnName|x|\ntcpCongestionWindowSize||x\ntcpMaxWindowSize||x\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since 2.0.",
         "operationId": "getMsgVpnClientProfile",
         "parameters": [
           {
@@ -51744,7 +52041,7 @@
         "x-supportedInSempDirect": false
       },
       "patch": {
-        "description": "Update a Client Profile object. Any attribute missing from the request will be left unchanged.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled||||x\napiQueueManagementCopyFromOnCreateName||||x\napiTopicEndpointManagementCopyFromOnCreateName||||x\nclientProfileName|x|x||\nmsgVpnName|x||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.0.",
+        "description": "Update a Client Profile object. Any attribute missing from the request will be left unchanged.\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled||||x\napiQueueManagementCopyFromOnCreateName||||x\napiTopicEndpointManagementCopyFromOnCreateName||||x\nclientProfileName|x|x||\nmsgVpnName|x||x|\ntcpCongestionWindowSize||||x\ntcpMaxWindowSize||||x\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.0.",
         "operationId": "updateMsgVpnClientProfile",
         "parameters": [
           {
@@ -51811,7 +52108,7 @@
         "x-supportedInSempDirect": false
       },
       "put": {
-        "description": "Replace a Client Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled||||x\napiQueueManagementCopyFromOnCreateName||||x\napiTopicEndpointManagementCopyFromOnCreateName||||x\nclientProfileName|x|x||\nmsgVpnName|x||x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/mesh-manager\" is required if this operation creates an object.\n\nThis has been available since 2.0.",
+        "description": "Replace a Client Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nClient Profiles are used to assign common configuration properties to clients that have been successfully authorized.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nallowCutThroughForwardingEnabled||||x\napiQueueManagementCopyFromOnCreateName||||x\napiTopicEndpointManagementCopyFromOnCreateName||||x\nclientProfileName|x|x||\nmsgVpnName|x||x|\ntcpCongestionWindowSize||||x\ntcpMaxWindowSize||||x\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|clearPercent|setPercent|\nMsgVpnClientProfileEventClientProvisionedEndpointSpoolUsageThreshold|setPercent|clearPercent|\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEgressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEgressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventEndpointCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventIngressFlowCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventIngressFlowCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceSmfConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventServiceWebConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventSubscriptionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventSubscriptionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactedSessionCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnClientProfileEventTransactionCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnClientProfileEventTransactionCountThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/mesh-manager\" is required if this operation creates an object.\n\nThis has been available since 2.0.",
         "operationId": "replaceMsgVpnClientProfile",
         "parameters": [
           {
@@ -64263,7 +64560,7 @@
     },
     "/msgVpns/{msgVpnName}/telemetryProfiles": {
       "get": {
-        "description": "Get a list of Telemetry Profile objects.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying\n:---|:---:\nmsgVpnName|x\ntelemetryProfileName|x\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.31.",
+        "description": "Get a list of Telemetry Profile objects.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nmsgVpnName|x|\nreceiverTcpCongestionWindowSize||x\nreceiverTcpMaxWindowSize||x\ntelemetryProfileName|x|\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.31.",
         "operationId": "getMsgVpnTelemetryProfiles",
         "parameters": [
           {
@@ -64326,7 +64623,7 @@
         "x-supportedInSempDirect": false
       },
       "post": {
-        "description": "Create a Telemetry Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates and replication sites via config-sync.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Required|Read-Only\n:---|:---:|:---:|:---:|:---:\nmsgVpnName|x|||x\ntelemetryProfileName|x|x|x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-write\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.31.",
+        "description": "Create a Telemetry Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates and replication sites via config-sync.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Required|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:|:---:\nmsgVpnName|x|||x|\nreceiverTcpCongestionWindowSize|||||x\nreceiverTcpMaxWindowSize|||||x\ntelemetryProfileName|x|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-write\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.31.",
         "operationId": "createMsgVpnTelemetryProfile",
         "parameters": [
           {
@@ -64440,7 +64737,7 @@
         "x-supportedInSempDirect": false
       },
       "get": {
-        "description": "Get a Telemetry Profile object.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying\n:---|:---:\nmsgVpnName|x\ntelemetryProfileName|x\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since 2.31.",
+        "description": "Get a Telemetry Profile object.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Deprecated\n:---|:---:|:---:\nmsgVpnName|x|\nreceiverTcpCongestionWindowSize||x\nreceiverTcpMaxWindowSize||x\ntelemetryProfileName|x|\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since 2.31.",
         "operationId": "getMsgVpnTelemetryProfile",
         "parameters": [
           {
@@ -64498,7 +64795,7 @@
         "x-supportedInSempDirect": false
       },
       "patch": {
-        "description": "Update a Telemetry Profile object. Any attribute missing from the request will be left unchanged.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Read-Only\n:---|:---:|:---:|:---:\nmsgVpnName|x||x\ntelemetryProfileName|x|x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.31.",
+        "description": "Update a Telemetry Profile object. Any attribute missing from the request will be left unchanged.\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nmsgVpnName|x||x|\nreceiverTcpCongestionWindowSize||||x\nreceiverTcpMaxWindowSize||||x\ntelemetryProfileName|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.31.",
         "operationId": "updateMsgVpnTelemetryProfile",
         "parameters": [
           {
@@ -64565,7 +64862,7 @@
         "x-supportedInSempDirect": false
       },
       "put": {
-        "description": "Replace a Telemetry Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Read-Only\n:---|:---:|:---:|:---:\nmsgVpnName|x||x\ntelemetryProfileName|x|x|\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"vpn/read-write\" is required if this operation creates an object.\n\nThis has been available since 2.31.",
+        "description": "Replace a Telemetry Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nUsing the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\nAttribute|Identifying|Const|Read-Only|Deprecated\n:---|:---:|:---:|:---:|:---:\nmsgVpnName|x||x|\nreceiverTcpCongestionWindowSize||||x\nreceiverTcpMaxWindowSize||||x\ntelemetryProfileName|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires|Conflicts\n:---|:---|:---|:---\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventBindCountThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileQueueEventMsgSpoolUsageThreshold|setValue|clearValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearPercent|setPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|clearValue|setValue|clearPercent, setPercent\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setPercent|clearPercent|clearValue, setValue\nMsgVpnTelemetryProfileReceiverEventConnectionCountPerClientUsernameThreshold|setValue|clearValue|clearPercent, setPercent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"vpn/read-write\" is required if this operation creates an object.\n\nThis has been available since 2.31.",
         "operationId": "replaceMsgVpnTelemetryProfile",
         "parameters": [
           {
@@ -66361,7 +66658,7 @@
     },
     "/oauthProfiles": {
       "get": {
-        "description": "Get a list of OAuth Profile objects.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nclientSecret||x|x\noauthProfileName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.24.",
+        "description": "Get a list of OAuth Profile objects.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthenticationClientCertContent||x|\nauthenticationClientCertPassword||x|\nclientSecret||x|x\noauthProfileName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThe maximum number of objects that can be returned in a single page is 100.\n\nThis has been available since 2.24.",
         "operationId": "getOauthProfiles",
         "parameters": [
           {
@@ -66416,7 +66713,7 @@
         "x-supportedInSempDirect": false
       },
       "post": {
-        "description": "Create an OAuth Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates via config-sync.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Required|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:|:---:\nclientSecret||||x|x\noauthProfileName|x|x|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/admin\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.24.",
+        "description": "Create an OAuth Profile object. Any attribute missing from the request will be set to its default value. The creation of instances of this object are synchronized to HA mates via config-sync.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Required|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:|:---:\nauthenticationClientCertContent||||x|\nauthenticationClientCertPassword||||x|\nclientSecret||||x|x\noauthProfileName|x|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires\n:---|:---|:---\nOauthProfile|authenticationClientCertPassword|authenticationClientCertContent\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/admin\". A different access scope/level may also be required when providing values for specific attributes.\n\nThis has been available since 2.24.",
         "operationId": "createOauthProfile",
         "parameters": [
           {
@@ -66514,7 +66811,7 @@
         "x-supportedInSempDirect": false
       },
       "get": {
-        "description": "Get an OAuth Profile object.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nclientSecret||x|x\noauthProfileName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since 2.24.",
+        "description": "Get an OAuth Profile object.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Write-Only|Opaque\n:---|:---:|:---:|:---:\nauthenticationClientCertContent||x|\nauthenticationClientCertPassword||x|\nclientSecret||x|x\noauthProfileName|x||\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since 2.24.",
         "operationId": "getOauthProfile",
         "parameters": [
           {
@@ -66564,7 +66861,7 @@
         "x-supportedInSempDirect": false
       },
       "patch": {
-        "description": "Update an OAuth Profile object. Any attribute missing from the request will be left unchanged.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:\nclientSecret|||x|x\noauthProfileName|x|x||\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.24.",
+        "description": "Update an OAuth Profile object. Any attribute missing from the request will be left unchanged.\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:\nauthenticationClientCertContent|||x|\nauthenticationClientCertPassword|||x|\nclientSecret|||x|x\noauthProfileName|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires\n:---|:---|:---\nOauthProfile|authenticationClientCertPassword|authenticationClientCertContent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request.\n\nThis has been available since 2.24.",
         "operationId": "updateOauthProfile",
         "parameters": [
           {
@@ -66623,7 +66920,7 @@
         "x-supportedInSempDirect": false
       },
       "put": {
-        "description": "Replace an OAuth Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:\nclientSecret|||x|x\noauthProfileName|x|x||\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/admin\" is required if this operation creates an object.\n\nThis has been available since 2.24.",
+        "description": "Replace an OAuth Profile object. Any attribute missing from the request will be set to its default value, subject to the exceptions [here](https://docs.solace.com/Admin/SEMP/SEMP-API-Archit.htm#HTTP_Methods).\n\nOAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\nAttribute|Identifying|Const|Write-Only|Opaque\n:---|:---:|:---:|:---:|:---:\nauthenticationClientCertContent|||x|\nauthenticationClientCertPassword|||x|\nclientSecret|||x|x\noauthProfileName|x|x||\n\n\n\nThe following attributes in the request may only be provided in certain combinations with other attributes:\n\n\nClass|Attribute|Requires\n:---|:---|:---\nOauthProfile|authenticationClientCertPassword|authenticationClientCertContent\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes provided in the request. In addition, a minimum access scope/level of \"global/admin\" is required if this operation creates an object.\n\nThis has been available since 2.24.",
         "operationId": "replaceOauthProfile",
         "parameters": [
           {

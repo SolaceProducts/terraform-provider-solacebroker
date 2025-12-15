@@ -16,7 +16,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: "1.25"
 
       - name: Check out code
         uses: actions/checkout@v4
@@ -117,4 +117,9 @@ jobs:
   CLI-Integration-Test:
     needs: build
     uses: ./.github/workflows/cli-test-pipeline.yml
+    secrets: inherit
+
+  Plugin-Integration-Test-OpenTF:
+    needs: build
+    uses: ./.github/workflows/provider-test-pipeline-opentofu.yml
     secrets: inherit

@@ -1,4 +1,8 @@
 #make
+
+# Include .env file if it exists
+-include .env
+
 PKG_LIST := $(shell go list ./... | grep -v /vendor/)
 
 
@@ -61,4 +65,17 @@ generate-code: ## Generate latest code from SEMP API spec
 	rm ./*; \
 	SEMP_V2_SWAGGER_CONFIG_EXTENDED_JSON="../../../ci/swagger_spec/$(shell ls ci/swagger_spec)" ~/go/bin/broker-terraform-code-generator software-provider all;
 	@rm -rf broker-terraform-code-generator
-	
+
+.PHONY:
+newbroker: ## Run a new broker container with a specified tag, usage: make newbroker [tag=<docker-tag>]
+	# fail if CONTAINER_ENGINE is not set
+	@if [ -z "$(CONTAINER_ENGINE)" ]; then \
+		echo "Error: CONTAINER_ENGINE is not set. Please set it in the .env file."; \
+		exit 1; \
+	fi
+	$(eval tag := $(if $(tag),$(tag),"edge"))
+	@echo "Running a new broker container with tag: $(tag)"
+	@$(CONTAINER_ENGINE) kill solace >/dev/null 2>&1 || true ; $(CONTAINER_ENGINE) rm solace >/dev/null 2>&1 || true
+	$(CONTAINER_ENGINE) run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000 -p 5672:5672 -p 9000:9000 -p 2222:2222 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=$(BROKER_USERNAME) --env username_admin_password=$(BROKER_PASSWORD) --env system_scaling_maxconnectioncount="1000" --env system_scaling_maxkafkabridgecount="10" --name=solace solace/solace-pubsub-standard:$(tag)
+	@echo "Broker is starting up, waiting for 30 seconds to allow it to initialize..."
+	@sleep 30 ; $(CONTAINER_ENGINE) ps
