@@ -1,7 +1,7 @@
 name: SCA Scan on merge to dev
 on:
   push:
-    branches: [dev, DATAGO-142436-fossa-guardian-onboarding]
+    branches: [dev]
 
 permissions:
   contents: read
