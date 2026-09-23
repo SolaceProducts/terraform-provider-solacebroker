@@ -53,10 +53,13 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: |
           if [[ -n "$PR_NUMBER" ]]; then
-            echo "revision=${HEAD_REF}" >> $GITHUB_OUTPUT
+            revision="${HEAD_REF}"
           else
-            echo "revision=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+            revision="${GITHUB_SHA}"
           fi
+          echo "revision=${revision}" >> $GITHUB_OUTPUT
+          # upload-artifact rejects "/" in names; branch names usually contain one
+          echo "artifact_name=fossa-report-${revision//\//-}" >> $GITHUB_OUTPUT
 
       - name: Generate FOSSA Report (TXT - full)
         uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@main
@@ -86,6 +89,6 @@ jobs:
       - name: Upload FOSSA report
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: fossa-report-${{ steps.fossa_context.outputs.revision }}
+          name: ${{ steps.fossa_context.outputs.artifact_name }}
           path: third-party-licenses.txt
           retention-days: 30
