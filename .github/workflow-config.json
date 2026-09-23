@@ -1,8 +1,17 @@
 {
   "sca_scanning": {
+    "enabled": true,
     "fossa": {
-      "policy": { "mode": "REPORT" },
-      "vulnerability": { "mode": "REPORT" }
+      "policy": {
+        "mode": "REPORT",
+        "block_on": ["policy_conflict", "unlicensed_dependency"]
+      },
+      "vulnerability": {
+        "mode": "REPORT",
+        "block_on": ["critical", "high"]
+      },
+      "team": null,
+      "labels": []
     }
   }
 }

@@ -1,0 +1,94 @@
+name: FOSSA Scan and Report
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  actions: read
+  checks: write
+  pull-requests: write
+  statuses: write
+  packages: read
+
+jobs:
+  fossa-scan:
+    name: FOSSA SCA Scan and Guard
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
+    with:
+      use_vault: false
+      config_file: .github/workflow-config.json
+    secrets:
+      FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+  generate-fossa-report:
+    name: Generate FOSSA Report
+    needs: fossa-scan
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Determine FOSSA revision
+        id: fossa_context
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_REF: ${{ github.head_ref }}
+          GITHUB_SHA: ${{ github.sha }}
+        run: |
+          if [[ -n "$PR_NUMBER" ]]; then
+            revision="${HEAD_REF}"
+          else
+            revision="${GITHUB_SHA}"
+          fi
+          echo "revision=${revision}" >> $GITHUB_OUTPUT
+          # upload-artifact rejects "/" in names; branch names usually contain one
+          echo "artifact_name=fossa-report-${revision//\//-}" >> $GITHUB_OUTPUT
+
+      - name: Generate FOSSA Report (TXT - full)
+        uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@main
+        with:
+          fossa_api_key: ${{ secrets.FOSSA_API_KEY }}
+          project_locator: ${{ github.repository_owner }}_${{ github.event.repository.name }}
+          revision_id: ${{ steps.fossa_context.outputs.revision }}
+          format: 'txt'
+          output_file: 'third-party-licenses.txt'
+          report_profile: 'standard'
+
+      - name: Commit license file to repository
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add third-party-licenses.txt
+
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update FOSSA third-party license report [skip ci]"
+            git push
+          fi
+
+      - name: Upload FOSSA report
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        with:
+          name: ${{ steps.fossa_context.outputs.artifact_name }}
+          path: third-party-licenses.txt
+          retention-days: 30

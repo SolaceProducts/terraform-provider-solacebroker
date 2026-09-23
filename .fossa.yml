@@ -1,17 +1,19 @@
 version: 3
 
 project:
-  locator: SolaceProducts_terraform-provider-solacebroker
-  id: SolaceProducts_terraform-provider-solacebroker
   name: terraform-provider-solacebroker
   teams: []
   labels:
-    - go
+    - go-dependencies
+    - terraform-provider
+    - EBP-Container
 
 vendoredDependencies:
   forceRescans: false
   scanMethod: CLILicenseScan
   licenseScanPathFilters:
+    only:
+      - "**/LICENSE"
     exclude:
       - "./.git"
       - "./.github"
