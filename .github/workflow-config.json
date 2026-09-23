@@ -10,7 +10,6 @@
         "mode": "REPORT",
         "block_on": ["critical", "high"]
       },
-      "project_id": "SolaceDev_terraform-provider-solacebroker",
       "team": null,
       "labels": []
     }

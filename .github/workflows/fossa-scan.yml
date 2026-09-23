@@ -30,6 +30,7 @@ jobs:
   generate-fossa-report:
     name: Generate FOSSA Report
     needs: fossa-scan
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -58,6 +59,7 @@ jobs:
         uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@main
         with:
           fossa_api_key: ${{ secrets.FOSSA_API_KEY }}
+          project_locator: ${{ github.repository_owner }}_${{ github.event.repository.name }}
           revision_id: ${{ steps.fossa_context.outputs.revision }}
           format: 'txt'
           output_file: 'third-party-licenses.txt'
