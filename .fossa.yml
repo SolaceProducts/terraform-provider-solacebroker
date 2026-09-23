@@ -1,8 +1,6 @@
 version: 3
 
 project:
-  locator: SolaceDev_terraform-provider-solacebroker
-  id: SolaceDev_terraform-provider-solacebroker
   name: terraform-provider-solacebroker
   teams: []
   labels:

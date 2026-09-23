@@ -16,10 +16,12 @@ permissions:
   checks: write
   pull-requests: write
   statuses: write
+  packages: read
 
 jobs:
   fossa-scan:
     name: FOSSA SCA Scan and Guard
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
     uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
     with:
       use_vault: false
@@ -30,9 +32,11 @@ jobs:
   generate-fossa-report:
     name: Generate FOSSA Report
     needs: fossa-scan
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      packages: read
 
     steps:
       - name: Checkout repository
@@ -49,15 +53,19 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
         run: |
           if [[ -n "$PR_NUMBER" ]]; then
-            echo "revision=${HEAD_REF}" >> $GITHUB_OUTPUT
+            revision="${HEAD_REF}"
           else
-            echo "revision=${GITHUB_SHA}" >> $GITHUB_OUTPUT
+            revision="${GITHUB_SHA}"
           fi
+          echo "revision=${revision}" >> $GITHUB_OUTPUT
+          # upload-artifact rejects "/" in names; branch names usually contain one
+          echo "artifact_name=fossa-report-${revision//\//-}" >> $GITHUB_OUTPUT
 
       - name: Generate FOSSA Report (TXT - full)
         uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@main
         with:
           fossa_api_key: ${{ secrets.FOSSA_API_KEY }}
+          project_locator: ${{ github.repository_owner }}_${{ github.event.repository.name }}
           revision_id: ${{ steps.fossa_context.outputs.revision }}
           format: 'txt'
           output_file: 'third-party-licenses.txt'
@@ -81,6 +89,6 @@ jobs:
       - name: Upload FOSSA report
         uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
         with:
-          name: fossa-report-${{ steps.fossa_context.outputs.revision }}
+          name: ${{ steps.fossa_context.outputs.artifact_name }}
           path: third-party-licenses.txt
           retention-days: 30
