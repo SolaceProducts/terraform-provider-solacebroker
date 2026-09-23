@@ -16,10 +16,12 @@ permissions:
   checks: write
   pull-requests: write
   statuses: write
+  packages: read
 
 jobs:
   fossa-scan:
     name: FOSSA SCA Scan and Guard
+    if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
     uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
     with:
       use_vault: false
@@ -34,6 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      packages: read
 
     steps:
       - name: Checkout repository
