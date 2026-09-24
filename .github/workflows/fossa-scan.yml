@@ -22,7 +22,7 @@ jobs:
   fossa-scan:
     name: FOSSA SCA Scan and Guard
     if: github.repository == 'SolaceDev/terraform-provider-solacebroker'
-    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@55aba02b3ed20d1ec61684f19d660425362c2cf4 # main
     with:
       use_vault: false
       config_file: .github/workflow-config.json
@@ -62,7 +62,7 @@ jobs:
           echo "artifact_name=fossa-report-${revision//\//-}" >> $GITHUB_OUTPUT
 
       - name: Generate FOSSA Report (TXT - full)
-        uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@main
+        uses: SolaceDev/solace-public-workflows/.github/actions/generate-fossa-report@55aba02b3ed20d1ec61684f19d660425362c2cf4 # main
         with:
           fossa_api_key: ${{ secrets.FOSSA_API_KEY }}
           project_locator: ${{ github.repository_owner }}_${{ github.event.repository.name }}

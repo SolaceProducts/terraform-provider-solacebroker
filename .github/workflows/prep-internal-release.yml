@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version: "1.25"
 
       - name: Checkout the code
-        uses: actions/checkout@v2
+        uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2
 
       - name: Check release version and set next version
         run: |
@@ -55,7 +55,7 @@ jobs:
           sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
 
       - name: Check changed files
-        uses: tj-actions/verify-changed-files@v17
+        uses: tj-actions/verify-changed-files@2acec78834cc690f70b3445712363fc314224127 # v17
         id: check-changed-files
 
       - name: Run step only when any of the files change
@@ -65,7 +65,7 @@ jobs:
 
       - name: Commit back updates when any of the files change
         if: steps.check-changed-files.outputs.files_changed == 'true'
-        uses: EndBug/add-and-commit@v9
+        uses: EndBug/add-and-commit@a94899bca583c204427a224a7af87c02f9b325d5 # v9
         with:
           committer_name: GitHub Actions
           committer_email: actions@github.com
