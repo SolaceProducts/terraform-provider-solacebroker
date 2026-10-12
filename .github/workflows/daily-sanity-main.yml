@@ -6,6 +6,9 @@ on:
     - cron: "0 5 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Daily test (${{ matrix.tool }})

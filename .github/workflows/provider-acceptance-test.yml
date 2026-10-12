@@ -3,6 +3,9 @@ name: Provider Acceptance Test
 on: workflow_call
 
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Run formal acceptance test

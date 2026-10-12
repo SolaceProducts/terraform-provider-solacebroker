@@ -12,10 +12,16 @@ on:
         default: 'v0.1.0-rc.2'
 
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Prep release
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # push release branch
+      pull-requests: write # open release PRs
     steps:
       - name: Set up Go
         uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
@@ -55,7 +61,7 @@ jobs:
           sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
 
       - name: Check changed files
-        uses: tj-actions/verify-changed-files@2acec78834cc690f70b3445712363fc314224127 # v17
+        uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20.0.4
         id: check-changed-files
 
       - name: Run step only when any of the files change

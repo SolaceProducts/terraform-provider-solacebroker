@@ -2,6 +2,9 @@ name: OpenTF Provider Test Pipeline
 
 on: workflow_call
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Run Provider setup and tests (OpenTF)

@@ -2,6 +2,9 @@ name: CLI Test Pipeline
 
 on: workflow_call
 
+permissions:
+  contents: read
+
 jobs:
   test:
     name: Run Generator tests

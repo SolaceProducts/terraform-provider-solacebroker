@@ -12,6 +12,9 @@ on:
         required: true
         default: false
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Verify registry release
