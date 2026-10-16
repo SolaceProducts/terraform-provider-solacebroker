@@ -6,8 +6,10 @@ on:
       - main
       - ci/pipeline-base
   merge_group:
-  # No branch filter on ci/pipeline-base, so every branch cut from it runs the gate. TF 9-S sets this back to main.
+  # Every branch (no tags) on ci/pipeline-base, so every branch cut from it runs the gate. TF 9-S sets this back to main.
   push:
+    branches:
+      - "**"
   workflow_call:
     inputs:
       provider-ref:
