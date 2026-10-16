@@ -92,6 +92,7 @@ jobs:
         with:
           repository: SolaceDev/terraform-provider-solacebroker
           ref: ${{ inputs.provider-ref }}
+          fetch-depth: 0
           persist-credentials: false
 
       - name: Remove committed tree before unpacking the generated one
