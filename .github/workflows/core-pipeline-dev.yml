@@ -71,13 +71,6 @@ jobs:
           make testacc
           make generate-docs
 
-      - name: Ensure version reflects release candidate version
-        run: |
-          if echo "${{ github.ref_name }}" | grep ^dev || echo "${{ github.ref_name }}" | grep ^v ; then
-            VERSION=$(echo "${{ github.ref_name }}" | cut -d'v' -f2)
-            sed -i "s/version =.*$/version = \"${VERSION}\"/g" version.go
-          fi
-
       - name: Check changed files
         uses: tj-actions/verify-changed-files@a1c6acee9df209257a246f2cc6ae8cb6581c1edf # v20
         id: check-changed-files
