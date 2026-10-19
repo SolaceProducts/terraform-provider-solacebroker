@@ -36,11 +36,13 @@ func providerVersion() string {
 }
 
 func resolveVersion(ldflagsVersion, buildVersion string) string {
-	if ldflagsVersion != "" {
-		return ldflagsVersion
+	v := ldflagsVersion
+	if v == "" {
+		v = buildVersion
 	}
-	if buildVersion == "" || buildVersion == "(devel)" || strings.HasPrefix(buildVersion, "v0.0.0-") {
+	v = strings.TrimPrefix(v, "v")
+	if v == "" || v == "(devel)" || strings.HasPrefix(v, "0.") {
 		return devVersion
 	}
-	return strings.TrimPrefix(buildVersion, "v")
+	return v
 }

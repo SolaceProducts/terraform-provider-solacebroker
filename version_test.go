@@ -23,10 +23,14 @@ func TestResolveVersion(t *testing.T) {
 		name, ldflags, build, want string
 	}{
 		{"goreleaser", "1.4.0", "v1.3.2-0.20261019120000-abcdef123456", "1.4.0"},
-		{"pseudo-version", "", "v1.3.2-0.20261019120000-abcdef123456+dirty", "1.3.2-0.20261019120000-abcdef123456+dirty"},
-		{"devel", "", "(devel)", devVersion},
-		{"no tags", "", "v0.0.0-20261019120000-abcdef123456", devVersion},
-		{"empty", "", "", devVersion},
+		{"goreleaser with v", "v1.4.0", "", "1.4.0"},
+		{"goreleaser snapshot", "0.0.0-SNAPSHOT-abcdef1", "", "1.0.0-dev"},
+		{"tagged", "", "v1.3.1", "1.3.1"},
+		{"pseudo-version", "", "v1.3.2-0.20261019120000-abcdef123456", "1.3.2-0.20261019120000-abcdef123456"},
+		{"dirty pseudo-version", "", "v1.3.2-0.20261019120000-abcdef123456+dirty", "1.3.2-0.20261019120000-abcdef123456+dirty"},
+		{"devel", "", "(devel)", "1.0.0-dev"},
+		{"no tags", "", "v0.0.0-20261019120000-abcdef123456", "1.0.0-dev"},
+		{"empty", "", "", "1.0.0-dev"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
