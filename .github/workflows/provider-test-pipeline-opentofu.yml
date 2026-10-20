@@ -125,14 +125,14 @@ jobs:
           pushd ci/provider_dependency
           tofu init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
           bash -c "tofu apply -auto-approve &> results.out" || echo "Expecting tofu apply to fail"
-          cat results.out | grep "401 Unauthorized"
+          grep "401 Unauthorized" results.out
           popd
 
       - name: Test state upgrade
         run: |
           pushd ci/state_upgrade
           bash -c "tofu plan &> results.out" || echo "Expecting tofu plan to fail"
-          cat results.out | grep "Found deprecated state key 'deprecated_att"
+          grep "Found deprecated state key 'deprecated_att" results.out
           cp terraform.tfstate terraform.tfstate.bak
           sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
           tofu plan | grep "3 to add"

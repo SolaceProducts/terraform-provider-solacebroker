@@ -146,7 +146,7 @@ jobs:
           pushd ci/provider_dependency
           ${{ steps.set-cmd.outputs.cmd }} init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
           bash -c "${{ steps.set-cmd.outputs.cmd }} apply -auto-approve &> results.out" || echo "Expecting apply to fail"
-          cat results.out | grep "401 Unauthorized"
+          grep "401 Unauthorized" results.out
           popd
 
       - name: Test state upgrade
@@ -154,7 +154,7 @@ jobs:
           pushd ci/state_upgrade
           ${{ steps.set-cmd.outputs.cmd }} init
           bash -c "${{ steps.set-cmd.outputs.cmd }} plan &> results.out" || echo "Expecting plan to fail"
-          cat results.out | grep "Found deprecated state key 'deprecated_att"
+          grep "Found deprecated state key 'deprecated_att" results.out
           cp terraform.tfstate terraform.tfstate.bak
           sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
           ${{ steps.set-cmd.outputs.cmd }} plan | grep "3 to add"
