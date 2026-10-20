@@ -1,6 +1,14 @@
 name: OpenTF Provider Test Pipeline
 
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      provider-ref:
+        type: string
+        default: ""
+      generated-artifact:
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -17,16 +25,32 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: SolaceProducts/terraform-provider-solacebroker
+          ref: ${{ inputs.provider-ref }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Remove committed tree before unpacking the generated one
+        if: inputs.generated-artifact != ''
+        run: rm -rf internal/broker/generated docs
+
+      - name: Unpack generated tree
+        if: inputs.generated-artifact != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.generated-artifact }}
+          path: .
 
       - name: Set up OpenTofu latest
         uses: opentofu/setup-opentofu@9d84900f3238fab8cd84ce47d658d25dd008be2f # v1
 
       - name: Setup test broker - using edge docker image for latest release
         run: |
-          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          mkdir -p "$HOME/solace"; chmod 777 "$HOME/solace"
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
             --ulimit nofile=1048576:1048576 \
-            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source="$HOME/solace",destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Use local provider

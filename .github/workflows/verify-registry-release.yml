@@ -27,13 +27,15 @@ jobs:
 
       - name: Check out code
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
 
       - name: Setup test broker
         run: |
-          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          mkdir -p "$HOME/solace"; chmod 777 "$HOME/solace"
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
             --ulimit nofile=1048576:1048576 \
-            --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:latest
+            --mount type=bind,source="$HOME/solace",destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:latest
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Set up Terraform latest - public
@@ -50,23 +52,28 @@ jobs:
           terraform_wrapper: true
 
       - name: Setup token and patch provider for private release
+        env:
+          PUBLIC_RELEASE: ${{ github.event.inputs.public_release }}
+          RELEASE_VERSION: ${{ github.event.inputs.release_version }}
         run: |
           pushd ci/broker_vpn_q
-          if [ "${{ github.event.inputs.public_release }}" == "false" ] ; then
+          if [ "$PUBLIC_RELEASE" == "false" ] ; then
             echo Internal release
             sed -i "s@registry.terraform.io/solaceproducts@app.terraform.io/SolaceDev@g" testconfig.tf
           else
             echo Public release
           fi
-          sed -i '/source = "/a \ \ \ \ \ \ version = "${{ github.event.inputs.release_version }}"' testconfig.tf
+          sed -i '/source = "/a \ \ \ \ \ \ version = "'"$RELEASE_VERSION"'"' testconfig.tf
           cat testconfig.tf
           popd
 
       - name: Run init
+        env:
+          RELEASE_VERSION: ${{ github.event.inputs.release_version }}
         run: |
           pushd ci/broker_vpn_q
           terraform init
-          $(find .terraform/ | grep terraform-provider) version | grep ${{ github.event.inputs.release_version }}
+          $(find .terraform/ | grep terraform-provider) version | grep -F "$RELEASE_VERSION"
           popd
 
       - name: Test basic provider
