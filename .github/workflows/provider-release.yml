@@ -1,42 +1,121 @@
 # Terraform Provider release workflow.
 name: Release
 
-# This GitHub action creates a release when a tag that matches the pattern
-# "v*" (e.g. v0.1.0) is created.
+# Dispatched on main with the version to release. It tests main HEAD, then tags that commit and runs
+# goreleaser in the same run, because a tag pushed with GITHUB_TOKEN doesn't trigger other workflows.
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, X.Y.Z with no leading v"
+        required: true
+        type: string
+      dry-run:
+        description: "Test and build only: push no tag and publish nothing"
+        type: boolean
+        default: true
 
-# Releases need permissions to read and write the repository contents.
-# GitHub considers creating releases and uploading assets as writing contents.
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: release
 
 jobs:
-  goreleaser:
+  preflight:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4.0.0
+      - name: Check repo, branch and version
+        # Inputs arrive as env vars, never interpolated into the script.
+        # shortcut: the repo and main checks catch mistakes but aren't access control (a branch copy can drop them), Phase 4 moves the secrets to a main-only release environment.
+        env:
+          REPO: ${{ github.repository }}
+          REF: ${{ github.ref }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          [ "$REPO" = "SolaceProducts/terraform-provider-solacebroker" ] || { echo "::error::Releases run only on SolaceProducts, not $REPO"; exit 1; }
+          [ "$REF" = "refs/heads/main" ] || { echo "::error::Releases run only from main, not $REF"; exit 1; }
+          [[ "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo "::error::version must be X.Y.Z with no leading v, got '$VERSION'"; exit 1; }
+          tags=$(git ls-remote --tags --refs "https://github.com/$REPO.git" 'v*' | sed 's|.*refs/tags/v||')
+          if grep -qxF "$VERSION" <<<"$tags"; then echo "::error::Tag v$VERSION already exists"; exit 1; fi
+          latest=$(grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' <<<"$tags" | sort -V | tail -1 || true)
+          [ "$(printf '%s\n%s\n' "$latest" "$VERSION" | sort -V | tail -1)" = "$VERSION" ] || { echo "::error::$VERSION is not above the latest release $latest"; exit 1; }
+          echo "Releasing $VERSION (latest is $latest)"
+
+  test:
+    needs: preflight
+    uses: ./.github/workflows/core-pipeline-main-branch-only.yml
+
+  dry-run:
+    if: inputs.dry-run
+    needs: [preflight, test]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          # Allow goreleaser to access older tag information.
           fetch-depth: 0
-      - uses: actions/setup-go@93397bea11091df50f3d7e59dc26a7711a8bcfbe # v4.1.0
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version-file: 'go.mod'
-          cache: true
+          # No restored cache in jobs that build release artifacts.
+          cache: false
+      # A snapshot build reports <latest>-SNAPSHOT-<sha>, so tag in the runner only. Never pushed.
+      - name: Tag in the runner
+        env:
+          VERSION: ${{ inputs.version }}
+        run: git tag "v$VERSION"
+      - name: Build with GoReleaser
+        uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6
+        with:
+          version: 'v1.26.2'
+          args: build --clean
+      - name: Check the binary reports the version
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v"$VERSION" version | grep -F "version: $VERSION,"
+
+  release:
+    if: ${{ !inputs.dry-run }}
+    needs: [preflight, test]
+    runs-on: ubuntu-latest
+    # Creating the tag and the GitHub release writes contents.
+    permissions:
+      contents: write
+    steps:
+      # Before the tag, so a bad key fails with no tag created.
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@82a020f1f7f605c65dd2449b392a52c3fcfef7ef # v6.0.0
         id: import_gpg
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+      # Through the API, since checkouts keep persist-credentials: false. Accepts the tag already
+      # being on this commit, so "Re-run failed jobs" works after a later step fails.
+      - name: Create the tag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$VERSION" -f sha="$GITHUB_SHA" \
+            || [ "$(gh api "repos/$REPO/git/ref/tags/v$VERSION" --jq .object.sha)" = "$GITHUB_SHA" ]
+      # After the tag exists, so the full-history checkout includes it.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version-file: 'go.mod'
+          cache: false
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6
         with:
-          version: '~> v1'
+          version: 'v1.26.2'
           args: release --clean
         env:
-          # GitHub sets the GITHUB_TOKEN secret automatically.
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
