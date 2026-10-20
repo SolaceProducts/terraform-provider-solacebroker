@@ -26,13 +26,14 @@ jobs:
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: main
+          persist-credentials: false
 
       - name: Setup test broker
         run: |
-          mkdir -p $HOME/solace; chmod 777 $HOME/solace
+          mkdir -p "$HOME/solace"; chmod 777 "$HOME/solace"
           docker run -d -p 8080:8080 -p 55555:55555 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --env system_scaling_maxkafkabridgecount="10" --name=solace \
             --ulimit nofile=1048576:1048576 \
-            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source=$HOME/solace,destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
+            --env system_scaling_maxconnectioncount="1000" --mount type=bind,source="$HOME/solace",destination=/var/lib/solace,ro=false solace/solace-pubsub-standard:edge
           while ! curl -s localhost:8080 | grep aurelia ; do sleep 1 ; done
 
       - name: Set up Terraform latest
@@ -67,9 +68,9 @@ jobs:
         id: set-cmd
         run: |
           if [ "${{ matrix.tool }}" == "terraform" ]; then
-            echo "cmd=terraform" >> $GITHUB_OUTPUT
+            echo "cmd=terraform" >> "$GITHUB_OUTPUT"
           else
-            echo "cmd=tofu" >> $GITHUB_OUTPUT
+            echo "cmd=tofu" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Run provider test - create custom messageVPN with large config
@@ -145,7 +146,7 @@ jobs:
           pushd ci/provider_dependency
           ${{ steps.set-cmd.outputs.cmd }} init # sets up the random provider, which will be used to generate a random password (which will be used but login will fail)
           bash -c "${{ steps.set-cmd.outputs.cmd }} apply -auto-approve &> results.out" || echo "Expecting apply to fail"
-          cat results.out | grep "401 Unauthorized"
+          grep "401 Unauthorized" results.out
           popd
 
       - name: Test state upgrade
@@ -153,7 +154,7 @@ jobs:
           pushd ci/state_upgrade
           ${{ steps.set-cmd.outputs.cmd }} init
           bash -c "${{ steps.set-cmd.outputs.cmd }} plan &> results.out" || echo "Expecting plan to fail"
-          cat results.out | grep "Found deprecated state key 'deprecated_att"
+          grep "Found deprecated state key 'deprecated_att" results.out
           cp terraform.tfstate terraform.tfstate.bak
           sed -i '/deprecated_att/d' terraform.tfstate # remove deprecated non-null attributes from state
           ${{ steps.set-cmd.outputs.cmd }} plan | grep "3 to add"

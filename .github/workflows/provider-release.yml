@@ -45,7 +45,7 @@ jobs:
 
   test:
     needs: preflight
-    uses: ./.github/workflows/core-pipeline-main-branch-only.yml
+    uses: ./.github/workflows/core-pipeline.yml
 
   dry-run:
     if: inputs.dry-run

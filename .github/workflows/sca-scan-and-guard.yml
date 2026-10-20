@@ -1,21 +1,28 @@
-name: SCA Scan on merge to main
+name: SCA Scan
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
+# The shared workflow needs these scopes and tracks main. TF 15-S (SOL-156451) replaces this file, so its zizmor findings are ignored here.
 permissions:
   contents: read
-  id-token: write
+  id-token: write # zizmor: ignore[excessive-permissions]
   packages: read
   actions: read
-  statuses: write
-  checks: write
-  pull-requests: write
+  statuses: write # zizmor: ignore[excessive-permissions]
+  checks: write # zizmor: ignore[excessive-permissions]
+  pull-requests: write # zizmor: ignore[excessive-permissions]
 
 jobs:
   sca_scan:
-    if: github.repository == 'SolaceProducts/terraform-provider-solacebroker'
-    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main
+    # Fork and Dependabot PRs get no FOSSA_API_KEY and a read-only token; their changes are scanned on main after merge.
+    if: >-
+      github.repository == 'SolaceProducts/terraform-provider-solacebroker' &&
+      (github.event_name == 'push' ||
+       (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'))
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main # zizmor: ignore[unpinned-uses]
     secrets:
       FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 

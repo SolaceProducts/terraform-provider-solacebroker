@@ -1,0 +1,205 @@
+name: Test Provider
+
+on:
+  pull_request:
+    branches:
+      - main
+  merge_group:
+  push:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      provider-ref:
+        type: string
+        default: ""
+      generated-artifact:
+        type: string
+        default: ""
+      # The github context belongs to the caller under workflow_call, so this is the only way to tell the gate was called.
+      called:
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-pipeline-${{ inputs.called && format('{0}-{1}', github.run_id, inputs.generated-artifact) || github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ !inputs.called && github.event_name == 'pull_request' }}
+
+jobs:
+  build:
+    name: Build & test Terraform provider
+    runs-on: ubuntu-latest
+    steps:
+      # From another repo an empty ref checks out this repo's default branch, silently testing the wrong code.
+      - name: Require provider-ref from other repos
+        if: inputs.provider-ref == '' && github.repository != 'SolaceProducts/terraform-provider-solacebroker'
+        run: |
+          echo "::error::Callers outside SolaceProducts/terraform-provider-solacebroker must pass provider-ref"
+          exit 1
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.25"
+
+      # Under workflow_call the default repository is the caller's.
+      - name: Check out code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: SolaceProducts/terraform-provider-solacebroker
+          ref: ${{ inputs.provider-ref }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Remove committed tree before unpacking the generated one
+        if: inputs.generated-artifact != ''
+        run: rm -rf internal/broker/generated docs
+
+      - name: Unpack generated tree
+        if: inputs.generated-artifact != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.generated-artifact }}
+          path: .
+
+      - name: Check modules are tidy
+        run: |
+          go mod tidy
+          git diff --exit-code go.mod go.sum
+
+      - name: Check formatting
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then echo "$unformatted"; exit 1; fi
+
+      - name: Vet
+        run: go vet ./...
+
+      # 1.0.0-dev means no version was found: the checkout is missing its tags.
+      - name: Build provider
+        run: |
+          make install
+          version=$(~/go/bin/terraform-provider-solacebroker version)
+          echo "$version"
+          if grep -qF 1.0.0-dev <<<"$version"; then echo "::error::Binary reports 1.0.0-dev"; exit 1; fi
+
+  docs:
+    name: Check docs are up to date
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.25"
+
+      - name: Check out code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: SolaceProducts/terraform-provider-solacebroker
+          ref: ${{ inputs.provider-ref }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Remove committed tree before unpacking the generated one
+        if: inputs.generated-artifact != ''
+        run: rm -rf internal/broker/generated docs
+
+      - name: Unpack generated tree
+        if: inputs.generated-artifact != ''
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: ${{ inputs.generated-artifact }}
+          path: .
+
+      - name: Set up Terraform latest
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2
+        with:
+          terraform_wrapper: false
+
+      # Staging first compares against the docs on disk, which are the unpacked ones when an artifact is named.
+      - name: Generate docs and compare
+        run: |
+          git add -A docs/
+          make generate-docs
+          git diff --exit-code docs/
+          untracked=$(git ls-files --others --exclude-standard docs/)
+          if [ -n "$untracked" ]; then echo "$untracked"; exit 1; fi
+
+  testacc:
+    needs: build
+    uses: ./.github/workflows/provider-acceptance-test.yml
+    with:
+      provider-ref: ${{ inputs.provider-ref }}
+      generated-artifact: ${{ inputs.generated-artifact }}
+
+  terraform:
+    needs: build
+    uses: ./.github/workflows/provider-test-pipeline.yml
+    with:
+      provider-ref: ${{ inputs.provider-ref }}
+      generated-artifact: ${{ inputs.generated-artifact }}
+
+  opentofu:
+    needs: build
+    uses: ./.github/workflows/provider-test-pipeline-opentofu.yml
+    with:
+      provider-ref: ${{ inputs.provider-ref }}
+      generated-artifact: ${{ inputs.generated-artifact }}
+
+  cli:
+    needs: build
+    uses: ./.github/workflows/cli-test-pipeline.yml
+    with:
+      provider-ref: ${{ inputs.provider-ref }}
+      generated-artifact: ${{ inputs.generated-artifact }}
+
+  # Same tools, versions and flags as solace-broker-mcp's workflow-lint.yaml.
+  workflow-lint:
+    name: Lint workflows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: SolaceProducts/terraform-provider-solacebroker
+          ref: ${{ inputs.provider-ref }}
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        with:
+          go-version: "1.25"
+
+      - name: Install actionlint and zizmor
+        env:
+          ACTIONLINT_VERSION: v1.7.12
+          ZIZMOR_VERSION: 1.29.0
+        run: |
+          go install "github.com/rhysd/actionlint/cmd/actionlint@${ACTIONLINT_VERSION}"
+          pipx install "zizmor==${ZIZMOR_VERSION}"
+
+      # actionlint also runs the runner's shellcheck over every run: block.
+      - name: actionlint
+        run: ~/go/bin/actionlint -color
+
+      # Offline audits only, so the check can't go red without a commit.
+      - name: zizmor
+        run: zizmor --color=always --no-online-audits --persona=regular --min-severity=low .github/workflows/
+
+  # The only check the ruleset requires. Never skipped: red unless every job succeeded.
+  gate:
+    if: always()
+    needs: [build, docs, workflow-lint, testacc, terraform, opentofu, cli]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check every job succeeded
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "Job results: $RESULTS"
+          for result in $RESULTS; do
+            [ "$result" = success ] || exit 1
+          done
