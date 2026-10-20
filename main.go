@@ -29,23 +29,12 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 )
 
-var (
-// these will be set by the goreleaser configuration
-// to appropriate values for the compiled binary
-
-// commenting out for now, using version from a different file
-//	version string = "dev"
-
-// goreleaser can also pass the specific commit if you want
-// commit  string = ""
-)
-
 func main() {
 	if broker.SempDetail.Platform != expectedPlatform {
 		fmt.Printf("Provider error: wrong platform SEMP API spec \"%s\" used, expected \"%s\"\n", broker.SempDetail.Platform, expectedPlatform)
 		os.Exit(1)
 	}
-	broker.ProviderVersion = version
+	broker.ProviderVersion = providerVersion()
 	if len(os.Args) > 1 && (os.Args[1] == "generate" || os.Args[1] == "help" || os.Args[1] == "--help" || os.Args[1] == "-h" || os.Args[1] == "version") {
 		err := cmd.Execute()
 		if err != nil && err.Error() != "" {
@@ -67,7 +56,7 @@ func main() {
 		if debug {
 			go debugRun(os.Getenv("SOLACEBROKER_DEBUG_RUN"), opts.Address)
 		}
-		err := providerserver.Serve(context.Background(), broker.New(version), opts)
+		err := providerserver.Serve(context.Background(), broker.New(broker.ProviderVersion), opts)
 		if err != nil {
 			log.Fatal(err.Error())
 		}

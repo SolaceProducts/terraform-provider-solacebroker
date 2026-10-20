@@ -16,4 +16,33 @@
 
 package main
 
-const version = "1.3.1"
+import (
+	"runtime/debug"
+	"strings"
+)
+
+// Set by goreleaser from the tag. Other builds fall back to Go's VCS stamp.
+var version = ""
+
+// The major sets every resource's schema version, so the fallback must never report major 0.
+const devVersion = "1.0.0-dev"
+
+func providerVersion() string {
+	buildVersion := ""
+	if info, ok := debug.ReadBuildInfo(); ok {
+		buildVersion = info.Main.Version
+	}
+	return resolveVersion(version, buildVersion)
+}
+
+func resolveVersion(ldflagsVersion, buildVersion string) string {
+	v := ldflagsVersion
+	if v == "" {
+		v = buildVersion
+	}
+	v = strings.TrimPrefix(v, "v")
+	if v == "" || v == "(devel)" || strings.HasPrefix(v, "0.") {
+		return devVersion
+	}
+	return v
+}

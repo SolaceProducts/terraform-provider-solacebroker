@@ -63,7 +63,6 @@ jobs:
         with:
           files: |
             !broker-terraform-code-generator
-            !version.go
 
       - name: Run step only when no change detected
         if: steps.check-changed-files.outputs.files_changed == 'false'
