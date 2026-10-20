@@ -27,6 +27,7 @@ jobs:
     steps:
       - name: Check repo, branch and version
         # Inputs arrive as env vars, never interpolated into the script.
+        # shortcut: the repo and main checks catch mistakes but aren't access control (a branch copy can drop them), Phase 4 moves the secrets to a main-only release environment.
         env:
           REPO: ${{ github.repository }}
           REF: ${{ github.ref }}
@@ -58,6 +59,8 @@ jobs:
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version-file: 'go.mod'
+          # No restored cache in jobs that build release artifacts.
+          cache: false
       # A snapshot build reports <latest>-SNAPSHOT-<sha>, so tag in the runner only. Never pushed.
       - name: Tag in the runner
         env:
@@ -66,7 +69,7 @@ jobs:
       - name: Build with GoReleaser
         uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6
         with:
-          version: '~> v1'
+          version: 'v1.26.2'
           args: build --clean
       - name: Check the binary reports the version
         env:
@@ -107,10 +110,11 @@ jobs:
       - uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
         with:
           go-version-file: 'go.mod'
+          cache: false
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@e435ccd777264be153ace6237001ef4d979d3a7a # v6
         with:
-          version: '~> v1'
+          version: 'v1.26.2'
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -106,6 +106,12 @@ When fixing an existing issue, use the [commit message keywords](https://help.gi
 
 That's it! Thank you for your contribution!
 
+## <a name="releasing"></a> Releasing (maintainers)
+
+- Run the **Release** workflow from the Actions tab on `main` of `SolaceProducts/terraform-provider-solacebroker`, with the version as `X.Y.Z` (no leading `v`).
+- Run it with **dry-run** ticked first: it tests and builds without tagging or publishing. Then run it again with dry-run unticked to release.
+- Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused until the tag is deleted.
+
 ## <a name="features"></a> **Do you have an ideas for a new feature or a change to an existing one?**
 
 - Open a GitHub [enhancement request issue](https://github.com/SolaceProducts/terraform-provider-solacebroker/issues) and describe the new functionality.
