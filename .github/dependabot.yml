@@ -1,0 +1,30 @@
+version: 2
+
+# Modelled on solace-broker-mcp's. `cooldown` waits 14 days after a release, so a yanked or compromised version isn't proposed the day it lands.
+updates:
+  - package-ecosystem: "gomod"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    cooldown:
+      default-days: 14
+    groups:
+      go-minor-patch:
+        update-types: ["minor", "patch"]
+      go-major:
+        update-types: ["major"]
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    # Solace's own workflows and actions skip the cooldown, so internal fixes land at once.
+    cooldown:
+      default-days: 14
+      exclude: ["Solace*"]
+    groups:
+      internal-reusable-workflows:
+        patterns: ["Solace*"]
+      third-party-actions:
+        patterns: ["*"]
+        exclude-patterns: ["Solace*"]
