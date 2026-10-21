@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Check repo, branch and version
         # Inputs arrive as env vars, never interpolated into the script.
-        # shortcut: the repo and main checks catch mistakes but aren't access control (a branch copy can drop them), Phase 4 moves the secrets to a main-only release environment.
+        # These checks fail fast; the release environment is what limits the signing key to main.
         env:
           REPO: ${{ github.repository }}
           REF: ${{ github.ref }}
@@ -81,6 +81,8 @@ jobs:
     if: ${{ !inputs.dry-run }}
     needs: [preflight, test]
     runs-on: ubuntu-latest
+    # Holds the signing key: main only, approved by a second person.
+    environment: release
     # Creating the tag and the GitHub release writes contents.
     permissions:
       contents: write
