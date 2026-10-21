@@ -3,13 +3,14 @@
     "enabled": true,
     "fossa": {
       "policy": {
-        "mode": "REPORT",
+        "mode": "BLOCK",
         "block_on": ["policy_conflict", "unlicensed_dependency"]
       },
       "vulnerability": {
-        "mode": "REPORT",
+        "mode": "BLOCK",
         "block_on": ["critical", "high"]
       },
+      "project_id": "SolaceProducts_terraform-provider-solacebroker",
       "team": null,
       "labels": []
     }
