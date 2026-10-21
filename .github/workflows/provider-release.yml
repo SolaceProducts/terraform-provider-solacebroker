@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Check repo, branch and version
         # Inputs arrive as env vars, never interpolated into the script.
-        # These checks fail fast; the release environment is what limits the signing key to main.
+        # shortcut: these checks fail fast but aren't access control, and the signing key is still a repo secret any branch can read; TF 17-S moves it into the release environment.
         env:
           REPO: ${{ github.repository }}
           REF: ${{ github.ref }}
@@ -81,7 +81,7 @@ jobs:
     if: ${{ !inputs.dry-run }}
     needs: [preflight, test]
     runs-on: ubuntu-latest
-    # Holds the signing key: main only, approved by a second person.
+    # main only, approved by a second person. The signing key moves into this environment in TF 17-S.
     environment: release
     # Creating the tag and the GitHub release writes contents.
     permissions:
