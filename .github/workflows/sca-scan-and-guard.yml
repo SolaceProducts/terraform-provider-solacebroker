@@ -5,26 +5,71 @@ on:
   pull_request:
     branches: [main]
 
-# The shared workflow needs these scopes and tracks main. TF 15-S (SOL-156451) replaces this file, so its zizmor findings are ignored here.
 permissions:
   contents: read
-  id-token: write # zizmor: ignore[excessive-permissions]
-  packages: read
-  actions: read
-  statuses: write # zizmor: ignore[excessive-permissions]
-  checks: write # zizmor: ignore[excessive-permissions]
-  pull-requests: write # zizmor: ignore[excessive-permissions]
 
 jobs:
   sca_scan:
-    # Fork and Dependabot PRs get no FOSSA_API_KEY and a read-only token; their changes are scanned on main after merge.
+    # Fork and Dependabot PRs get no FOSSA_API_KEY and a read-only token. Dependency Review still checks their advisories;
+    # their licences are only reported, on main after merge, until the Dependabot secret and the main waivers land.
     if: >-
       github.repository == 'SolaceProducts/terraform-provider-solacebroker' &&
       (github.event_name == 'push' ||
        (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'))
-    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@main # zizmor: ignore[unpinned-uses]
+    # The shared workflow inherits these: it posts FOSSA checks, statuses and PR comments.
+    permissions:
+      contents: read
+      id-token: write
+      packages: read
+      actions: read
+      statuses: write
+      checks: write
+      pull-requests: write
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@30b47865ad4c6a05f3aa33938a443e60ce920013 # main
+    with:
+      # shortcut: main still has 4 licences the FOSSA policy denies, so its full scan only reports licensing; drop this once they're waived.
+      # PRs scan only their own changes, so a new licensing problem still blocks.
+      fossa_licensing_mode: ${{ github.event_name == 'push' && 'REPORT' || '' }}
     secrets:
       FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
+
+  dependency_review:
+    name: Dependencies free of high advisories
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      # No checkout: the action compares base and head through the API.
+      - name: Review dependency changes for known advisories
+        uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: high
+          # Licence policy lives in FOSSA.
+          license-check: false
+          # Calls deps.dev live, so the verdict could change with no commit.
+          show-openssf-scorecard: false
+          # A fork PR's token can't comment; the verdict goes to the job summary.
+          comment-summary-in-pr: never
+
+  # The check the ruleset requires. Never skipped, so it reports on every PR.
+  gate:
+    name: SCA gate
+    if: always()
+    needs: [sca_scan, dependency_review]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check the scans passed
+        env:
+          EVENT: ${{ github.event_name }}
+          SCA: ${{ needs.sca_scan.result }}
+          REVIEW: ${{ needs.dependency_review.result }}
+        run: |
+          echo "event=$EVENT sca_scan=$SCA dependency_review=$REVIEW"
+          if [ "$EVENT" = pull_request ] && [ "$SCA" = skipped ]; then
+            echo "::notice::FOSSA skipped: fork or Dependabot PR. Advisories are checked by Dependency Review; licences only after merge."
+          elif [ "$SCA" != success ]; then
+            exit 1
+          fi
+          if [ "$EVENT" = pull_request ] && [ "$REVIEW" != success ]; then exit 1; fi
 
   update_manifest:
     needs: sca_scan
