@@ -3,7 +3,7 @@
 page_title: "solacebroker_dmr_cluster_cert_matching_rule Resource - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version, see provider limitations.
+  This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given link.
   The minimum access scope/level required to perform this operation is "global/read-only".
   This has been available since SEMP API version 2.28.
