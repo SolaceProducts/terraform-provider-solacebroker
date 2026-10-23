@@ -10,12 +10,12 @@ permissions:
 
 jobs:
   sca_scan:
-    # Fork and Dependabot PRs get no FOSSA_API_KEY and a read-only token. Dependency Review still checks their advisories;
-    # their licences are only reported, on main after merge, until the Dependabot secret and the main waivers land.
+    # Fork PRs get no FOSSA_API_KEY and a read-only token. Dependency Review still checks their advisories;
+    # their licences are only reported, on main after merge. Dependabot PRs get FOSSA_API_KEY from a Dependabot secret.
     if: >-
       github.repository == 'SolaceProducts/terraform-provider-solacebroker' &&
       (github.event_name == 'push' ||
-       (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'))
+       github.event.pull_request.head.repo.full_name == github.repository)
     # The shared workflow inherits these: it posts FOSSA checks, statuses and PR comments.
     permissions:
       contents: read
@@ -61,7 +61,7 @@ jobs:
         run: |
           echo "event=$EVENT sca_scan=$SCA dependency_review=$REVIEW"
           if [ "$EVENT" = pull_request ] && [ "$SCA" = skipped ]; then
-            echo "::notice::FOSSA skipped: fork or Dependabot PR. Advisories are checked by Dependency Review; licences only after merge."
+            echo "::notice::FOSSA skipped: fork PR. Advisories are checked by Dependency Review; licences only after merge."
           elif [ "$SCA" != success ]; then
             exit 1
           fi
