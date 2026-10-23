@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Check repo, branch and version
         # Inputs arrive as env vars, never interpolated into the script.
-        # shortcut: these checks fail fast but aren't access control, and the signing key is still a repo secret any branch can read; TF 17-S moves it into the release environment.
+        # These checks fail fast; the release environment is what limits the signing key to main.
         env:
           REPO: ${{ github.repository }}
           REF: ${{ github.ref }}
@@ -38,7 +38,7 @@ jobs:
           [ "$REF" = "refs/heads/main" ] || { echo "::error::Releases run only from main, not $REF"; exit 1; }
           [[ "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo "::error::version must be X.Y.Z with no leading v, got '$VERSION'"; exit 1; }
           tags=$(git ls-remote --tags --refs "https://github.com/$REPO.git" 'v*' | sed 's|.*refs/tags/v||')
-          if grep -qxF "$VERSION" <<<"$tags"; then echo "::error::Tag v$VERSION already exists"; exit 1; fi
+          if grep -qxF "$VERSION" <<<"$tags"; then echo "::error::Tag v$VERSION already exists. If its release failed after creating it, use Re-run failed jobs on that run"; exit 1; fi
           latest=$(grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' <<<"$tags" | sort -V | tail -1 || true)
           [ "$(printf '%s\n%s\n' "$latest" "$VERSION" | sort -V | tail -1)" = "$VERSION" ] || { echo "::error::$VERSION is not above the latest release $latest"; exit 1; }
           echo "Releasing $VERSION (latest is $latest)"
@@ -81,7 +81,7 @@ jobs:
     if: ${{ !inputs.dry-run }}
     needs: [preflight, test]
     runs-on: ubuntu-latest
-    # main only, approved by a second person. The signing key moves into this environment in TF 17-S.
+    # Holds the signing key: main only, approved by a second person.
     environment: release
     # Creating the tag and the GitHub release writes contents.
     permissions:
@@ -94,6 +94,11 @@ jobs:
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.PASSPHRASE }}
+      # goreleaser signs only after the tag exists; signing here first stops a bad key or passphrase with no tag created.
+      - name: Check the key signs
+        env:
+          GPG_FINGERPRINT: ${{ steps.import_gpg.outputs.fingerprint }}
+        run: echo test | gpg --batch --local-user "$GPG_FINGERPRINT" --detach-sign >/dev/null
       # Through the API, since checkouts keep persist-credentials: false. Accepts the tag already
       # being on this commit, so "Re-run failed jobs" works after a later step fails.
       - name: Create the tag

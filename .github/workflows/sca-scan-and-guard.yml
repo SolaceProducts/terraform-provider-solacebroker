@@ -26,10 +26,6 @@ jobs:
       checks: write
       pull-requests: write
     uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@e76b739012f3cb3276d8d29c0e56a9e2a839f1d2 # main
-    with:
-      # shortcut: main still has 4 licences the FOSSA policy denies, so its full scan only reports licensing; drop this once they're waived.
-      # PRs scan only their own changes, so a new licensing problem still blocks.
-      fossa_licensing_mode: ${{ github.event_name == 'push' && 'REPORT' || '' }}
     secrets:
       FOSSA_API_KEY: ${{ secrets.FOSSA_API_KEY }}
 
