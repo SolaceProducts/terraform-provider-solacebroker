@@ -110,7 +110,7 @@ That's it! Thank you for your contribution!
 
 - Run the **Release** workflow from the Actions tab on `main` of `SolaceProducts/terraform-provider-solacebroker`, with the version as `X.Y.Z` (no leading `v`).
 - Run it with **dry-run** ticked first: it tests and builds without tagging or publishing. Then run it again with dry-run unticked to release.
-- Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused until the tag is deleted.
+- Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused; `v*` tags can't be deleted without an admin turning off the `release-tags` ruleset. If a release fails after creating its tag, use **Re-run failed jobs** on that run.
 
 ## <a name="features"></a> **Do you have an ideas for a new feature or a change to an existing one?**
 
