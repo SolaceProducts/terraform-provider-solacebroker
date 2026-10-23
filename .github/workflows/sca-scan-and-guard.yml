@@ -25,7 +25,7 @@ jobs:
       statuses: write
       checks: write
       pull-requests: write
-    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@30b47865ad4c6a05f3aa33938a443e60ce920013 # main
+    uses: SolaceDev/solace-public-workflows/.github/workflows/sca-scan-and-guard.yaml@e76b739012f3cb3276d8d29c0e56a9e2a839f1d2 # main
     with:
       # shortcut: main still has 4 licences the FOSSA policy denies, so its full scan only reports licensing; drop this once they're waived.
       # PRs scan only their own changes, so a new licensing problem still blocks.
@@ -87,7 +87,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Update solace-cloud-manifest
-        uses: SolaceDev/solace-public-workflows/.github/actions/cicd-helper@668d31d070ebdbbb5d6f2bdd13d406697055ae3c # main
+        uses: SolaceDev/solace-public-workflows/.github/actions/cicd-helper@e76b739012f3cb3276d8d29c0e56a9e2a839f1d2 # main
         with:
           rc_step: add_item_from_json_to_dynamodb_table
           ddb_table_name: solace-cloud-manifest
