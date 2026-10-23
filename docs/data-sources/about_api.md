@@ -3,7 +3,7 @@
 page_title: "solacebroker_about_api Data Source - solacebroker"
 subcategory: ""
 description: |-
-  This resource is not supported in production by Solace in this version, see provider limitations.
+  This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   The API Description object provides metadata about the SEMP API.
   The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
   This has been available since SEMP API version 2.2.
