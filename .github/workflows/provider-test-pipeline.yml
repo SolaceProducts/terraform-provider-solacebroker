@@ -26,12 +26,12 @@ jobs:
           - '1.9.8'   # Latest stable version
     steps:
       - name: Set up Go
-        uses: actions/setup-go@40f1582b2485089dde7abd97c1529aa768e1baff # v5
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
         with:
           go-version: "1.25"
 
       - name: Check out code
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: SolaceProducts/terraform-provider-solacebroker
           ref: ${{ inputs.provider-ref }}
@@ -50,7 +50,7 @@ jobs:
           path: .
 
       - name: Set up Terraform ${{ matrix.terraform-version }}
-        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1 # v2
+        uses: hashicorp/setup-terraform@dfe3c3f87815947d99a8997f908cb6525fc44e9e # v4.0.1
         with:
           terraform_version: ${{ matrix.terraform-version }}
 
@@ -110,7 +110,7 @@ jobs:
         run: |
           pushd ci/broker_vpn_test2
           SOLACEBROKER_USERNAME=admin SOLACEBROKER_PASSWORD=admin terraform apply -auto-approve
-          SOLACEBROKER_BEARER_TOKEN=abc terraform apply -auto-approve | grep 401
+          SOLACEBROKER_BEARER_TOKEN=abc terraform apply -auto-approve 2>&1 | grep 401
           popd
 
       - name: Test broker object attributes override
