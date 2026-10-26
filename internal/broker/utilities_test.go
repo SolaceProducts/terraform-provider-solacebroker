@@ -1,9 +1,13 @@
 package broker
 
 import (
+	"context"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"testing"
 
+	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/types"
 )
 
@@ -81,5 +85,64 @@ func TestClient(t *testing.T) {
 				t.Errorf("Test %d: expected %v but got nil diag", testNr, test.Expected)
 			}
 		}
+	}
+}
+
+func TestClientURL(t *testing.T) {
+	// Each server records that it was called, so the test sees which URL client() used
+	var paramHit, envHit bool
+	paramServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { paramHit = true }))
+	defer paramServer.Close()
+	envServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { envHit = true }))
+	defer envServer.Close()
+
+	matrix := []struct {
+		ParamUrl string
+		EnvUrl   string
+		Expected string
+	}{
+		{paramServer.URL, "", ""},
+		{"", envServer.URL, ""},
+		{paramServer.URL, envServer.URL, ""},
+		{"", "", "Broker URL must be provided in the provider block (url) or the SOLACEBROKER_URL environment variable"},
+	}
+	for testNr, test := range matrix {
+		paramHit, envHit = false, false
+		t.Setenv("SOLACEBROKER_URL", test.EnvUrl)
+		url := types.StringNull()
+		if test.ParamUrl != "" {
+			url = types.StringValue(test.ParamUrl)
+		}
+		client, diag := client(&providerData{
+			Username: types.StringValue("testuser"),
+			Password: types.StringValue("testpassword"),
+			Url:      url,
+			Retries:  types.Int64Value(0),
+		})
+		summary := ""
+		if diag != nil {
+			summary = diag.Summary()
+		}
+		if summary != test.Expected {
+			t.Errorf("Test %d: expected %q but got %q", testNr, test.Expected, summary)
+		}
+		if client == nil {
+			continue
+		}
+		_, _ = client.RequestWithoutBody(context.Background(), http.MethodGet, "/about/api")
+		// The provider block takes precedence over the environment variable
+		wantParam := test.ParamUrl != ""
+		if paramHit != wantParam || envHit == wantParam {
+			t.Errorf("Test %d: expected the %s URL to be used, got param=%v env=%v", testNr, map[bool]string{true: "param", false: "env"}[wantParam], paramHit, envHit)
+		}
+	}
+}
+
+func TestProviderURLOptional(t *testing.T) {
+	resp := &provider.SchemaResponse{}
+	New("test")().Schema(context.Background(), provider.SchemaRequest{}, resp)
+	url := resp.Schema.Attributes["url"]
+	if !url.IsOptional() || url.IsRequired() {
+		t.Errorf("url must be optional so SOLACEBROKER_URL can set it")
 	}
 }
