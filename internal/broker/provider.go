@@ -19,7 +19,6 @@ package broker
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -47,7 +46,7 @@ func (p *BrokerProvider) Schema(_ context.Context, _ provider.SchemaRequest, res
 		Attributes: map[string]schema.Attribute{
 			"url": schema.StringAttribute{
 				MarkdownDescription: "The base URL of the event broker, for example `https://mybroker.example.org:<semp-service-port>/`. The trailing / can be omitted.",
-				Required:            true,
+				Optional:            true,
 			},
 			"username": schema.StringAttribute{
 				MarkdownDescription: "The username to connect to the broker with.  Requires password and conflicts with bearer_token.",
@@ -119,7 +118,8 @@ func (p *BrokerProvider) Configure(ctx context.Context, req provider.ConfigureRe
 		return
 	}
 	// Validate the provider configuration
-	ctx = tflog.SetField(ctx, "solacebroker_url", strings.Trim(config.Url.String(), "\""))
+	url, _ := stringWithDefaultFromEnv(config.Url, "url") // client() reports any error
+	ctx = tflog.SetField(ctx, "solacebroker_url", url)
 	ctx = tflog.SetField(ctx, "solacebroker_provider_version", p.Version)
 	tflog.Debug(ctx, "Creating SEMP client")
 	client, d := client(&config)
