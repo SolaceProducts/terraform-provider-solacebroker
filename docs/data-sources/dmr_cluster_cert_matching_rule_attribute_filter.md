@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   A Cert Matching Rule Attribute Filter compares a link attribute to a string.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.28.
 ---
 
 # solacebroker_dmr_cluster_cert_matching_rule_attribute_filter (Data Source)
@@ -18,8 +17,6 @@ A Cert Matching Rule Attribute Filter compares a link attribute to a string.
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.28.
 
 
 

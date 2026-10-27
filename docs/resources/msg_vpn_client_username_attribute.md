@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.27.
   The import identifier for this resource is {msg_vpn_name}/{client_username}/{attribute_name}/{attribute_value}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A ClientUsername Attribute is a key+value pair that can be used to locate a clie
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.27.
 
 The import identifier for this resource is `{msg_vpn_name}/{client_username}/{attribute_name}/{attribute_value}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authentication_kerberos_realm",
-		MarkdownDescription: "Kerberos Realm.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.40.",
+		MarkdownDescription: "Kerberos Realm.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authenticationKerberosRealms/{kerberosRealmName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

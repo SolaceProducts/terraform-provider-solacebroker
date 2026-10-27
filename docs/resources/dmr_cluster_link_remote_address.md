@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   Each Remote Address, consisting of a FQDN or IP address and optional port, is used to connect to the remote node for this Link. Up to 4 addresses may be provided for each Link, and will be tried on a round-robin basis.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {dmr_cluster_name}/{remote_node_name}/{remote_address}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -19,8 +18,6 @@ Each Remote Address, consisting of a FQDN or IP address and optional port, is us
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{dmr_cluster_name}/{remote_node_name}/{remote_address}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

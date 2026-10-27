@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster f
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

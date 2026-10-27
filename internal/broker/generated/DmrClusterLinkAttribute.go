@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "dmr_cluster_link_attribute",
-		MarkdownDescription: "A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.28.",
+		MarkdownDescription: "A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/dmrClusters/{dmrClusterName}/links/{remoteNodeName}/attributes/{attributeName},{attributeValue}",
 		PostPathTemplate:    "/dmrClusters/{dmrClusterName}/links/{remoteNodeName}/attributes",

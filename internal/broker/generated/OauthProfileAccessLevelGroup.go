@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_access_level_group",
-		MarkdownDescription: "The name of a group as it exists on the OAuth server being used to authenticate SEMP users.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "The name of a group as it exists on the OAuth server being used to authenticate SEMP users.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/accessLevelGroups/{groupName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -71,7 +71,7 @@ func init() {
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
 				StringValidators: []validator.String{
-					stringvalidator.LengthBetween(1, 64),
+					stringvalidator.LengthBetween(1, 256),
 				},
 			},
 			{

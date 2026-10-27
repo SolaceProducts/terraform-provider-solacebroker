@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   This provides information about the Message VPN access level for the username used to access the SEMP API.
   The minimum access scope/level required to perform this operation is "global/none".
-  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user_msg_vpn (Data Source)
@@ -18,8 +17,6 @@ This provides information about the Message VPN access level for the username us
 
 
 The minimum access scope/level required to perform this operation is "global/none".
-
-This has been available since SEMP API version 2.2.
 
 
 

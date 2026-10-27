@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   The name of a group as it exists on the OAuth server being used to authenticate SEMP users.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.24.
   The import identifier for this resource is {oauth_profile_name}/{group_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -19,8 +18,6 @@ The name of a group as it exists on the OAuth server being used to authenticate 
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.24.
 
 The import identifier for this resource is `{oauth_profile_name}/{group_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

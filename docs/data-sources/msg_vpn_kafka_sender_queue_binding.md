@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_kafka_sender_queue_binding (Data Source)
@@ -15,8 +14,6 @@ A Queue Binding sends messages from a local Solace Queue to a remote Kafka topic
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.36.
 
 
 

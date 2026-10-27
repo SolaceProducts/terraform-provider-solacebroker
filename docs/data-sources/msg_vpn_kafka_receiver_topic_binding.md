@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_kafka_receiver_topic_binding (Data Source)
@@ -15,8 +14,6 @@ A Topic Binding receives messages from a remote Kafka Topic.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.36.
 
 
 

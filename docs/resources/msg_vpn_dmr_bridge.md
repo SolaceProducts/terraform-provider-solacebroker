@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A DMR Bridge is required to establish a data channel over a corresponding external link to the remote node for a given Message VPN. Each DMR Bridge identifies which external link the Message VPN should use, and what the name of the equivalent Message VPN at the remote node is.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{remote_node_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A DMR Bridge is required to establish a data channel over a corresponding extern
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{msg_vpn_name}/{remote_node_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

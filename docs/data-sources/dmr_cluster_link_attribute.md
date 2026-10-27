@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Link, for example when using client certificate mapping.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.28.
 ---
 
 # solacebroker_dmr_cluster_link_attribute (Data Source)
@@ -18,8 +17,6 @@ A Link Attribute is a key+value pair that can be used to locate a DMR Cluster Li
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.28.
 
 
 

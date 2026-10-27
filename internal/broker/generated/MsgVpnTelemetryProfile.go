@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_telemetry_profile",
-		MarkdownDescription: "Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.31.",
+		MarkdownDescription: "Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/telemetryProfiles/{telemetryProfileName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -399,7 +399,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "receiverTcpCongestionWindowSize",
 				TerraformName:       "receiver_tcp_congestion_window_size",
-				MarkdownDescription: "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `2`. Deprecated since SEMP API version 2.48. The value is now ignored.",
+				MarkdownDescription: "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `2`. Deprecated. The value is now ignored.",
 				Deprecated:          true,
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
@@ -465,7 +465,7 @@ func init() {
 				BaseType:            broker.Int64,
 				SempName:            "receiverTcpMaxWindowSize",
 				TerraformName:       "receiver_tcp_max_window_size",
-				MarkdownDescription: "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `256`. Deprecated since SEMP API version 2.48. The value is now ignored.",
+				MarkdownDescription: "Obsolete.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". The default value is `256`. Deprecated. The value is now ignored.",
 				Deprecated:          true,
 				Type:                types.Int64Type,
 				TerraformType:       tftypes.Number,
@@ -505,7 +505,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "traceSendSpanGenerationEnabled",
 				TerraformName:       "trace_send_span_generation_enabled",
-				MarkdownDescription: "Enable or disable generation of send spans. For the most complete view of broker message processing, this should be enabled. If the information provided by send spans are not needed, send spans can be disabled to reduce the performance impact of tracing.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.36.",
+				MarkdownDescription: "Enable or disable generation of send spans. For the most complete view of broker message processing, this should be enabled. If the information provided by send spans are not needed, send spans can be disabled to reduce the performance impact of tracing.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},

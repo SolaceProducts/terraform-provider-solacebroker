@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_kafka_receiver_topic_binding",
-		MarkdownDescription: "A Topic Binding receives messages from a remote Kafka Topic.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.36.",
+		MarkdownDescription: "A Topic Binding receives messages from a remote Kafka Topic.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/kafkaReceivers/{kafkaReceiverName}/topicBindings/{topicName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   Session and access level information about the user accessing the SEMP API.
   The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
-  This has been available since SEMP API version 2.2.
 ---
 
 # solacebroker_about_user (Data Source)
@@ -18,8 +17,6 @@ Session and access level information about the user accessing the SEMP API.
 
 
 The minimum access scope/level required to perform this operation is determined by the attributes retrieved.
-
-This has been available since SEMP API version 2.2.
 
 
 
@@ -40,22 +37,22 @@ The minimum access scope/level required to retrieve this attribute is "global/no
 </pre>
 - `session_active` (Boolean) Indicates whether a session is active for this request.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". Available since SEMP API version 2.24.
+The minimum access scope/level required to retrieve this attribute is "global/none".
 - `session_create_time` (Number) The timestamp of when the session was created.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time).
 - `session_current_time` (Number) The current server timestamp. This is provided as a reference point for the other timestamps provided.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time).
 - `session_hard_expiry_time` (Number) The hard expiry time for the session. After this time the session will be invalid, regardless of activity.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time).
 - `session_id` (String) An identifier for the session to differentiate this session from other sessions for the same user. This value is not guaranteed to be unique between active sessions for different users.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET.
 - `session_idle_expiry_time` (Number) The session idle expiry time. After this time the session will be invalid if there has been no activity.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time). Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none". This attribute may not be returned in a GET. This value represents the number of seconds since 1970-01-01 00:00:00 UTC (Unix time).
 - `username` (String) The username of the User.
 
-The minimum access scope/level required to retrieve this attribute is "global/none". Available since SEMP API version 2.21.
+The minimum access scope/level required to retrieve this attribute is "global/none".

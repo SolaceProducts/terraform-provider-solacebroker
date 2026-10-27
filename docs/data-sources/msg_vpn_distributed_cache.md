@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Distributed Cache is a collection of one or more Cache Clusters that belong to the same Message VPN. Each Cache Cluster in a Distributed Cache is configured to subscribe to a different set of topics. This effectively divides up the configured topic space, to provide scaling to very large topic spaces or very high cached message throughput.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache (Data Source)
@@ -15,8 +14,6 @@ A Distributed Cache is a collection of one or more Cache Clusters that belong to
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 
 
@@ -41,7 +38,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 <pre>
 "auto" - The Distributed Cache is automatically assigned a virtual router at creation, depending on the broker's active-standby role.
 </pre>
- Available since SEMP API version 2.28.
 - `enabled` (Boolean) Enable or disable the Distributed Cache.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   The message broker provides an internal JNDI store for provisioned Topic objects that clients can access through JNDI lookups.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.2.
   The import identifier for this resource is {msg_vpn_name}/{topic_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ The message broker provides an internal JNDI store for provisioned Topic objects
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.2.
 
 The import identifier for this resource is `{msg_vpn_name}/{topic_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

@@ -27,7 +27,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "about_api",
-		MarkdownDescription: "The API Description object provides metadata about the SEMP API.\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes retrieved.\n\nThis has been available since SEMP API version 2.2.",
+		MarkdownDescription: "The API Description object provides metadata about the SEMP API.\n\n\n\nThe minimum access scope/level required to perform this operation is determined by the attributes retrieved.",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/api",
 		Version:             0, // Placeholder: value will be replaced in the provider code

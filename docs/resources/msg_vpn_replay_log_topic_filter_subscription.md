@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   One or more Subscriptions can be added to a replay-log so that only guaranteed messages published to matching topics are stored in the Replay Log.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.27.
   The import identifier for this resource is {msg_vpn_name}/{replay_log_name}/{topic_filter_subscription}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ One or more Subscriptions can be added to a replay-log so that only guaranteed m
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.27.
 
 The import identifier for this resource is `{msg_vpn_name}/{replay_log_name}/{topic_filter_subscription}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Additional claims to be verified in the access token.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.25.
   The import identifier for this resource is {msg_vpn_name}/{oauth_profile_name}/{resource_server_required_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ Additional claims to be verified in the access token.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.25.
 
 The import identifier for this resource is `{msg_vpn_name}/{oauth_profile_name}/{resource_server_required_claim_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

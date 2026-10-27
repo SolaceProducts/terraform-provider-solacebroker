@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ The Cache Instances that belong to the containing Cache Cluster will cache any m
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A request header to be added to the HTTP request.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.23.
   The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}/{queue_binding_name}/{header_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A request header to be added to the HTTP request.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.23.
 
 The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_name}/{queue_binding_name}/{header_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

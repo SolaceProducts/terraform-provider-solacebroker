@@ -5,7 +5,7 @@ subcategory: ""
 description: |-
   A Sequenced Topic is a topic subscription for which any matching messages received on the Message VPN are assigned a sequence number that is monotonically increased by a value of one per message.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.
+  Deprecated. Primarily used by SolCache-RS which has been replaced by the Replay feature.
   The import identifier for this resource is {msg_vpn_name}/{sequenced_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -17,7 +17,7 @@ A Sequenced Topic is a topic subscription for which any matching messages receiv
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
 
-This has been deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.
+Deprecated. Primarily used by SolCache-RS which has been replaced by the Replay feature.
 
 The import identifier for this resource is `{msg_vpn_name}/{sequenced_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
@@ -30,7 +30,7 @@ The import identifier for this resource is `{msg_vpn_name}/{sequenced_topic}`, w
 
 - `msg_vpn_name` (String, Deprecated) The name of the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Deprecated. Primarily used by SolCache-RS which has been replaced by the Replay feature.
 - `sequenced_topic` (String, Deprecated) Topic for applying sequence numbers.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Deprecated since SEMP API version 2.42. Primarily used by SolCache-RS which has been replaced by the Replay feature.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". Deprecated. Primarily used by SolCache-RS which has been replaced by the Replay feature.

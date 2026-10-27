@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_jndi_queue",
-		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.2.",
+		MarkdownDescription: "The message broker provides an internal JNDI store for provisioned Queue objects that clients can access through JNDI lookups.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/jndiQueues/{queueName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "about_user_msg_vpn",
-		MarkdownDescription: "This provides information about the Message VPN access level for the username used to access the SEMP API.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/none\".\n\nThis has been available since SEMP API version 2.2.",
+		MarkdownDescription: "This provides information about the Message VPN access level for the username used to access the SEMP API.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/none\".",
 		ObjectType:          broker.DataSourceObject,
 		PathTemplate:        "/about/user/msgVpns/{msgVpnName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

@@ -28,12 +28,12 @@ Copyright 2015
 Copyright 2015 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/HashiCorp/go-retryablehttp@v0.7.8
 
-github.com/Mattn/Go-colorable-v0.1.13
+github.com/Mattn/Go-colorable-v0.1.14
 -------------------------------------
 Licensed under MIT
 Copyright 2016
 Copyright 2016 Yasuhiro Matsumoto
-Home page: https://pkg.go.dev/github.com/Mattn/Go-colorable@v0.1.13
+Home page: https://pkg.go.dev/github.com/Mattn/Go-colorable@v0.1.14
 
 github.com/Mattn/go-isatty-v0.0.20
 ----------------------------------
@@ -41,17 +41,17 @@ Licensed under MIT
 Copyright Yasuhiro MATSUMOTO <mattn.jp@gmail.com>
 Home page: https://pkg.go.dev/github.com/Mattn/go-isatty@v0.0.20
 
-github.com/Spf13/Cobra-v1.10.1
+github.com/Spf13/Cobra-v1.10.2
 ------------------------------
 Licensed under Apache 2.0
-Home page: https://pkg.go.dev/github.com/Spf13/Cobra@v1.10.1
+Home page: https://pkg.go.dev/github.com/Spf13/Cobra@v1.10.2
 
-github.com/fatih/coloR-v1.17.0
+github.com/fatih/coloR-v1.18.0
 ------------------------------
 Licensed under MIT
 Copyright 2013
 Copyright 2013 Fatih Arslan
-Home page: https://pkg.go.dev/github.com/fatih/coloR@v1.17.0
+Home page: https://pkg.go.dev/github.com/fatih/coloR@v1.18.0
 
 github.com/golang/protobuf-v1.5.4
 ---------------------------------
@@ -60,20 +60,20 @@ Copyright 2010
 Copyright 2010 The Go Authors
 Home page: https://pkg.go.dev/github.com/golang/protobuf@v1.5.4
 
-github.com/hashiCorp/terraform-plugin-framework-v1.17.0
+github.com/hashiCorp/terraform-plugin-framework-v1.19.0
 -------------------------------------------------------
 Licensed under Mozilla
 Licensed under Mozilla 2.0
-Copyright 2021
-Copyright 2021 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashiCorp/terraform-plugin-framework@v1.17.0
+Copyright 2021, 2026
+Copyright IBM Corp. 2021, 2026
+Home page: https://pkg.go.dev/github.com/hashiCorp/terraform-plugin-framework@v1.19.0
 
-github.com/hashiCorp/terraform-svchost-v0.1.1
+github.com/hashiCorp/terraform-svchost-v0.2.1
 ---------------------------------------------
 Licensed under Mozilla 2.0
-Copyright 2019
-Copyright 2019 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashiCorp/terraform-svchost@v0.1.1
+Copyright 2017, 2025
+Copyright IBM Corp. 2017, 2025
+Home page: https://pkg.go.dev/github.com/hashiCorp/terraform-svchost@v0.2.1
 
 github.com/hashicorp/go-Version-v1.9.0
 --------------------------------------
@@ -110,21 +110,21 @@ Copyright 2022
 Copyright 2022 HashiCorp, Inc
 Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-framework-Validators@v0.19.0
 
-github.com/hashicorp/terraform-plugin-go-v0.29.0
+github.com/hashicorp/terraform-plugin-go-v0.31.0
 ------------------------------------------------
 Licensed under Mozilla
 Licensed under Mozilla 2.0
-Copyright 2020
-Copyright 2020 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-go@v0.29.0
+Copyright 2020, 2026
+Copyright IBM Corp. 2020, 2026
+Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-go@v0.31.0
 
-github.com/hashicorp/terraform-plugin-log-v0.10.0
+github.com/hashicorp/terraform-plugin-log-v0.11.0
 -------------------------------------------------
 Licensed under Mozilla
 Licensed under Mozilla 2.0
-Copyright 2021
-Copyright 2021 HashiCorp, Inc
-Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-log@v0.10.0
+Copyright 2021, 2026
+Copyright IBM Corp. 2021, 2026
+Home page: https://pkg.go.dev/github.com/hashicorp/terraform-plugin-log@v0.11.0
 
 github.com/hashicorp/terraform-registry-address-v0.4.0
 ------------------------------------------------------
@@ -147,11 +147,12 @@ Copyright 2016
 Copyright 2016 Mitchell Hashimoto
 Home page: https://pkg.go.dev/github.com/mitchellh/go-testing-interface@v1.14.1
 
-github.com/oklog/Run-v1.1.0
+github.com/oklog/Run-v1.2.0
 ---------------------------
 Licensed under Apache 2.0
-No copyright.
-Home page: https://pkg.go.dev/github.com/oklog/Run@v1.1.0
+Copyright 2017
+Copyright 2017 Peter Bourgon
+Home page: https://pkg.go.dev/github.com/oklog/Run@v1.2.0
 
 github.com/spf13/Pflag-v1.0.9
 -----------------------------
@@ -175,26 +176,26 @@ Copyright 2019
 Copyright 2019 The github.com/vmihailenco/tagparser Authors
 Home page: https://pkg.go.dev/github.com/vmihailenco/tagparser/v2@v2.0.0
 
-golang.org/x/net-v0.58.0
+golang.org/x/net-v0.60.0
 ------------------------
 Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/net@v0.58.0
+Home page: https://pkg.go.dev/golang.org/x/net@v0.60.0
 
-golang.org/x/sys-v0.47.0
+golang.org/x/sys-v0.48.0
 ------------------------
 Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/sys@v0.47.0
+Home page: https://pkg.go.dev/golang.org/x/sys@v0.48.0
 
-golang.org/x/text-v0.41.0
+golang.org/x/text-v0.42.0
 -------------------------
 Licensed under Golang BSD + Patents
 Copyright 2009
 Copyright 2009 The Go Authors
-Home page: https://pkg.go.dev/golang.org/x/text@v0.41.0
+Home page: https://pkg.go.dev/golang.org/x/text@v0.42.0
 
 google.golang.org/genproto/googleapis/rpc-v0.0.0-20260526163538-3dc84a4a5aaa
 ----------------------------------------------------------------------------

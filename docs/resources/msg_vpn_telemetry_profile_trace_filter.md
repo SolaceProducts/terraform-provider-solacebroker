@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Trace Filter controls which messages received by the broker will be traced. If an incoming message matches an enabled tracing filter's subscription, the message will be traced as it passes through the broker.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msg_vpn_name}/{telemetry_profile_name}/{trace_filter_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Trace Filter controls which messages received by the broker will be traced. If
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.31.
 
 The import identifier for this resource is `{msg_vpn_name}/{telemetry_profile_name}/{trace_filter_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

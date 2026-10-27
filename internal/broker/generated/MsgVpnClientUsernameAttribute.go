@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_client_username_attribute",
-		MarkdownDescription: "A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.27.",
+		MarkdownDescription: "A ClientUsername Attribute is a key+value pair that can be used to locate a client username, for example when using client certificate mapping.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/clientUsernames/{clientUsername}/attributes/{attributeName},{attributeValue}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/clientUsernames/{clientUsername}/attributes",

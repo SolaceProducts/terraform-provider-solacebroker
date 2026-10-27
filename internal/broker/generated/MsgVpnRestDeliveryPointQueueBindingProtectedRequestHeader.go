@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_rest_delivery_point_queue_binding_protected_request_header",
-		MarkdownDescription: "A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.30.",
+		MarkdownDescription: "A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/restDeliveryPoints/{restDeliveryPointName}/queueBindings/{queueBindingName}/protectedRequestHeaders/{headerName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

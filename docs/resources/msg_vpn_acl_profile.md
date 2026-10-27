@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   An ACL Profile controls whether an authenticated client is permitted to establish a connection with the message broker or permitted to publish and subscribe to specific topics.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{acl_profile_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ An ACL Profile controls whether an authenticated client is permitted to establis
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{acl_profile_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
@@ -61,7 +58,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "allow" - Allow topic unless an exception is found for it.
 "disallow" - Disallow topic unless an exception is found for it.
 </pre>
- Available since SEMP API version 2.14.
 - `subscribe_topic_default_action` (String) The default action to take when a client using the ACL Profile subscribes to a topic in the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"disallow"`. The allowed values and their meaning are:

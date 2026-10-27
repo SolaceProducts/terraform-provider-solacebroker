@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Topic Binding receives messages from a remote Kafka Topic.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.36.
   The import identifier for this resource is {msg_vpn_name}/{kafka_receiver_name}/{topic_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Topic Binding receives messages from a remote Kafka Topic.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.36.
 
 The import identifier for this resource is `{msg_vpn_name}/{kafka_receiver_name}/{topic_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

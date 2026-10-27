@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Claim is added to the JWT sent to the OAuth token request endpoint.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.21.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_rest_consumer_oauth_jwt_claim (Data Source)
@@ -15,8 +14,6 @@ A Claim is added to the JWT sent to the OAuth token request endpoint.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.21.
 
 
 

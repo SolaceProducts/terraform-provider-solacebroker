@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   Certificate Authorities trusted for domain verification.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_domain_cert_authority (Data Source)
@@ -18,8 +17,6 @@ Certificate Authorities trusted for domain verification.
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.19.
 
 
 

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A protected request header to be added to the HTTP request. Unlike a non-protected request header, the header value cannot be displayed after it is set.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.30.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding_protected_request_header (Data Source)
@@ -15,8 +14,6 @@ A protected request header to be added to the HTTP request. Unlike a non-protect
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.30.
 
 
 

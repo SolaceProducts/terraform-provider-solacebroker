@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   One or more Subscriptions can be added to a replay-log so that only guaranteed messages published to matching topics are stored in the Replay Log.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_replay_log_topic_filter_subscription (Data Source)
@@ -15,8 +14,6 @@ One or more Subscriptions can be added to a replay-log so that only guaranteed m
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.27.
 
 
 
