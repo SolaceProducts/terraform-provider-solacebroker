@@ -112,8 +112,8 @@ The software provider ([terraform-provider-solacebroker](https://github.com/Sola
 
 ### 1. Update the SEMP API spec (when moving to a new broker version)
 
-1. Check the generator first. On `main`, run `make generate-code`: it builds the latest `main` of [broker-terraform-code-generator](https://github.com/SolaceDev/broker-terraform-code-generator). Expect no change in `internal/broker/generated/`. If it changes, the generator has changed: open that as its own PR before the spec update.
-2. On a branch off `main`, replace the spec in `ci/swagger_spec/` with the one from the broker version's branch (for example `10.26.8`) of the SolaceDev fork: `semp-v2-swagger-config-extended.<build>.vm.json` from [SolaceDev/terraform-provider-solacebroker](https://github.com/SolaceDev/terraform-provider-solacebroker) for the software provider, `<build>.lm.json` from [SolaceDev/terraform-provider-solacebrokerappliance](https://github.com/SolaceDev/terraform-provider-solacebrokerappliance) for the appliance. Delete the old spec: `make generate-code` needs exactly one.
+1. Check the generator first. On `main`, run `make generate-code`: it builds the latest `main` of [broker-terraform-code-generator](https://github.com/SolaceDev/broker-terraform-code-generator), an internal repo, so you need SolaceDev access and a git credential for HTTPS. Expect no change in `internal/broker/generated/`. If it changes, the generator has changed: open that as its own PR before the spec update.
+2. On a branch off `main`, replace the spec in `ci/swagger_spec/` with the one from the broker version's branch (for example `10.26.8`) of the SolaceDev fork: `semp-v2-swagger-config-extended.<build>.vm.json` from [SolaceDev/terraform-provider-solacebroker](https://github.com/SolaceDev/terraform-provider-solacebroker) for the software provider, `semp-v2-swagger-config-extended.<build>.lm.json` from [SolaceDev/terraform-provider-solacebrokerappliance](https://github.com/SolaceDev/terraform-provider-solacebrokerappliance) for the appliance. Delete the old spec: `make generate-code` needs exactly one.
 3. Run `make generate-code` and `make generate-docs`. Commit the spec, `internal/broker/generated/` and `docs/`.
 4. In the PR, list the attributes added, removed and newly deprecated; they go in the release notes.
 
@@ -123,7 +123,7 @@ It lists the modules built into the provider: the output of `go list -deps .`, w
 
 ### 3. Release
 
-- Choose the version: `X.Y.Z`, no leading `v`. A minor bump when attributes are added, otherwise a patch bump. Both providers get the same version.
+- Choose the version: `X.Y.Z`, no leading `v`. A minor bump when attributes are added, otherwise a patch bump. If attributes are removed or a default changes, stop and agree the version with the team before releasing: a major bump also changes every resource's schema version. Both providers get the same version.
 - Run the **Release** workflow from the Actions tab on `main`, with **dry-run** ticked first: it tests and builds without tagging or publishing. Then run it again with dry-run unticked.
 - The release job waits for approval in the `release` environment. Ask another member of `dax-developers`: you can't approve your own run.
 - Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused; `v*` tags can't be deleted without an admin turning off the `release-tags` ruleset. If a release fails after creating its tag, use **Re-run failed jobs** on that run.
@@ -131,7 +131,7 @@ It lists the modules built into the provider: the output of `go list -deps .`, w
 
 ### 4. Check the registry
 
-The Terraform Registry picks up the release by itself. Run the `verify-registry-release.yml` workflow from the Actions tab with the version and **public_release** ticked: it installs the release from registry.terraform.io and runs a short apply, destroy and `generate`.
+The Terraform Registry picks up the release by itself. Run the `verify-registry-release.yml` workflow from the Actions tab with `release_version` set to `X.Y.Z` (not its default) and **public_release** ticked: it installs the release from registry.terraform.io and runs a short apply, destroy and `generate`.
 
 ## <a name="features"></a> **Do you have an ideas for a new feature or a change to an existing one?**
 
