@@ -161,7 +161,7 @@ The message VPN resource address in the generated configuration will be 'solaceb
 			generator.ExitWithError(fmt.Sprintf("Broker platform \"%s\" does not match generator supported platform: %s", BrokerPlatformName[brokerPlatform], BrokerPlatformName[generated.Platform]))
 		}
 		generator.LogCLIInfo("Connection successful.")
-		generator.LogCLIInfo(fmt.Sprintf("Broker SEMP version is %s, Generator SEMP version is %s", brokerSempVersion, generated.SempVersion))
+		generator.LogCLIInfo(fmt.Sprintf("Broker SEMP API version is %s, provider generated from broker version %s", brokerSempVersion, generated.SempVersion))
 
 		generator.LogCLIInfo(fmt.Sprintf("Attempting config generation for object and its child-objects: %s, identifier: %s, destination file: %s\n", brokerObjectType, providerSpecificIdentifier, fileName))
 

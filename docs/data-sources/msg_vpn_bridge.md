@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Bridges can be used to link two Message VPNs so that messages published to one Message VPN that match the topic subscriptions set for the bridge are also delivered to the linked Message VPN.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn_bridge (Data Source)
@@ -15,8 +14,6 @@ Bridges can be used to link two Message VPNs so that messages published to one M
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 
 

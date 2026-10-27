@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.1.
 ---
 
 # solacebroker_msg_vpn_mqtt_session_subscription (Data Source)
@@ -15,8 +14,6 @@ An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creati
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.1.
 
 
 

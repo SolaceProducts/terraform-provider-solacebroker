@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_mqtt_session_subscription",
-		MarkdownDescription: "An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.1.",
+		MarkdownDescription: "An MQTT session contains a client's QoS 0 and QoS 1 subscription sets. On creation, a subscription defaults to QoS 0.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/mqttSessions/{mqttSessionClientId},{mqttSessionVirtualRouter}/subscriptions/{subscriptionTopic}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -92,7 +92,7 @@ func init() {
 				TerraformType:       tftypes.Number,
 				Converter:           broker.IntegerConverter{},
 				Int64Validators: []validator.Int64{
-					int64validator.Between(0, 1),
+					int64validator.Between(0, 2),
 				},
 				Default: 0,
 			},

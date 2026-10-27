@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{client_username}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A client is only authorized to connect to a Message VPN that is associated with 
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{client_username}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

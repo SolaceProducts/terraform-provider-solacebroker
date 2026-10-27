@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   To indicate which messages should be replicated between the active and standby site, a Replicated Topic subscription must be configured on a Message VPN. If a published message matches both a replicated topic and an endpoint on the active site, then the message is replicated to the standby site.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.1.
 ---
 
 # solacebroker_msg_vpn_replicated_topic (Data Source)
@@ -15,8 +14,6 @@ To indicate which messages should be replicated between the active and standby s
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.1.
 
 
 

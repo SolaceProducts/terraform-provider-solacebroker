@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Additional claims to be verified in the ID token.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.25.
 ---
 
 # solacebroker_msg_vpn_authentication_oauth_profile_client_required_claim (Data Source)
@@ -15,8 +14,6 @@ Additional claims to be verified in the ID token.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.25.
 
 
 

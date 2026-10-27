@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Message VPNs (Virtual Private Networks) allow for the segregation of topic space and clients. They also group clients connecting to a network of message brokers, such that messages published within a particular group are only visible to that group's clients.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
 ---
 
 # solacebroker_msg_vpn (Data Source)
@@ -15,8 +14,6 @@ Message VPNs (Virtual Private Networks) allow for the segregation of topic space
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 
 
@@ -35,10 +32,10 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 
 Aliases may form a non-circular chain, cascading one to the next.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.14.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `allow_dmq_eligible_endpoint_override_enabled` (Boolean) Enable or disable allowing endpoints to override the DMQ Eligible flag provided by the publisher.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.49.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `authentication_basic_enabled` (Boolean) Enable or disable basic authentication for clients connecting to the Message VPN. Basic authentication is authentication that involves the use of a username and password to prove identity. If a user provides credentials for a different authentication scheme, this setting is not applicable.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
@@ -55,6 +52,8 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 <pre>
 "internal" - Internal database. Authentication is against Client Usernames.
 "ldap" - LDAP authentication. An LDAP profile name must be provided.
+"ldap-after-internal" - LDAP after internal database authentication. Use internal database authentication unless the client username does not exist or does not have a password configured in the internal database, in which case use LDAP authentication. An LDAP profile name must be provided.
+"ldap-after-internal-test-mode" - LDAP after internal database authentication test mode. Use internal database authentication unless the client username does not exist or does not have a password configured in the internal database, in which case use LDAP authentication. Succeed even when LDAP or internal authentication fails, logging the authentication failure. WARNING: This mode permits unauthenticated access. An LDAP profile name must be provided.
 "radius" - RADIUS authentication. A RADIUS profile name must be provided.
 "none" - No authentication. Anonymous login allowed.
 </pre>
@@ -63,7 +62,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `authentication_client_cert_certificate_matching_rules_enabled` (Boolean) Enable or disable certificate matching rules. When disabled, any valid certificate is accepted.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.27.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `authentication_client_cert_enabled` (Boolean) Enable or disable client certificate authentication for clients connecting to the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
@@ -79,7 +78,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "allow-unknown" - Allow the client to authenticate even if the revocation status of his certificate cannot be determined.
 "allow-valid" - Allow the client to authenticate only when the revocation check returned an explicit positive response.
 </pre>
- Available since SEMP API version 2.6.
 - `authentication_client_cert_username_source` (String) The field from the client certificate to use as the client username.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"common-name"`. The allowed values and their meaning are:
@@ -92,7 +90,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "uid" - The username is extracted from the certificate's first instance of the User Identifier attribute in the Subject DN.
 "uid-last" - The username is extracted from the certificate's last instance of the User Identifier attribute in the Subject DN.
 </pre>
- Available since SEMP API version 2.6.
 - `authentication_client_cert_validate_date_enabled` (Boolean) Enable or disable validation of the "Not Before" and "Not After" validity dates in the client certificate.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
@@ -104,16 +101,16 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `authentication_oauth_default_profile_name` (String) The name of the profile to use when the client does not supply a profile name.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.25.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `authentication_oauth_enabled` (Boolean) Enable or disable OAuth authentication for clients connecting to the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.13.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `authorization_ldap_group_membership_attribute_name` (String) The name of the attribute that is retrieved from the LDAP server as part of the LDAP search when authorizing a client connecting to the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"memberOf"`.
 - `authorization_ldap_trim_client_username_domain_enabled` (Boolean) Enable or disable client-username domain trimming for LDAP lookups of client connections. When enabled, the value of $CLIENT_USERNAME (when used for searching) will be truncated at the first occurrence of the @ character. For example, if the client-username is in the form of an email address, then the domain portion will be removed.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.13.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `authorization_profile_name` (String) The name of the LDAP Profile to use for client authorization.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
@@ -133,10 +130,15 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `bridging_tls_server_cert_validate_name_enabled` (Boolean) Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the bridge. If enabled, the name used to connect to the bridge is checked against the names specified in the certificate returned by the remote broker. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.18.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
+- `config_sync_synchronize_client_cert_enabled` (Boolean) Enable or disable the synchronizing of client certificates within High Availability groups and to Disaster Recovery site. The transition from not synchronizing to synchronizing will cause the High Availability mate or Disaster Recovery site to fall out of sync. Recommendation: leave this as enabled.
+
+Note: The replication bridge client certificate attributes are an exception to this setting; they are instead synchronized by the `config_sync_synchronize_client_cert_enabled` attribute of the broker object.
+
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `dmr_enabled` (Boolean) Enable or disable Dynamic Message Routing (DMR) for the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.11.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `enabled` (Boolean) Enable or disable the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
@@ -176,8 +178,8 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 - `event_publish_topic_format_smf_enabled` (Boolean) Enable or disable Event publish topics in SMF format.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
-- `event_service_amqp_connection_count_threshold` (Attributes) The thresholds for the AMQP client connection count event of the Message VPN, relative to `service_amqp_max_connection_count`. Available since SEMP API version 2.7. (see [below for nested schema](#nestedatt--event_service_amqp_connection_count_threshold))
-- `event_service_mqtt_connection_count_threshold` (Attributes) The thresholds for the MQTT client connection count event of the Message VPN, relative to `service_mqtt_max_connection_count`. Available since SEMP API version 2.1. (see [below for nested schema](#nestedatt--event_service_mqtt_connection_count_threshold))
+- `event_service_amqp_connection_count_threshold` (Attributes) The thresholds for the AMQP client connection count event of the Message VPN, relative to `service_amqp_max_connection_count`. (see [below for nested schema](#nestedatt--event_service_amqp_connection_count_threshold))
+- `event_service_mqtt_connection_count_threshold` (Attributes) The thresholds for the MQTT client connection count event of the Message VPN, relative to `service_mqtt_max_connection_count`. (see [below for nested schema](#nestedatt--event_service_mqtt_connection_count_threshold))
 - `event_service_rest_incoming_connection_count_threshold` (Attributes) The thresholds for the incoming REST client connection count event of the Message VPN, relative to `service_rest_incoming_max_connection_count`. (see [below for nested schema](#nestedatt--event_service_rest_incoming_connection_count_threshold))
 - `event_service_smf_connection_count_threshold` (Attributes) The thresholds for the SMF client connection count event of the Message VPN, relative to `service_smf_max_connection_count`. (see [below for nested schema](#nestedatt--event_service_smf_connection_count_threshold))
 - `event_service_web_connection_count_threshold` (Attributes) The thresholds for the Web Transport client connection count event of the Message VPN, relative to `service_web_max_connection_count`. (see [below for nested schema](#nestedatt--event_service_web_connection_count_threshold))
@@ -189,7 +191,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `jndi_enabled` (Boolean) Enable or disable JNDI access for clients in the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.2.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `max_connection_count` (Number) The maximum number of client connections to the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
@@ -204,7 +206,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1000`.
 - `max_kafka_broker_connection_count` (Number) The maximum number of simultaneous Kafka broker connections of the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since SEMP API version 2.39.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `max_msg_spool_usage` (Number) The maximum message spool usage by the Message VPN, in megabytes.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
@@ -219,7 +221,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.
 - `mqtt_retain_max_memory` (Number) The maximum total memory usage of the MQTT Retain feature for this Message VPN, in MB. If the maximum memory is reached, any arriving retain messages that require more memory are discarded. A value of -1 indicates that the memory is bounded only by the global max memory limit. A value of 0 prevents MQTT Retain from becoming operational.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`. Available since SEMP API version 2.11.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `-1`.
 - `replication_ack_propagation_interval_msg_count` (Number) The acknowledgment (ACK) propagation interval for the replication Bridge, in number of replicated messages.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `20`.
@@ -285,7 +287,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `rest_tls_server_cert_validate_name_enabled` (Boolean) Enable or disable the standard TLS authentication mechanism of verifying the name used to connect to the remote REST Consumer. If enabled, the name used to connect to the remote REST Consumer is checked against the names specified in the certificate returned by the remote broker. Legacy Common Name validation is not performed if Server Certificate Name Validation is enabled, even if Common Name validation is also enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.17.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 - `semp_over_msg_bus_admin_client_enabled` (Boolean) Enable or disable "admin client" SEMP over the message bus commands for the current Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
@@ -303,19 +305,19 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_amqp_max_connection_count` (Number) The maximum number of AMQP client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since SEMP API version 2.7.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `service_amqp_plain_text_enabled` (Boolean) Enable or disable the plain-text AMQP service in the Message VPN. Disabling causes clients connected to the corresponding listen-port to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.7.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_amqp_plain_text_listen_port` (Number) The port number for plain-text AMQP clients that connect to the Message VPN. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.7.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_amqp_tls_enabled` (Boolean) Enable or disable the use of encryption (TLS) for the AMQP service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.7.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_amqp_tls_listen_port` (Number) The port number for AMQP clients that connect to the Message VPN over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.7.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_amqp_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_mqtt_authentication_client_cert_request` (String) Determines when to request a client certificate from an incoming MQTT client connecting via a TLS port.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"when-enabled-in-message-vpn"`. The allowed values and their meaning are:
@@ -325,34 +327,33 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "never" - Never ask for a client certificate regardless of the "message-vpn > authentication > client-certificate > shutdown" configuration.
 "when-enabled-in-message-vpn" - Only ask for a client-certificate if client certificate authentication is enabled under "message-vpn >  authentication > client-certificate > shutdown".
 </pre>
- Available since SEMP API version 2.21.
 - `service_mqtt_max_connection_count` (Number) The maximum number of MQTT client connections that can be simultaneously connected to the Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `service_mqtt_plain_text_enabled` (Boolean) Enable or disable the plain-text MQTT service in the Message VPN. Disabling causes clients currently connected to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_mqtt_plain_text_listen_port` (Number) The port number for plain-text MQTT clients that connect to the Message VPN. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_plain_text_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_mqtt_tls_enabled` (Boolean) Enable or disable the use of encryption (TLS) for the MQTT service in the Message VPN. Disabling causes clients currently connected over TLS to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_mqtt_tls_listen_port` (Number) The port number for MQTT clients that connect to the Message VPN over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_mqtt_tls_web_socket_enabled` (Boolean) Enable or disable the use of encrypted WebSocket (WebSocket over TLS) for the MQTT service in the Message VPN. Disabling causes clients currently connected by encrypted WebSocket to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_mqtt_tls_web_socket_listen_port` (Number) The port number for MQTT clients that connect to the Message VPN using WebSocket over TLS. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_tls_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_mqtt_web_socket_enabled` (Boolean) Enable or disable the use of WebSocket for the MQTT service in the Message VPN. Disabling causes clients currently connected by WebSocket to be disconnected.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service_mqtt_web_socket_listen_port` (Number) The port number for plain-text MQTT clients that connect to the Message VPN using WebSocket. The port must be unique across the message backbone. A value of 0 means that the listen-port is unassigned and cannot be enabled.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`. Available since SEMP API version 2.1.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as service_mqtt_web_socket_enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `0`.
 - `service_rest_incoming_authentication_client_cert_request` (String) Determines when to request a client certificate from an incoming REST Producer connecting via a TLS port.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"when-enabled-in-message-vpn"`. The allowed values and their meaning are:
@@ -362,7 +363,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "never" - Never ask for a client certificate regardless of the "message-vpn > authentication > client-certificate > shutdown" configuration.
 "when-enabled-in-message-vpn" - Only ask for a client-certificate if client certificate authentication is enabled under "message-vpn >  authentication > client-certificate > shutdown".
 </pre>
- Available since SEMP API version 2.21.
 - `service_rest_incoming_authorization_header_handling` (String) The handling of Authorization headers for incoming REST connections. Authorization header handling settings apply only when the Message VPN is in gateway mode.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `"drop"`. The allowed values and their meaning are:
@@ -372,7 +372,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "forward" - Forward the Authorization header, attaching it to the message as a user property in the same way as other headers. For best security, use the drop setting.
 "legacy" - If the Authorization header was used for authentication to the broker, do not attach it to the message. If the Authorization header was not used for authentication to the broker, attach it to the message as a user property in the same way as other headers. For best security, use the drop setting.
 </pre>
- Available since SEMP API version 2.19.
 - `service_rest_incoming_max_connection_count` (Number) The maximum number of REST incoming client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
@@ -396,7 +395,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "gateway" - Act as a message gateway through which REST messages are propagated.
 "messaging" - Act as a message broker on which REST messages are queued.
 </pre>
- Available since SEMP API version 2.6.
 - `service_rest_outgoing_max_connection_count` (Number) The maximum number of REST Consumer (outgoing) client connections that can be simultaneously connected to the Message VPN.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default varies by platform.
@@ -418,7 +416,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "never" - Never ask for a client certificate regardless of the "message-vpn > authentication > client-certificate > shutdown" configuration.
 "when-enabled-in-message-vpn" - Only ask for a client-certificate if client certificate authentication is enabled under "message-vpn >  authentication > client-certificate > shutdown".
 </pre>
- Available since SEMP API version 2.21.
 - `service_web_max_connection_count` (Number) The maximum number of Web Transport client connections that can be simultaneously connected to the Message VPN. This value may be higher than supported by the platform.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "global/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.

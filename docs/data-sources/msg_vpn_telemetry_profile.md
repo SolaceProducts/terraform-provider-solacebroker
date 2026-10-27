@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Using the Telemetry Profile allows trace spans to be generated as messages are processed by the broker. The generated spans are stored persistently on the broker and may be consumed by the Solace receiver component of an OpenTelemetry Collector.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.31.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile (Data Source)
@@ -15,8 +14,6 @@ Using the Telemetry Profile allows trace spans to be generated as messages are p
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.31.
 
 
 
@@ -59,7 +56,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default is the maximum value supported by the platform.
 - `receiver_tcp_congestion_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `2`. Deprecated since SEMP API version 2.48. The value is now ignored.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `2`. Deprecated. The value is now ignored.
 - `receiver_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to a client using the Client Profile before declaring that it is not available.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `5`.
@@ -74,13 +71,13 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `1460`.
 - `receiver_tcp_max_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `256`. Deprecated since SEMP API version 2.48. The value is now ignored.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". The default value is `256`. Deprecated. The value is now ignored.
 - `trace_enabled` (Boolean) Enable or disable generation of all trace span data messages. When enabled, the state of configured trace filters control which messages get traced. When disabled, trace span data messages are never generated, regardless of the state of trace filters.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `trace_send_span_generation_enabled` (Boolean) Enable or disable generation of send spans. For the most complete view of broker message processing, this should be enabled. If the information provided by send spans are not needed, send spans can be disabled to reduce the performance impact of tracing.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`. Available since SEMP API version 2.36.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.
 
 <a id="nestedatt--queue_event_bind_count_threshold"></a>
 ### Nested Schema for `queue_event_bind_count_threshold`

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   The Cache Instances that belong to the containing Cache Cluster will cache any messages published to topics that match a Topic Subscription.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_topic (Data Source)
@@ -15,8 +14,6 @@ The Cache Instances that belong to the containing Cache Cluster will cache any m
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 
 

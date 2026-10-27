@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Topic Prefix is a prefix for a global topic that is available from the containing Home Cache Cluster.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}/{topic_prefix}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Topic Prefix is a prefix for a global topic that is available from the contain
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{home_cluster_name}/{topic_prefix}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

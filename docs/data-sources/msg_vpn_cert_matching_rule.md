@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Cert Matching Rule is a collection of conditions and attribute filters that all have to be satisfied for certificate to be acceptable as authentication for a given username.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule (Data Source)
@@ -15,8 +14,6 @@ A Cert Matching Rule is a collection of conditions and attribute filters that al
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.27.
 
 
 

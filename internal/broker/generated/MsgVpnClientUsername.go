@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_client_username",
-		MarkdownDescription: "A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "A client is only authorized to connect to a Message VPN that is associated with a Client Username that the client has been assigned.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/clientUsernames/{clientUsername}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

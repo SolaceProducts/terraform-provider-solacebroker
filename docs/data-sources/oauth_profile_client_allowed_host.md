@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   A valid hostname for this broker in OAuth redirects.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.24.
 ---
 
 # solacebroker_oauth_profile_client_allowed_host (Data Source)
@@ -18,8 +17,6 @@ A valid hostname for this broker in OAuth redirects.
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.24.
 
 
 

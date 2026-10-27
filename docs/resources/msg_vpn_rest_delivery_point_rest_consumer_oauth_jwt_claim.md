@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Claim is added to the JWT sent to the OAuth token request endpoint.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.21.
   The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}/{rest_consumer_name}/{oauth_jwt_claim_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Claim is added to the JWT sent to the OAuth token request endpoint.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.21.
 
 The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_name}/{rest_consumer_name}/{oauth_jwt_claim_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

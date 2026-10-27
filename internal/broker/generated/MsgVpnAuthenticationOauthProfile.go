@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_authentication_oauth_profile",
-		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.25.",
+		MarkdownDescription: "OAuth profiles specify how to securely authenticate to an OAuth provider.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/authenticationOauthProfiles/{oauthProfileName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -51,7 +51,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "authorizationGroupsClaimStringFormat",
 				TerraformName:       "authorization_groups_claim_string_format",
-				MarkdownDescription: "The format of the authorization groups claim value when it is a string.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"single\"`. The allowed values and their meaning are:\n\n<pre>\n\"single\" - When the claim is a string, it is interpreted as as single group.\n\"space-delimited\" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the \"scope\" claim.\n</pre>\n Available since SEMP API version 2.32.",
+				MarkdownDescription: "The format of the authorization groups claim value when it is a string.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"single\"`. The allowed values and their meaning are:\n\n<pre>\n\"single\" - When the claim is a string, it is interpreted as as single group.\n\"space-delimited\" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the \"scope\" claim.\n</pre>\n",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},
@@ -307,7 +307,7 @@ func init() {
 				BaseType:            broker.String,
 				SempName:            "proxyName",
 				TerraformName:       "proxy_name",
-				MarkdownDescription: "The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`. Available since SEMP API version 2.41.",
+				MarkdownDescription: "The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `\"\"`.",
 				Type:                types.StringType,
 				TerraformType:       tftypes.String,
 				Converter:           broker.SimpleConverter[string]{TerraformType: tftypes.String},

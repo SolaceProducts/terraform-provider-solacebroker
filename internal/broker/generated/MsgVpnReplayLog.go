@@ -29,7 +29,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_replay_log",
-		MarkdownDescription: "When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.10.",
+		MarkdownDescription: "When the Message Replay feature is enabled, message brokers store persistent messages in a Replay Log. These messages are kept until the log is full, after which the oldest messages are removed to free up space for new messages.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/replayLogs/{replayLogName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code
@@ -104,7 +104,7 @@ func init() {
 				BaseType:            broker.Bool,
 				SempName:            "topicFilterEnabled",
 				TerraformName:       "topic_filter_enabled",
-				MarkdownDescription: "Enable or disable topic filtering for the Replay Log.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager or vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`. Available since SEMP API version 2.27.",
+				MarkdownDescription: "Enable or disable topic filtering for the Replay Log.\n\nThe minimum access scope/level required to retrieve this attribute is \"vpn/read-only\". The minimum access scope/level required to change this attribute is \"global/mesh-manager or vpn/read-write\". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.",
 				Type:                types.BoolType,
 				TerraformType:       tftypes.Bool,
 				Converter:           broker.SimpleConverter[bool]{TerraformType: tftypes.Bool},

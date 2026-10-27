@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.27.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule_condition (Data Source)
@@ -15,8 +14,6 @@ A Cert Matching Rule Condition compares data extracted from a certificate to a u
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.27.
 
 
 

@@ -30,7 +30,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_bridge_remote_msg_vpn",
-		MarkdownDescription: "The Remote Message VPN is the Message VPN that the Bridge connects to.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.0.",
+		MarkdownDescription: "The Remote Message VPN is the Message VPN that the Bridge connects to.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/bridges/{bridgeName},{bridgeVirtualRouter}/remoteMsgVpns/{remoteMsgVpnName},{remoteMsgVpnLocation},{remoteMsgVpnInterface}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

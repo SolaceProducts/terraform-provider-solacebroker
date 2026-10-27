@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Cert Matching Rule Attribute Filter compares a username attribute to a string.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.28.
 ---
 
 # solacebroker_msg_vpn_cert_matching_rule_attribute_filter (Data Source)
@@ -15,8 +14,6 @@ A Cert Matching Rule Attribute Filter compares a username attribute to a string.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.28.
 
 
 

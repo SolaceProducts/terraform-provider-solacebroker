@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   One or more Queue Subscriptions can be added to a durable queue so that Guaranteed messages published to matching topics are also delivered to and spooled by the queue.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{queue_name}/{subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ One or more Queue Subscriptions can be added to a durable queue so that Guarante
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{queue_name}/{subscription_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

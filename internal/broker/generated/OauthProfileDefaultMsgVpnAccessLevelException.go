@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_default_msg_vpn_access_level_exception",
-		MarkdownDescription: "Default message VPN access-level exceptions.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "Default message VPN access-level exceptions.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/defaultMsgVpnAccessLevelExceptions/{msgVpnName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

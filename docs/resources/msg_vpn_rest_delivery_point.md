@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A REST Delivery Point manages delivery of messages from queues to a named list of REST Consumers.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{rest_delivery_point_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A REST Delivery Point manages delivery of messages from queues to a named list o
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{rest_delivery_point_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
@@ -45,7 +42,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `false`.
 - `service` (String) The name of the service that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `vendor` (String) The name of the vendor that this REST Delivery Point connects to. Internally the broker does not use this value; it is informational only.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.19.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.

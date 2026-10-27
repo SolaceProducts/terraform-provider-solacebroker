@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Receiver ACL Connect Exception is an exception to the default action to take when a receiver connects to the broker. Exceptions must be expressed as an IP address/netmask in CIDR form.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msg_vpn_name}/{telemetry_profile_name}/{receiver_acl_connect_exception_address}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Receiver ACL Connect Exception is an exception to the default action to take w
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.31.
 
 The import identifier for this resource is `{msg_vpn_name}/{telemetry_profile_name}/{receiver_acl_connect_exception_address}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

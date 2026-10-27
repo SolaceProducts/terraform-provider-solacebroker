@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   A Link connects nodes (either within a Cluster or between two different Clusters) and allows them to exchange topology information, subscriptions and data.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {dmr_cluster_name}/{remote_node_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -19,8 +18,6 @@ A Link connects nodes (either within a Cluster or between two different Clusters
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{dmr_cluster_name}/{remote_node_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
@@ -83,7 +80,7 @@ The minimum access scope/level required to retrieve this attribute is "global/re
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
 - `client_profile_tcp_congestion_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". The default value is `2`. Deprecated since SEMP API version 2.48. The value is now ignored.
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". The default value is `2`. Deprecated. The value is now ignored.
 - `client_profile_tcp_keepalive_count` (Number) The number of TCP keepalive retransmissions to be carried out before declaring that the remote end is not available.
 
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `5`.
@@ -98,13 +95,13 @@ The minimum access scope/level required to retrieve this attribute is "global/re
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `1460`.
 - `client_profile_tcp_max_window_size` (Number, Deprecated) Obsolete.
 
-The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". The default value is `256`. Deprecated since SEMP API version 2.48. The value is now ignored.
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". The default value is `256`. Deprecated. The value is now ignored.
 - `connection_retry_count` (Number) The number of retry attempts to establish a connection before moving on to the next remote Message VPN.
 
-The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`. Available since SEMP API version 2.41.
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `0`.
 - `connection_retry_delay` (Number) The number of seconds the broker waits for the bridge connection to be established before attempting a new connection.
 
-The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`. Available since SEMP API version 2.41.
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `3`.
 - `egress_flow_window_size` (Number) The number of outstanding guaranteed messages that can be sent over the Link before acknowledgment is received by the sender.
 
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Modifying this attribute while the object (or the relevant part of the object) is administratively enabled may be service impacting as enabled will be temporarily set to false to apply the change. Changes to this attribute are synchronized to HA mates via config-sync. The default value is `255`.
@@ -147,7 +144,7 @@ The minimum access scope/level required to retrieve this attribute is "global/re
 </pre>
 - `queue_respect_dmq_eligible_enabled` (Boolean) Enable or disable the respecting of DMQ Eligible for messages in the Queue.
 
-The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`. Available since SEMP API version 2.49.
+The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.
 - `queue_respect_ttl_enabled` (Boolean) Enable or disable the respecting of the time-to-live (TTL) for messages in the Queue. When enabled, expired messages are discarded or moved to the DMQ.
 
 The minimum access scope/level required to retrieve this attribute is "global/read-only". The minimum access scope/level required to change this attribute is "global/mesh-manager". Changes to this attribute are synchronized to HA mates via config-sync. The default value is `false`.

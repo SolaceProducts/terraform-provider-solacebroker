@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   OAuth profiles specify how to securely authenticate to an OAuth provider.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.25.
   The import identifier for this resource is {msg_vpn_name}/{oauth_profile_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ OAuth profiles specify how to securely authenticate to an OAuth provider.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.25.
 
 The import identifier for this resource is `{msg_vpn_name}/{oauth_profile_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
@@ -48,7 +45,6 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 "single" - When the claim is a string, it is interpreted as as single group.
 "space-delimited" - When the claim is a string, it is interpreted as a space-delimited list of groups, similar to the "scope" claim.
 </pre>
- Available since SEMP API version 2.32.
 - `client_id` (String) The OAuth client id.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
@@ -107,7 +103,7 @@ The minimum access scope/level required to retrieve this attribute is "vpn/read-
 </pre>
 - `proxy_name` (String) The name of the proxy to use for discovery, user info, jwks, and introspection requests. Leave empty for no proxy.
 
-The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`. Available since SEMP API version 2.41.
+The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `""`.
 - `resource_server_parse_access_token_enabled` (Boolean) Enable or disable parsing of the access token as a JWT.
 
 The minimum access scope/level required to retrieve this attribute is "vpn/read-only". The minimum access scope/level required to change this attribute is "vpn/read-write". Changes to this attribute are synchronized to HA mates and replication sites via config-sync. The default value is `true`.

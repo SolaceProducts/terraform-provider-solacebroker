@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   When an OCSP override URL is configured, the OCSP responder will be required to sign the OCSP responses with certificates issued to these Trusted Common Names. A maximum of 8 common names can be configured as valid response signers.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_client_cert_authority_ocsp_tls_trusted_common_name (Data Source)
@@ -18,8 +17,6 @@ When an OCSP override URL is configured, the OCSP responder will be required to 
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.19.
 
 
 

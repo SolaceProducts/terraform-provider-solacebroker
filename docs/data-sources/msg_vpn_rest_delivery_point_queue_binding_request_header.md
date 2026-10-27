@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A request header to be added to the HTTP request.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.23.
 ---
 
 # solacebroker_msg_vpn_rest_delivery_point_queue_binding_request_header (Data Source)
@@ -15,8 +14,6 @@ A request header to be added to the HTTP request.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.23.
 
 
 

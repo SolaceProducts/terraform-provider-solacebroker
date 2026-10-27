@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   proxy objects define the connection parameters for a proxy server. To use a proxy for a particular connection such as a REST Consumer, select the proxy by name in the configuration for that object.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.36.
 ---
 
 # solacebroker_msg_vpn_proxy (Data Source)
@@ -15,8 +14,6 @@ proxy objects define the connection parameters for a proxy server. To use a prox
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.36.
 
 
 

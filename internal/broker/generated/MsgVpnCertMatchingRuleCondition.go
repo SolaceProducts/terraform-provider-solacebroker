@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "msg_vpn_cert_matching_rule_condition",
-		MarkdownDescription: "A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".\n\nThis has been available since SEMP API version 2.27.",
+		MarkdownDescription: "A Cert Matching Rule Condition compares data extracted from a certificate to a username attribute or an expression.\n\n\n\nThe minimum access scope/level required to perform this operation is \"vpn/read-only\".",
 		ObjectType:          broker.ReplaceOnlyObject,
 		PathTemplate:        "/msgVpns/{msgVpnName}/certMatchingRules/{ruleName}/conditions/{source}",
 		PostPathTemplate:    "/msgVpns/{msgVpnName}/certMatchingRules/{ruleName}/conditions",

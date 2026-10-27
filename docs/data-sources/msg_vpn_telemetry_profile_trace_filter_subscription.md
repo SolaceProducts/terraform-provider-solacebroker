@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.31.
 ---
 
 # solacebroker_msg_vpn_telemetry_profile_trace_filter_subscription (Data Source)
@@ -15,8 +14,6 @@ Trace filter subscriptions control which messages will be attracted by the traci
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.31.
 
 
 

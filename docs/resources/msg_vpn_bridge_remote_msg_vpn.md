@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   The Remote Message VPN is the Message VPN that the Bridge connects to.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_msg_vpn_name}/{remote_msg_vpn_location}/{remote_msg_vpn_interface}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ The Remote Message VPN is the Message VPN that the Bridge connects to.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_msg_vpn_name}/{remote_msg_vpn_location}/{remote_msg_vpn_interface}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

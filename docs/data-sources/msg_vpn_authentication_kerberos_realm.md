@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Kerberos Realm.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.40.
 ---
 
 # solacebroker_msg_vpn_authentication_kerberos_realm (Data Source)
@@ -15,8 +14,6 @@ Kerberos Realm.
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.40.
 
 
 

@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Cache Instance is a single Cache process that belongs to a single Cache Cluster. A Cache Instance object provisioned on the broker is used to disseminate configuration information to the Cache process. Cache Instances listen for and cache live data messages that match the topic subscriptions configured for their parent Cache Cluster.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
   The import identifier for this resource is {msg_vpn_name}/{cache_name}/{cluster_name}/{instance_name}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Cache Instance is a single Cache process that belongs to a single Cache Cluste
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 The import identifier for this resource is `{msg_vpn_name}/{cache_name}/{cluster_name}/{instance_name}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

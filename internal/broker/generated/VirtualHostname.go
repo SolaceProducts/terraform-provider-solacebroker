@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "virtual_hostname",
-		MarkdownDescription: "A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.\n\nClients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.\n\nThis mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.17.",
+		MarkdownDescription: "A Virtual Hostname is a provisioned object on a message broker that contains a Virtual Hostname to Message VPN mapping.\n\nClients which connect to a global (as opposed to per Message VPN) port and provides this hostname will be directed to its corresponding Message VPN. A case-insentive match is performed on the full client-provided hostname against the configured virtual-hostname.\n\nThis mechanism is only supported for hostnames provided through the Server Name Indication (SNI) extension of TLS.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/virtualHostnames/{virtualHostname}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

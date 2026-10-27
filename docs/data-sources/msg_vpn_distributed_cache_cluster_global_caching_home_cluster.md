@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster for a given topic in the context of the Global Caching feature.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.11.
 ---
 
 # solacebroker_msg_vpn_distributed_cache_cluster_global_caching_home_cluster (Data Source)
@@ -15,8 +14,6 @@ A Home Cache Cluster is a Cache Cluster that is the "definitive" Cache Cluster f
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.11.
 
 
 

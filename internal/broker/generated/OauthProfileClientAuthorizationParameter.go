@@ -28,7 +28,7 @@ import (
 func init() {
 	info := broker.EntityInputs{
 		TerraformName:       "oauth_profile_client_authorization_parameter",
-		MarkdownDescription: "Additional parameters to be passed to the OAuth authorization endpoint.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".\n\nThis has been available since SEMP API version 2.24.",
+		MarkdownDescription: "Additional parameters to be passed to the OAuth authorization endpoint.\n\n\n\nThe minimum access scope/level required to perform this operation is \"global/read-only\".",
 		ObjectType:          broker.StandardObject,
 		PathTemplate:        "/oauthProfiles/{oauthProfileName}/clientAuthorizationParameters/{authorizationParameterName}",
 		Version:             0, // Placeholder: value will be replaced in the provider code

@@ -6,7 +6,6 @@ description: |-
   This resource is not supported in production by Solace in this version, see [provider limitations](https://registry.terraform.io/providers/SolaceProducts/solacebroker/latest/docs#limitations).
   Clients can authenticate with the message broker over TLS by presenting a valid client certificate. The message broker authenticates the client certificate by constructing a full certificate chain (from the client certificate to intermediate CAs to a configured root CA). The intermediate CAs in this chain can be provided by the client, or configured in the message broker. The root CA must be configured on the message broker.
   The minimum access scope/level required to perform this operation is "global/read-only".
-  This has been available since SEMP API version 2.19.
 ---
 
 # solacebroker_client_cert_authority (Data Source)
@@ -18,8 +17,6 @@ Clients can authenticate with the message broker over TLS by presenting a valid 
 
 
 The minimum access scope/level required to perform this operation is "global/read-only".
-
-This has been available since SEMP API version 2.19.
 
 
 

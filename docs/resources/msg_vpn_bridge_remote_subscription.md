@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Remote Subscription is a topic subscription used by the Message VPN Bridge to attract messages from the remote message broker.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_subscription_topic}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Remote Subscription is a topic subscription used by the Message VPN Bridge to 
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{bridge_name}/{bridge_virtual_router}/{remote_subscription_topic}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

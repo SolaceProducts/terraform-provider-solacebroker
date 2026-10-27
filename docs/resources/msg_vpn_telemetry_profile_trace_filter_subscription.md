@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   Trace filter subscriptions control which messages will be attracted by the tracing filter.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.31.
   The import identifier for this resource is {msg_vpn_name}/{telemetry_profile_name}/{trace_filter_name}/{subscription}/{subscription_syntax}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ Trace filter subscriptions control which messages will be attracted by the traci
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.31.
 
 The import identifier for this resource is `{msg_vpn_name}/{telemetry_profile_name}/{trace_filter_name}/{subscription}/{subscription_syntax}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 

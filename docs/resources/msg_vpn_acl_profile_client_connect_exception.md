@@ -5,7 +5,6 @@ subcategory: ""
 description: |-
   A Client Connect Exception is an exception to the default action to take when a client using the ACL Profile connects to the Message VPN. Exceptions must be expressed as an IP address/netmask in CIDR form.
   The minimum access scope/level required to perform this operation is "vpn/read-only".
-  This has been available since SEMP API version 2.0.
   The import identifier for this resource is {msg_vpn_name}/{acl_profile_name}/{client_connect_exception_address}, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 ---
 
@@ -16,8 +15,6 @@ A Client Connect Exception is an exception to the default action to take when a 
 
 
 The minimum access scope/level required to perform this operation is "vpn/read-only".
-
-This has been available since SEMP API version 2.0.
 
 The import identifier for this resource is `{msg_vpn_name}/{acl_profile_name}/{client_connect_exception_address}`, where {&lt;attribute&gt;} represents the value of the attribute and it must be URL-encoded.
 
