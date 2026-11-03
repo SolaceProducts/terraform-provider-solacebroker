@@ -116,7 +116,7 @@ jobs:
           pushd ci/bigtest
           tofu plan
           tofu apply -auto-approve
-          tofu plan
+          tofu plan -detailed-exitcode
           tofu destroy -auto-approve
           popd
 

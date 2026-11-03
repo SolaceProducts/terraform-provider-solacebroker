@@ -125,7 +125,7 @@ jobs:
           pushd ci/bigtest
           terraform plan
           terraform apply -auto-approve
-          terraform plan
+          terraform plan -detailed-exitcode
           terraform destroy -auto-approve
           popd
 
