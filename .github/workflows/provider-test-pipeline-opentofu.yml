@@ -118,6 +118,8 @@ jobs:
           pushd ci/bigtest
           tofu plan
           tofu apply -auto-approve
+          # TEMP drift injection for SOL-157272, reverted next commit
+          curl -sf -u admin:admin -X PATCH -H "content-type: application/json" localhost:8080/SEMP/v2/config -d '{"tlsBlockVersion11Enabled":false}'
           tofu plan -detailed-exitcode
           tofu destroy -auto-approve
           popd
