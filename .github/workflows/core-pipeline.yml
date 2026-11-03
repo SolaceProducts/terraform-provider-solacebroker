@@ -8,6 +8,7 @@ on:
   push:
     branches:
       - main
+      - "spec/**"
   workflow_call:
     inputs:
       provider-ref:
