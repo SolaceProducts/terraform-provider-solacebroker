@@ -5,7 +5,7 @@ name: CodeQL
 # No paths: filter, so a code scanning result exists for every PR.
 on:
   push:
-    branches: [main]
+    branches: [main, "spec/**"]
   pull_request:
     branches: [main]
   merge_group:
