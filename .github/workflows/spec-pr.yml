@@ -1,0 +1,37 @@
+name: Spec PR
+
+# The generator pushes spec/<build> with a deploy key; this opens its PR to main.
+# A PR opened with GITHUB_TOKEN gets its pull_request runs only once a maintainer
+# approves them, so the required checks run on the spec/** push instead
+# (core-pipeline, SCA, CodeQL).
+on:
+  push:
+    branches: ["spec/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: spec-pr-${{ github.ref }}
+
+jobs:
+  open:
+    name: Open PR
+    if: ${{ !github.event.deleted }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Open the PR unless one is open
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          pr=$(gh pr list -R "$GITHUB_REPOSITORY" --head "$BRANCH" --base main --state open --json url -q '.[0].url')
+          if [ -z "$pr" ]; then
+            pr=$(gh pr create -R "$GITHUB_REPOSITORY" --head "$BRANCH" --base main \
+              --title "Spec ${BRANCH#spec/}" \
+              --body "Opened by the generator's push of \`$BRANCH\`. Checks ran on the push: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/commit/$GITHUB_SHA")
+          fi
+          echo "$pr" | tee -a "$GITHUB_STEP_SUMMARY"
