@@ -44,6 +44,8 @@ jobs:
 
       - name: Set up OpenTofu latest
         uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2.0.2
+        with:
+          tofu_wrapper: false
 
       - name: Setup test broker - using edge docker image for latest release
         run: |
@@ -116,7 +118,7 @@ jobs:
           pushd ci/bigtest
           tofu plan
           tofu apply -auto-approve
-          tofu plan
+          tofu plan -detailed-exitcode
           tofu destroy -auto-approve
           popd
 
