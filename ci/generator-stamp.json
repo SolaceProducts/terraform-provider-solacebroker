@@ -1,0 +1,11 @@
+{
+  "stamp_version": 1,
+  "target": "software-provider",
+  "generator_commit": "3cc3b58e1b6f1ae8703a098e3d41b33fceb32c49",
+  "generator_version": null,
+  "spec_file": "semp-v2-swagger-config-extended.10.26.8.13158.vm.json",
+  "spec_sha256": "74b57854c5fd53a7bbd18a8359d82412290c2da4e7859974990ef84eed7fdb36",
+  "broker_version": "10.26.8.13158",
+  "generated_path": "internal/broker/generated",
+  "generated_sha256": "934325cb87a707754ee9c9f29a6707120817b74851fb3438a228fd7eb1c74de1"
+}
