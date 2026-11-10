@@ -305,7 +305,7 @@ func (r *brokerResource) Create(ctx context.Context, request resource.CreateRequ
 		// if the object is a singleton, PATCH rather than PUT
 		method = http.MethodPatch
 	}
-	jsonResponseData, err := client.RequestWithBody(ctx, method, sempPath, sempData)
+	jsonResponseData, err := client.CreateRequestWithBody(ctx, r.objectType, method, sempPath, sempData)
 	if err != nil {
 		addErrorToDiagnostics(&response.Diagnostics, "SEMP call failed", err)
 		return

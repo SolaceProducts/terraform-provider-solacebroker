@@ -32,6 +32,8 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
+
+	"terraform-provider-solacebroker/internal/common"
 )
 
 var (
@@ -135,7 +137,38 @@ func NewClient(url string, insecure_skip_verify bool, providerClient bool, optio
 	firstRequest = true
 	return client
 }
+func (c *Client) CreateRequestWithBody(ctx context.Context, objectType common.ObjectType, method, url string, body any) (map[string]any, error) {
+	data, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	originalMethod := method
 
+	request, err := http.NewRequestWithContext(ctx, method, c.url+url, bytes.NewBuffer(data))
+	if err != nil {
+		return nil, err
+	}
+	tflog.Debug(ctx, fmt.Sprintf("===== %v to %v =====", request.Method, request.URL))
+	rawBody, err := c.doRequest(request)
+	if err != nil {
+		return nil, err
+	}
+	m, metaErr, err := parseResponseAsObject(ctx, request, rawBody)
+
+	if metaErr != nil {
+		if originalMethod == http.MethodPost && metaErr.Status == "ALREADY_EXISTS" {
+			if objectType == common.SingletonObject || objectType == common.StandardObject {
+				method = http.MethodPatch
+				return c.RequestWithBody(ctx, method, url, body)
+			} else if objectType == common.ReplaceOnlyObject {
+				// ReplaceOnlyObject
+				method = http.MethodGet
+				return c.RequestWithoutBody(ctx, method, url)
+			}
+		}
+	}
+	return m, err
+}
 func (c *Client) RequestWithBody(ctx context.Context, method, url string, body any) (map[string]any, error) {
 	data, err := json.Marshal(body)
 	if err != nil {
@@ -150,7 +183,8 @@ func (c *Client) RequestWithBody(ctx context.Context, method, url string, body a
 	if err != nil {
 		return nil, err
 	}
-	return parseResponseAsObject(ctx, request, rawBody)
+	obj, _, err := parseResponseAsObject(ctx, request, rawBody)
+	return obj, err
 }
 
 func (c *Client) doRequest(request *http.Request) ([]byte, error) {
@@ -188,37 +222,48 @@ func (c *Client) doRequest(request *http.Request) ([]byte, error) {
 	return rawBody, nil
 }
 
-func parseResponseAsObject(ctx context.Context, request *http.Request, dataResponse []byte) (map[string]any, error) {
+// SempMetaError holds the details of the "meta" entry of a SEMP response.
+type SempMetaError struct {
+	ResponseCode     int
+	ErrorDescription string
+	Status           string
+}
+
+// parseResponseAsObject returns the response data, a *SempMetaError (nil unless the response contains a "meta" entry
+// and no "data" entry) and an error.
+func parseResponseAsObject(ctx context.Context, request *http.Request, dataResponse []byte) (map[string]any, *SempMetaError, error) {
 	data := map[string]any{}
 	err := json.Unmarshal(dataResponse, &data)
 	if err != nil {
-		return nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
+		return nil, nil, fmt.Errorf("could not parse response body from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 	}
 	rawData, ok := data["data"]
 	if ok {
 		// Valid data
 		data, _ = rawData.(map[string]any)
-		return data, nil
+		return data, nil, nil
 	} else {
 		// Analize response metadata details
 		rawData, ok = data["meta"]
 		if ok {
 			data, _ = rawData.(map[string]any)
-			if data["responseCode"].(float64) == http.StatusOK {
+			responseCode := data["responseCode"].(float64)
+			if responseCode == http.StatusOK {
 				// this is valid response for delete
-				return nil, nil
+				return nil, &SempMetaError{ResponseCode: int(responseCode)}, nil
 			}
 			description := data["error"].(map[string]interface{})["description"].(string)
 			status := data["error"].(map[string]interface{})["status"].(string)
+			metaError := &SempMetaError{ResponseCode: int(responseCode), ErrorDescription: description, Status: status}
 			if status == "NOT_FOUND" {
 				// resource not found is a special type we want to return
-				return nil, fmt.Errorf("request failed from %v to %v, %v, %v, %w", request.Method, request.URL, description, status, ErrResourceNotFound)
+				return nil, metaError, fmt.Errorf("request failed from %v to %v, %v, %v, %w", request.Method, request.URL, description, status, ErrResourceNotFound)
 			}
 			tflog.Error(ctx, fmt.Sprintf("SEMP request returned %v, %v", description, status))
-			return nil, fmt.Errorf("request failed for %v using %v, %v, %v", request.URL, request.Method, description, status)
+			return nil, metaError, fmt.Errorf("request failed for %v using %v, %v, %v", request.URL, request.Method, description, status)
 		}
 	}
-	return nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
+	return nil, nil, fmt.Errorf("could not parse response details from %v to %v, response body was:\n%s", request.Method, request.URL, dataResponse)
 }
 
 func parseResponseForGenerator(c *Client, ctx context.Context, basePath string, method string, request *http.Request, dataResponse []byte, appendToResult []map[string]any) ([]map[string]any, error) {
@@ -281,7 +326,8 @@ func (c *Client) RequestWithoutBody(ctx context.Context, method, url string) (ma
 	if err != nil {
 		return nil, err
 	}
-	return parseResponseAsObject(ctx, request, rawBody)
+	obj, _, err := parseResponseAsObject(ctx, request, rawBody)
+	return obj, err
 }
 
 func (c *Client) RequestWithoutBodyForGenerator(ctx context.Context, basePath string, method string, url string, appendToResult []map[string]any) ([]map[string]interface{}, error) {
