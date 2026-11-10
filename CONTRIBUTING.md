@@ -108,14 +108,16 @@ That's it! Thank you for your contribution!
 
 ## <a name="releasing"></a> Releasing (maintainers)
 
-The software provider ([terraform-provider-solacebroker](https://github.com/SolaceProducts/terraform-provider-solacebroker)) and the appliance provider ([terraform-provider-solacebrokerappliance](https://github.com/SolaceProducts/terraform-provider-solacebrokerappliance)) are released together, at the same version and from the same broker build. Do each step in both repos.
+The software provider ([terraform-provider-solacebroker](https://github.com/SolaceProducts/terraform-provider-solacebroker)) and the appliance provider ([terraform-provider-solacebrokerappliance](https://github.com/SolaceProducts/terraform-provider-solacebrokerappliance)) are released together, at the same version and from the same event broker build. Do each step in both repositories.
 
-### 1. Update the SEMP API spec (when moving to a new broker version)
+### 1. Update the SEMP API Spec (When Moving to a New Event Broker Version)
 
-1. Check the generator first. On `main`, run `make generate-code`: it builds the latest `main` of [broker-terraform-code-generator](https://github.com/SolaceDev/broker-terraform-code-generator), an internal repo, so you need SolaceDev access and a git credential for HTTPS. Expect no change in `internal/broker/generated/`. If it changes, the generator has changed: open that as its own PR before the spec update.
-2. On a branch off `main`, replace the spec in `ci/swagger_spec/` with the one from the broker version's branch (for example `10.26.8`) of the SolaceDev fork: `semp-v2-swagger-config-extended.<build>.vm.json` from [SolaceDev/terraform-provider-solacebroker](https://github.com/SolaceDev/terraform-provider-solacebroker) for the software provider, `semp-v2-swagger-config-extended.<build>.lm.json` from [SolaceDev/terraform-provider-solacebrokerappliance](https://github.com/SolaceDev/terraform-provider-solacebrokerappliance) for the appliance. Delete the old spec: `make generate-code` needs exactly one.
-3. Run `make generate-code` and `make generate-docs`. Commit the spec, `internal/broker/generated/` and `docs/`.
-4. In the PR, list the attributes added, removed and newly deprecated; they go in the release notes.
+The **Promote spec** workflow in [broker-terraform-code-generator](https://github.com/SolaceDev/broker-terraform-code-generator), an internal repository, opens the spec PR in both repositories. Don't copy specs or regenerate by hand.
+
+1. In the generator, check that the build has a `spec/<build>` branch and that its generator gate passed.
+2. Run **Promote spec** from the generator's Actions tab on `main`, with the build (for example, `10.26.9.13589`). It regenerates both providers and pushes `spec/<build>` to each. This repository's **Spec PR** workflow then opens the PR "Spec <build>" with the spec in `ci/swagger_spec/`, `internal/broker/generated/`, `docs/`, and `ci/generator-stamp.json`. A repository already on that build gets no PR. Running it again for the same build updates the open PR.
+3. The PR's checks run on the `spec/<build>` push. Review the diff, and add a comment listing the attributes added, removed, and newly deprecated; they go in the release notes.
+4. Merge it. Don't edit the branch: to change it, fix the generator or the spec and run **Promote spec** again.
 
 ### 2. Update `third-party-licenses.txt`
 
