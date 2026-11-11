@@ -9,6 +9,8 @@ We'd love for you to contribute and welcome your help. Here are some guidelines 
 
 ## <a name="issue"></a> Did you find a issue?
 
+- If the issue is a security vulnerability, do not open a GitHub issue. Report it as described in [`SECURITY.md`](.github/SECURITY.md).
+
 - **Ensure the bug was not already reported** by searching on GitHub under [Issues](https://github.com/SolaceProducts/terraform-provider-solacebroker/issues).
 
 - If you're unable to find an open issue addressing the problem, [open a new one](https://github.com/SolaceProducts/terraform-provider-solacebroker/issues). Be sure to include a **title and clear description**, as much relevant information as possible, and a **code sample** or an **executable test case** demonstrating the expected behavior that is not occurring.
