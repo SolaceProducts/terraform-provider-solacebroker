@@ -1,0 +1,23 @@
+builds:
+- env:
+    - CGO_ENABLED=0
+    # The full snapshot version, never a redirect like `certified`, so a Go upgrade can't change the module.
+    - GOFIPS140=v1.0.0-c2097c7c
+  mod_timestamp: '{{ .CommitTimestamp }}'
+  flags:
+    - -trimpath
+  ldflags:
+    - '-s -w -X main.version={{.Version}}'
+  goos:
+    - linux
+  goarch:
+    - amd64
+  binary: '{{ .ProjectName }}_v{{ .Version }}'
+archives:
+- format: zip
+  name_template: '{{ .ProjectName }}_fips_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+checksum:
+  name_template: '{{ .ProjectName }}_fips_{{ .Version }}_SHA256SUMS'
+  algorithm: sha256
+release:
+  disable: true
