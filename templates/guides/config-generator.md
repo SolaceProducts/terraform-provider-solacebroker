@@ -49,7 +49,7 @@ The following parameters can be set as flags or environment variables (flags tak
 | username (Note1)          | Yes       | --username  | SOLACEBROKER_USERNAME       | None    |
 | password (Note1)         | No        | --password            | SOLACEBROKER_PASSWORD       | None    |
 | bearer-token (Note1)     | No        | --bearer-token        | SOLACEBROKER_BEARER_TOKEN   | None    |
-| insecure-skip-verify | No     | --insecure-skip-verify | SOLACEBROKER_INSECURE_SKIP_VERIFY | false |
+| insecure-skip-verify (Note2) | No     | --insecure-skip-verify | SOLACEBROKER_INSECURE_SKIP_VERIFY | false |
 | request-min-interval | No    | --request-min-interval | SOLACEBROKER_REQUEST_MIN_INTERVAL | 100ms |
 | request-timeout-duration | No | --request-timeout-duration | SOLACEBROKER_REQUEST_TIMEOUT_DURATION | 1m |
 | retries           | No        | --retries             | SOLACEBROKER_RETRIES        | 10    |
@@ -58,6 +58,8 @@ The following parameters can be set as flags or environment variables (flags tak
 | skip-api-check    | No        | --skip-api-check      | SOLACEBROKER_SKIP_API_CHECK | false    |
 
 Note1: Only one authentication method can be used at a time: either bearer-token or username/password.
+
+Note2: You cannot set insecure-skip-verify to true when Federal Information Processing Standards (FIPS) mode is on.
 
 ## Attribute Generation
 

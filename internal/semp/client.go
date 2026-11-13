@@ -19,6 +19,7 @@ package semp
 import (
 	"bytes"
 	"context"
+	"crypto/fips140"
 	"crypto/tls"
 	"encoding/json"
 	"errors"
@@ -39,7 +40,12 @@ var (
 	ErrBadRequest              = errors.New("bad request")
 	ErrInvalidPath             = errors.New("invalid path")
 	ErrProviderParametersError = errors.New("provider parameters error")
+
+	ErrInsecureSkipVerifyInFIPSMode = errors.New("insecure_skip_verify (or SOLACEBROKER_INSECURE_SKIP_VERIFY) cannot be true in FIPS mode. To trust the event broker's certificate authority, add it to the system truststore, or on Linux set SSL_CERT_FILE or SSL_CERT_DIR")
 )
+
+// FIPSEnabled is a variable so tests can switch FIPS mode, which can't change inside a running process.
+var FIPSEnabled = fips140.Enabled
 
 var firstRequest = true
 
