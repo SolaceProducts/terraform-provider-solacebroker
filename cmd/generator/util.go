@@ -102,6 +102,9 @@ func UpdateCliParamsWithEnv(cliParams CliParams) CliParams {
 	cliParams.Request_timeout_duration = DurationParamWithEnv("request_timeout_duration", cliParams.Request_timeout_duration, false, semp.DefaultRequestTimeout)
 	cliParams.Request_min_interval = DurationParamWithEnv("request_min_interval", cliParams.Request_min_interval, false, semp.DefaultRequestInterval)
 	cliParams.Insecure_skip_verify = BooleanParamWithEnv("insecure_skip_verify", cliParams.Insecure_skip_verify, false, false)
+	if *cliParams.Insecure_skip_verify && semp.FIPSEnabled() {
+		ExitWithError(semp.ErrInsecureSkipVerifyInFIPSMode.Error())
+	}
 	cliParams.Skip_api_check = BooleanParamWithEnv("skip_api_check", cliParams.Skip_api_check, false, false)
 	return cliParams
 }

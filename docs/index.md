@@ -73,7 +73,7 @@ resource "solacebroker_msg_vpn_queue" "q" {
 ### Optional
 
 - `bearer_token` (String, Sensitive) A bearer token that will be sent in the Authorization header of SEMP requests. Requires TLS transport enabled. Conflicts with username and password.
-- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed. The default value is false.
+- `insecure_skip_verify` (Boolean) Disable validation of server SSL certificates, accept/ignore self-signed. The default value is false. This attribute cannot be true when Federal Information Processing Standards (FIPS) mode is on.
 - `password` (String, Sensitive) The password to connect to the broker with. Requires username and conflicts with bearer_token.
 - `request_min_interval` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the minimum interval between requests; this serves as a rate limit. This setting does not apply to retries. Set to 0 for no rate limit. The default value is 100ms (which equates to a rate limit of 10 calls per second).
 - `request_timeout_duration` (String) A [duration](https://pkg.go.dev/maze.io/x/duration#ParseDuration) string indicating the maximum time to wait for a SEMP request.  The default value is 1m.
