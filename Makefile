@@ -40,6 +40,14 @@ generate-docs: dep ## Build the binary file
 build: dep ## Build the binary file
 	@go build -a -ldflags '-s -w -extldflags "-static"' -o terraform-provider-solacebroker
 
+# goreleaser v1.26.2, as in provider-release.yml, doesn't compile with go.mod's Go. Only the tool uses the older Go.
+.PHONY:
+build-fips: ## Build the FIPS snapshot zips and SHA256SUMS into dist/
+	@GOTOOLCHAIN=go1.24.13 GOBIN=$(CURDIR)/bin go install github.com/goreleaser/goreleaser@v1.26.2
+	@bin/goreleaser release --snapshot --clean --config .goreleaser-fips.yml
+	@go version -m dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v* | grep -q 'GOFIPS140=v1.0.0-c2097c7c$$' \
+		|| { echo "FIPS build is missing GOFIPS140=v1.0.0-c2097c7c"; exit 1; }
+
 .PHONY:
 install: dep ## Install the provider for dev use
 	@go install -a
