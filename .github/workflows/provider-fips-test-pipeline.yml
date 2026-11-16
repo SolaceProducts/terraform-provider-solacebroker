@@ -36,16 +36,26 @@ jobs:
           docker run -d -p 8080:8080 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
             --ulimit nofile=1048576:1048576 solace/solace-pubsub-standard:edge
           # SEMP answers before the message spool is ready, so wait on a queue create.
-          until curl -sf -u admin:admin -X PUT -H 'Content-Type: application/json' -d '{"queueName":"ready"}' localhost:8080/SEMP/v2/config/msgVpns/default/queues/ready > /dev/null; do sleep 1; done
+          for _ in $(seq 180); do
+            curl -sf -u admin:admin -X PUT -H 'Content-Type: application/json' -d '{"queueName":"ready"}' localhost:8080/SEMP/v2/config/msgVpns/default/queues/ready > /dev/null && exit 0
+            sleep 1
+          done
+          echo "::error::Broker not ready after 180s"
+          docker logs solace
+          exit 1
 
       - name: Use FIPS provider
         run: |
           bin="$RUNNER_TEMP/bin"
           mkdir -p "$bin"
-          real=$(realpath dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v*)
+          set -- dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v*
+          if [ "$#" -ne 1 ] || [ ! -f "$1" ]; then echo "::error::Expected one FIPS binary, found: $*"; exit 1; fi
+          real=$(realpath "$1")
+          # "default" leaves GODEBUG unset, so the binary's built-in FIPS setting applies.
           cat > "$bin/terraform-provider-solacebroker" <<EOF
           #!/bin/sh
-          GODEBUG="\${PROVIDER_GODEBUG:-fips140=only}" exec $real "\$@"
+          if [ "\$PROVIDER_GODEBUG" = default ]; then unset GODEBUG; else export GODEBUG="\${PROVIDER_GODEBUG:-fips140=only}"; fi
+          exec "$real" "\$@"
           EOF
           chmod +x "$bin/terraform-provider-solacebroker"
           cat > ~/.tofurc <<EOF

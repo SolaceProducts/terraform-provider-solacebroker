@@ -24,3 +24,5 @@ leaf rsa1024   root localhost     "$san"                          -newkey rsa:10
 leaf wrongname root wrong.example 'subjectAltName=DNS:wrong.example' "${ec[@]}"
 leaf cnonly    root localhost     'basicConstraints=CA:FALSE'     "${ec[@]}"
 leaf leafonly  int  localhost     "$san"                          "${ec[@]}"
+leaf chain     int  localhost     "$san"                          "${ec[@]}"
+cat chain.crt int.crt chain.key > chain.pem
