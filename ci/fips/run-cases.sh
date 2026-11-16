@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Usage: run-cases.sh <cert-dir>  (certs from make-certs.sh; needs a broker on :8080/:1943 and tofu with dev_overrides)
 set -euo pipefail
 
-certs=$(cd "$1" && pwd)
+certs=$(cd "${1:?usage: run-cases.sh <cert-dir>}" && pwd)
 here=$(cd "$(dirname "$0")" && pwd)
 empty=$(mktemp -d)
 
@@ -17,7 +16,7 @@ cases=(
   "skip-verify|good|fips140=only|SOLACEBROKER_INSECURE_SKIP_VERIFY=true|cannot be true in FIPS mode"
 )
 
-serve() { # swap the broker's TLS cert over SEMP, then wait until :1943 presents it
+serve_cert_and_wait() {
   jq -n --rawfile c "$certs/$1.pem" '{tlsServerCertContent: $c}' |
     curl -sf -u admin:admin -X PATCH -H 'Content-Type: application/json' -d @- localhost:8080/SEMP/v2/config > /dev/null
   local want got
@@ -31,7 +30,7 @@ serve() { # swap the broker's TLS cert over SEMP, then wait until :1943 presents
   return 1
 }
 
-tf() { # tofu with a trust store that holds only the test root CA, so system CAs can't mask a failure
+tofu_trusting_test_root() {
   env SSL_CERT_FILE="$certs/root.crt" SSL_CERT_DIR="$empty" PROVIDER_GODEBUG="$godebug" ${extra:+"$extra"} \
     tofu -chdir="$here" "$@" -auto-approve -no-color -input=false
 }
@@ -40,12 +39,12 @@ failed=0
 for row in "${cases[@]}"; do
   IFS='|' read -r name cert godebug extra expected <<< "$row"
   [ "$extra" = - ] && extra=
-  serve "$cert"
+  serve_cert_and_wait "$cert"
   rc=0
-  out=$(tf apply 2>&1) || rc=$?
+  out=$(tofu_trusting_test_root apply 2>&1) || rc=$?
   if [ "$expected" = success ]; then
     ok=$([ "$rc" -eq 0 ] && echo 1 || echo 0)
-    [ "$ok" = 1 ] && { tf destroy > /dev/null 2>&1 || ok=0; }
+    [ "$ok" = 1 ] && { tofu_trusting_test_root destroy > /dev/null 2>&1 || ok=0; }
   else
     ok=$([ "$rc" -ne 0 ] && grep -qF "$expected" <<< "$(tr -s '[:space:]' ' ' <<< "$out")" && echo 1 || echo 0)
   fi
