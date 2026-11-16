@@ -4,6 +4,7 @@ on:
   pull_request:
     branches:
       - main
+      - "feature/**"
   merge_group:
   push:
     branches:
