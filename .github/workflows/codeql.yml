@@ -7,7 +7,7 @@ on:
   push:
     branches: [main, "spec/**"]
   pull_request:
-    branches: [main]
+    branches: [main, "feature/**"]
   merge_group:
   # A query pack update can find something in unchanged code.
   schedule:
