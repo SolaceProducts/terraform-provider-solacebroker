@@ -151,6 +151,12 @@ jobs:
       provider-ref: ${{ inputs.provider-ref }}
       generated-artifact: ${{ inputs.generated-artifact }}
 
+  # Not run when called, so the standard release stays unchanged.
+  fips:
+    needs: build
+    if: ${{ !inputs.called }}
+    uses: ./.github/workflows/provider-fips-test-pipeline.yml
+
   cli:
     needs: build
     uses: ./.github/workflows/cli-test-pipeline.yml
@@ -191,17 +197,16 @@ jobs:
       - name: zizmor
         run: zizmor --color=always --no-online-audits --persona=regular --min-severity=low .github/workflows/
 
-  # The only check the ruleset requires. Never skipped: red unless every job succeeded.
+  # The only check the ruleset requires. Never skipped: red unless every job succeeded, or fips was skipped because the pipeline was called.
   gate:
     if: always()
-    needs: [build, docs, workflow-lint, testacc, terraform, opentofu, cli]
+    needs: [build, docs, workflow-lint, testacc, terraform, opentofu, fips, cli]
     runs-on: ubuntu-latest
     steps:
       - name: Check every job succeeded
         env:
-          RESULTS: ${{ join(needs.*.result, ' ') }}
+          NEEDS: ${{ toJSON(needs) }}
+          CALLED: ${{ inputs.called }}
         run: |
-          echo "Job results: $RESULTS"
-          for result in $RESULTS; do
-            [ "$result" = success ] || exit 1
-          done
+          jq -c 'map_values(.result)' <<< "$NEEDS"
+          jq -e --arg called "$CALLED" 'to_entries | all(.value.result == "success" or (.key == "fips" and $called == "true" and .value.result == "skipped"))' <<< "$NEEDS" > /dev/null
