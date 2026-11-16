@@ -151,6 +151,15 @@ jobs:
       provider-ref: ${{ inputs.provider-ref }}
       generated-artifact: ${{ inputs.generated-artifact }}
 
+  # Skipped for workflow_call callers such as release, which don't run it.
+  fips:
+    needs: build
+    if: ${{ !inputs.called }}
+    uses: ./.github/workflows/provider-fips-test-pipeline.yml
+    with:
+      provider-ref: ${{ inputs.provider-ref }}
+      generated-artifact: ${{ inputs.generated-artifact }}
+
   cli:
     needs: build
     uses: ./.github/workflows/cli-test-pipeline.yml
@@ -194,14 +203,18 @@ jobs:
   # The only check the ruleset requires. Never skipped: red unless every job succeeded.
   gate:
     if: always()
-    needs: [build, docs, workflow-lint, testacc, terraform, opentofu, cli]
+    needs: [build, docs, workflow-lint, testacc, terraform, opentofu, fips, cli]
     runs-on: ubuntu-latest
     steps:
       - name: Check every job succeeded
         env:
           RESULTS: ${{ join(needs.*.result, ' ') }}
+          FIPS: ${{ needs.fips.result }}
+          CALLED: ${{ inputs.called }}
         run: |
           echo "Job results: $RESULTS"
+          # fips only runs on direct triggers, so callers see it skipped.
+          [ "$CALLED" = true ] && [ "$FIPS" = skipped ] && RESULTS=${RESULTS/skipped/success}
           for result in $RESULTS; do
             [ "$result" = success ] || exit 1
           done
