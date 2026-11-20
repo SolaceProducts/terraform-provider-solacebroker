@@ -20,15 +20,19 @@ import (
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/schema/validator"
 	"github.com/hashicorp/terraform-plugin-go/tftypes"
+
+	"terraform-provider-solacebroker/internal/common"
 )
 
-type objectType int8
+// objectType and its constants live in the common package so that semp can use them too. They are aliased here so
+// the generated code (broker.StandardObject, etc.) keeps working unchanged.
+type objectType = common.ObjectType
 
 const (
-	DataSourceObject objectType = iota
-	SingletonObject
-	ReplaceOnlyObject
-	StandardObject
+	DataSourceObject  = common.DataSourceObject
+	SingletonObject   = common.SingletonObject
+	ReplaceOnlyObject = common.ReplaceOnlyObject
+	StandardObject    = common.StandardObject
 )
 
 type attributeType int8
