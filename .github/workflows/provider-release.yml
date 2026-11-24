@@ -42,6 +42,18 @@ jobs:
           latest=$(grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' <<<"$tags" | sort -V | tail -1 || true)
           [ "$(printf '%s\n%s\n' "$latest" "$VERSION" | sort -V | tail -1)" = "$VERSION" ] || { echo "::error::$VERSION is not above the latest release $latest"; exit 1; }
           echo "Releasing $VERSION (latest is $latest)"
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: 'go.mod'
+          cache: false
+      - name: Check third-party-licenses.txt and NOTICE match the binaries
+        run: |
+          make refresh-third-party-licenses
+          git diff --exit-code third-party-licenses.txt NOTICE \
+            || { echo "::error::third-party-licenses.txt or NOTICE is out of date. Run 'make refresh-third-party-licenses' on a branch, review the diff and merge it before releasing"; exit 1; }
 
   test:
     needs: preflight

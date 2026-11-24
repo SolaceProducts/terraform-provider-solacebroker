@@ -16,6 +16,12 @@ builds:
 archives:
 - format: zip
   name_template: '{{ .ProjectName }}_fips_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  # Replaces goreleaser's default list (LICENSE*, README*, CHANGELOG*), so it names them too.
+  files:
+    - LICENSE
+    - README.md
+    - NOTICE
+    - third-party-licenses.txt
 checksum:
   name_template: '{{ .ProjectName }}_fips_{{ .Version }}_SHA256SUMS'
   algorithm: sha256

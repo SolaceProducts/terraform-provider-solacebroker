@@ -123,7 +123,7 @@ The **Promote spec** workflow in [broker-terraform-code-generator](https://githu
 
 ### 2. Update `third-party-licenses.txt`
 
-It lists the modules built into the provider: the output of `go list -deps .`, without the standard library and this module. If `go.mod` changed since the last release, update the versions, add or remove modules, and copy any new copyright lines from each module's `LICENSE` in `$(go env GOMODCACHE)`. The file is the same in both repos.
+Run `make refresh-third-party-licenses`, review the diff, and commit it in a PR. It regenerates `third-party-licenses.txt` (each module built into the provider on any release platform, with its version, license, and copyright lines) and `NOTICE` (the NOTICE files of those modules), and it fails if a module has a license whose text isn't at the bottom of `third-party-licenses.txt`. The Release workflow runs the same target and stops if either file changes, so run the target whenever `go.mod` changes. Both files go into every release zip.
 
 ### 3. Release
 
