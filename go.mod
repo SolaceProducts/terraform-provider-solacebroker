@@ -1,6 +1,6 @@
 module terraform-provider-solacebroker
 
-go 1.26.10
+go 1.27.4
 
 require (
 	github.com/docker/go-units v0.5.0
