@@ -2,6 +2,9 @@ module terraform-provider-solacebroker
 
 go 1.27.4
 
+// Keep the pre-1.27 trust behaviour on macOS and Windows: the system verifier is used even when SSL_CERT_FILE or SSL_CERT_DIR is set.
+godebug x509sslcertoverrideplatform=0
+
 require (
 	github.com/docker/go-units v0.5.0
 	github.com/hashicorp/go-retryablehttp v0.7.8
