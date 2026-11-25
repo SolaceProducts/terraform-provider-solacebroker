@@ -121,9 +121,9 @@ The **Promote spec** workflow in [broker-terraform-code-generator](https://githu
 3. The PR's checks run on the `spec/<build>` push. Review the diff, and add a comment listing the attributes added, removed, and newly deprecated; they go in the release notes.
 4. Merge it. Don't edit the branch: to change it, fix the generator or the spec and run **Promote spec** again.
 
-### 2. Update `third-party-licenses.txt`
+### 2. Update `third-party-licenses.txt` and `NOTICE`
 
-Run `make refresh-third-party-licenses`, review the diff, and commit it in a PR. It regenerates `third-party-licenses.txt` (each module built into the provider on any release platform, with its version, license, and copyright lines) and `NOTICE` (the NOTICE files of those modules), and it fails if a module has a license whose text isn't at the bottom of `third-party-licenses.txt`. The Release workflow runs the same target and stops if either file changes, so run the target whenever `go.mod` changes. Both files go into every release zip.
+Run `make refresh-third-party-licenses`, review the diff, and commit it in a PR. It regenerates `third-party-licenses.txt` (each module built into the provider on any release platform, with its version, license, and copyright lines) and `NOTICE` (the NOTICE files of those modules), and it fails if a module has a license whose text isn't at the bottom of `third-party-licenses.txt`. The Release workflow runs the same target and stops if either file changes, so run the target whenever `go.mod` changes. Both files go into every release zip. The appliance repository doesn't have this target yet, so update `third-party-licenses.txt` there by hand, and don't copy this repository's file across.
 
 ### 3. Release
 

@@ -17,8 +17,10 @@ GOBIN="$tmp" go install github.com/google/go-licenses@v1.6.0
 
 # shortcut: the module set depends on GOOS, not GOARCH (checked 2026-11-24), so amd64 stands in for every
 # architecture. Recheck if .goreleaser.yml gains a platform.
-goos=$(awk '/^ *goos:/ {on=1; next} on && /^ *- / {print $2; next} on {exit}' .goreleaser.yml)
-[ -n "$goos" ] || { echo "no goos list found in .goreleaser.yml" >&2; exit 1; }
+goos=$(awk '/^ *goos:/ {on=1; next} on && /^ *(#|$)/ {next} on && /^ *- / {print $2; next} on {exit}' .goreleaser.yml)
+for os in linux windows; do
+  grep -qx "$os" <<< "$goos" || { echo "$os is missing from the goos list read from .goreleaser.yml: ${goos//$'\n'/ }" >&2; exit 1; }
+done
 
 for os in $goos; do
   GOOS=$os GOARCH=amd64 go list -deps -f '{{with .Module}}{{if not .Main}}{{.Path}} {{.Version}} {{.Dir}}{{end}}{{end}}' . >> "$tmp/modules"
@@ -27,22 +29,20 @@ for os in $goos; do
 done
 LC_ALL=C sort -u "$tmp/modules" -o "$tmp/modules"
 
-# go-licenses names a licence per package root (golang.org/x/sys/unix); give each module the licence of the
-# roots inside it. Its link column needs the network and isn't used.
-heading() {
-  case $1 in
-    Apache-2.0) echo 'Apache 2.0' ;;
-    BSD-2-Clause) echo 'BSD 2' ;;
-    BSD-3-Clause) echo 'BSD 3' ;;
-    MIT) echo 'MIT' ;;
-    MPL-2.0) echo 'Mozilla 2.0' ;;
-    *) return 1 ;;
-  esac
-}
+# SPDX id, its heading under texts_heading, and the last line of its text there (so a cut-off text fails).
+cat > "$tmp/licences" << 'EOF'
+Apache-2.0|Apache 2.0|END OF TERMS AND CONDITIONS
+BSD-2-Clause|BSD 2|SUCH DAMAGE.
+BSD-3-Clause|BSD 3|SUCH DAMAGE.
+MIT|MIT|OTHER DEALINGS IN THE SOFTWARE.
+MPL-2.0|Mozilla 2.0|defined by the Mozilla Public License, v. 2.0.
+EOF
 
 sed -n "/^$texts_heading\$/,\$p" "$inventory" > "$tmp/texts"
 [ -s "$tmp/texts" ] || { echo "$inventory has no '$texts_heading' section" >&2; exit 1; }
 
+# go-licenses names a licence per package root (golang.org/x/sys/unix); give each module the licence of the
+# roots inside it. Its link column needs the network and isn't used.
 {
   echo 'THIRD-PARTY SOFTWARE USED'
   echo '========================='
@@ -52,8 +52,8 @@ sed -n "/^$texts_heading\$/,\$p" "$inventory" > "$tmp/texts"
     [ -n "$spdx" ] || { echo "go-licenses found no licence for $path" >&2; exit 1; }
     names=""
     for s in $spdx; do
-      name=$(heading "$s") || { echo "$path is $s: add it to heading() and its text to $inventory" >&2; exit 1; }
-      grep -qxF "$name" "$tmp/texts" || { echo "$path is $name: add its text under '$texts_heading'" >&2; exit 1; }
+      name=$(awk -F'|' -v s="$s" '$1 == s {print $2}' "$tmp/licences")
+      [ -n "$name" ] || { echo "$path is $s: add it to the licence table in $0 and its text to $inventory" >&2; exit 1; }
       echo "$name" >> "$tmp/used"
       names="${names:+$names, }$name"
     done
@@ -64,11 +64,18 @@ sed -n "/^$texts_heading\$/,\$p" "$inventory" > "$tmp/texts"
     copyright=$(cat "$dir"/LICENSE* "$dir"/COPYING* 2> /dev/null \
       | grep -E '^[[:space:]]*Copyright ' | grep -vE '\[yyyy\]|<year>|\{yyyy\}' \
       | sed -E 's/^[[:space:]]+//; s/[[:space:]]+$//' | awk '!seen[$0]++' || true)
-    echo "${copyright:-No copyright.}"
+    echo "${copyright:-No copyright line in LICENSE.}"
     echo "Home page: https://pkg.go.dev/$path@$version"
     echo
   done < "$tmp/modules"
 } > "$tmp/modules.txt"
+LC_ALL=C sort -u "$tmp/used" -o "$tmp/used"
+
+# Each licence used needs its heading under texts_heading and, before the next heading, the last line of its text.
+missing=$(awk -F'|' 'FILENAME == ARGV[1] {last[$2] = $3; next}
+  FILENAME == ARGV[2] {if ($0 in last) cur = $0; else if (cur != "" && index($0, last[cur])) ok[cur] = 1; next}
+  !($0 in ok)' "$tmp/licences" "$tmp/texts" "$tmp/used")
+[ -z "$missing" ] || { echo "the text of $(paste -sd, - <<< "$missing") under '$texts_heading' in $inventory is missing or cut off" >&2; exit 1; }
 
 {
   echo 'LICENSE SUMMARY'
@@ -76,14 +83,13 @@ sed -n "/^$texts_heading\$/,\$p" "$inventory" > "$tmp/texts"
   echo
   echo 'License terms can be found at the bottom of this file.'
   echo
-  LC_ALL=C sort -u "$tmp/used"
+  cat "$tmp/used"
   echo
   echo
   cat "$tmp/modules.txt"
   echo
   cat "$tmp/texts"
 } > "$tmp/inventory"
-mv "$tmp/inventory" "$inventory"
 
 {
   cat << 'EOF'
@@ -114,4 +120,7 @@ EOF
       sed -E 's/^(.)/  \1/; s/[[:space:]]+$//' "$f"
     done
   done < "$tmp/modules"
-} > "$notice"
+} > "$tmp/notice"
+
+mv "$tmp/inventory" "$inventory"
+mv "$tmp/notice" "$notice"

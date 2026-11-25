@@ -52,8 +52,9 @@ jobs:
       - name: Check third-party-licenses.txt and NOTICE match the binaries
         run: |
           make refresh-third-party-licenses
-          git diff --exit-code third-party-licenses.txt NOTICE \
-            || { echo "::error::third-party-licenses.txt or NOTICE is out of date. Run 'make refresh-third-party-licenses' on a branch, review the diff and merge it before releasing"; exit 1; }
+          # status, not diff, so a deleted or untracked file also fails.
+          [ -z "$(git status --porcelain -- third-party-licenses.txt NOTICE)" ] \
+            || { git diff -- third-party-licenses.txt NOTICE; echo "::error::third-party-licenses.txt or NOTICE is out of date. Run 'make refresh-third-party-licenses' on a branch, review the diff and merge it before releasing"; exit 1; }
 
   test:
     needs: preflight
