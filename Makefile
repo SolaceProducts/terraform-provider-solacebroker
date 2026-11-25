@@ -48,6 +48,10 @@ build-fips: ## Build the FIPS snapshot zips and SHA256SUMS into dist/
 	@go version -m dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v* | grep -q 'GOFIPS140=v1.0.0-c2097c7c$$' \
 		|| { echo "FIPS build is missing GOFIPS140=v1.0.0-c2097c7c"; exit 1; }
 
+.PHONY: refresh-third-party-licenses
+refresh-third-party-licenses: ## Regenerate third-party-licenses.txt and NOTICE; review the diff, then commit
+	@scripts/refresh-third-party-licenses.sh
+
 .PHONY:
 install: dep ## Install the provider for dev use
 	@go install -a
