@@ -7,8 +7,8 @@ cd "$(dirname "$0")/.."
 pin=v1.0.0-c2097c7c
 
 info=$(go version -m "$bin")
-grep -qx $'\tbuild\tGOFIPS140='"$pin" <<< "$info" || { echo "$bin was not built with GOFIPS140=$pin" >&2; exit 1; }
-grep -qx $'\tbuild\tCGO_ENABLED=0' <<< "$info" || { echo "$bin was not built with CGO_ENABLED=0" >&2; exit 1; }
+grep -qxF $'\tbuild\tGOFIPS140='"$pin" <<< "$info" || { echo "$bin was not built with GOFIPS140=$pin" >&2; exit 1; }
+grep -qxF $'\tbuild\tCGO_ENABLED=0' <<< "$info" || { echo "$bin was not built with CGO_ENABLED=0" >&2; exit 1; }
 
 # Crypto outside the standard library bypasses the validated module. By path only; other names are left to review.
 deps=$(GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go list -deps -f '{{if not .Standard}}{{.ImportPath}}{{end}}' .)
