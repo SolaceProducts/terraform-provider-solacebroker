@@ -2,13 +2,17 @@ package broker
 
 import (
 	"context"
+	"crypto/fips140"
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/provider"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+
+	"terraform-provider-solacebroker/internal/semp"
 )
 
 func TestClient(t *testing.T) {
@@ -144,5 +148,53 @@ func TestProviderURLOptional(t *testing.T) {
 	url := resp.Schema.Attributes["url"]
 	if !url.IsOptional() || url.IsRequired() {
 		t.Errorf("url must be optional so SOLACEBROKER_URL can set it")
+	}
+}
+
+func TestClientInsecureSkipVerifyInFIPSMode(t *testing.T) {
+	const fipsError = "Invalid provider configuration"
+	matrix := []struct {
+		Param    types.Bool
+		Env      string
+		FIPS     bool
+		Expected string
+	}{
+		{types.BoolValue(true), "", true, fipsError},
+		{types.BoolValue(false), "", true, ""},
+		{types.BoolNull(), "true", true, fipsError},
+		{types.BoolValue(false), "true", true, ""},
+		{types.BoolNull(), "", true, ""},
+		{types.BoolValue(true), "", false, ""},
+		{types.BoolNull(), "true", false, ""},
+	}
+	t.Cleanup(func() { semp.FIPSEnabled = fips140.Enabled })
+	for _, kv := range os.Environ() {
+		if name, _, _ := strings.Cut(kv, "="); strings.HasPrefix(name, "SOLACEBROKER_") {
+			t.Setenv(name, "")
+			os.Unsetenv(name)
+		}
+	}
+	for testNr, test := range matrix {
+		semp.FIPSEnabled = func() bool { return test.FIPS }
+		t.Setenv("SOLACEBROKER_INSECURE_SKIP_VERIFY", test.Env)
+		if test.Env == "" {
+			os.Unsetenv("SOLACEBROKER_INSECURE_SKIP_VERIFY")
+		}
+		_, diag := client(&providerData{
+			Username:           types.StringValue("testuser"),
+			Password:           types.StringValue("testpassword"),
+			Url:                types.StringValue("https://example.com"),
+			InsecureSkipVerify: test.Param,
+		})
+		summary := ""
+		if diag != nil {
+			summary = diag.Summary()
+			if !strings.Contains(diag.Detail(), "SSL_CERT_FILE") {
+				t.Errorf("Test %d: detail %q does not point to SSL_CERT_FILE", testNr, diag.Detail())
+			}
+		}
+		if summary != test.Expected {
+			t.Errorf("Test %d: expected %q but got %q", testNr, test.Expected, summary)
+		}
 	}
 }

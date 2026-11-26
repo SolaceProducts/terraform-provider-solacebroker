@@ -16,7 +16,11 @@
 package generator
 
 import (
+	"errors"
+	"os"
+	"os/exec"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -53,6 +57,51 @@ func TestCliParamsWithEnv(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			UpdateCliParamsWithEnv(tt.args.cliParams)
+		})
+	}
+}
+
+// ExitWithError calls os.Exit, and FIPS mode is fixed at process start, so each case runs the test binary again with its own GODEBUG.
+func TestCliInsecureSkipVerifyInFIPSMode(t *testing.T) {
+	if os.Getenv("TEST_CLI_SUBPROCESS") == "1" {
+		url, bearerToken := "https://localhost:1943", "abc"
+		var skipVerify *bool
+		if flag := os.Getenv("TEST_SKIP_VERIFY_FLAG"); flag != "" {
+			b := flag == "true"
+			skipVerify = &b
+		}
+		UpdateCliParamsWithEnv(CliParams{Url: &url, Bearer_token: &bearerToken, Insecure_skip_verify: skipVerify})
+		return
+	}
+	tests := []struct {
+		name, godebug, flag, env string
+		wantExit                 bool
+	}{
+		{"flag true, FIPS on", "fips140=on", "true", "", true},
+		{"env true, FIPS on", "fips140=on", "", "true", true},
+		{"flag true, FIPS only", "fips140=only", "true", "", true},
+		{"flag false wins over env, FIPS on", "fips140=on", "false", "true", false},
+		{"not set, FIPS on", "fips140=on", "", "", false},
+		{"flag true, FIPS off", "fips140=off", "true", "", false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cmd := exec.Command(os.Args[0], "-test.run=^TestCliInsecureSkipVerifyInFIPSMode$")
+			for _, kv := range os.Environ() {
+				if !strings.HasPrefix(kv, "SOLACEBROKER_") {
+					cmd.Env = append(cmd.Env, kv)
+				}
+			}
+			cmd.Env = append(cmd.Env, "TEST_CLI_SUBPROCESS=1", "GODEBUG="+tt.godebug,
+				"TEST_SKIP_VERIFY_FLAG="+tt.flag, "SOLACEBROKER_INSECURE_SKIP_VERIFY="+tt.env)
+			out, err := cmd.CombinedOutput()
+			var exitErr *exec.ExitError
+			if tt.wantExit && !(errors.As(err, &exitErr) && exitErr.ExitCode() == 1) || !tt.wantExit && err != nil {
+				t.Fatalf("wantExit %v, got err %v, output:\n%s", tt.wantExit, err, out)
+			}
+			if tt.wantExit && !strings.Contains(string(out), "cannot be true in FIPS mode") {
+				t.Errorf("output does not name the flag:\n%s", out)
+			}
 		})
 	}
 }

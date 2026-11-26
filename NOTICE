@@ -1,0 +1,33 @@
+Terraform Provider for Solace Software Event Broker
+Copyright 2024 Solace Corporation
+
+Licensed under the Apache License, Version 2.0. See the LICENSE file for the
+full terms.
+
+--------------------------------------------------------------------------------
+Third-party software
+
+This product includes third-party software. Each component, its version, and
+its license are listed in third-party-licenses.txt.
+
+--------------------------------------------------------------------------------
+Required attributions propagated from bundled dependencies
+
+Apache License 2.0 section 4(d) requires that we reproduce the attribution
+notices carried in a dependency's own NOTICE file. The blocks below are those
+notices as upstream states them.
+
+google.golang.org/grpc
+  Copyright 2014 gRPC authors.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.

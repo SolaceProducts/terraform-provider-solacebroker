@@ -193,6 +193,6 @@ func init() {
 	generateCmd.PersistentFlags().Duration("retry_max_interval", semp.DefaultRetryMaxInterval, "Maximum retry interval")
 	generateCmd.PersistentFlags().Duration("request_timeout_duration", semp.DefaultRequestTimeout, "Request timeout duration")
 	generateCmd.PersistentFlags().Duration("request_min_interval", semp.DefaultRequestInterval, "Minimum request interval")
-	generateCmd.PersistentFlags().Bool("insecure_skip_verify", false, "Disable validation of server SSL certificates")
+	generateCmd.PersistentFlags().Bool("insecure_skip_verify", false, "Disable validation of server SSL certificates. This flag cannot be true when FIPS mode is on")
 	generateCmd.PersistentFlags().Bool("skip_api_check", false, "Disable validation of the broker SEMP API")
 }

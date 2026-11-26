@@ -121,14 +121,17 @@ The **Promote spec** workflow in [broker-terraform-code-generator](https://githu
 3. The PR's checks run on the `spec/<build>` push. Review the diff, and add a comment listing the attributes added, removed, and newly deprecated; they go in the release notes.
 4. Merge it. Don't edit the branch: to change it, fix the generator or the spec and run **Promote spec** again.
 
-### 2. Update `third-party-licenses.txt`
+### 2. Update `third-party-licenses.txt` and `NOTICE`
 
-It lists the modules built into the provider: the output of `go list -deps .`, without the standard library and this module. If `go.mod` changed since the last release, update the versions, add or remove modules, and copy any new copyright lines from each module's `LICENSE` in `$(go env GOMODCACHE)`. The file is the same in both repos.
+Run `make refresh-third-party-licenses`, review the diff, and commit it in a PR. It regenerates `third-party-licenses.txt` (each module built into the provider on any release platform, with its version, license, and copyright lines) and `NOTICE` (the NOTICE files of those modules), and it fails if a module has a license whose text isn't at the bottom of `third-party-licenses.txt`. The Release workflow runs the same target and stops if either file changes, so run the target whenever `go.mod` changes. Both files go into every release zip. The appliance repository doesn't have this target yet, so update `third-party-licenses.txt` there by hand, and don't copy this repository's file across.
 
 ### 3. Release
 
 - Choose the version: `X.Y.Z`, no leading `v`. A minor bump when attributes are added, otherwise a patch bump. If attributes are removed or a default changes, stop and agree the version with the team before releasing: a major bump also changes every resource's schema version. Both providers get the same version.
-- Run the **Release** workflow from the Actions tab on `main`, with **dry-run** ticked first: it tests and builds without tagging or publishing. Then run it again with dry-run unticked.
+- Run the **Release** workflow from the Actions tab on `main`, with **dry-run** ticked first: it tests and builds the zips and `SHA256SUMS` without tagging, signing, or publishing. Then run it again with dry-run unticked. A dry-run can also run on another branch, to try a release change before it reaches `main`.
+- In this repository, each release also includes a FIPS-capable zip, `terraform-provider-solacebroker_fips_X.Y.Z_linux_amd64.zip`. The same signed `SHA256SUMS` lists it, and it goes in the GitHub release, not the Terraform Registry.
+- Before you release, check that the Cryptographic Module Validation Program (CMVP) certificate #5247 for the Go Cryptographic Module is still active. If it isn't, stop and raise it with the team before you release.
+- The release stops before it creates the tag if `scripts/check-fips-binary.sh` finds a problem with the FIPS-capable binary. If `govulncheck` reports a vulnerability, open a PR that updates Go in `go.mod` to the latest patch release or updates the module that `govulncheck` names, then release.
 - The release job waits for approval in the `release` environment. Ask another member of `dax-developers`: you can't approve your own run.
 - Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused; `v*` tags can't be deleted without an admin turning off the `release-tags` ruleset. If a release fails after creating its tag, use **Re-run failed jobs** on that run.
 - The GitHub release is published with an empty description. Add the release notes straight away, following the previous release's: the line `Release vX.Y.Z of the ... Provider. Generated from the SEMP API spec of broker version <build>.`, then **Features**, **Fixes**, **Security** and **Misc** as needed. The notes are public: no internal links or ticket keys.

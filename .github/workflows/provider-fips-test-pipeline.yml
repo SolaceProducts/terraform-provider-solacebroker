@@ -1,0 +1,74 @@
+name: FIPS Provider Test Pipeline
+
+on:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Run FIPS provider against a broker over TLS
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Set up OpenTofu latest
+        uses: opentofu/setup-opentofu@a1320f892987e89d278cc92dc5adc984fb93aca4 # v2.0.2
+        with:
+          tofu_wrapper: false
+
+      - name: Build FIPS provider
+        run: make build-fips
+
+      - name: Setup test broker
+        run: |
+          docker run -d -p 8080:8080 -p 1943:1943 --shm-size=1g --env username_admin_globalaccesslevel=admin --env username_admin_password=admin --name=solace \
+            --ulimit nofile=1048576:1048576 solace/solace-pubsub-standard:edge
+          # SEMP answers before the message spool is ready, so wait on a queue create.
+          for _ in $(seq 180); do
+            curl -sf -u admin:admin -X PUT -H 'Content-Type: application/json' -d '{"queueName":"ready"}' localhost:8080/SEMP/v2/config/msgVpns/default/queues/ready > /dev/null && exit 0
+            sleep 1
+          done
+          echo "::error::Broker not ready after 180s"
+          docker logs solace
+          exit 1
+
+      - name: Use FIPS provider
+        run: |
+          bin="$RUNNER_TEMP/bin"
+          mkdir -p "$bin"
+          set -- dist/fips_linux_amd64_v1/terraform-provider-solacebroker_v*
+          if [ "$#" -ne 1 ] || [ ! -f "$1" ]; then echo "::error::Expected one FIPS binary, found: $*"; exit 1; fi
+          real=$(realpath "$1")
+          # "default" leaves GODEBUG unset, so the binary's built-in FIPS setting applies.
+          cat > "$bin/terraform-provider-solacebroker" <<EOF
+          #!/bin/sh
+          if [ "\$PROVIDER_GODEBUG" = default ]; then unset GODEBUG; else export GODEBUG="\${PROVIDER_GODEBUG:-fips140=only}"; fi
+          exec "$real" "\$@"
+          EOF
+          chmod +x "$bin/terraform-provider-solacebroker"
+          cat > ~/.tofurc <<EOF
+          provider_installation {
+            dev_overrides { "registry.terraform.io/solaceproducts/solacebroker" = "$bin" }
+            direct {}
+          }
+          EOF
+
+      - name: Make test certificates
+        run: |
+          mkdir "$RUNNER_TEMP/certs"
+          ci/fips/make-certs.sh "$RUNNER_TEMP/certs"
+
+      - name: Run FIPS cases
+        run: ci/fips/run-cases.sh "$RUNNER_TEMP/certs"

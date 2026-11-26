@@ -206,6 +206,9 @@ func client(providerData *providerData) (*semp.Client, diag.Diagnostic) {
 	if err != nil {
 		return nil, diag.NewErrorDiagnostic("Unable to parse provider attribute", err.Error())
 	}
+	if insecureSkipVerify && semp.FIPSEnabled() {
+		return nil, diag.NewErrorDiagnostic("Invalid provider configuration", semp.ErrInsecureSkipVerifyInFIPSMode.Error())
+	}
 	url = getFullSempAPIURL(url)
 	skipApiCheck, err = booleanWithDefaultFromEnv(providerData.SkipApiCheck, "skip_api_check", false) // This variable is used in resource
 	if err != nil {
