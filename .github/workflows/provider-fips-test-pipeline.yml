@@ -48,7 +48,7 @@ jobs:
         run: |
           bin="$RUNNER_TEMP/bin"
           mkdir -p "$bin"
-          set -- dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v*
+          set -- dist/fips_linux_amd64_v1/terraform-provider-solacebroker_v*
           if [ "$#" -ne 1 ] || [ ! -f "$1" ]; then echo "::error::Expected one FIPS binary, found: $*"; exit 1; fi
           real=$(realpath "$1")
           # "default" leaves GODEBUG unset, so the binary's built-in FIPS setting applies.

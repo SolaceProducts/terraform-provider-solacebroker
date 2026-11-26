@@ -5,15 +5,16 @@ before:
     # this is just an example and not a requirement for provider building/publishing
     - go mod tidy
 builds:
-- env:
+- id: terraform-provider-solacebroker
+  env:
     # goreleaser does not work with CGO, it could also complicate
     # usage by users in CI/CD systems like Terraform Cloud where
     # they are unable to install libraries.
     - CGO_ENABLED=0
-  mod_timestamp: '{{ .CommitTimestamp }}'
-  flags:
+  mod_timestamp: &mod_timestamp '{{ .CommitTimestamp }}'
+  flags: &flags
     - -trimpath
-  ldflags:
+  ldflags: &ldflags
     - '-s -w -X main.version={{.Version}}'
   goos:
     - freebsd
@@ -30,16 +31,43 @@ builds:
       goarch: '386'
     - goos: windows
       goarch: arm
-  binary: '{{ .ProjectName }}_v{{ .Version }}'
+  binary: &binary '{{ .ProjectName }}_v{{ .Version }}'
+# The FIPS-capable build: GitHub release only, never in the Terraform Registry.
+- id: fips
+  env:
+    - CGO_ENABLED=0
+    # The full snapshot version, never a redirect like `certified`, so a Go upgrade can't change the module.
+    - GOFIPS140=v1.0.0-c2097c7c
+  mod_timestamp: *mod_timestamp
+  flags: *flags
+  ldflags: *ldflags
+  goos:
+    - linux
+  goarch:
+    - amd64
+  binary: *binary
+  hooks:
+    # Runs before archives, checksums, and upload, so a failed check publishes nothing.
+    post:
+      - cmd: scripts/check-fips-binary.sh "{{ .Path }}"
+        output: true
 archives:
 - format: zip
+  builds:
+    - terraform-provider-solacebroker
   name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
   # Replaces goreleaser's default list (LICENSE*, README*, CHANGELOG*), so it names them too.
-  files:
+  files: &zip_files
     - LICENSE
     - README.md
     - NOTICE
     - third-party-licenses.txt
+- id: fips
+  format: zip
+  builds:
+    - fips
+  name_template: '{{ .ProjectName }}_fips_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+  files: *zip_files
 checksum:
   extra_files:
     - glob: 'terraform-registry-manifest.json'

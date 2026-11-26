@@ -128,7 +128,10 @@ Run `make refresh-third-party-licenses`, review the diff, and commit it in a PR.
 ### 3. Release
 
 - Choose the version: `X.Y.Z`, no leading `v`. A minor bump when attributes are added, otherwise a patch bump. If attributes are removed or a default changes, stop and agree the version with the team before releasing: a major bump also changes every resource's schema version. Both providers get the same version.
-- Run the **Release** workflow from the Actions tab on `main`, with **dry-run** ticked first: it tests and builds without tagging or publishing. Then run it again with dry-run unticked.
+- Run the **Release** workflow from the Actions tab on `main`, with **dry-run** ticked first: it tests and builds the zips and `SHA256SUMS` without tagging, signing, or publishing. Then run it again with dry-run unticked. A dry-run can also run on another branch, to try a release change before it reaches `main`.
+- In this repository, each release also includes a FIPS-capable zip, `terraform-provider-solacebroker_fips_X.Y.Z_linux_amd64.zip`. The same signed `SHA256SUMS` lists it, and it goes in the GitHub release, not the Terraform Registry.
+- Before you release, check that the Cryptographic Module Validation Program (CMVP) certificate #5247 for the Go Cryptographic Module is still active.
+- The release stops before it creates the tag if `scripts/check-fips-binary.sh` finds a problem with the FIPS-capable binary. If `govulncheck` reports a vulnerability, open a PR that updates Go in `go.mod` to the latest patch release or updates the module that `govulncheck` names, then release.
 - The release job waits for approval in the `release` environment. Ask another member of `dax-developers`: you can't approve your own run.
 - Never push a `v*` tag by hand. It releases nothing, and the Release run for that version is then refused; `v*` tags can't be deleted without an admin turning off the `release-tags` ruleset. If a release fails after creating its tag, use **Re-run failed jobs** on that run.
 - The GitHub release is published with an empty description. Add the release notes straight away, following the previous release's: the line `Release vX.Y.Z of the ... Provider. Generated from the SEMP API spec of broker version <build>.`, then **Features**, **Fixes**, **Security** and **Misc** as needed. The notes are public: no internal links or ticket keys.

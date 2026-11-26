@@ -18,8 +18,9 @@ on:
 permissions:
   contents: read
 
+# Dry-runs write nothing, so they get their own group and never cancel a release waiting in the queue.
 concurrency:
-  group: release
+  group: ${{ inputs.dry-run && format('release-dry-run-{0}', github.run_id) || 'release' }}
 
 jobs:
   preflight:
@@ -28,14 +29,16 @@ jobs:
       - name: Check repo, branch and version
         # Inputs arrive as env vars, never interpolated into the script.
         # These checks fail fast; the release environment is what limits the signing key to main.
+        # A dry-run may start from any branch: it has no environment, no secrets, and read-only contents.
         env:
           REPO: ${{ github.repository }}
           REF: ${{ github.ref }}
           VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry-run }}
         run: |
           set -euo pipefail
           [ "$REPO" = "SolaceProducts/terraform-provider-solacebroker" ] || { echo "::error::Releases run only on SolaceProducts, not $REPO"; exit 1; }
-          [ "$REF" = "refs/heads/main" ] || { echo "::error::Releases run only from main, not $REF"; exit 1; }
+          [ "$REF" = "refs/heads/main" ] || [ "$DRY_RUN" = "true" ] || { echo "::error::Releases run only from main, not $REF"; exit 1; }
           [[ "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]] || { echo "::error::version must be X.Y.Z with no leading v, got '$VERSION'"; exit 1; }
           tags=$(git ls-remote --tags --refs "https://github.com/$REPO.git" 'v*' | sed 's|.*refs/tags/v||')
           if grep -qxF "$VERSION" <<<"$tags"; then echo "::error::Tag v$VERSION already exists. If its release failed after creating it, use Re-run failed jobs on that run"; exit 1; fi
@@ -74,21 +77,23 @@ jobs:
           go-version-file: 'go.mod'
           # No restored cache in jobs that build release artifacts.
           cache: false
-      # A snapshot build reports <latest>-SNAPSHOT-<sha>, so tag in the runner only. Never pushed.
+      # goreleaser release needs a tag on HEAD; this one is never pushed.
       - name: Tag in the runner
         env:
           VERSION: ${{ inputs.version }}
         run: git tag "v$VERSION"
+      # release, not build, so the zips and SHA256SUMS are checked too.
       - name: Build with GoReleaser
         uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:
           version: 'v1.26.2'
-          args: build --clean
-      - name: Check the binary reports the version
+          args: release --clean --skip=publish,sign
+      - name: Check the binary reports the version and SHA256SUMS lists the FIPS zip
         env:
           VERSION: ${{ inputs.version }}
         run: |
           dist/terraform-provider-solacebroker_linux_amd64_v1/terraform-provider-solacebroker_v"$VERSION" version | grep -F "version: $VERSION,"
+          grep -F "  terraform-provider-solacebroker_fips_${VERSION}_linux_amd64.zip" dist/terraform-provider-solacebroker_"$VERSION"_SHA256SUMS
 
   release:
     if: ${{ !inputs.dry-run }}
@@ -100,6 +105,20 @@ jobs:
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: 'go.mod'
+          cache: false
+      # Before the key and the tag, so a new govulncheck advisory since the dry-run stops the release with no tag created.
+      - name: Check the FIPS binary
+        uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
+        with:
+          version: 'v1.26.2'
+          args: build --snapshot --clean --id fips
       # Before the tag, so a bad key fails with no tag created.
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@2dc316deee8e90f13e1a351ab510b4d5bc0c82cd # v7.0.0
@@ -122,15 +141,11 @@ jobs:
         run: |
           gh api "repos/$REPO/git/refs" -f ref="refs/tags/v$VERSION" -f sha="$GITHUB_SHA" \
             || [ "$(gh api "repos/$REPO/git/ref/tags/v$VERSION" --jq .object.sha)" = "$GITHUB_SHA" ]
-      # After the tag exists, so the full-history checkout includes it.
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version-file: 'go.mod'
-          cache: false
+      # The checkout predates the tag, or has it already on a re-run; the step above checked it is on this commit.
+      - name: Tag in the runner
+        env:
+          VERSION: ${{ inputs.version }}
+        run: git tag -f "v$VERSION"
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7.3.0
         with:

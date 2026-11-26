@@ -151,7 +151,7 @@ jobs:
       provider-ref: ${{ inputs.provider-ref }}
       generated-artifact: ${{ inputs.generated-artifact }}
 
-  # Not run when called, so the standard release stays unchanged.
+  # Not run when called: the release checks the FIPS binary in the goreleaser post hook.
   fips:
     needs: build
     if: ${{ !inputs.called }}
